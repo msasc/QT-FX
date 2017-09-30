@@ -24,7 +24,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -75,7 +74,7 @@ public class DirecDraw extends Application {
 		BorderPane root = new BorderPane();
 
 		// The canvas in the center.
-		StackPane center = new StackPane();
+		Pane center = new Pane();
 		center.setStyle("-fx-background-color: #336699;");
 		root.setCenter(center);
 		Canvas canvas = new XCanvas();

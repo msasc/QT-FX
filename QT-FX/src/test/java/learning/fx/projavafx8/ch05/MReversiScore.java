@@ -118,7 +118,7 @@ public class MReversiScore extends Application {
 
 			highlight = new Region();
 			highlight.setOpacity(0);
-			highlight.setStyle("-fx-border-width: 3; -fx-border-color: dodgerblue");
+			highlight.setStyle("-fx-border-width: 3; -fx-border-color: dodgerblue;");
 
 			highlightTransition = new FadeTransition(Duration.millis(200), highlight);
 			highlightTransition.setFromValue(0);
