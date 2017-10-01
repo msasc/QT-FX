@@ -15,7 +15,7 @@
 package com.qtfx.library.ai.function.distance;
 
 import com.qtfx.library.ai.function.Distance;
-import com.qtfx.library.math.Matrix;
+import com.qtfx.library.util.Matrix;
 
 /**
  * Eucliden distance.

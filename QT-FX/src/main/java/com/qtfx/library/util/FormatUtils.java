@@ -19,8 +19,6 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,11 +28,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.swing.JFormattedTextField;
-import javax.swing.text.NumberFormatter;
-
-import com.qtfx.library.database.Types;
-import com.qtfx.library.database.Value;
+import com.qtfx.library.db.Types;
+import com.qtfx.library.db.Value;
 
 /**
  * General formatting utilities.
@@ -248,63 +243,6 @@ public class FormatUtils {
 		}
 
 		return localeProperties;
-	}
-
-	/**
-	 * Returns a default number formatter.
-	 * 
-	 * @param type The type, must be a number type.
-	 * @param length The length, -1 no limit.
-	 * @param decimals The number of decimal places, -1 no limit.
-	 * @param locale The applying locale.
-	 * @return The default number formatting.
-	 * @throws ParseException Is any parsing error occurs.
-	 */
-	public static JFormattedTextField.AbstractFormatter getFormatterNumber(
-		Types type,
-		int length,
-		int decimals,
-		Locale locale)
-		throws ParseException {
-
-		if (!type.isNumber()) {
-			throw new IllegalArgumentException("Type is not a number type: " + type);
-		}
-
-		StringBuilder pattern = new StringBuilder("#,##0");
-		if (decimals > 0) {
-			pattern.append(".0#");
-		} else {
-			// Case double any decimals
-			if (decimals < 0 && type.isDouble()) {
-				pattern.append(".0#");
-			}
-		}
-		DecimalFormat format = new DecimalFormat(pattern.toString(), DecimalFormatSymbols.getInstance(locale));
-
-		// Set exactly the number of integer and fractional positions.
-		if (length > 0) {
-			int integerDigits = length;
-			if (decimals > 0) {
-				integerDigits = length - decimals - 1;
-			}
-			format.setMaximumIntegerDigits(integerDigits);
-			format.setMinimumIntegerDigits(1);
-		}
-		if (decimals >= 0) {
-			int fractionalDigits = decimals;
-			format.setMaximumFractionDigits(fractionalDigits);
-			format.setMinimumFractionDigits(fractionalDigits);
-		}
-
-		NumberFormatter formatter = new NumberFormatter(format);
-		formatter.setAllowsInvalid(false);
-		// Case double any decimals
-		if (decimals < 0 && type.isDouble()) {
-			formatter.setAllowsInvalid(true);
-		}
-
-		return formatter;
 	}
 
 	/**

@@ -13,7 +13,7 @@
  */
 package com.qtfx.library.ai.data;
 
-import com.qtfx.library.math.Matrix;
+import com.qtfx.library.util.Matrix;
 import com.qtfx.library.util.Properties;
 
 /**

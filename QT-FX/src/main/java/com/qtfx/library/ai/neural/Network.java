@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.qtfx.library.ai.function.Activation;
-import com.qtfx.library.math.Matrix;
+import com.qtfx.library.util.Matrix;
 
 /**
  * Feed forward neural network.

@@ -27,7 +27,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -65,13 +68,13 @@ public class NumberImageViewer extends Application {
 		// Pixel labels and grid
 		GridPane grid = new GridPane();
 		pixelLabels = new Label[NumberImage.ROWS][NumberImage.COLUMNS];
-//		Border pixelBorder =
-//			new Border(
-//				new BorderStroke(Color.LIGHTGRAY.brighter(), BorderStrokeStyle.DOTTED, CornerRadii.EMPTY, BorderStroke.THIN));
+		Border pixelBorder =
+			new Border(
+				new BorderStroke(Color.LIGHTGRAY.brighter(), BorderStrokeStyle.DOTTED, CornerRadii.EMPTY, BorderStroke.THIN));
 		for (int row = 0; row < NumberImage.ROWS; row++) {
 			for (int column = 0; column < NumberImage.COLUMNS; column++) {
 				Label l = new Label();
-//				l.setBorder(pixelBorder);
+				l.setBorder(pixelBorder);
 				l.setMaxWidth(Double.MAX_VALUE);
 				l.setMaxHeight(Double.MAX_VALUE);
 				l.setBackground(getBackground(255));

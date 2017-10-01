@@ -18,7 +18,7 @@ import java.util.List;
 
 import com.qtfx.library.ai.data.Pattern;
 import com.qtfx.library.ai.function.Centroid;
-import com.qtfx.library.math.Matrix;
+import com.qtfx.library.util.Matrix;
 
 /**
  * Basic centroid.

@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-import javax.swing.KeyStroke;
-
 /**
  * String utilities extended from Apache Commons Lang.
  *
@@ -383,27 +381,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 		// our last action in the above loop was to switch d and p, so p now
 		// actually has the most recent cost counts
 		return p[n];
-	}
-
-	/**
-	 * Returns a string representation of a key stroke.
-	 * 
-	 * @param keyStroke The key stroke.
-	 * @return The string representation.
-	 */
-	public static String toString(KeyStroke keyStroke) {
-		String[] tokens = split(keyStroke.toString(), " ");
-		StringBuilder b = new StringBuilder();
-		for (String token : tokens) {
-			if (token.equals("typed") || token.equals("released") || token.equals("pressed")) {
-				continue;
-			}
-			if (b.length() > 0) {
-				b.append(" ");
-			}
-			b.append(capitalize(token.toLowerCase()));
-		}
-		return b.toString();
 	}
 
 	/**

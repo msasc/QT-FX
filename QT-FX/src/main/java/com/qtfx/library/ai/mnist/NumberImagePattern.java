@@ -17,7 +17,7 @@ package com.qtfx.library.ai.mnist;
 import com.qtfx.library.ai.data.Pattern;
 import com.qtfx.library.ai.function.Normalizer;
 import com.qtfx.library.ai.function.normalize.StdNormalizer;
-import com.qtfx.library.math.Matrix;
+import com.qtfx.library.util.Matrix;
 import com.qtfx.library.util.Properties;
 
 /**

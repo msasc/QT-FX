@@ -28,9 +28,9 @@ import com.qtfx.library.ai.function.activation.ActivationBipolarSigmoid;
 import com.qtfx.library.ai.function.activation.ActivationReLU;
 import com.qtfx.library.ai.function.activation.ActivationSigmoid;
 import com.qtfx.library.ai.function.activation.ActivationTANH;
-import com.qtfx.library.math.Matrix;
 import com.qtfx.library.util.Executor;
 import com.qtfx.library.util.ListUtils;
+import com.qtfx.library.util.Matrix;
 import com.qtfx.library.util.NumberUtils;
 
 /**
