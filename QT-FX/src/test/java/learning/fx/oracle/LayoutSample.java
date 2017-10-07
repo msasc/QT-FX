@@ -15,6 +15,8 @@
 package learning.fx.oracle;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -59,7 +61,12 @@ public class LayoutSample extends Application {
 		border.setTop(getTopHBox());
 		border.setLeft(getLeftVBox());
 		border.setCenter(getCenterGrid());
-		border.setRight(getRightFlowPane());
+		
+		FlowPane flowPane = getRightFlowPane();
+		flowPane.setAlignment(Pos.CENTER_RIGHT);
+		border.setBottom(flowPane);
+//		flowPane.prefWidthProperty().bind(Bindings.selectDouble(flowPane.parentProperty(), "width"));
+//		flowPane.prefHeightProperty().bind(Bindings.selectDouble(flowPane.parentProperty(), "height"));
 
 		// Scene and show.
 		Scene scene = new Scene(border);

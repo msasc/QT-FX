@@ -14,6 +14,9 @@
 
 package learning.fx.projavafx8.ch05;
 
+import java.util.Locale;
+import java.util.Optional;
+
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
@@ -29,6 +32,10 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
@@ -337,8 +344,8 @@ public class MReversi extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		
-		assert stage == null;
-
+		Locale.setDefault(new Locale("es"));
+		
 		// Start with and 8x8 model.
 		model = new Model(8);
 
@@ -378,6 +385,14 @@ public class MReversi extends Application {
 				menu.show(stage, e.getScreenX(), e.getScreenY());
 			}
 		});
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Information dialog");
+//		alert.setHeaderText("Look, an Information Dialog");
+		alert.setContentText("I have a great message for you!");
+		Optional<ButtonType> type = alert.showAndWait();
+		if (type.get().getButtonData().equals(ButtonBar.ButtonData.CANCEL_CLOSE)) {
+			System.exit(0);
+		}
 
 		// Do show.
 		stage.show();

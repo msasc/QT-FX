@@ -59,6 +59,16 @@ public class TextServer {
 	public static String notFoundKey(String key) {
 		return "[" + key + "]";
 	}
+	
+	/**
+	 * Returns a string for the default locale.
+	 * 
+	 * @param key The key to search the string.
+	 * @return the String.
+	 */
+	public static String getString(String key) {
+		return getString(key, Locale.getDefault());
+	}
 
 	/**
 	 * Returns a string for a given locale.

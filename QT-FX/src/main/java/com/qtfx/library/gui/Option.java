@@ -1,0 +1,222 @@
+/*
+ * Copyright (C) 2015 Miquel Sas
+ * 
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
+package com.qtfx.library.gui;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.event.Event;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+
+/**
+ * An option packs the necessary attributes to define a button. Buttons are ordered by the order key within groups that
+ * in turn are ordered by the group key.
+ * 
+ * @author Miquel Sas
+ */
+public class Option {
+
+	/** Option text. */
+	private String text;
+	/** Default button indicator. */
+	private boolean defaultButton;
+	/** Cancel button indicator. */
+	private boolean cancelButton;
+	/** Graphic (image view). */
+	private ImageView imageView;
+	/** Order string. */
+	private String order;
+	/** Group string. */
+	private String group;
+	/** Event filter list. */
+	private List<EventFilter<? super Event>> eventFilters = new ArrayList<>();
+
+	/** The button associated with this option. */
+	private Button button;
+
+	/**
+	 * Constructor assigning text and default and cancel flags.
+	 * 
+	 * @param text The button text.
+	 * @param defaultButton Default flag.
+	 * @param cancelButton Cancel flag.
+	 */
+	public Option(String text, boolean defaultButton, boolean cancelButton) {
+		super();
+		this.text = text;
+		this.defaultButton = defaultButton;
+		this.cancelButton = cancelButton;
+	}
+	
+	/**
+	 * Return the underlying button of this option.
+	 * 
+	 * @return The button.
+	 */
+	public Button getButton() {
+		if (button == null) {
+			button = new Button();
+
+			// Text if present.
+			if (text != null) {
+				button.setText(getText());
+			}
+
+			// Default and cancel properties.
+			button.setDefaultButton(defaultButton);
+			button.setCancelButton(cancelButton);
+
+			// Image if present.
+			if (imageView != null) {
+				button.setGraphic(imageView);
+			}
+
+			// Event filters.
+			for (EventFilter<? super Event> eventFilter : eventFilters) {
+				button.addEventFilter(eventFilter.type(), e -> {
+					eventFilter.filter(button, e);
+				});
+			}
+			
+			// Set this option as user data.
+			button.setUserData(this);
+		}
+		return button;
+	}
+
+	/**
+	 * Return the text.
+	 * 
+	 * @return The text.
+	 */
+	public String getText() {
+		return text;
+	}
+
+	/**
+	 * Set the button text.
+	 * 
+	 * @param text The text.
+	 */
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	/**
+	 * Check if this is a default button.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean isDefaultButton() {
+		return defaultButton;
+	}
+
+	/**
+	 * Set that the button will be a default button. Only a button in a dialog can be the default button.
+	 * 
+	 * @param defaultButton A boolean.
+	 */
+	public void setDefaultButton(boolean defaultButton) {
+		this.defaultButton = defaultButton;
+	}
+
+	/**
+	 * Check if this is a cancel button.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean isCancelButton() {
+		return cancelButton;
+	}
+
+	/**
+	 * Set that the button will be a cancel button. Only a button in a dialog can be the cancel button.
+	 * 
+	 * @param cancelButton A boolean.
+	 */
+	public void setCancelButton(boolean cancelButton) {
+		this.cancelButton = cancelButton;
+	}
+
+	/**
+	 * Return the image view.
+	 * 
+	 * @return The image.
+	 */
+	public ImageView getImageView() {
+		return imageView;
+	}
+
+	/**
+	 * set the image to be shown in the button.
+	 * 
+	 * @param imageView The image.
+	 */
+	public void setImageView(ImageView imageView) {
+		this.imageView = imageView;
+	}
+
+	/**
+	 * Return the order.
+	 * 
+	 * @return The order.
+	 */
+	public String getOrder() {
+		if (order == null) {
+			return "";
+		}
+		return order;
+	}
+
+	/**
+	 * Set the order.
+	 * 
+	 * @param order The order.
+	 */
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
+	/**
+	 * Return the group.
+	 * 
+	 * @return The group.
+	 */
+	public String getGroup() {
+		if (group == null) {
+			return "";
+		}
+		return group;
+	}
+
+	/**
+	 * Set the group.
+	 * 
+	 * @param group The group.
+	 */
+	public void setGroup(String group) {
+		this.group = group;
+	}
+
+	/**
+	 * Add an event filter to the list of filters that should perform the underlying button.
+	 * 
+	 * @param eventFilter The event filter.
+	 */
+	public void addEventFilter(EventFilter<? super Event> eventFilter) {
+		eventFilters.add(eventFilter);
+	}
+}
