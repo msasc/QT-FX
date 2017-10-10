@@ -15,15 +15,17 @@
 package com.qtfx.library.gui;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.qtfx.library.util.NumberUtils;
+import com.qtfx.library.util.StringUtils;
+
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -53,9 +55,13 @@ public class OptionPane extends FlowPane {
 	}
 
 	/** List of options. */
-	private ObservableList<Option> options = new SimpleListProperty<>();
+	private ObservableList<Option> options = FXCollections.observableArrayList();
 	/** A boolean that indicates if the pane has been laid out for the first time. */
 	private boolean armed = false;
+	/** HBox or VBox insets. */
+	private Insets insets;
+	/** HBox or VBox spacing. */
+	private double spacing;
 
 	/**
 	 * Constructor.
@@ -111,6 +117,20 @@ public class OptionPane extends FlowPane {
 				cancelSet = true;
 			}
 		}
+		
+		// Set insets and spacing.
+		if (countGroups() == 1) {
+			insets = new Insets(2, 2, 2, 2);
+			spacing = 0;
+		} else {
+			spacing = 3;
+			if (getOrientation().equals(Orientation.HORIZONTAL)) {
+				insets = new Insets(2, 6, 2, 6);
+			} else {
+				insets = new Insets(6, 2, 6, 2);
+			}
+			
+		}
 
 		// Clear current children.
 		getChildren().clear();
@@ -142,16 +162,17 @@ public class OptionPane extends FlowPane {
 	 */
 	private Node getGroupBox(List<Option> group) {
 		if (getOrientation().equals(Orientation.HORIZONTAL)) {
-			HBox hbox = new HBox(3);
-			hbox.setPadding(new Insets(2, 6, 2, 6));
+			HBox hbox = new HBox(spacing);
+			hbox.setPadding(insets);
 			for (Option option : group) {
 				hbox.getChildren().add(option.getButton());
 			}
 			return hbox;
 		} else {
-			VBox vbox = new VBox(3);
-			vbox.setPadding(new Insets(2, 6, 2, 6));
+			VBox vbox = new VBox(spacing);
+			vbox.setPadding(insets);
 			for (Option option : group) {
+				option.getButton().setMaxWidth(Double.MAX_VALUE);
 				vbox.getChildren().add(option.getButton());
 			}
 			return vbox;
@@ -164,6 +185,26 @@ public class OptionPane extends FlowPane {
 	 * @return The list of option groups.
 	 */
 	private Map<String, List<Option>> getGroups() {
+		
+		OptionComparator comparator = new OptionComparator();
+		List<Option> options = new ArrayList<>(this.options);
+		
+		// If the number of groups is 1, return one group per option.
+		// If the number of orders is 1, set the natural add order.
+		if (countGroups() == 1) {
+			if (countOrders() > 1) {
+				options.sort(comparator);
+			}
+			int digits = NumberUtils.getDigits(options.size());
+			Map<String, List<Option>> groups = new TreeMap<>();
+			for (int i = 0; i < options.size(); i++) {
+				String groupKey = StringUtils.leftPad(Integer.toString(i), digits, "0");
+				List<Option> group = new ArrayList<>();
+				group.add(options.get(i));
+				groups.put(groupKey, group);
+			}
+			return groups;
+		}
 
 		// Fill a sorted map with groups.
 		Map<String, List<Option>> groups = new TreeMap<>();
@@ -177,7 +218,6 @@ public class OptionPane extends FlowPane {
 		}
 
 		// Sort options within groups.
-		OptionComparator comparator = new OptionComparator();
 		Iterator<String> keys = groups.keySet().iterator();
 		while (keys.hasNext()) {
 			List<Option> group = groups.get(keys.next());
@@ -185,6 +225,36 @@ public class OptionPane extends FlowPane {
 		}
 
 		return groups;
+	}
+
+	/**
+	 * Return the number of different groups.
+	 * 
+	 * @return The number of different groups.
+	 */
+	private int countGroups() {
+		List<String> groups = new ArrayList<>();
+		for (Option option : options) {
+			if (!groups.contains(option.getGroup())) {
+				groups.add(option.getGroup());
+			}
+		}
+		return groups.size();
+	}
+
+	/**
+	 * Return the number of different orders.
+	 * 
+	 * @return The number of different orders.
+	 */
+	private int countOrders() {
+		List<String> orders = new ArrayList<>();
+		for (Option option : options) {
+			if (!orders.contains(option.getOrder())) {
+				orders.add(option.getOrder());
+			}
+		}
+		return orders.size();
 	}
 
 	/**

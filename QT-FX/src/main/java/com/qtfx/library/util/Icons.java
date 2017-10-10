@@ -18,6 +18,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -27,19 +30,33 @@ import javafx.scene.image.ImageView;
  * @author Miquel Sas
  */
 public interface Icons {
-	
-	static ImageView get(String resource) throws IOException {
-		File file = new File(resource);
-		FileInputStream fi = new FileInputStream(file);
-		Image image = new Image(fi);
-		return new ImageView(image);
+
+	/** Logger instance. */
+	Logger LOGGER = LogManager.getLogger();
+
+	/**
+	 * Return the resource.
+	 * 
+	 * @param resource The resource path.
+	 * @return The image view.
+	 */
+	static ImageView get(String resource) {
+		try {
+			File file = new File(resource);
+			FileInputStream fi = new FileInputStream(file);
+			Image image = new Image(fi);
+			return new ImageView(image);
+		} catch (IOException exc) {
+			LOGGER.catching(exc);
+			return null;
+		}
 	}
-	
+
 	/** Common application icons 32x32 */
-	
+
 	String APP_32x32_DIALOG_ERROR = "resources/images/app/32x32/dialog-error.png";
 	String APP_32x32_DIALOG_INFORMATION = "resources/images/app/32x32/dialog-information.png";
-	String APP_32x32_DIALOG_CONFIRM = "resources/images/app/32x32/dialog-confirm.png";
-	String APP_32x32_DIALOG_WARNING = "resources/images/app/32x32/dialogwarning.png";
-	
+	String APP_32x32_DIALOG_CONFIRMATION = "resources/images/app/32x32/dialog-confirm.png";
+	String APP_32x32_DIALOG_WARNING = "resources/images/app/32x32/dialog-warning.png";
+
 }

@@ -17,6 +17,8 @@ package com.qtfx.library.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.qtfx.library.util.TextServer;
+
 import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -28,6 +30,97 @@ import javafx.scene.image.ImageView;
  * @author Miquel Sas
  */
 public class Option {
+
+	/**
+	 * @return A new ACCEPT option, true, false.
+	 */
+	public static Option accept() {
+		return new Option(TextServer.getString("alertOptionAccept"), true, false);
+	}
+
+	/**
+	 * @return A new APPLY option, false, false.
+	 */
+	public static Option apply() {
+		return new Option(TextServer.getString("alertOptionApply"), false, false);
+	}
+
+	/**
+	 * @return A new CANCEL option, false, true.
+	 */
+	public static Option cancel() {
+		return new Option(TextServer.getString("alertOptionCancel"), false, true);
+	}
+
+	/**
+	 * @return A new CLOSE option, false, false.
+	 */
+	public static Option close() {
+		return new Option(TextServer.getString("alertOptionClose"), false, false);
+	}
+
+	/**
+	 * @return A new FINISH option, false, false.
+	 */
+	public static Option finish() {
+		return new Option(TextServer.getString("alertOptionFinish"), false, false);
+	}
+
+	/**
+	 * @return A new IGNORE option, false, false.
+	 */
+	public static Option ignore() {
+		return new Option(TextServer.getString("alertOptionIgnore"), false, false);
+	}
+
+	/**
+	 * @return A new NEXT option, false, false.
+	 */
+	public static Option next() {
+		return new Option(TextServer.getString("alertOptionNext"), false, false);
+	}
+
+	/**
+	 * @return A new NO option, false, true.
+	 */
+	public static Option no() {
+		return new Option(TextServer.getString("alertOptionNo"), false, true);
+	}
+
+	/**
+	 * @return A new OK option, true, false.
+	 */
+	public static Option ok() {
+		return new Option(TextServer.getString("alertOptionOk"), true, false);
+	}
+
+	/**
+	 * @return A new OPEN option, false, false.
+	 */
+	public static Option open() {
+		return new Option(TextServer.getString("alertOptionOpen"), true, false);
+	}
+
+	/**
+	 * @return A new PREVIOUS option, false, false.
+	 */
+	public static Option previous() {
+		return new Option(TextServer.getString("alertOptionPrevious"), false, false);
+	}
+
+	/**
+	 * @return A new RETRY option, false, false.
+	 */
+	public static Option retry() {
+		return new Option(TextServer.getString("alertOptionRetry"), false, false);
+	}
+
+	/**
+	 * @return A new YES option, true, false.
+	 */
+	public static Option yes() {
+		return new Option(TextServer.getString("alertOptionYes"), true, false);
+	}
 
 	/** Option text. */
 	private String text;
@@ -60,7 +153,7 @@ public class Option {
 		this.defaultButton = defaultButton;
 		this.cancelButton = cancelButton;
 	}
-	
+
 	/**
 	 * Return the underlying button of this option.
 	 * 
@@ -90,7 +183,7 @@ public class Option {
 					eventFilter.filter(button, e);
 				});
 			}
-			
+
 			// Set this option as user data.
 			button.setUserData(this);
 		}
@@ -218,5 +311,13 @@ public class Option {
 	 */
 	public void addEventFilter(EventFilter<? super Event> eventFilter) {
 		eventFilters.add(eventFilter);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		return getText().toString();
 	}
 }

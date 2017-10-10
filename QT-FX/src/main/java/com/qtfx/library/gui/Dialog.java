@@ -157,6 +157,10 @@ public class Dialog {
 					break;
 				}
 			}
+			// Only one button, take it.
+			if (result == null && buttons.length == 1) {
+				result = (Option) buttons[0].getUserData();
+			}
 		}
 		
 		// Return the result option, can be null.

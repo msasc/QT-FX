@@ -12,21 +12,31 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.database;
+package com.qtfx.gui;
+
+import com.qtfx.library.util.TextServer;
+
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 /**
- * Simple database test using the QT-Platform database.
- *
+ * Test different alert options.
+ * 
  * @author Miquel Sas
  */
-public class TestSelect {
-
-	/**
-	 * @param args
-	 */
+public class TestAlert extends Application {
+	
+	/** Logger configuration. */
+	static {
+		System.setProperty("log4j.configurationFile", "resources/LoggerQTPlatform.xml");
+	}
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		TextServer.addBaseResource("resources/StringsLibrary.xml");
+		launch(args);
 	}
 
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		
+	}
 }
