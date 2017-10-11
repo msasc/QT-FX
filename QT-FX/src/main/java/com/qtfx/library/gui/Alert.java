@@ -146,11 +146,21 @@ public class Alert {
 	}
 
 	/**
-	 * Set (add) the list of options.
+	 * Add the list of options.
+	 * 
+	 * @param options The list of options.
+	 */
+	public void addOptions(Option... options) {
+		dialog.getOptionPane().getOptions().addAll(options);
+	}
+
+	/**
+	 * Set the list of options.
 	 * 
 	 * @param options The list of options.
 	 */
 	public void setOptions(Option... options) {
+		dialog.getOptionPane().getOptions().clear();
 		dialog.getOptionPane().getOptions().addAll(options);
 	}
 

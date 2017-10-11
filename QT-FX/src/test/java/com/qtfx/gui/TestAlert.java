@@ -14,6 +14,8 @@
 
 package com.qtfx.gui;
 
+import com.qtfx.library.gui.Alert;
+import com.qtfx.library.gui.Option;
 import com.qtfx.library.util.TextServer;
 
 import javafx.application.Application;
@@ -36,7 +38,15 @@ public class TestAlert extends Application {
 	}
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-		
+	public void start(Stage stage) throws Exception {
+		Alert alert = new Alert(stage);
+		alert.setTitle("Alert");
+		alert.setType(Alert.Type.CONFIRMATION);
+		alert.addText("Hola mensaje: ");
+		alert.addText("EN ROJO", "-fx-fill: red; -fx-font-weight: bold");
+		alert.addText(", ");
+		alert.addText("Y OBLIQUE", "-fx-fill: red; -fx-font-weight: bold; -fx-font-style: oblique;");
+		Option option = alert.show();
+		System.out.println(option);
 	}
 }
