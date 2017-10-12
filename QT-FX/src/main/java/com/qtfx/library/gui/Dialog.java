@@ -27,21 +27,15 @@ import javafx.stage.Window;
 /**
  * Implementation of the dialog functionality.
  * <p>
- * Buttons can be disposed top, right, bottom or left, and there is a content pane, the center of a border layout, where
- * it is expected to dispose any other layout. Default buttons disposition is bottom.
+ * The root is a border pane. Buttons can be disposed top, right, bottom or left, and there is a content pane, the
+ * center of a border layout, where it is expected to dispose any other layout. If not buttons are set, the show method
+ * returns the default close option. The rest of panes, left, right, top, bottom or center is available to set any node.
  * <p>
- * Options (buttons) always close the windo unless a filter is set and the event is consumed.
+ * Options (buttons) always close the window unless a filter is set and the event is consumed.
  * 
  * @author Miquel Sas
  */
 public class Dialog {
-
-	/**
-	 * Enumerate buttons position.
-	 */
-	public static enum Pos {
-		TOP, RIGHT, BOTTOM, LEFT
-	}
 
 	/** Stage. */
 	private Stage stage;
@@ -53,18 +47,9 @@ public class Dialog {
 	private Option result;
 
 	/**
-	 * Constructor with a bottom disposition for buttons.
+	 * Constructor assigning the buttons position.
 	 */
 	public Dialog(Window owner) {
-		this(owner, Pos.BOTTOM);
-	}
-
-	/**
-	 * Constructor assigning the buttons position.
-	 * 
-	 * @param position The buttons position.
-	 */
-	public Dialog(Window owner, Pos position) {
 		super();
 
 		// Initialize components and build the scene.
@@ -77,24 +62,40 @@ public class Dialog {
 		}
 		stage.initStyle(StageStyle.DECORATED);
 		borderPane = new BorderPane();
-		if (position.equals(Pos.TOP)) {
-			optionPane = new OptionPane(Orientation.HORIZONTAL);
-			borderPane.setTop(optionPane);
-		}
-		if (position.equals(Pos.BOTTOM)) {
-			optionPane = new OptionPane(Orientation.HORIZONTAL);
-			borderPane.setBottom(optionPane);
-		}
-		if (position.equals(Pos.LEFT)) {
-			optionPane = new OptionPane(Orientation.VERTICAL);
-			borderPane.setLeft(optionPane);
-		}
-		if (position.equals(Pos.RIGHT)) {
-			optionPane = new OptionPane(Orientation.VERTICAL);
-			borderPane.setRight(optionPane);
-		}
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
+	}
+
+	/**
+	 * Set the button on the top pane.
+	 */
+	public void setButtonsTop() {
+		optionPane = new OptionPane(Orientation.HORIZONTAL);
+		borderPane.setTop(optionPane);
+	}
+
+	/**
+	 * Set the button on the bottom pane.
+	 */
+	public void setButtonsBottom() {
+		optionPane = new OptionPane(Orientation.HORIZONTAL);
+		borderPane.setBottom(optionPane);
+	}
+
+	/**
+	 * Set the button on the right pane.
+	 */
+	public void setButtonsRight() {
+		optionPane = new OptionPane(Orientation.VERTICAL);
+		borderPane.setRight(optionPane);
+	}
+
+	/**
+	 * Set the button on the left pane.
+	 */
+	public void setButtonsLeft() {
+		optionPane = new OptionPane(Orientation.VERTICAL);
+		borderPane.setLeft(optionPane);
 	}
 
 	/**
@@ -116,12 +117,60 @@ public class Dialog {
 	}
 
 	/**
-	 * Set the dialog content.
+	 * Set the dialog center.
 	 * 
-	 * @param node The content.
+	 * @param node The node.
 	 */
-	public void setContent(Node node) {
+	public void setCenter(Node node) {
 		borderPane.setCenter(node);
+	}
+
+	/**
+	 * Set the dialog top.
+	 * 
+	 * @param node The node.
+	 */
+	public void setTop(Node node) {
+		if (borderPane.getTop() != null && borderPane.getTop() instanceof OptionPane) {
+			throw new IllegalStateException("Buttons position is top");
+		}
+		borderPane.setTop(node);
+	}
+
+	/**
+	 * Set the dialog left.
+	 * 
+	 * @param node The node.
+	 */
+	public void setLeft(Node node) {
+		if (borderPane.getLeft() != null && borderPane.getLeft() instanceof OptionPane) {
+			throw new IllegalStateException("Buttons position is left");
+		}
+		borderPane.setLeft(node);
+	}
+
+	/**
+	 * Set the dialog bottom.
+	 * 
+	 * @param node The node.
+	 */
+	public void setBottom(Node node) {
+		if (borderPane.getBottom() != null && borderPane.getBottom() instanceof OptionPane) {
+			throw new IllegalStateException("Buttons position is bottom");
+		}
+		borderPane.setBottom(node);
+	}
+
+	/**
+	 * Set the dialog right.
+	 * 
+	 * @param node The node.
+	 */
+	public void setRight(Node node) {
+		if (borderPane.getRight() != null && borderPane.getRight() instanceof OptionPane) {
+			throw new IllegalStateException("Buttons position is right");
+		}
+		borderPane.setRight(node);
 	}
 
 	/**
@@ -131,15 +180,19 @@ public class Dialog {
 	 */
 	public Option show() {
 
-		// Layout options.
-		optionPane.layoutOptions();
-
-		// Set the event handler to close the stage and set the result.
-		result = null;
-		Button[] buttons = optionPane.getButtons();
-		for (Button button : buttons) {
-			button.setOnAction(e -> {
-				result = (Option) button.getUserData();
+		// Layout options and set the event handler to close the stage and set the result.
+		if (optionPane != null) {
+			optionPane.layoutOptions();
+			result = null;
+			Button[] buttons = optionPane.getButtons();
+			for (Button button : buttons) {
+				button.setOnAction(e -> {
+					result = (Option) button.getUserData();
+					stage.close();
+				});
+			}
+		} else {
+			stage.getScene().setOnKeyPressed( e ->{
 				stage.close();
 			});
 		}
@@ -148,9 +201,9 @@ public class Dialog {
 		stage.showAndWait();
 
 		// If result is null expect close by other means, look for a cancel button to assign the result.
-		if (result == null) {
+		if (result == null && optionPane != null) {
 			// Buttons can have changed during edition.
-			buttons = optionPane.getButtons();
+			Button[] buttons = optionPane.getButtons();
 			for (Button button : buttons) {
 				if (button.isCancelButton()) {
 					result = (Option) button.getUserData();
@@ -162,7 +215,11 @@ public class Dialog {
 				result = (Option) buttons[0].getUserData();
 			}
 		}
-		
+		// No buttons, result is default close button.
+		if (result == null && (optionPane == null || optionPane.getOptions().isEmpty())) {
+			result = Option.close();
+		}
+
 		// Return the result option, can be null.
 		return result;
 	}

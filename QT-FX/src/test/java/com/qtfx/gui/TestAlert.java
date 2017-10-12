@@ -39,6 +39,7 @@ public class TestAlert extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		
 		Alert alert = new Alert(stage);
 		alert.setTitle("Alert");
 		alert.setType(Alert.Type.CONFIRMATION);
@@ -48,5 +49,8 @@ public class TestAlert extends Application {
 		alert.addText("Y OBLIQUE", "-fx-fill: red; -fx-font-weight: bold; -fx-font-style: oblique;");
 		Option option = alert.show();
 		System.out.println(option);
+		
+		System.out.println(Alert.warning("Warning", "Warning message"));
+		
 	}
 }

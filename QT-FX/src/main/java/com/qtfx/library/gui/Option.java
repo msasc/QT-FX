@@ -17,6 +17,7 @@ package com.qtfx.library.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Objects;
 import com.qtfx.library.util.TextServer;
 
 import javafx.event.Event;
@@ -311,6 +312,21 @@ public class Option {
 	 */
 	public void addEventFilter(EventFilter<? super Event> eventFilter) {
 		eventFilters.add(eventFilter);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (Objects.equal(this, obj)) {
+			return true;
+		}
+		if (obj instanceof Option) {
+			Option o = (Option) obj;
+			return text != null && o.text != null && text.equals(o.text);
+		}
+		return false;
 	}
 
 	/**

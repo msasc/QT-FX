@@ -22,7 +22,9 @@ import com.qtfx.library.util.StringUtils;
 import com.qtfx.library.util.TextServer;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 /**
@@ -41,6 +43,9 @@ public class TestDialog extends Application {
 	public void start(Stage stage) throws Exception {
 
 		Option result;
+		
+		result = getDialogEmpty(stage).show();
+		System.out.println(result);
 		
 		result = getDialogBottomPlain(stage).show();
 		System.out.println(result);
@@ -61,17 +66,19 @@ public class TestDialog extends Application {
 	}
 
 	private Dialog getDialogBottomPlain(Stage stage) {
-		Dialog dialog = new Dialog(stage, Dialog.Pos.BOTTOM);
+		Dialog dialog = new Dialog(stage);
+		dialog.setButtonsBottom();
 		dialog.setTitle("First dialog");
-		dialog.setContent(new Text("Text content"));
+		dialog.setCenter(new Text("Text content"));
 		dialog.getOptionPane().getOptions().addAll(getOptionsPlain());
 		return dialog;
 	}
 	
 	private Dialog getDialogBottomPlainRandom(Stage stage) {
-		Dialog dialog = new Dialog(stage, Dialog.Pos.BOTTOM);
+		Dialog dialog = new Dialog(stage);
+		dialog.setButtonsBottom();
 		dialog.setTitle("First dialog");
-		dialog.setContent(new Text("Text content"));
+		dialog.setCenter(new Text("Text content"));
 		
 		Option[] options = getOptionsPlain();
 		int digits = NumberUtils.getDigits(options.length);
@@ -86,25 +93,38 @@ public class TestDialog extends Application {
 	}
 	
 	private Dialog getDialogBottomGroups(Stage stage) {
-		Dialog dialog = new Dialog(stage, Dialog.Pos.BOTTOM);
+		Dialog dialog = new Dialog(stage);
+		dialog.setButtonsBottom();
 		dialog.setTitle("First dialog");
-		dialog.setContent(new Text("Text content"));
+		dialog.setCenter(new Text("Text content"));
 		dialog.getOptionPane().getOptions().addAll(getOptionsGroups());
 		return dialog;
 	}
 	
 	private Dialog getDialogLeftPlain(Stage stage) {
-		Dialog dialog = new Dialog(stage, Dialog.Pos.LEFT);
+		Dialog dialog = new Dialog(stage);
+		dialog.setButtonsLeft();
 		dialog.setTitle("First dialog");
-		dialog.setContent(new Text("Text content"));
+		dialog.setCenter(new Text("Text content"));
 		dialog.getOptionPane().getOptions().addAll(getOptionsPlain());
 		return dialog;
 	}
 	
-	private Dialog getDialogLeftGroups(Stage stage) {
-		Dialog dialog = new Dialog(stage, Dialog.Pos.LEFT);
+	private Dialog getDialogEmpty(Stage stage) {
+		Dialog dialog = new Dialog(stage);
 		dialog.setTitle("First dialog");
-		dialog.setContent(new Text("Text content"));
+		Text text = new Text("Text content ashd askljdh askjdhaskjsdh askjsdhask kdjah");
+		TextFlow flow = new TextFlow(text);
+		flow.setPadding(new Insets(20, 20, 20, 20));
+		dialog.setCenter(flow);
+		return dialog;
+	}
+	
+	private Dialog getDialogLeftGroups(Stage stage) {
+		Dialog dialog = new Dialog(stage);
+		dialog.setButtonsLeft();
+		dialog.setTitle("First dialog");
+		dialog.setCenter(new Text("Text content"));
 		dialog.getOptionPane().getOptions().addAll(getOptionsGroups());
 		return dialog;
 	}

@@ -32,17 +32,6 @@ import javafx.stage.Window;
  */
 public class Alert {
 
-	/** Default ACCEPT option. */
-	public static final Option ACCEPT = Option.accept();
-	/** Default CANCEL option. */
-	public static final Option CANCEL = Option.cancel();
-	/** Default NO option. */
-	public static final Option NO = Option.no();
-	/** Default OK option. */
-	public static final Option OK = Option.ok();
-	/** Default YES option. */
-	public static final Option YES = Option.yes();
-
 	/**
 	 * Enumerate alert types.
 	 */
@@ -58,6 +47,192 @@ public class Alert {
 		/** Confirmation icon with default OK and CANCEL options. */
 		CONFIRMATION
 	}
+
+	/** Default ACCEPT option. */
+	public static final Option ACCEPT = Option.accept();
+	/** Default CANCEL option. */
+	public static final Option CANCEL = Option.cancel();
+	/** Default NO option. */
+	public static final Option NO = Option.no();
+	/** Default OK option. */
+	public static final Option OK = Option.ok();
+	/** Default YES option. */
+	public static final Option YES = Option.yes();
+
+	/**
+	 * Simple predefined alert by type.
+	 * 
+	 * @param title The title.
+	 * @param message The message.
+	 * @param type The type.
+	 * @return The selected option.
+	 */
+	public static Option alert(String title, String message, Type type) {
+		return alert(null, title, message, type);
+	}
+
+	/**
+	 * Simple predefined alert by type.
+	 * 
+	 * @param owner The owner window or null for application modal.
+	 * @param title The title.
+	 * @param message The message.
+	 * @param type The type.
+	 * @return The selected option.
+	 */
+	public static Option alert(Window owner, String title, String message, Type type) {
+		Alert alert = new Alert(owner);
+		alert.setTitle(title);
+		alert.addText(message);
+		alert.setType(type);
+		Option result = alert.show();
+		return result;
+	}
+
+	/**
+	 * Simple predefined alert by options.
+	 * 
+	 * @param title The title.
+	 * @param message The message.
+	 * @param options The list of options.
+	 * @return The selected option.
+	 */
+	public static Option alert(String title, String message, Option... options) {
+		return alert(null, title, message, options);
+	}
+
+	/**
+	 * Simple predefined alert by options.
+	 * 
+	 * @param owner The owner window or null for application modal.
+	 * @param title The title.
+	 * @param message The message.
+	 * @param options The list of options.
+	 * @return The selected option.
+	 */
+	public static Option alert(Window owner, String title, String message, Option... options) {
+		Alert alert = new Alert(owner);
+		alert.setTitle(title);
+		alert.addText(message);
+		alert.setOptions(options);
+		Option result = alert.show();
+		return result;
+	}
+
+	/**
+	 * Plain alert.
+	 * 
+	 * @param title The title.
+	 * @param message The message.
+	 * @return The option.
+	 */
+	public static Option plain(String title, String message) {
+		return plain(null, title, message);
+	}
+
+	/**
+	 * Plain alert.
+	 * 
+	 * @param owner The window owner.
+	 * @param title The title.
+	 * @param message The message.
+	 * @return The option.
+	 */
+	public static Option plain(Window owner, String title, String message) {
+		return alert(owner, title, message, Type.PLAIN);
+	}
+
+	/**
+	 * Information alert.
+	 * 
+	 * @param title The title.
+	 * @param message The message.
+	 * @return The option.
+	 */
+	public static Option info(String title, String message) {
+		return info(null, title, message);
+	}
+
+	/**
+	 * Information alert.
+	 * 
+	 * @param owner The window owner.
+	 * @param title The title.
+	 * @param message The message.
+	 * @return The option.
+	 */
+	public static Option info(Window owner, String title, String message) {
+		return alert(owner, title, message, Type.INFORMATION);
+	}
+
+	/**
+	 * Warning alert.
+	 * 
+	 * @param title The title.
+	 * @param message The message.
+	 * @return The option.
+	 */
+	public static Option warning(String title, String message) {
+		return warning(null, title, message);
+	}
+
+	/**
+	 * Warning alert.
+	 * 
+	 * @param owner The window owner.
+	 * @param title The title.
+	 * @param message The message.
+	 * @return The option.
+	 */
+	public static Option warning(Window owner, String title, String message) {
+		return alert(owner, title, message, Type.WARNING);
+	}
+
+	/**
+	 * Error alert.
+	 * 
+	 * @param title The title.
+	 * @param message The message.
+	 * @return The option.
+	 */
+	public static Option error(String title, String message) {
+		return error(null, title, message);
+	}
+
+	/**
+	 * Error alert.
+	 * 
+	 * @param owner The window owner.
+	 * @param title The title.
+	 * @param message The message.
+	 * @return The option.
+	 */
+	public static Option error(Window owner, String title, String message) {
+		return alert(owner, title, message, Type.ERROR);
+	}
+	/**
+	 * Confirmation alert.
+	 * 
+	 * @param title The title.
+	 * @param message The message.
+	 * @return The option.
+	 */
+	public static Option corfirm(String title, String message) {
+		return confirm(null, title, message);
+	}
+
+	/**
+	 * Confirmation alert.
+	 * 
+	 * @param owner The window owner.
+	 * @param title The title.
+	 * @param message The message.
+	 * @return The option.
+	 */
+	public static Option confirm(Window owner, String title, String message) {
+		return alert(owner, title, message, Type.CONFIRMATION);
+	}
+
 
 	/** Internal dialog. */
 	private Dialog dialog;
@@ -212,7 +387,7 @@ public class Alert {
 			content.setLeft(left);
 		}
 		content.setCenter(textFlow);
-		dialog.setContent(content);
+		dialog.setCenter(content);
 
 		Option result = dialog.show();
 		return result;
