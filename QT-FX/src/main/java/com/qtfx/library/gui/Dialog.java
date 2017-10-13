@@ -18,6 +18,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -191,11 +192,12 @@ public class Dialog {
 					stage.close();
 				});
 			}
-		} else {
-			stage.getScene().setOnKeyPressed( e ->{
-				stage.close();
-			});
 		}
+		stage.getScene().setOnKeyPressed( e ->{
+			if (e.getCode() == KeyCode.ESCAPE) {
+				stage.close();
+			}
+		});
 		
 		// Do show.
 		stage.showAndWait();

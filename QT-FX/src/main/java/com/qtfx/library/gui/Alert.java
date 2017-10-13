@@ -258,6 +258,7 @@ public class Alert {
 	public Alert(Window owner) {
 		super();
 		dialog = new Dialog(owner);
+		dialog.setButtonsBottom();
 		textFlow = new TextFlow();
 	}
 

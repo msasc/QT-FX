@@ -15,8 +15,6 @@
 package learning.fx.oracle;
 
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;

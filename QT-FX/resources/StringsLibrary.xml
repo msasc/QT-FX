@@ -24,5 +24,18 @@
 	<entry key="alertTitlePlain">Plain</entry>
 	<entry key="alertTitleQuestion">Question</entry>
 	<entry key="alertTitleWarning">Warning</entry>
+	
+	<!-- Several widely used tokens. -->
+	
+	<entry key="tokenElapsed">Elapsed</entry>
+	<entry key="tokenEnd">End</entry>
+	<entry key="tokenEstimated">Estimated</entry>
+	<entry key="tokenMinute">Minute</entry>
+	<entry key="tokenMinutes">Minutes</entry>
+	<entry key="tokenRemaining">Remaining</entry>
+	<entry key="tokenSecond">Second</entry>
+	<entry key="tokenSeconds">Seconds</entry>
+	<entry key="tokenStarted">Started</entry>
+	<entry key="tokenTime">Time</entry>
 
 </properties>
