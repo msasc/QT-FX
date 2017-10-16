@@ -369,6 +369,16 @@ public class FormatUtils {
 	 * 
 	 * @return A string.
 	 * @param l The <i>long</i> to convert.
+	 */
+	public static String formattedFromLong(long l) {
+		return formattedFromLong(l, Locale.getDefault());
+	}
+
+	/**
+	 * Convert from an <i>long</i>.
+	 * 
+	 * @return A string.
+	 * @param l The <i>long</i> to convert.
 	 * @param locale The locale to apply.
 	 */
 	public static String formattedFromLong(long l, Locale locale) {

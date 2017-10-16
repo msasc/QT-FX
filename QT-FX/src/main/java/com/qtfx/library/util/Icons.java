@@ -59,4 +59,11 @@ public interface Icons {
 	String APP_32x32_DIALOG_CONFIRMATION = "resources/images/app/32x32/dialog-confirm.png";
 	String APP_32x32_DIALOG_WARNING = "resources/images/app/32x32/dialog-warning.png";
 
+	/** Very flat and simple icons 24x24 */
+	
+	String FLAT_24x24_CANCEL = "resources/images/flat/24x24/cancel.png";
+	String FLAT_24x24_CLOSE = "resources/images/flat/24x24/close.png";
+	String FLAT_24x24_INFO = "resources/images/flat/24x24/info.png";
+	String FLAT_24x24_PAUSE = "resources/images/flat/24x24/pause.png";
+	String FLAT_24x24_EXECUTE = "resources/images/flat/24x24/resume.png";
 }

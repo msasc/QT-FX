@@ -14,6 +14,7 @@
 
 package other;
 
+import java.util.ArrayList;
 import java.util.TimeZone;
 
 import com.qtfx.library.util.ListUtils;
@@ -29,8 +30,8 @@ public class TestTime {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println(ListUtils.asList(TimeZone.getAvailableIDs()));
-
+//		System.out.println(ListUtils.asList(TimeZone.getAvailableIDs()));
+		System.out.println(new ArrayList<Double>().getClass());
 	}
 
 }
