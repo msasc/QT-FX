@@ -45,14 +45,16 @@ public class TestTaskPanePool extends Application {
 		
 		TaskPool taskPool = new TaskPool();
 		taskPool.setTitle("Task pool");
+		taskPool.setProgressDecimals(1);
+		taskPool.setParallelism(20);
 		
 		int taskCount = 10;
 		for (int i = 0; i < taskCount; i++) {
 			SampleTask task = new SampleTask();
 			task.setTitle("Title of the task");
-			task.setIterations(1000000000);
+			task.setIterations(100000000);
 			task.setSleep(-1);
-			task.setModule(10000);
+			task.setModule(1000);
 			task.setIndeterminate(false);
 			taskPool.addTask(task);
 		}

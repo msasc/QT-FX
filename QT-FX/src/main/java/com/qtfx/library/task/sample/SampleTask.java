@@ -36,7 +36,9 @@ public class SampleTask extends Task {
 	/** Throw after iterations. */
 	private long throwAfterIterations;
 	/** Count seconds. */
-	private long countSeconds = 2;
+	private long countSeconds = 3;
+	/** Check previously counted. */
+	private boolean preCounted = false;
 
 	/**
 	 * Constructor.
@@ -99,7 +101,17 @@ public class SampleTask extends Task {
 	 */
 	@Override
 	protected void requestTotalWork() {
-		updateProgress(0, iterations);
+		if (countSeconds > 0) {
+			try {
+				Thread.sleep(countSeconds * 1000);
+				updateProgress(0, iterations);
+			} catch (InterruptedException interrupted) {
+				if (isCancelled()) {
+					return;
+				}
+			}
+		}
+		preCounted = true;
 	}
 
 	/**
@@ -107,7 +119,7 @@ public class SampleTask extends Task {
 	 */
 	@Override
 	protected Void call() throws Exception {
-		if (countSeconds > 0) {
+		if (!preCounted && countSeconds > 0) {
 			updateCounting();
 			try {
 				Thread.sleep(countSeconds * 1000);
@@ -122,11 +134,11 @@ public class SampleTask extends Task {
 				break;
 			}
 			if (i == 0 || module <= 0 || ((i + 1) % module == 0 || i == (iterations - 1))) {
-				updateMessage((i + 1) + " / " + iterations);
+				updateMessage("Doing the work...");
 				if (indeterminate) {
 					updateProgressIndeterminate();
 				} else {
-					updateProgress(i, iterations);
+					updateProgress(i + 1, iterations);
 				}
 			}
 			if (sleep > 0) {

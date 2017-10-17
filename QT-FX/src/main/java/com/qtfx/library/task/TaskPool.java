@@ -20,24 +20,40 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 
+import com.qtfx.library.util.TextServer;
+
 /**
  * A task that executes a pool of tasks concurrently.
  *
  * @author Miquel Sas
  */
 public class TaskPool extends Task {
-
+	
 	/**
-	 * Recursive task executor.
+	 * Recursive task caller.
 	 */
-	class Executor extends RecursiveAction {
+	class Caller extends RecursiveAction {
 		@Override
 		protected void compute() {
-			List<ForkJoinTask<?>> runnables = new ArrayList<>();
+			List<ForkJoinTask<?>> calls = new ArrayList<>();
 			for (Task task : tasks) {
-				runnables.add(ForkJoinTask.adapt(task));
+				calls.add(new AdaptedTaskCall(task));
 			}
-			invokeAll(runnables);
+			invokeAll(calls);
+		}
+	}
+
+	/**
+	 * Recursive task counter.
+	 */
+	class Counter extends RecursiveAction {
+		@Override
+		protected void compute() {
+			List<ForkJoinTask<?>> calls = new ArrayList<>();
+			for (Task task : tasks) {
+				calls.add(new AdaptedTaskCount(task));
+			}
+			invokeAll(calls);
 		}
 	}
 
@@ -45,6 +61,8 @@ public class TaskPool extends Task {
 	private List<Task> tasks = new ArrayList<>();
 	/** The pool to execute tasks concurrently. */
 	private ForkJoinPool pool;
+	/** Parallelism. */
+	private int parallelism = 20;
 
 	/**
 	 * Constructor.
@@ -64,14 +82,33 @@ public class TaskPool extends Task {
 	}
 
 	/**
+	 * Return the parallelism or number of concurrent threads.
+	 * 
+	 * @return The parallelism.
+	 */
+	public int getParallelism() {
+		return parallelism;
+	}
+
+	/**
+	 * Set the parallelism or number of concurrent threads.
+	 * 
+	 * @param parallelism The parallelism.
+	 */
+	public void setParallelism(int parallelism) {
+		this.parallelism = parallelism;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean cancel(boolean mayInterruptIfRunning) {
+		boolean flag = super.cancel(mayInterruptIfRunning);
 		for (Task task : tasks) {
-			task.cancel(mayInterruptIfRunning);
+			flag = task.cancel(mayInterruptIfRunning);
 		}
-		return super.cancel(mayInterruptIfRunning);
+		return flag;
 	}
 
 	/**
@@ -79,11 +116,11 @@ public class TaskPool extends Task {
 	 */
 	@Override
 	protected Void call() throws Exception {
-		for (Task task : tasks) {
-			task.requestTotalWork();
-		}
-		pool = new ForkJoinPool(tasks.size());
-		pool.invoke(new Executor());
+		updateMessage(TextServer.getString("taskParallel"));
+		updateCounting();
+		pool = new ForkJoinPool(parallelism);
+		pool.invoke(new Counter());
+		pool.invoke(new Caller());
 		pool.shutdown();
 		return null;
 	}

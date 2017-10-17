@@ -203,7 +203,7 @@ public abstract class Task extends javafx.concurrent.Task<Void> {
 	 * @return A boolean.
 	 */
 	public boolean isIndeterminate() {
-		return workDone < 0 && totalWork < 0;
+		return workDone < 0;
 	}
 
 	/**
@@ -267,23 +267,11 @@ public abstract class Task extends javafx.concurrent.Task<Void> {
 			double totalWorkDelta = (this.totalWork < 0 ? totalWork : totalWork - this.totalWork);
 			this.totalWork = totalWork;
 			// Parent workDone and total work to submit.
-			double parentWorkDone = parent.workDone + workDoneDelta;
-			double parentTotalWork = parent.totalWork + totalWorkDelta;
+			double parentWorkDone = (parent.workDone < 0 ? workDoneDelta : parent.workDone + workDoneDelta);
+			double parentTotalWork = (parent.totalWork < 0 ? totalWorkDelta : parent.totalWork + totalWorkDelta);
 
 			// Do submit.
 			parent.updateProgress(parentWorkDone, parentTotalWork);
-
-			// Set an automated message.
-			StringBuilder b = new StringBuilder();
-			b.append(TextServer.getString("tokenProcessed"));
-			b.append(" ");
-			b.append(FormatUtils.formattedFromLong(Double.valueOf(parentWorkDone + 1).longValue()));
-			b.append(" ");
-			b.append(TextServer.getString("tokenOf"));
-			b.append(" ");
-			b.append(FormatUtils.formattedFromLong(Double.valueOf(parentTotalWork + 1).longValue()));
-			parent.updateMessage(b.toString());
-
 		} finally {
 			parent.lock.unlock();
 		}
@@ -325,8 +313,15 @@ public abstract class Task extends javafx.concurrent.Task<Void> {
 		} else {
 			b.append(TextServer.getString("tokenProcessed", locale));
 			b.append(" ");
-			b.append(NumberUtils.getBigDecimal((workDone / totalWork) * 100.0, progressDecimals));
-			b.append(" %");
+			double percentage = (workDone <= 0 ? 0.0 : (workDone / totalWork) * 100.0);
+			b.append(NumberUtils.getBigDecimal(percentage, progressDecimals));
+			b.append("% (");
+			b.append(FormatUtils.formattedFromLong(Double.valueOf(workDone).longValue()));
+			b.append(" ");
+			b.append(TextServer.getString("tokenOf"));
+			b.append(" ");
+			b.append(FormatUtils.formattedFromLong(Double.valueOf(totalWork).longValue()));
+			b.append(")");
 		}
 		return b.toString();
 	}
@@ -441,7 +436,7 @@ public abstract class Task extends javafx.concurrent.Task<Void> {
 	 * 
 	 * @param message The message.
 	 * @param property The property.
-	 * @param atomicRef The correspondant atomic reference.
+	 * @param atomicRef The correspondent atomic reference.
 	 */
 	protected void updateMessageProperty(String message, StringProperty property, AtomicReference<String> atomicRef) {
 		if (Platform.isFxApplicationThread()) {
