@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>System library strings</comment>
+
+	<!-- Alert options. -->
+
+	<entry key="alertOptionAccept">Accept</entry>
+	<entry key="alertOptionApply">Apply</entry>
+	<entry key="alertOptionCancel">Cancel</entry>
+	<entry key="alertOptionClose">Close</entry>
+	<entry key="alertOptionFinish">Finish</entry>
+	<entry key="alertOptionIgnore">Ignore</entry>
+	<entry key="alertOptionNext">Next</entry>
+	<entry key="alertOptionNo">No</entry>
+	<entry key="alertOptionOk">Ok</entry>
+	<entry key="alertOptionOpen">Open</entry>
+	<entry key="alertOptionPrevious">Previous</entry>
+	<entry key="alertOptionRetry">Retry</entry>
+	<entry key="alertOptionYes">Yes</entry>
+	
+	<entry key="alertTitleError">Error</entry>
+	<entry key="alertTitleInformation">Information</entry>
+	<entry key="alertTitlePlain">Plain</entry>
+	<entry key="alertTitleQuestion">Question</entry>
+	<entry key="alertTitleWarning">Warning</entry>
+	
+	<!-- Several widely used tokens. -->
+	
+	<entry key="tokenCounting">Counting</entry>
+	<entry key="tokenDay">Day</entry>
+	<entry key="tokenDays">Days</entry>
+	<entry key="tokenElapsed">Elapsed</entry>
+	<entry key="tokenEnd">End</entry>
+	<entry key="tokenEstimated">Estimated</entry>
+	<entry key="tokenHour">Hour</entry>
+	<entry key="tokenHours">Hours</entry>
+	<entry key="tokenMinute">Minute</entry>
+	<entry key="tokenMinutes">Minutes</entry>
+	<entry key="tokenOf">of</entry>
+	<entry key="tokenProcessed">Processed</entry>
+	<entry key="tokenProcessing">Processing</entry>
+	<entry key="tokenRemaining">Remaining</entry>
+	<entry key="tokenSecond">Second</entry>
+	<entry key="tokenSeconds">Seconds</entry>
+	<entry key="tokenStart">Start</entry>
+	<entry key="tokenStarted">Started</entry>
+	<entry key="tokenTime">Time</entry>
+	
+	<!-- Several widely used tool tips. -->
+	
+	<entry key="tooltipStart">Start the current task</entry>
+	<entry key="tooltipCancel">Cancel (stop) the current task</entry>
+	<entry key="tooltipErrorInfo">View detailed error information</entry>
+	
+	<!-- Task messages. -->
+	
+	<entry key="taskCancelled">Cancelled</entry>
+	<entry key="taskFailed">Failed</entry>
+	<entry key="taskSucceeded">Succeeded</entry>
+	<entry key="taskParallel">Parallel processing...</entry>
+
+</properties>
