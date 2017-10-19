@@ -40,6 +40,11 @@ import javafx.event.EventHandler;
  * @author Miquel Sas
  */
 public abstract class Task extends javafx.concurrent.Task<Void> {
+	
+	/**
+	 * A small class to manage string updates.
+	 */
+	
 
 	/** Time start, set when the task changes to the RUNNING state. */
 	private double timeStart = -1;
@@ -79,7 +84,7 @@ public abstract class Task extends javafx.concurrent.Task<Void> {
 	/** Progress decimals for the progress message. */
 	private int progressDecimals = 1;
 
-	/** The locale to use build messages. */
+	/** The locale to use to build messages. */
 	private Locale locale;
 
 	/**
@@ -453,12 +458,14 @@ public abstract class Task extends javafx.concurrent.Task<Void> {
 			// It might be that the background thread will update this message quite frequently, and we need to throttle
 			// the updates so as not to completely clobber the event dispatching system.
 			if (atomicRef.getAndSet(message) == null) {
-				Platform.runLater(new Update(property, atomicRef));
+				Platform.runLater(() -> {
+					property.set(atomicRef.getAndSet(null));
+				});
 			}
-		} else {
-			if (atomicRef.getAndSet(message) == null) {
-				EventQueue.invokeLater(new Update(property, atomicRef));
-			}
+//		} else {
+//			if (atomicRef.getAndSet(message) == null) {
+//				EventQueue.invokeLater(new Update(property, atomicRef));
+//			}
 		}
 	}
 

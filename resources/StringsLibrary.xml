@@ -56,6 +56,7 @@
 	<!-- Task messages. -->
 	
 	<entry key="taskCancelled">Cancelled</entry>
+	<entry key="taskException">Task exception</entry>
 	<entry key="taskFailed">Failed</entry>
 	<entry key="taskSucceeded">Succeeded</entry>
 	<entry key="taskParallel">Parallel processing...</entry>
