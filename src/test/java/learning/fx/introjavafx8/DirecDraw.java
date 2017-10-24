@@ -24,7 +24,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -56,9 +58,7 @@ public class DirecDraw extends Application {
 
 		@Override
 		public void resize(double width, double height) {
-//			super.resize(width, height);
 			display(this, getGraphicsContext2D());
-			System.out.println(width+", "+height);
 		}
 
 	}
@@ -74,15 +74,29 @@ public class DirecDraw extends Application {
 		BorderPane root = new BorderPane();
 
 		// The canvas in the center.
-		Pane center = new Pane();
-		center.setStyle("-fx-background-color: #336699;");
-		root.setCenter(center);
+		StackPane center = new StackPane();
+//		center.setStyle("-fx-background-color: #336699;");
+//		root.setCenter(center);
+		
 		Canvas canvas = new XCanvas();
-		canvas.setOpacity(50);
+		canvas.setOpacity(100);
+		canvas.setStyle("-fx-background-color: white");
 		center.getChildren().addAll(canvas);
 		canvas.widthProperty().bind(Bindings.selectDouble(canvas.parentProperty(), "width"));
 		canvas.heightProperty().bind(Bindings.selectDouble(canvas.parentProperty(), "height"));
-
+		
+		Pane pane = new Pane();
+		pane.setOpacity(100);
+		pane.setStyle("-fx-background-color: red;");
+//		root.setCenter(pane);
+//		center.getChildren().addAll(pane);
+		
+		Button hola = new Button("Hola");
+		hola.setLayoutX(10);
+		hola.setLayoutY(10);
+		pane.getChildren().add(hola);
+		
+		
 		// Buttons
 		Button btnChangeColor = new Button("Change color");
 		Button btnChangeScale = new Button("Change scale");
@@ -91,7 +105,7 @@ public class DirecDraw extends Application {
 		root.setBottom(bottom);
 
 		// Scene
-		Scene scene = new Scene(root, 480, 480);
+		Scene scene = new Scene(pane, 480, 480);
 		stage.setScene(scene);
 
 		GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -128,7 +142,10 @@ public class DirecDraw extends Application {
 		double w = canvas.getWidth();
 		double h = canvas.getHeight();
 		
-		gc.clearRect(0, 0, w * (small ? 2.0 : 1.0), h * (small ? 2.0 : 1.0));
+		Paint fill = gc.getFill();
+		gc.setFill(Color.WHITE);
+		gc.fillRect(0, 0, w * (small ? 2.0 : 1.0), h * (small ? 2.0 : 1.0));
+		gc.setFill(fill);
 		
 		gc.strokeLine(0, 0, w / 2.0, h / 2.0);
 		gc.strokeOval(w / 4.0, w / 4.0, w / 2.0, h / 2.0);

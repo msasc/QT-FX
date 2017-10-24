@@ -27,7 +27,7 @@ import javafx.stage.Stage;
  * 
  * @author Miquel Sas
  */
-public class TestTaskPaneNew extends Application {
+public class TestPaneTask extends Application {
 
 	/** Logger configuration. */
 	static {
@@ -46,10 +46,10 @@ public class TestTaskPaneNew extends Application {
 		task.setTitle("Title of the task");
 		task.setIterations(1000000000);
 		task.setSleep(-1);
-		task.setModule(1000000);
+		task.setModule(10000);
 		task.setIndeterminate(false);
-		task.setThrowException(true);
-		task.setThrowAfterIterations(200000000);
+//		task.setThrowException(true);
+//		task.setThrowAfterIterations(200000000);
 
 		TaskPane taskPane = new TaskPane(task);
 

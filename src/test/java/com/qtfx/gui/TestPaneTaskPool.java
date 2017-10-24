@@ -14,9 +14,9 @@
 
 package com.qtfx.gui;
 
-import com.qtfx.library.gui.old.TaskPane;
-import com.qtfx.library.task.old.SampleTask;
-import com.qtfx.library.task.old.TaskPool;
+import com.qtfx.library.gui.TaskPane;
+import com.qtfx.library.task.TaskPool;
+import com.qtfx.library.task.sample.SampleTaskRun;
 import com.qtfx.library.util.TextServer;
 
 import javafx.application.Application;
@@ -28,7 +28,7 @@ import javafx.stage.Stage;
  * 
  * @author Miquel Sas
  */
-public class TestTaskPanePool extends Application {
+public class TestPaneTaskPool extends Application {
 
 	/** Logger configuration. */
 	static {
@@ -45,21 +45,20 @@ public class TestTaskPanePool extends Application {
 		
 		TaskPool taskPool = new TaskPool();
 		taskPool.setTitle("Task pool");
-		taskPool.setProgressDecimals(1);
-//		taskPool.setParallelism(4);
+//		taskPool.setParallelism(20);
 		
-		int taskCount = 20;
+		int taskCount = 10;
 		for (int i = 0; i < taskCount; i++) {
-			SampleTask task = new SampleTask();
+			SampleTaskRun task = new SampleTaskRun();
 			task.setTitle("Task " + i);
-			task.setIterations(100000000);
+			task.setIterations(1000000000);
 			task.setSleep(-1);
-			task.setCountSeconds(1);
-			task.setModule(1000);
+			task.setCountSeconds(2);
+			task.setModule(1000000);
 			task.setIndeterminate(false);
 //			if (i == 5) {
 //				task.setThrowException(true);
-//				task.setThrowAfterIterations(5000000);
+//				task.setThrowAfterIterations(5000);
 //			}
 			taskPool.addTask(task);
 		}

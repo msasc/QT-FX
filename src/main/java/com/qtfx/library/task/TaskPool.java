@@ -19,23 +19,55 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.qtfx.library.util.TextServer;
+
 /**
- * A task that executes other tasks in concurrent pool.
+ * A task that executes other tasks in concurrent pool. If one of the tasks of the pool is indeterminate, then all are
+ * considered indeterminate.
  *
  * @author Miquel Sas
  */
 public class TaskPool extends Task {
+	
+	/**
+	 * Counter task.
+	 */
+	class Counter extends TaskAdapter {
+		TaskRun task;
+		Counter(TaskRun task) {
+			this.task = task;
+		}
+		@Override
+		protected void compute() {
+			task.setTotalWork(task.requestTotalWork());
+			getLock().lock();
+			try {
+				TaskPool.this.setTotalWork(TaskPool.this.getTotalWork() + task.getTotalWork());
+				TaskPool.this.updateProgressMessage();
+				TaskPool.this.updateTimeMessage(true);
+			} finally {
+				getLock().unlock();
+			}
+		}		
+	}
 
 	/** List of tasks to run concurrently. */
 	private List<TaskRun> tasks = new ArrayList<>();
 	/** Lock used by tasks that run in this parent pool. */
-	private ReentrantLock lock;
+	private ReentrantLock lock = new ReentrantLock();
+	/** Parallelism. */
+	private int parallelism = Runtime.getRuntime().availableProcessors();
+	/** Pool. */
+	private JoinPool pool;
+	/** Indeterminate flag. */
+	private Boolean indeterminate = null;
 
 	/**
 	 * Default constructor.
 	 */
 	public TaskPool() {
 		super();
+		setStateChangeListener();
 	}
 
 	/**
@@ -45,6 +77,23 @@ public class TaskPool extends Task {
 	 */
 	public TaskPool(Locale locale) {
 		super(locale);
+		setStateChangeListener();
+	}
+
+	/**
+	 * Set the state change listener. When a task fails with an exception, the task pool issues a cancel. this listener
+	 * scans the tasks and if one has failed sets the state of this parent pool to failed also.
+	 */
+	private void setStateChangeListener() {
+		stateProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue.equals(State.CANCELLED)) {
+				for (TaskRun task : tasks) {
+					if (task.stateProperty().get().equals(State.FAILED)) {
+						setState(State.FAILED);
+					}
+				}
+			}
+		});
 	}
 
 	/**
@@ -65,10 +114,103 @@ public class TaskPool extends Task {
 	}
 
 	/**
+	 * Return the parallelism or number of concurrent threads.
+	 * 
+	 * @return The parallelism.
+	 */
+	public int getParallelism() {
+		return parallelism;
+	}
+
+	/**
+	 * Set the parallelism or number of concurrent threads.
+	 * 
+	 * @param parallelism The parallelism.
+	 */
+	public void setParallelism(int parallelism) {
+		this.parallelism = parallelism;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void compute() throws Exception {
+	public boolean cancel(boolean mayInterruptIfRunning) {
+		boolean flag = super.cancel(mayInterruptIfRunning);
+		for (TaskRun task : tasks) {
+			flag = task.cancel(mayInterruptIfRunning);
+		}
+		pool.shutdown();
+		return flag;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void reinitialize() {
+		indeterminate = null;
+		tasks.forEach(t -> t.reinitialize());
+		super.reinitialize();
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isIndeterminate() {
+		if (indeterminate == null) {
+			indeterminate = false;
+			for (Task task : tasks) {
+				if (task.isIndeterminate()) {
+					indeterminate = true;
+					break;
+				}
+			}
+		}
+		return indeterminate;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void updateProgress(double workDone, double totalWork) {
+		super.updateProgress(workDone, totalWork);
+		updateProgressMessage();
+		updateTimeMessage();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void compute() {
+		
+		// Instantiate the pool.
+		pool = new JoinPool(parallelism);
+
+		// Reinitialize all tasks.
+		reinitialize();
+
+		// Check indeterminate.
+		if (isIndeterminate()) {
+			// Tag all to act as indeterminate.
+			tasks.forEach(task -> task.setIndeterminate(true));
+		} else {
+			setWorkDone(0);
+			setTotalWork(0);
+			// Count.
+			List<Counter> counters = new ArrayList<>();
+			tasks.forEach(task -> counters.add(new Counter(task)));
+			updateCounting();
+			pool.invokeTasks(counters);
+		}
+
+		// Do process tasks.
+		updateMessage(TextServer.getString("taskParallel", getLocale()));
+		pool.invokeTasks(tasks);
+		pool.shutdown();
 	}
 
 	/**

@@ -12,14 +12,17 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.library.task.old;
+package com.qtfx.library.task.sample;
+
+import com.qtfx.library.task.TaskRun;
+import com.qtfx.library.util.Random;
 
 /**
  * Sample task useful to test the task and task pane usages.
  *
  * @author Miquel Sas
  */
-public class SampleTask extends Task {
+public class SampleTaskRun extends TaskRun {
 
 	/** Total number of iterations. */
 	private long iterations;
@@ -34,14 +37,12 @@ public class SampleTask extends Task {
 	/** Throw after iterations. */
 	private long throwAfterIterations;
 	/** Count seconds. */
-	private long countSeconds = 3;
-	/** Check previously counted. */
-	private boolean preCounted = false;
+	private int countSeconds = 3;
 
 	/**
 	 * Constructor.
 	 */
-	public SampleTask() {
+	public SampleTaskRun() {
 		super();
 	}
 
@@ -90,7 +91,7 @@ public class SampleTask extends Task {
 	/**
 	 * @param countSeconds the countSeconds to set
 	 */
-	public void setCountSeconds(long countSeconds) {
+	public void setCountSeconds(int countSeconds) {
 		this.countSeconds = countSeconds;
 	}
 
@@ -98,32 +99,41 @@ public class SampleTask extends Task {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void requestTotalWork() {
-		if (countSeconds > 0) {
-			try {
-				Thread.sleep(countSeconds * 1000);
-				updateProgress(0, iterations);
-			} catch (InterruptedException interrupted) {
-				if (isCancelled()) {
-					return;
-				}
-			}
-		}
-		preCounted = true;
+	public boolean isIndeterminate() {
+		return indeterminate;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Void call() throws Exception {
-		if (!preCounted && countSeconds > 0) {
-			updateCounting();
+	protected double requestTotalWork() {
+		if (!indeterminate && countSeconds > 0) {
 			try {
-				Thread.sleep(countSeconds * 1000);
+				long millis = Random.nextInt(countSeconds * 1000);
+				Thread.sleep(millis);
 			} catch (InterruptedException interrupted) {
 				if (isCancelled()) {
-					return null;
+					return -1;
+				}
+			}
+		}
+		return iterations;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void compute() throws Exception {
+		if (!indeterminate && countSeconds > 0) {
+			updateCounting();
+			try {
+				long millis = Random.nextInt(countSeconds * 1000);
+				Thread.sleep(millis);
+			} catch (InterruptedException interrupted) {
+				if (isCancelled()) {
+					return;
 				}
 			}
 		}
@@ -131,11 +141,8 @@ public class SampleTask extends Task {
 			if (isCancelled()) {
 				break;
 			}
-			if (i == 0 || module <= 0 || ((i + 1) % module == 0 || i == (iterations - 1))) {
-				updateMessage("Doing the work...");
-				if (indeterminate) {
-					updateProgressIndeterminate();
-				} else {
+			if (i == 0 || module <= 0 || Long.remainderUnsigned(i + 1, module) == 0 || i == (iterations - 1)) {
+				if (!indeterminate) {
 					updateProgress(i + 1, iterations);
 				}
 			}
@@ -154,7 +161,6 @@ public class SampleTask extends Task {
 				}
 			}
 		}
-		return null;
 	}
 
 }

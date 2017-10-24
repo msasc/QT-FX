@@ -14,14 +14,15 @@
 
 package com.qtfx.library.task.sample;
 
-import com.qtfx.library.task.Task;
+import com.qtfx.library.task.TaskAdapter;
+import com.qtfx.library.util.Random;
 
 /**
  * Sample task useful to test the task and task pane usages.
  *
  * @author Miquel Sas
  */
-public class SampleTask extends Task {
+public class SampleTask extends TaskAdapter {
 
 	/** Total number of iterations. */
 	private long iterations;
@@ -36,7 +37,7 @@ public class SampleTask extends Task {
 	/** Throw after iterations. */
 	private long throwAfterIterations;
 	/** Count seconds. */
-	private long countSeconds = 3;
+	private int countSeconds = 3;
 	/** Check previously counted. */
 	private boolean preCounted = false;
 
@@ -92,7 +93,7 @@ public class SampleTask extends Task {
 	/**
 	 * @param countSeconds the countSeconds to set
 	 */
-	public void setCountSeconds(long countSeconds) {
+	public void setCountSeconds(int countSeconds) {
 		this.countSeconds = countSeconds;
 	}
 
@@ -100,18 +101,8 @@ public class SampleTask extends Task {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void requestTotalWork() {
-		if (countSeconds > 0) {
-			try {
-				Thread.sleep(countSeconds * 1000);
-				updateProgress(0, iterations);
-			} catch (InterruptedException interrupted) {
-				if (isCancelled()) {
-					return;
-				}
-			}
-		}
-		preCounted = true;
+	public boolean isIndeterminate() {
+		return indeterminate;
 	}
 
 	/**
@@ -122,7 +113,8 @@ public class SampleTask extends Task {
 		if (!indeterminate && !preCounted && countSeconds > 0) {
 			updateCounting();
 			try {
-				Thread.sleep(countSeconds * 1000);
+				long millis = Random.nextInt(countSeconds * 1000);
+				Thread.sleep(millis);
 			} catch (InterruptedException interrupted) {
 				if (isCancelled()) {
 					return;
@@ -133,7 +125,7 @@ public class SampleTask extends Task {
 			if (isCancelled()) {
 				break;
 			}
-			if (i == 0 || module <= 0 || ((i + 1) % module == 0 || i == (iterations - 1))) {
+			if (i == 0 || module <= 0 || Long.remainderUnsigned(i + 1, module) == 0 || i == (iterations - 1)) {
 				if (!indeterminate) {
 					update("Doing the work...", i + 1, iterations);
 				} else {

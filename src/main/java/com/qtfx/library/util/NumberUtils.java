@@ -215,7 +215,7 @@ public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils {
 	 * Returns a list of increases to apply.
 	 * 
 	 * @param integerDigits The number of integer digits.
-	 * @param decimalDigits The numbeer of decimal digits.
+	 * @param decimalDigits The number of decimal digits.
 	 * @param multipliers The list of multipliers.
 	 * @return The list of increases.
 	 */

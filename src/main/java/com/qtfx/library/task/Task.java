@@ -14,7 +14,6 @@
 
 package com.qtfx.library.task;
 
-import java.awt.EventQueue;
 import java.sql.Timestamp;
 import java.util.Locale;
 import java.util.concurrent.ForkJoinTask;
@@ -25,7 +24,6 @@ import com.qtfx.library.util.NumberUtils;
 import com.qtfx.library.util.TextServer;
 import com.qtfx.library.util.ThreadUtils;
 
-import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -118,13 +116,6 @@ public abstract class Task extends ForkJoinTask<Void> {
 	private Locale locale;
 
 	/**
-	 * A boolean that indicates whether when this task has been instantiated the FX application thread was running. This
-	 * is important in the moment to update observable properties. It is assumed that the FX application thread will
-	 * never be launched after the class has been instantiated.
-	 */
-	private boolean fxApplicationThread;
-
-	/**
 	 * Default constructor.
 	 */
 	public Task() {
@@ -139,9 +130,6 @@ public abstract class Task extends ForkJoinTask<Void> {
 	public Task(Locale locale) {
 		super();
 		this.locale = locale;
-
-		// Check if the FX application thread is running.
-		fxApplicationThread = ThreadUtils.isFxApplicationThreadRunning();
 
 		// Add the listener to register the start time when the state changes to RUNNING.
 		state.addListener((observable, oldValue, newValue) -> {
@@ -221,14 +209,6 @@ public abstract class Task extends ForkJoinTask<Void> {
 	 */
 	public ReadOnlyDoubleProperty progressProperty() {
 		return progress.progress;
-	}
-
-	/**
-	 * Request total work. The implementor, if it knows or can calculate the total work, must call
-	 * <code>updateProgress(0, totalWork)</code>, if it does not know the total work must call
-	 * <code>updateProgress(-1, -1)</code> to set the task as indeterminate.
-	 */
-	protected void requestTotalWork() {
 	}
 
 	/**
@@ -347,9 +327,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 	 * 
 	 * @return A boolean.
 	 */
-	public boolean isIndeterminate() {
-		return workDone == -1;
-	}
+	public abstract boolean isIndeterminate();
 
 	/**
 	 * Updates the user message, the work done and total, the time and the progress messages.
@@ -361,8 +339,8 @@ public abstract class Task extends ForkJoinTask<Void> {
 	protected void update(String message, double workDone, double totalWork) {
 		updateProgress(workDone, totalWork);
 		updateMessage(message);
-		updateString(getMessageProgress(), progressMessage);
-		updateString(getMessageTime(), timeMessage);
+		updateProgressMessage();
+		updateTimeMessage();
 	}
 
 	/**
@@ -373,8 +351,8 @@ public abstract class Task extends ForkJoinTask<Void> {
 	protected void update(String message) {
 		updateProgress(-1, -1);
 		updateMessage(message);
-		updateString(getMessageProgress(), progressMessage);
-		updateString(getMessageTime(), timeMessage);
+		updateProgressMessage();
+		updateTimeMessage();
 	}
 
 	/**
@@ -409,7 +387,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 		this.totalWork = totalWorkFinal;
 
 		if (progress.reference.getAndSet(progress) == null) {
-			runLater(() -> {
+			ThreadUtils.runLater(() -> {
 				final Progress p = progress.reference.getAndSet(null);
 				p.workDone.set(workDoneFinal);
 				p.totalWork.set(totalWorkFinal);
@@ -450,6 +428,29 @@ public abstract class Task extends ForkJoinTask<Void> {
 	}
 
 	/**
+	 * Update the progress message.
+	 */
+	protected void updateProgressMessage() {
+		updateString(getMessageProgress(), progressMessage);
+	}
+
+	/**
+	 * Update the time message.
+	 */
+	protected void updateTimeMessage() {
+		updateString(getMessageTime(isIndeterminate()), timeMessage);
+	}
+
+	/**
+	 * Update the time message.
+	 * 
+	 * @param indeterminate A boolean to to force indeterminate message style.
+	 */
+	protected void updateTimeMessage(boolean indeterminate) {
+		updateString(getMessageTime(indeterminate), timeMessage);
+	}
+
+	/**
 	 * Update a string property.
 	 * 
 	 * @param str The string.
@@ -457,7 +458,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 	 */
 	private void updateString(String str, Message update) {
 		if (update.reference.getAndSet(str) == null) {
-			runLater(() -> {
+			ThreadUtils.runLater(() -> {
 				update.property.set(update.reference.getAndSet(null));
 			});
 		}
@@ -500,9 +501,10 @@ public abstract class Task extends ForkJoinTask<Void> {
 	/**
 	 * Return the time message.
 	 * 
+	 * @param indeterminate A boolean to to force indeterminate message style.
 	 * @return The time message.
 	 */
-	protected String getMessageTime() {
+	protected String getMessageTime(boolean indeterminate) {
 		double currenTime = System.currentTimeMillis();
 		timeElapsed = currenTime - timeStart;
 		StringBuilder b = new StringBuilder();
@@ -511,7 +513,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 		b.append(TextServer.getString("tokenElapsed", locale).toLowerCase());
 		b.append(" ");
 		b.append(getTimeString(timeElapsed));
-		if (!isIndeterminate()) {
+		if (!indeterminate) {
 			double progress = workDone / totalWork;
 			timeEstimated = timeElapsed / progress;
 			timeRemaining = timeEstimated - timeElapsed;
@@ -614,10 +616,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 	public boolean cancel(boolean mayInterruptIfRunning) {
 		boolean flag = super.cancel(mayInterruptIfRunning);
 		if (flag) {
-			// Set the state to CANCELLED.
-			runLater(() -> {
-				state.set(State.CANCELLED);
-			});
+			setState(State.CANCELLED);
 		}
 		return flag;
 	}
@@ -629,40 +628,36 @@ public abstract class Task extends ForkJoinTask<Void> {
 	protected final boolean exec() {
 
 		// Set state to RUNNING.
-		runLater(() -> {
-			state.set(State.RUNNING);
-		});
+		setState(State.RUNNING);
 
 		// Perform computation.
 		try {
 			compute();
 		} catch (Throwable ex) {
 			completeExceptionally(ex);
-			// Set state to FAILED.
-			runLater(() -> {
-				state.set(State.FAILED);
-			});
 		}
 
-		// If was not can cancelled, set the state to SUCCEDED.
-		if (!isCancelled() && !isCompletedAbnormally()) {
-			runLater(() -> {
-				state.set(State.SUCCEEDED);
-			});
+		// Check for state.
+		if (isCancelled()) {
+			setState(State.CANCELLED);
+			return false;
 		}
+		if (isCompletedAbnormally()) {
+			setState(State.FAILED);
+			return false;
+		}
+		setState(State.SUCCEEDED);
 		return true;
 	}
 
 	/**
-	 * Run later taking into account the platform.
+	 * Set the state.
 	 * 
-	 * @param r The runnable.
+	 * @param state The state.
 	 */
-	private void runLater(Runnable r) {
-		if (fxApplicationThread) {
-			Platform.runLater(r);
-		} else {
-			EventQueue.invokeLater(r);
-		}
+	protected void setState(State state) {
+		ThreadUtils.runLater(() -> {
+			this.state.set(state);
+		});
 	}
 }

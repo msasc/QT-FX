@@ -14,7 +14,10 @@
 
 package com.qtfx.library.util;
 
+import java.awt.EventQueue;
 import java.util.Collection;
+
+import javafx.application.Platform;
 
 /**
  * Thread utilities.
@@ -24,18 +27,30 @@ import java.util.Collection;
 public class ThreadUtils extends org.apache.commons.lang3.ThreadUtils {
 
 	/**
-	 * Check if the FX application thread is currently running.
-	 * 
-	 * @return A boolean.
+	 * A boolean that indicates whether when the FX application thread was running. This is important in the moment to
+	 * update observable properties.
 	 */
-	public static boolean isFxApplicationThreadRunning() {
-		Collection<Thread> threads = getAllThreads();
-		for (Thread thread : threads) {
-			if (thread.getName() != null && thread.getName().startsWith("JavaFX Application Thread")) {
-				return true;
+	private static Boolean fxApplicationThread = null;
+	
+	static {
+		if (fxApplicationThread == null) {
+			fxApplicationThread = false;
+			Collection<Thread> threads = getAllThreads();
+			for (Thread thread : threads) {
+				if (thread.getName() != null && thread.getName().startsWith("JavaFX")) {
+					fxApplicationThread = true;
+					break;
+				}
 			}
 		}
-		return false;
+	}
+
+	public static void runLater(Runnable r) {
+		if (fxApplicationThread) {
+			Platform.runLater(r);
+		} else {
+			EventQueue.invokeLater(r);
+		}
 	}
 
 }

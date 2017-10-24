@@ -68,6 +68,15 @@ public class Dialog {
 	}
 
 	/**
+	 * Return the parent stage.
+	 * 
+	 * @return The stage.
+	 */
+	protected Stage getStage() {
+		return stage;
+	}
+
+	/**
 	 * Set the button on the top pane.
 	 */
 	public void setButtonsTop() {
@@ -193,12 +202,12 @@ public class Dialog {
 				});
 			}
 		}
-		stage.getScene().setOnKeyPressed( e ->{
+		stage.getScene().setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ESCAPE) {
 				stage.close();
 			}
 		});
-		
+
 		// Do show.
 		stage.showAndWait();
 

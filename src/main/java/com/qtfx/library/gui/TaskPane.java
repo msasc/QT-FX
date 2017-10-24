@@ -16,12 +16,13 @@ package com.qtfx.library.gui;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.concurrent.ForkJoinPool;
 
+import com.qtfx.library.task.JoinPool;
 import com.qtfx.library.task.State;
 import com.qtfx.library.task.Task;
 import com.qtfx.library.util.Icons;
 import com.qtfx.library.util.TextServer;
+import com.qtfx.library.util.ThreadUtils;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
@@ -31,12 +32,16 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 /**
  * A pane to show the progress of a task
@@ -47,6 +52,8 @@ public class TaskPane extends Pane {
 
 	/** The task. */
 	private Task task;
+	/** Execution pool. */
+	private JoinPool pool;
 
 	/**
 	 * Constructor assigning the task.
@@ -147,12 +154,15 @@ public class TaskPane extends Pane {
 
 			// When ready the button action submits the task and changes to cancel.
 			if (!task.stateProperty().get().equals(State.RUNNING)) {
-				progressBar.progressProperty().bind(task.progressProperty());
-				buttonAction.setGraphic(Icons.get(Icons.FLAT_24x24_CANCEL));
-				buttonAction.setTooltip(new Tooltip(TextServer.getString("tooltipCancel")));
+				ThreadUtils.runLater(() -> {
+					progressBar.progressProperty().bind(task.progressProperty());
+					buttonAction.setGraphic(Icons.get(Icons.FLAT_24x24_CANCEL));
+					buttonAction.setTooltip(new Tooltip(TextServer.getString("tooltipCancel")));
+				});
 
 				task.reinitialize();
-				ForkJoinPool.commonPool().submit(task);
+				pool = new JoinPool();
+				pool.submit(task);
 			}
 
 			// When running, the button action cancels the current task.
@@ -172,6 +182,9 @@ public class TaskPane extends Pane {
 
 			// Leaving the running state.
 			if (oldValue.equals(State.RUNNING)) {
+
+				// Shutdown the pool.
+				pool.shutdown();
 
 				// If the task is indeterminate, unbind the progress bar to set the value to zero and stop flowing.
 				if (task.isIndeterminate()) {
@@ -206,11 +219,32 @@ public class TaskPane extends Pane {
 	 */
 	private void showException() {
 
+		Throwable exc = task.getException();
+		if (exc == null) {
+			return;
+		}
+
 		Dialog dialog = new Dialog(getScene().getWindow());
 		dialog.setButtonsBottom();
 		dialog.setTitle(TextServer.getString("taskException"));
+		dialog.getOptionPane().setPadding(new Insets(0, 10, 10, 10));
 		dialog.getOptionPane().getOptions().add(Option.ok());
 
+		VBox vbox = new VBox(10);
+		vbox.setPadding(new Insets(10, 10, 10, 10));
+		dialog.setCenter(vbox);
+
+		TextFlow message = new TextFlow();
+		Text text = new Text(exc.getLocalizedMessage());
+		text.setStyle("-fx-font-weight: bold");
+		message.getChildren().add(text);
+		vbox.getChildren().add(message);
+
+		ScrollPane scrollPane = new ScrollPane(new TextFlow(new Text(getStackTrace(exc))));
+		vbox.getChildren().add(scrollPane);
+
+		dialog.getStage().setMaxHeight(600);
+		dialog.getStage().setMaxWidth(800);
 		dialog.show();
 	}
 

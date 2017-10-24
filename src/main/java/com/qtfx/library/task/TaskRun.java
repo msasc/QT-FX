@@ -25,6 +25,12 @@ public abstract class TaskRun extends Task {
 	private TaskPool parent;
 
 	/**
+	 * A flag that forces the task to act indeterminate during notifications. If any task in the pool is indeterminate,
+	 * any notification is managed by the parent task pool.
+	 */
+	private boolean indeterminate = false;
+
+	/**
 	 * Constructor.
 	 */
 	public TaskRun() {
@@ -39,6 +45,101 @@ public abstract class TaskRun extends Task {
 	void setParent(TaskPool parent) {
 		this.parent = parent;
 	}
+	
+	/**
+	 * Request the total work. Called by the parent pool.
+	 * @return The total work.
+	 */
+	protected abstract double requestTotalWork();
+
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * This method does nothing when the task is tagged as indeterminate by the parent pool.
+	 */
+	@Override
+	protected void update(String message, double workDone, double totalWork) {
+		if (indeterminate) {
+			return;
+		}
+		super.update(message, workDone, totalWork);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * This method does nothing when the task is tagged as indeterminate by the parent pool.
+	 */
+	@Override
+	protected void update(String message) {
+		if (indeterminate) {
+			return;
+		}
+		super.update(message);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * This method does nothing when the task is tagged as indeterminate by the parent pool.
+	 */
+	@Override
+	protected void updateTitle(String title) {
+		if (indeterminate) {
+			return;
+		}
+		super.updateTitle(title);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * This method does nothing when the task is tagged as indeterminate by the parent pool.
+	 */
+	@Override
+	protected void updateMessage(String message) {
+		if (indeterminate) {
+			return;
+		}
+		super.updateMessage(message);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * This method does nothing when the task is tagged as indeterminate by the parent pool.
+	 */
+	@Override
+	protected void updateCounting() {
+		// TODO Auto-generated method stub
+		super.updateCounting();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * This method does nothing when the task is tagged as indeterminate by the parent pool.
+	 */
+	@Override
+	protected void updateProgressMessage() {
+		if (indeterminate) {
+			return;
+		}
+		super.updateProgressMessage();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * This method does nothing when the task is tagged as indeterminate by the parent pool.
+	 */
+	@Override
+	protected void updateTimeMessage() {
+		if (indeterminate) {
+			return;
+		}
+		super.updateTimeMessage();
+	}
 
 	/**
 	 * Update the work done by incrementally updating the parent work done.
@@ -51,7 +152,7 @@ public abstract class TaskRun extends Task {
 	 */
 	@Override
 	protected void updateProgress(double workDone, double totalWork) {
-		if (workDone < 0 || totalWork < 0) {
+		if (indeterminate || workDone < 0 || totalWork < 0) {
 			return;
 		}
 		parent.getLock().lock();
@@ -72,4 +173,12 @@ public abstract class TaskRun extends Task {
 		}
 	}
 
+	/**
+	 * Set the indeterminate flag.
+	 * 
+	 * @param indeterminate A boolean.
+	 */
+	void setIndeterminate(boolean indeterminate) {
+		this.indeterminate = indeterminate;
+	}
 }
