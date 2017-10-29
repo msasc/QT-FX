@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.qtfx.library.app.Session;
 import com.qtfx.library.mkt.data.Data;
 import com.qtfx.library.mkt.data.Instrument;
 import com.qtfx.library.mkt.data.Period;
@@ -54,17 +53,11 @@ public class DataInfo {
 	/** Map of output indexes. */
 	private Map<String, Integer> mapIndexes = new HashMap<>();
 	
-	/** The working session. */
-	private Session session;
-
 	/**
 	 * Constructor.
-	 * 
-	 * @param session The working session.
 	 */
-	public DataInfo(Session session) {
+	public DataInfo() {
 		super();
-		this.session = session;
 	}
 
 	/**
@@ -103,15 +96,6 @@ public class DataInfo {
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Returns the working session.
-	 * 
-	 * @return The working session.
-	 */
-	public Session getSession() {
-		return session;
 	}
 
 	/**
@@ -378,7 +362,7 @@ public class DataInfo {
 					b.append(": ");
 				}
 				b.append(
-					FormatUtils.formattedFromDouble(data.getValue(index), getTickScale(), getSession().getLocale()));
+					FormatUtils.formattedFromDouble(data.getValue(index), getTickScale()));
 			}
 		}
 		return b.toString();

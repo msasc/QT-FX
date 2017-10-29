@@ -13,7 +13,6 @@
  */
 package com.qtfx.library.mkt.data.info.validators;
 
-import com.qtfx.library.app.Session;
 import com.qtfx.library.db.Validator;
 import com.qtfx.library.db.Value;
 import com.qtfx.library.util.NumberUtils;
@@ -129,12 +128,11 @@ public class DoubleValidator extends Validator<Value> {
 	 * Returns the validation message related to the type validation. Normally a null should be returned when the
 	 * validate method returns true.
 	 *
-	 * @param session The working session.
 	 * @param value The argument type.
 	 * @return The validation message or null.
 	 */
 	@Override
-	public String getMessage(Session session, Value value) {
+	public String getMessage(Value value) {
 		if (value.getDouble() < minimum) {
 			StringBuilder b = new StringBuilder();
 			if (label != null) {

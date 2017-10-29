@@ -40,9 +40,9 @@ public class DirecDraw extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
+
 	class XCanvas extends Canvas {
-		
+
 		XCanvas() {
 			super();
 		}
@@ -62,7 +62,7 @@ public class DirecDraw extends Application {
 		}
 
 	}
-	
+
 	Color[] colors = { Color.RED, Color.BLUE, Color.GREEN, Color.BLACK };
 	int colorIdx = 0;
 	boolean small = false;
@@ -75,28 +75,32 @@ public class DirecDraw extends Application {
 
 		// The canvas in the center.
 		StackPane center = new StackPane();
-//		center.setStyle("-fx-background-color: #336699;");
-//		root.setCenter(center);
-		
+		// center.setStyle("-fx-background-color: #336699;");
+		// root.setCenter(center);
+
 		Canvas canvas = new XCanvas();
 		canvas.setOpacity(100);
 		canvas.setStyle("-fx-background-color: white");
 		center.getChildren().addAll(canvas);
 		canvas.widthProperty().bind(Bindings.selectDouble(canvas.parentProperty(), "width"));
 		canvas.heightProperty().bind(Bindings.selectDouble(canvas.parentProperty(), "height"));
-		
+
 		Pane pane = new Pane();
 		pane.setOpacity(100);
 		pane.setStyle("-fx-background-color: red;");
-//		root.setCenter(pane);
-//		center.getChildren().addAll(pane);
-		
+		// root.setCenter(pane);
+		// center.getChildren().addAll(pane);
+
 		Button hola = new Button("Hola");
 		hola.setLayoutX(10);
 		hola.setLayoutY(10);
 		pane.getChildren().add(hola);
-		
-		
+
+		hola.setOnAction((ActionEvent e) -> {
+			hola.setLayoutX(hola.getLayoutX() + 10);
+			hola.setLayoutY(hola.getLayoutY() + 10);
+		});
+
 		// Buttons
 		Button btnChangeColor = new Button("Change color");
 		Button btnChangeScale = new Button("Change scale");
@@ -137,16 +141,16 @@ public class DirecDraw extends Application {
 		stage.setTitle("Draw directly to a Canvas");
 		stage.show();
 	}
-	
+
 	private void display(Canvas canvas, GraphicsContext gc) {
 		double w = canvas.getWidth();
 		double h = canvas.getHeight();
-		
+
 		Paint fill = gc.getFill();
 		gc.setFill(Color.WHITE);
 		gc.fillRect(0, 0, w * (small ? 2.0 : 1.0), h * (small ? 2.0 : 1.0));
 		gc.setFill(fill);
-		
+
 		gc.strokeLine(0, 0, w / 2.0, h / 2.0);
 		gc.strokeOval(w / 4.0, w / 4.0, w / 2.0, h / 2.0);
 		// gc.strokeRect(0, h / 2.0, w / 8.0, h / 2.0);

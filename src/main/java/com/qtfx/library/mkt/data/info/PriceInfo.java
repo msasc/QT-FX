@@ -13,7 +13,6 @@
  */
 package com.qtfx.library.mkt.data.info;
 
-import com.qtfx.library.app.Session;
 import com.qtfx.library.mkt.data.Data;
 import com.qtfx.library.mkt.data.Instrument;
 import com.qtfx.library.mkt.data.Period;
@@ -28,12 +27,11 @@ public class PriceInfo extends DataInfo {
 	/**
 	 * Constructor assigning instrument and period.
 	 * 
-	 * @param session The working session.
 	 * @param instrument The instrument.
 	 * @param period The period.
 	 */
-	public PriceInfo(Session session, Instrument instrument, Period period) {
-		super(session);
+	public PriceInfo(Instrument instrument, Period period) {
+		super();
 		setInstrument(instrument);
 		setName(instrument.getId());
 		setDescription(instrument.getDescription());

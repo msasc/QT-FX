@@ -16,7 +16,6 @@ package com.qtfx.library.mkt.data.info;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qtfx.library.app.Session;
 import com.qtfx.library.db.Field;
 import com.qtfx.library.db.Value;
 
@@ -39,28 +38,12 @@ public class ParameterInfo {
 	 * The maximum number of accepted values, less equal zero for a variable list.
 	 */
 	private int maximumValues = 1;
-	/**
-	 * Working session.
-	 */
-	private Session session;
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param session The working session.
 	 */
-	public ParameterInfo(Session session) {
+	public ParameterInfo() {
 		super();
-		this.session = session;
-	}
-
-	/**
-	 * Returns the working session.
-	 * 
-	 * @return The working session.
-	 */
-	public Session getSession() {
-		return session;
 	}
 
 	/**
@@ -210,7 +193,7 @@ public class ParameterInfo {
 			throw new IllegalArgumentException("The field must be set.");
 		}
 		if (!field.validate(value)) {
-			throw new IllegalArgumentException(field.getValidationMessage(session, value));
+			throw new IllegalArgumentException(field.getValidationMessage(value));
 		}
 	}
 

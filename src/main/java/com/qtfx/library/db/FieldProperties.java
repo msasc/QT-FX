@@ -14,7 +14,7 @@
 
 package com.qtfx.library.db;
 
-import com.qtfx.library.app.Session;
+import com.qtfx.library.util.TextServer;
 
 /**
  * Provides field metadata as fields of the fields properties.
@@ -47,22 +47,15 @@ public class FieldProperties {
 	public static final String ASCENDING = "ASC";
 
 	/**
-	 * The working session.
-	 */
-	private Session session;
-	/**
 	 * The properties field list.
 	 */
 	private FieldList fieldList;
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param session The working session.
 	 */
-	public FieldProperties(Session session) {
+	public FieldProperties() {
 		super();
-		this.session = session;
 	}
 
 	/**
@@ -106,9 +99,9 @@ public class FieldProperties {
 		Field field = new Field();
 		field.setName(GROUP_INDEX);
 		field.setAlias(GROUP_INDEX);
-		field.setTitle(session.getString("fieldGroupIndex"));
-		field.setLabel(session.getString("fieldGroupIndex"));
-		field.setHeader(session.getString("fieldGroupIndex"));
+		field.setTitle(TextServer.getString("fieldGroupIndex"));
+		field.setLabel(TextServer.getString("fieldGroupIndex"));
+		field.setHeader(TextServer.getString("fieldGroupIndex"));
 		field.setType(Types.INTEGER);
 		field.setPrimaryKey(true);
 		field.setFixedWidth(false);
@@ -124,9 +117,9 @@ public class FieldProperties {
 		Field field = new Field();
 		field.setName(INDEX);
 		field.setAlias(INDEX);
-		field.setTitle(session.getString("fieldIndex"));
-		field.setLabel(session.getString("fieldIndex"));
-		field.setHeader(session.getString("fieldIndex"));
+		field.setTitle(TextServer.getString("fieldIndex"));
+		field.setLabel(TextServer.getString("fieldIndex"));
+		field.setHeader(TextServer.getString("fieldIndex"));
 		field.setType(Types.INTEGER);
 		field.setPrimaryKey(true);
 		field.setFixedWidth(false);
@@ -142,9 +135,9 @@ public class FieldProperties {
 		Field field = new Field();
 		field.setName(GROUP);
 		field.setAlias(GROUP);
-		field.setTitle(session.getString("fieldGroup"));
-		field.setLabel(session.getString("fieldGroup"));
-		field.setHeader(session.getString("fieldGroup"));
+		field.setTitle(TextServer.getString("fieldGroup"));
+		field.setLabel(TextServer.getString("fieldGroup"));
+		field.setHeader(TextServer.getString("fieldGroup"));
 		field.setType(Types.STRING);
 		field.setLength(60);
 		field.setFixedWidth(false);
@@ -160,9 +153,9 @@ public class FieldProperties {
 		Field field = new Field();
 		field.setName(NAME);
 		field.setAlias(NAME);
-		field.setTitle(session.getString("fieldName"));
-		field.setLabel(session.getString("fieldName"));
-		field.setHeader(session.getString("fieldName"));
+		field.setTitle(TextServer.getString("fieldName"));
+		field.setLabel(TextServer.getString("fieldName"));
+		field.setHeader(TextServer.getString("fieldName"));
 		field.setType(Types.STRING);
 		field.setLength(30);
 		field.setFixedWidth(false);
@@ -178,9 +171,9 @@ public class FieldProperties {
 		Field field = new Field();
 		field.setName(ALIAS);
 		field.setAlias(ALIAS);
-		field.setTitle(session.getString("fieldAlias"));
-		field.setLabel(session.getString("fieldAlias"));
-		field.setHeader(session.getString("fieldAlias"));
+		field.setTitle(TextServer.getString("fieldAlias"));
+		field.setLabel(TextServer.getString("fieldAlias"));
+		field.setHeader(TextServer.getString("fieldAlias"));
 		field.setType(Types.STRING);
 		field.setLength(30);
 		field.setFixedWidth(false);
@@ -196,9 +189,9 @@ public class FieldProperties {
 		Field field = new Field();
 		field.setName(HEADER);
 		field.setAlias(HEADER);
-		field.setTitle(session.getString("fieldHeader"));
-		field.setLabel(session.getString("fieldHeader"));
-		field.setHeader(session.getString("fieldHeader"));
+		field.setTitle(TextServer.getString("fieldHeader"));
+		field.setLabel(TextServer.getString("fieldHeader"));
+		field.setHeader(TextServer.getString("fieldHeader"));
 		field.setType(Types.STRING);
 		field.setLength(60);
 		field.setFixedWidth(false);
@@ -214,9 +207,9 @@ public class FieldProperties {
 		Field field = new Field();
 		field.setName(TITLE);
 		field.setAlias(TITLE);
-		field.setTitle(session.getString("fieldTitle"));
-		field.setLabel(session.getString("fieldTitle"));
-		field.setHeader(session.getString("fieldTitle"));
+		field.setTitle(TextServer.getString("fieldTitle"));
+		field.setLabel(TextServer.getString("fieldTitle"));
+		field.setHeader(TextServer.getString("fieldTitle"));
 		field.setType(Types.STRING);
 		field.setLength(60);
 		field.setFixedWidth(false);
@@ -232,9 +225,9 @@ public class FieldProperties {
 		Field field = new Field();
 		field.setName(TYPE);
 		field.setAlias(TYPE);
-		field.setTitle(session.getString("fieldType"));
-		field.setLabel(session.getString("fieldType"));
-		field.setHeader(session.getString("fieldType"));
+		field.setTitle(TextServer.getString("fieldType"));
+		field.setLabel(TextServer.getString("fieldType"));
+		field.setHeader(TextServer.getString("fieldType"));
 		field.setType(Types.STRING);
 		field.setLength(20);
 		field.setFixedWidth(false);
@@ -250,9 +243,9 @@ public class FieldProperties {
 		Field field = new Field();
 		field.setName(LENGTH);
 		field.setAlias(LENGTH);
-		field.setTitle(session.getString("fieldLength"));
-		field.setLabel(session.getString("fieldLength"));
-		field.setHeader(session.getString("fieldLength"));
+		field.setTitle(TextServer.getString("fieldLength"));
+		field.setLabel(TextServer.getString("fieldLength"));
+		field.setHeader(TextServer.getString("fieldLength"));
 		field.setType(Types.INTEGER);
 		field.setFixedWidth(false);
 		return field;
@@ -267,9 +260,9 @@ public class FieldProperties {
 		Field field = new Field();
 		field.setName(DECIMALS);
 		field.setAlias(DECIMALS);
-		field.setTitle(session.getString("fieldDecimals"));
-		field.setLabel(session.getString("fieldDecimals"));
-		field.setHeader(session.getString("fieldDecimals"));
+		field.setTitle(TextServer.getString("fieldDecimals"));
+		field.setLabel(TextServer.getString("fieldDecimals"));
+		field.setHeader(TextServer.getString("fieldDecimals"));
 		field.setType(Types.INTEGER);
 		field.setFixedWidth(false);
 		return field;
@@ -284,12 +277,12 @@ public class FieldProperties {
 		Field field = new Field();
 		field.setName(ASCENDING);
 		field.setAlias(ASCENDING);
-		field.setTitle(session.getString("fieldAsc"));
-		field.setLabel(session.getString("fieldAsc"));
-		field.setHeader(session.getString("fieldAsc"));
+		field.setTitle(TextServer.getString("fieldAsc"));
+		field.setLabel(TextServer.getString("fieldAsc"));
+		field.setHeader(TextServer.getString("fieldAsc"));
 		field.setType(Types.STRING);
-		field.addPossibleValue(new Value(session.getString("tokenAsc")));
-		field.addPossibleValue(new Value(session.getString("tokenDesc")));
+		field.addPossibleValue(new Value(TextServer.getString("tokenAsc")));
+		field.addPossibleValue(new Value(TextServer.getString("tokenDesc")));
 		field.setFixedWidth(false);
 		return field;
 	}
@@ -315,7 +308,7 @@ public class FieldProperties {
 		properties.setValue(LENGTH, field.getLength());
 		properties.setValue(DECIMALS, field.getDecimals());
 		// Special property
-		String strAscending = session.getString(ascending ? "tokenAsc" : "tokenDesc");
+		String strAscending = TextServer.getString(ascending ? "tokenAsc" : "tokenDesc");
 		properties.setValue(ASCENDING, strAscending);
 		// Set the source field that gave values to this properties.
 		properties.getProperties().setObject("Source", field);
@@ -441,7 +434,7 @@ public class FieldProperties {
 	 * @return The property value.
 	 */
 	public boolean getPropertyAscending(Record properties) {
-		return properties.getValue(ASCENDING).equals(session.getString("tokenAsc"));
+		return properties.getValue(ASCENDING).equals(TextServer.getString("tokenAsc"));
 	}
 
 	/**

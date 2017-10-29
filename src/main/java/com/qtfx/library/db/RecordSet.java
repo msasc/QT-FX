@@ -45,8 +45,7 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Constructor assigning the list of fields.
 	 * 
-	 * @param fields
-	 *            The list of fields.
+	 * @param fields The list of fields.
 	 */
 	public RecordSet(FieldList fields) {
 		super();
@@ -56,8 +55,7 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Sets the field list.
 	 *
-	 * @param fields
-	 *            The field list.
+	 * @param fields The field list.
 	 */
 	public void setFieldList(FieldList fields) {
 		this.fields = fields;
@@ -96,8 +94,7 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Get the field at the given index.
 	 *
-	 * @param index
-	 *            The index of the field.
+	 * @param index The index of the field.
 	 * @return The field.
 	 */
 	public Field getField(int index) {
@@ -107,8 +104,7 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Get a field by alias.
 	 *
-	 * @param alias
-	 *            The field alias.
+	 * @param alias The field alias.
 	 * @return The field or null if not found.
 	 */
 	public Field getField(String alias) {
@@ -134,8 +130,7 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Add a record to the list.
 	 *
-	 * @param record
-	 *            The record to add
+	 * @param record The record to add
 	 * @return A boolean indicating if the record has been added.
 	 */
 	public boolean add(Record record) {
@@ -151,10 +146,8 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Inserts a record at a given index.
 	 *
-	 * @param index
-	 *            The index.
-	 * @param record
-	 *            The record to insert.
+	 * @param index The index.
+	 * @param record The record to insert.
 	 */
 	public void add(int index, Record record) {
 		if (record.getFieldList() == null) {
@@ -169,8 +162,7 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Gets the insert index using the order key.
 	 *
-	 * @param record
-	 *            The record.
+	 * @param record The record.
 	 * @return The insert index.
 	 */
 	public int getInsertIndex(Record record) {
@@ -180,10 +172,8 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Gets the insert index using the order key.
 	 *
-	 * @param record
-	 *            The record.
-	 * @param order
-	 *            The order.
+	 * @param record The record.
+	 * @param order The order.
 	 * @return The insert index.
 	 */
 	public int getInsertIndex(Record record, Order order) {
@@ -203,8 +193,7 @@ public class RecordSet implements Iterable<Record> {
 	 * Get a record given its index in the record list.
 	 *
 	 * @return The Record.
-	 * @param index
-	 *            The index in the record list.
+	 * @param index The index in the record list.
 	 */
 	public Record get(int index) {
 		if (index < 0 || index >= size()) {
@@ -216,8 +205,7 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Find the index of the given record.
 	 *
-	 * @param record
-	 *            The record to find its index.
+	 * @param record The record to find its index.
 	 * @return The index of the given record.
 	 */
 	public int indexOf(Record record) {
@@ -227,8 +215,7 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Find the index of the given key.
 	 *
-	 * @param key
-	 *            The key to find its index.
+	 * @param key The key to find its index.
 	 * @return The index of the record with the given key.
 	 */
 	public int indexOf(OrderKey key) {
@@ -243,8 +230,7 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Check if the recordset contains the record.
 	 * 
-	 * @param record
-	 *            The record to check.
+	 * @param record The record to check.
 	 * @return A boolean.
 	 */
 	public boolean contains(Record record) {
@@ -252,10 +238,9 @@ public class RecordSet implements Iterable<Record> {
 	}
 
 	/**
-	 * Check if the recordset contains a record with the given primary key.
+	 * Check if the record set contains a record with the given primary key.
 	 * 
-	 * @param key
-	 *            The key to look for.
+	 * @param key The key to look for.
 	 * @return A boolean.
 	 */
 	public boolean contains(OrderKey key) {
@@ -274,8 +259,7 @@ public class RecordSet implements Iterable<Record> {
 	 * Remove a record given its index in the list.
 	 *
 	 * @return The removed record.
-	 * @param index
-	 *            The index in the list of records.
+	 * @param index The index in the list of records.
 	 */
 	public Record remove(int index) {
 		if (index < 0 || index >= size()) {
@@ -289,18 +273,15 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Sets a record given its index in the record list.
 	 *
-	 * @param index
-	 *            The index in the record list.
-	 * @param record
-	 *            The record.
+	 * @param index The index in the record list.
+	 * @param record The record.
 	 */
 	public void set(int index, Record record) {
 		records.set(index, record);
 	}
 
 	/**
-	 * Sort this list of records based on the order by key pointers, or in its
-	 * default the primary key pointers.
+	 * Sort this list of records based on the order by key pointers, or in its default the primary key pointers.
 	 */
 	public void sort() {
 		if (size() == 0) {
@@ -312,8 +293,7 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Sort this list of records based on the order stated by the argument order.
 	 *
-	 * @param order
-	 *            The <code>Order</code> to use in the sort.
+	 * @param order The <code>Order</code> to use in the sort.
 	 */
 	public void sort(Order order) {
 		sort(new RecordComparator(order));
@@ -322,8 +302,7 @@ public class RecordSet implements Iterable<Record> {
 	/**
 	 * Sort this list of records based on a comparator.
 	 *
-	 * @param comparator
-	 *            The comparator.
+	 * @param comparator The comparator.
 	 */
 	public void sort(Comparator<Record> comparator) {
 		Record[] recordArray = toArray();
@@ -352,11 +331,10 @@ public class RecordSet implements Iterable<Record> {
 	}
 
 	/**
-	 * Returns a recordset based on this recordset that meets the argument criteria.
+	 * Returns a record set based on this record set that meets the argument criteria.
 	 * 
-	 * @param criteria
-	 *            The criteria to meet.
-	 * @return The result recordset.
+	 * @param criteria The criteria to meet.
+	 * @return The result record set.
 	 */
 	public RecordSet getRecordSet(Criteria criteria) {
 		RecordSet recordSet = new RecordSet(fields);
@@ -369,8 +347,8 @@ public class RecordSet implements Iterable<Record> {
 	}
 
 	/**
-	 * Check if the recordset can be sorted. Default is true, overwrite this method
-	 * if the recorset implementation can not be sorted.
+	 * Check if the record set can be sorted. Default is true, overwrite this method if the recor set implementation can
+	 * not be sorted.
 	 * 
 	 * @return A boolean.
 	 */
@@ -379,8 +357,7 @@ public class RecordSet implements Iterable<Record> {
 	}
 
 	/**
-	 * Returns a string representation with the number of records listed limited to
-	 * 500.
+	 * Returns a string representation with the number of records listed limited to 500.
 	 * 
 	 * @return A string representation.
 	 */

@@ -13,8 +13,6 @@
  */
 package com.qtfx.library.db;
 
-import com.qtfx.library.app.Session;
-
 /**
  * A generic class to validate the convenience of a given type for a certain operation. Methods are intended to be
  * overwritten for convenience.
@@ -49,24 +47,22 @@ public class Validator<T> {
 	 * Returns the validation message related to the type validation. Normally a null should be returned when the
 	 * validate method returns true.
 	 *
-	 * @param session The working session.
 	 * @param type The argument type.
 	 * @return The validation message or null.
 	 */
-	public String getMessage(Session session, T type) {
-		return getMessage(session, type, null);
+	public String getMessage(T type) {
+		return getMessage(type, null);
 	}
 
 	/**
 	 * Returns the validation message related to the type validation. Normally a null should be returned when the
 	 * validate method returns true.
 	 *
-	 * @param session The working session.
 	 * @param type The argument type.
 	 * @param operation The operation to be performed on the type.
 	 * @return The validation message or null.
 	 */
-	public String getMessage(Session session, T type, Object operation) {
+	public String getMessage(T type, Object operation) {
 		return null;
 	}
 }

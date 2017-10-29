@@ -24,7 +24,6 @@ import java.util.List;
 
 import javax.swing.Action;
 
-import com.qtfx.library.app.Session;
 import com.qtfx.library.util.Properties;
 import com.qtfx.library.util.StringUtils;
 
@@ -151,9 +150,6 @@ public class Field implements Comparable<Object> {
 	private static final Integer PARENT_TABLE = index++;
 	/** Optional parent view */
 	private static final Integer PARENT_VIEW = index++;
-
-	/** The optinal working session. */
-	private static final Integer SESSION = index++;
 
 	/** Additional properties key. */
 	private static final Integer PROPERTIES = index++;
@@ -555,11 +551,10 @@ public class Field implements Comparable<Object> {
 	/**
 	 * Returns the validation message or null if validation is ok.
 	 *
-	 * @param session The working session.
 	 * @param value The value to check for the validation message.
 	 * @return The validation message or null if validation is ok.
 	 */
-	public String getValidationMessage(Session session, Value value) {
+	public String getValidationMessage(Value value) {
 
 		// Strict type
 		if (!value.getType().equals(getType())) {
@@ -599,7 +594,7 @@ public class Field implements Comparable<Object> {
 
 		// Validator
 		if (getValidator() != null) {
-			return getValidator().getMessage(session, value);
+			return getValidator().getMessage(value);
 		}
 
 		return null;
@@ -1528,24 +1523,6 @@ public class Field implements Comparable<Object> {
 	 */
 	public void setFieldGroup(FieldGroup fieldGroup) {
 		properties.setObject(FIELD_GROUP, fieldGroup);
-	}
-
-	/**
-	 * Returns the working session or null.
-	 * 
-	 * @return The working session.
-	 */
-	public Session getSession() {
-		return (Session) properties.getObject(SESSION);
-	}
-
-	/**
-	 * Set the working session.
-	 * 
-	 * @param session The working session.
-	 */
-	public void setSession(Session session) {
-		properties.setObject(SESSION, session);
 	}
 
 	/**

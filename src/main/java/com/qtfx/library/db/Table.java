@@ -17,7 +17,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qtfx.library.app.Session;
 import com.qtfx.library.db.ForeignKey.Segment;
 import com.qtfx.library.util.Properties;
 
@@ -95,10 +94,6 @@ public class Table implements Comparable<Object> {
 	 */
 	private Persistor persistor;
 	/**
-	 * Optional working session, not strictly necessary.
-	 */
-	private Session session;
-	/**
 	 * Optional and additional properties.
 	 */
 	private Properties properties;
@@ -108,34 +103,6 @@ public class Table implements Comparable<Object> {
 	 */
 	public Table() {
 		super();
-	}
-
-	/**
-	 * Constructor assigning the session.
-	 * 
-	 * @param session The working session.
-	 */
-	public Table(Session session) {
-		super();
-		this.session = session;
-	}
-
-	/**
-	 * Returns the working session.
-	 * 
-	 * @return The working session.
-	 */
-	public Session getSession() {
-		return session;
-	}
-
-	/**
-	 * Sets the working session.
-	 * 
-	 * @param session The working session.
-	 */
-	public void setSession(Session session) {
-		this.session = session;
 	}
 
 	/**
@@ -702,7 +669,7 @@ public class Table implements Comparable<Object> {
 	 * @param orderBy The order by index.
 	 */
 	public View getSimpleView(Order orderBy) {
-		View view = new View(getSession());
+		View view = new View();
 		view.setMasterTable(this);
 		for (int i = 0; i < getFieldCount(); i++) {
 			Field field = new Field(getField(i));

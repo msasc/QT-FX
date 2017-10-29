@@ -12,8 +12,9 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.library.app;
+package com.qtfx.library.gui.launch;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,8 @@ import java.util.Map;
 import com.qtfx.library.util.ListUtils;
 import com.qtfx.library.util.StringUtils;
 
+import javafx.application.Application;
+
 /**
  * Startup or command line argument manager.
  * 
@@ -29,17 +32,13 @@ import com.qtfx.library.util.StringUtils;
  */
 public class ArgumentManager {
 
-	/**
-	 * The list of defined arguments.
-	 */
+	/** The list of defined arguments. */
 	private List<Argument> arguments = new ArrayList<>();
-	/**
-	 * The map with parsed values.
-	 */
+	/** The map with parsed values. */
 	private Map<String, List<String>> valuesMap = new HashMap<>();
-	/**
-	 * List of errors occurred during parse.
-	 */
+	/** List of possible name-value separators. */
+	private List<String> nameValueSeparators = new ArrayList<>(ListUtils.asList("=", ":"));
+	/** List of errors occurred during parse. */
 	private List<String> errors = new ArrayList<>();
 
 	/**
@@ -79,7 +78,28 @@ public class ArgumentManager {
 	}
 
 	/**
-	 * Parse the command line arguments and validate them, returning <tt>false</tt> if any error ocurred.
+	 * Return the list of name-value separators to be setup. Default are "=" and ":".
+	 * 
+	 * @return The list of name-value separators to be setup.
+	 */
+	protected List<String> getNameValueSeparators() {
+		return nameValueSeparators;
+	}
+
+	/**
+	 * Parse the command line arguments and validate them, returning <tt>false</tt> if any error occurred.
+	 * 
+	 * @param params JavaFX application parameters.
+	 * @return A boolean.
+	 */
+	public boolean parse(Application.Parameters params) {
+		List<String> raw = params.getRaw();
+		String[] args = raw.toArray(new String[raw.size()]);
+		return parse(args);
+	}
+
+	/**
+	 * Parse the command line arguments and validate them, returning <tt>false</tt> if any error occurred.
 	 * 
 	 * @param args The command line arguments.
 	 * @return <tt>false</tt> if any error occurred.
@@ -103,10 +123,10 @@ public class ArgumentManager {
 			// Get the argument.
 			Argument argument = getArgument(arg);
 			if (argument == null) {
-				errors.add("Invalid argument " + getArg(arg));
+				errors.add("Invalid argument: " + getArg(arg));
 				continue;
 			}
-			
+
 			// List of passed values.
 			List<String> values = parseValues(argument, arg);
 
@@ -151,12 +171,12 @@ public class ArgumentManager {
 						continue;
 					}
 				}
-				
+
 				// Store the values.
 				valuesMap.put(argument.getName().toLowerCase(), values);
 				continue;
 			}
-			
+
 			// Should never come here.
 			errors.add("Argument " + argument.getName() + " unknown error");
 		}
@@ -173,12 +193,44 @@ public class ArgumentManager {
 	 */
 	private List<String> parseValues(Argument argument, String arg) {
 		List<String> values = new ArrayList<>();
-		if (getArg(arg).toLowerCase().startsWith(argument.getName().toLowerCase() + ":")) {
-			String valueString = arg.substring((argument.getName() + ":").length());
+		if (checkArgValue(argument, arg)) {
+			String valueString = getValueString(argument, arg);
 			String[] valueArray = StringUtils.parse(valueString, "+");
 			values.addAll(ListUtils.asList(valueArray));
 		}
 		return values;
+	}
+
+	/**
+	 * Return the value string.
+	 * 
+	 * @param argument The argument.
+	 * @param arg The command line argument.
+	 * @return The value string.
+	 */
+	private String getValueString(Argument argument, String arg) {
+		for (String sep : nameValueSeparators) {
+			if (getArg(arg).toLowerCase().startsWith(argument.getName().toLowerCase() + sep)) {
+				return getArg(arg).substring((argument.getName() + sep).length());
+			}
+		}
+		throw new IllegalSelectorException();
+	}
+
+	/**
+	 * Check if the argument has value.
+	 * 
+	 * @param argument The argument.
+	 * @param arg The command line argument.
+	 * @return A boolean.
+	 */
+	private boolean checkArgValue(Argument argument, String arg) {
+		for (String sep : nameValueSeparators) {
+			if (getArg(arg).toLowerCase().startsWith(argument.getName().toLowerCase() + sep)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -220,7 +272,7 @@ public class ArgumentManager {
 	 * @return A boolean that indicates whether they meet.
 	 */
 	private boolean isArgument(Argument argument, String arg) {
-		if (getArg(arg).toLowerCase().startsWith(argument.getName().toLowerCase() + ":")) {
+		if (checkArgValue(argument, arg)) {
 			return true;
 		}
 		if (getArg(arg).toLowerCase().equals(argument.getName().toLowerCase())) {
@@ -236,6 +288,10 @@ public class ArgumentManager {
 	 * @return The argument without the starting slash if present.
 	 */
 	private String getArg(String arg) {
+		// Do not consider starting slash.
+		if (arg.startsWith("--")) {
+			return arg.substring(2);
+		}
 		// Do not consider starting slash.
 		if (arg.startsWith("/")) {
 			return arg.substring(1);

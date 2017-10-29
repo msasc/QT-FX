@@ -337,6 +337,17 @@ public class FormatUtils {
 	public static String formattedFromDouble(double d, Locale locale) {
 		return NumberFormat.getNumberInstance(locale).format(d);
 	}
+	
+	/**
+	 * Convert from a <i>BigDecimal</i> forcing the scale.
+	 * 
+	 * @return A string.
+	 * @param d The <i>double</i> to convert.
+	 * @param scale The scale.
+	 */
+	public static String formattedFromDouble(double d, int scale) {
+		return formattedFromDouble(d, scale, Locale.getDefault());
+	}
 
 	/**
 	 * Convert from a <i>BigDecimal</i> forcing the scale.

@@ -12,7 +12,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.library.app;
+package com.qtfx.library.gui.launch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +21,26 @@ import com.qtfx.library.util.ListUtils;
 
 /**
  * Startup or command line argument to help the management, i.e. validation and reading in any order, of the
- * <tt>main</tt> arguments. The arguments must have the standard operating system format passed as the <tt>args</tt>
- * parameter in the <tt>main</tt>. Examples of arguments are, the slash is optional:
+ * <tt>main</tt> arguments or parameters in a JNLP file in the form of <name,value>. Examples of arguments are:
  * <ul>
- * <li>/arg_name</li>
- * <li>/arg_name:value</li>
- * <li>/arg_name:"value with spaces"</li>
- * <li>/arg_name:value_1+value_2+...+value_n</li>
+ * <li>unnamed</li>
+ * <li>name=value</li>
+ * <li>name="value_with_spaces"</li>
+ * <li>name=value_1+value_2+...+value_n</li>
+ * <li>name="value_with_spaces_1"+"value_with_spaces_2"+...+"value_with_spaces_n"</li>
+ * <li>--unnamed</li>
+ * <li>--name=value</li>
+ * <li>--name="value_with_spaces"</li>
+ * <li>--name=value_1+value_2+...+value_n</li>
+ * <li>--name="value_with_spaces_1"+"value_with_spaces_2"+...+"value_with_spaces_n"</li>
+ * <li>/unnamed</li>
+ * <li>/name=value</li>
+ * <li>/name="value_with_spaces"</li>
+ * <li>/name=value_1+value_2+...+value_n</li>
+ * <li>/name="value_with_spaces_1"+"value_with_spaces_2"+...+"value_with_spaces_n"</li>
  * </ul>
+ * Name-value separators can be =, : and any configured in the argument manager.
+ * <p>
  * <b>Arguments are not case sensitive.</b>
  * 
  * @author Miquel Sas
