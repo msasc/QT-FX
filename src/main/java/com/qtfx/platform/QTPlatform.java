@@ -189,7 +189,6 @@ public class QTPlatform extends Application {
 			itemServers.getItems().add(itemServer);
 		}
 		
-		
 		menuBar.getMenus().add(itemFile);
 		menuBar.getMenus().add(itemServers);
 		return menuBar;
