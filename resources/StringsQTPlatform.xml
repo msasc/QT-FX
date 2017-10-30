@@ -3,6 +3,9 @@
 <properties>
 	<comment>QT Platform strings</comment>
 
-	<entry key="qtMenuServers">Supported broker servers</entry>
+	<entry key="menuExit">Exit</entry>
+	<entry key="menuFile">File</entry>
+	<entry key="menuServers">Supported servers</entry>
+	<entry key="menuSyncInstruments">Synchronize instruments</entry>
 	
 </properties>

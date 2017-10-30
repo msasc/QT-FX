@@ -31,14 +31,17 @@ import com.qtfx.library.db.rdbms.DBEngineAdapter;
 import com.qtfx.library.db.rdbms.DataSourceInfo;
 import com.qtfx.library.db.rdbms.adapters.PostgreSQLAdapter;
 import com.qtfx.library.gui.Alert;
+import com.qtfx.library.gui.StatusBar;
 import com.qtfx.library.gui.launch.Argument;
 import com.qtfx.library.gui.launch.ArgumentManager;
 import com.qtfx.library.mkt.data.Filter;
 import com.qtfx.library.mkt.data.Period;
 import com.qtfx.library.mkt.server.OfferSide;
 import com.qtfx.library.mkt.server.Server;
+import com.qtfx.library.mkt.server.ServerException;
 import com.qtfx.library.mkt.server.ServerFactory;
 import com.qtfx.library.util.TextServer;
+import com.qtfx.platform.action.ActionSynchronizeInstruments;
 import com.qtfx.platform.db.Fields;
 import com.qtfx.platform.db.Schemas;
 import com.qtfx.platform.db.Tables;
@@ -53,8 +56,6 @@ import com.qtfx.platform.util.PersistorUtils;
 import com.qtfx.platform.util.RecordUtils;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -110,6 +111,11 @@ public class QTPlatform extends Application {
 		// Root.
 		BorderPane root = new BorderPane();
 		
+		// A bottom status bar.
+		StatusBar statusBar = new StatusBar();
+		statusBar.setId("status-bar");
+		root.setBottom(statusBar);
+		
 		try {
 			// Ensure database.
 			LOGGER.info("Database checking...");
@@ -118,7 +124,7 @@ public class QTPlatform extends Application {
 
 			// Configure and set the menu.
 			LOGGER.info("Configuring menu...");
-			MenuBar menuBar = configureMenu(primaryStage);
+			MenuBar menuBar = configureMenu(primaryStage, statusBar);
 			root.setTop(menuBar);
 			
 		} catch (Exception exc) {
@@ -151,20 +157,41 @@ public class QTPlatform extends Application {
 	 * Configure the menu bar.
 	 * 
 	 * @return The menu bar.
+	 * @throws ServerException If a server exception occurs.
 	 */
-	private MenuBar configureMenu(Stage primaryStage) {
+	private MenuBar configureMenu(Stage primaryStage, StatusBar statusBar) throws ServerException {
 		MenuBar menuBar = new MenuBar();
 		
-		Menu itemFile = new Menu("File");
-		
-		MenuItem itemExit = new MenuItem("Exit");
+		Menu itemFile = new Menu(TextServer.getString("menuFile"));
+		MenuItem itemExit = new MenuItem(TextServer.getString("menuExit"));
 		itemExit.setOnAction(e -> {
 			primaryStage.close();
+			System.exit(0);
 		});
-		
 		itemFile.getItems().add(itemExit);
 		
+		Menu itemServers = new Menu(TextServer.getString("menuServers"));
+		
+		// One menu item for each supported server.
+		List<Server> servers = ServerFactory.getSupportedServers();
+		for (Server server : servers) {
+			String name = server.getName();
+			
+			Menu itemServer = new Menu(name);
+			
+			MenuItem itemSync = new MenuItem(TextServer.getString("menuSyncInstruments"));
+			itemSync.setOnAction(e -> {
+				ActionSynchronizeInstruments a = new ActionSynchronizeInstruments(server, statusBar);
+				a.handle(e);
+			});
+			itemServer.getItems().add(itemSync);
+			
+			itemServers.getItems().add(itemServer);
+		}
+		
+		
 		menuBar.getMenus().add(itemFile);
+		menuBar.getMenus().add(itemServers);
 		return menuBar;
 	}
 
