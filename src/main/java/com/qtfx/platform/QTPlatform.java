@@ -41,6 +41,8 @@ import com.qtfx.library.mkt.server.Server;
 import com.qtfx.library.mkt.server.ServerException;
 import com.qtfx.library.mkt.server.ServerFactory;
 import com.qtfx.library.util.TextServer;
+import com.qtfx.platform.action.ActionAvailableInstruments;
+import com.qtfx.platform.action.ActionExitApplication;
 import com.qtfx.platform.action.ActionSynchronizeInstruments;
 import com.qtfx.platform.db.Fields;
 import com.qtfx.platform.db.Schemas;
@@ -82,6 +84,29 @@ public class QTPlatform extends Application {
 	/** Logger instance. */
 	private static final Logger LOGGER = LogManager.getLogger();
 
+	/** Platform primary stage. */
+	private static Stage primaryStage;
+	/** Platform default status bar. */
+	private static StatusBar statusBar;
+
+	/**
+	 * Return the platform primary stage.
+	 * 
+	 * @return The primary stage.
+	 */
+	public static Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
+	/**
+	 * Return the default platform status bar.
+	 * 
+	 * @return The default platform status bar.
+	 */
+	public static StatusBar getStatusBar() {
+		return statusBar;
+	}
+
 	/**
 	 * Start and launch the application.
 	 * 
@@ -100,6 +125,9 @@ public class QTPlatform extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
+		// Register the primary state.
+		QTPlatform.primaryStage = primaryStage;
+
 		// Default locale.
 		Locale.setDefault(Locale.UK);
 
@@ -110,12 +138,12 @@ public class QTPlatform extends Application {
 
 		// Root.
 		BorderPane root = new BorderPane();
-		
+
 		// A bottom status bar.
-		StatusBar statusBar = new StatusBar();
+		statusBar = new StatusBar();
 		statusBar.setId("status-bar");
 		root.setBottom(statusBar);
-		
+
 		try {
 			// Ensure database.
 			LOGGER.info("Database checking...");
@@ -124,23 +152,23 @@ public class QTPlatform extends Application {
 
 			// Configure and set the menu.
 			LOGGER.info("Configuring menu...");
-			MenuBar menuBar = configureMenu(primaryStage, statusBar);
+			MenuBar menuBar = configureMenu(primaryStage);
 			root.setTop(menuBar);
-			
+
 		} catch (Exception exc) {
 			LOGGER.catching(exc);
 			System.exit(0);
 		}
-		
+
 		// Scene.
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
-		
+
 		// Factor dimensions
 		primaryStage.setWidth(Screen.getPrimary().getBounds().getWidth() * 0.6);
 		primaryStage.setHeight(Screen.getPrimary().getBounds().getHeight() * 0.6);
 		primaryStage.centerOnScreen();
-		
+
 		// Full screen mode -> Ctrl-F11.
 		primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
 			if (e.getCode() == KeyCode.F11) {
@@ -149,46 +177,50 @@ public class QTPlatform extends Application {
 				}
 			}
 		});
-		
+
 		primaryStage.show();
 	}
-	
+
 	/**
 	 * Configure the menu bar.
 	 * 
 	 * @return The menu bar.
 	 * @throws ServerException If a server exception occurs.
 	 */
-	private MenuBar configureMenu(Stage primaryStage, StatusBar statusBar) throws ServerException {
+	private MenuBar configureMenu(Stage primaryStage) throws ServerException {
 		MenuBar menuBar = new MenuBar();
-		
+
 		Menu itemFile = new Menu(TextServer.getString("menuFile"));
 		MenuItem itemExit = new MenuItem(TextServer.getString("menuExit"));
 		itemExit.setOnAction(e -> {
-			primaryStage.close();
-			System.exit(0);
+			new ActionExitApplication().handle(e);
 		});
 		itemFile.getItems().add(itemExit);
-		
+
 		Menu itemServers = new Menu(TextServer.getString("menuServers"));
-		
+
 		// One menu item for each supported server.
 		List<Server> servers = ServerFactory.getSupportedServers();
 		for (Server server : servers) {
 			String name = server.getName();
-			
+
 			Menu itemServer = new Menu(name);
-			
+
 			MenuItem itemSync = new MenuItem(TextServer.getString("menuSyncInstruments"));
 			itemSync.setOnAction(e -> {
-				ActionSynchronizeInstruments a = new ActionSynchronizeInstruments(server, statusBar);
-				a.handle(e);
+				new ActionSynchronizeInstruments(server).handle(e);
 			});
 			itemServer.getItems().add(itemSync);
 			
+			MenuItem itemAvInst = new MenuItem(TextServer.getString("menuServersAvInst"));
+			itemAvInst.setOnAction(e -> {
+				new ActionAvailableInstruments(server).handle(e);
+			});
+			itemServer.getItems().add(itemAvInst);
+
 			itemServers.getItems().add(itemServer);
 		}
-		
+
 		menuBar.getMenus().add(itemFile);
 		menuBar.getMenus().add(itemServers);
 		return menuBar;

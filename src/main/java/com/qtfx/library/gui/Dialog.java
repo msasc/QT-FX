@@ -14,6 +14,10 @@
 
 package com.qtfx.library.gui;
 
+import java.util.List;
+
+import com.qtfx.library.util.SceneUtils;
+
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -232,6 +236,10 @@ public class Dialog {
 		}
 
 		// Return the result option, can be null.
+		List<Node> nodes = SceneUtils.getNodes(result.getButton().getScene());
+		for (Node node : nodes) {
+			System.out.println(node.getClass().getName() + ": " + node.getId());
+		}
 		return result;
 	}
 }

@@ -22,9 +22,9 @@ import org.apache.logging.log4j.Logger;
 import com.qtfx.library.db.Criteria;
 import com.qtfx.library.db.Persistor;
 import com.qtfx.library.db.Record;
-import com.qtfx.library.gui.StatusBar;
 import com.qtfx.library.mkt.data.Instrument;
 import com.qtfx.library.mkt.server.Server;
+import com.qtfx.platform.QTPlatform;
 import com.qtfx.platform.ServerConnector;
 import com.qtfx.platform.db.Fields;
 import com.qtfx.platform.util.PersistorUtils;
@@ -41,8 +41,8 @@ public class ActionSynchronizeInstruments implements EventHandler<ActionEvent> {
 
 	/** Logger instance. */
 	private static final Logger LOGGER = LogManager.getLogger();
-	/** Statud id. */
-	private static final String statId = "sync-inst";
+	/** Status id. */
+	private static final String statusId = "sync-inst";
 
 	/**
 	 * Runnable to perform synchronizing.
@@ -51,17 +51,17 @@ public class ActionSynchronizeInstruments implements EventHandler<ActionEvent> {
 		@Override
 		public void run() {
 			try {
-				statusBar.setStatus(statId, "Connecting to server " + server.getName(), 1d, 5d);
+				QTPlatform.getStatusBar().setStatus(statusId, "Connecting to server " + server.getName(), 1d, 5d);
 				ServerConnector.connect(server);
 				
-				statusBar.setStatus(statId, "Retrieving available instruments", 2, 5);
+				QTPlatform.getStatusBar().setStatus(statusId, "Retrieving available instruments", 2, 5);
 				List<Instrument> instruments = server.getAvailableInstruments();
 				
-				statusBar.setStatus(statId, "Deleting registered instruments", 3, 5);
+				QTPlatform.getStatusBar().setStatus(statusId, "Deleting registered instruments", 3, 5);
 				Persistor persistor = PersistorUtils.getPersistorInstruments();
 				persistor.delete((Criteria) null);
 
-				statusBar.setStatus(statId, "Inserting available instruments", 4, 5);
+				QTPlatform.getStatusBar().setStatus(statusId, "Inserting available instruments", 4, 5);
 				for (Instrument instrument : instruments) {
 					Record record = persistor.getDefaultRecord();
 					record.setValue(Fields.SERVER_ID, server.getId());
@@ -81,31 +81,27 @@ public class ActionSynchronizeInstruments implements EventHandler<ActionEvent> {
 					persistor.insert(record);
 				}
 
-				statusBar.setStatus(statId, "Disconnecting from server " + server.getName(), 5, 5);
+				QTPlatform.getStatusBar().setStatus(statusId, "Disconnecting from server " + server.getName(), 5, 5);
 				ServerConnector.disconnect(server);
 
 			} catch (Exception exc) {
 				LOGGER.catching(exc);
 			} finally {
-				statusBar.removeStatus(statId);
+				QTPlatform.getStatusBar().removeStatus(statusId);
 			}
 		}
 	}
 
 	/** Server. */
 	private Server server;
-	/** Status bar. */
-	private StatusBar statusBar;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param server The server.
-	 * @param statusBar The status bar.
 	 */
-	public ActionSynchronizeInstruments(Server server, StatusBar statusBar) {
+	public ActionSynchronizeInstruments(Server server) {
 		this.server = server;
-		this.statusBar = statusBar;
 	}
 
 	/**

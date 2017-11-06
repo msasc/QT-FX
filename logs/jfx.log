@@ -1,52 +1,61 @@
-2017-10-30 14:51:14 ERROR com.qtfx.platform.action.ActionSynchronizeInstruments - Catching
-java.lang.IllegalStateException: Not on FX application thread; currentThread = Thread-5
-	at com.sun.javafx.tk.Toolkit.checkFxUserThread(Toolkit.java:236) ~[jfxrt.jar:?]
-	at com.sun.javafx.tk.quantum.QuantumToolkit.checkFxUserThread(QuantumToolkit.java:423) ~[jfxrt.jar:?]
-	at javafx.scene.Parent$2.onProposedChange(Parent.java:367) ~[jfxrt.jar:?]
-	at com.sun.javafx.collections.VetoableListDecorator.add(VetoableListDecorator.java:206) ~[jfxrt.jar:?]
-	at com.qtfx.library.gui.StatusBar.setLabel(StatusBar.java:81) ~[classes/:?]
-	at com.qtfx.library.gui.StatusBar.setStatus(StatusBar.java:149) ~[classes/:?]
-	at com.qtfx.platform.action.ActionSynchronizeInstruments$Synchronizer.run(ActionSynchronizeInstruments.java:54) [classes/:?]
+2017-11-04 09:35:25 ERROR com.qtfx.platform.QTPlatform - Catching
+com.qtfx.library.db.PersistorException: org.postgresql.util.PSQLException: Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+	at com.qtfx.library.db.rdbms.DBPersistorDDL.existsSchema(DBPersistorDDL.java:210) ~[classes/:?]
+	at com.qtfx.platform.QTPlatform.configureDatabase(QTPlatform.java:288) ~[classes/:?]
+	at com.qtfx.platform.QTPlatform.start(QTPlatform.java:150) ~[classes/:?]
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863) ~[jfxrt.jar:?]
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326) ~[jfxrt.jar:?]
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295) ~[jfxrt.jar:?]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_144]
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191) ~[jfxrt.jar:?]
 	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_144]
-2017-10-30 14:55:30 ERROR com.qtfx.platform.action.ActionSynchronizeInstruments - Catching
-java.lang.IllegalStateException: Not on FX application thread; currentThread = Thread-6
-	at com.sun.javafx.tk.Toolkit.checkFxUserThread(Toolkit.java:236) ~[jfxrt.jar:?]
-	at com.sun.javafx.tk.quantum.QuantumToolkit.checkFxUserThread(QuantumToolkit.java:423) ~[jfxrt.jar:?]
-	at javafx.scene.Parent$2.onProposedChange(Parent.java:367) ~[jfxrt.jar:?]
-	at com.sun.javafx.collections.VetoableListDecorator.add(VetoableListDecorator.java:206) ~[jfxrt.jar:?]
-	at com.qtfx.library.gui.StatusBar.setLabel(StatusBar.java:81) ~[classes/:?]
-	at com.qtfx.library.gui.StatusBar.setStatus(StatusBar.java:149) ~[classes/:?]
-	at com.qtfx.platform.action.ActionSynchronizeInstruments$Synchronizer.run(ActionSynchronizeInstruments.java:54) [classes/:?]
-	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_144]
-2017-10-30 14:59:42 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-10-30 14:59:57 ERROR com.qtfx.library.mkt.server.servers.dukascopy.DkConnectionManager - Failed to connect Dukascopy servers
-2017-10-30 15:02:00 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-10-30 15:02:14 ERROR com.qtfx.library.mkt.server.servers.dukascopy.DkConnectionManager - Failed to connect Dukascopy servers
-2017-10-30 15:02:14 ERROR com.qtfx.platform.action.ActionSynchronizeInstruments - Catching
-java.lang.IllegalStateException: Not connected
-	at com.dukascopy.api.impl.connect.DCClientImpl.startJFRunnable(DCClientImpl.java:1249) ~[greed-common-318.4.30.jar:318.4.30]
-	at com.dukascopy.api.impl.connect.DCClientImpl.startStrategy(DCClientImpl.java:1221) ~[greed-common-318.4.30.jar:318.4.30]
-	at com.qtfx.library.mkt.server.servers.dukascopy.DkConnectionManager.connect(DkConnectionManager.java:108) ~[classes/:?]
-	at com.qtfx.platform.ServerConnector.connect(ServerConnector.java:29) ~[classes/:?]
-	at com.qtfx.platform.action.ActionSynchronizeInstruments$Synchronizer.run(ActionSynchronizeInstruments.java:55) [classes/:?]
-	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_144]
-2017-10-30 15:03:59 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-10-30 15:04:14 ERROR com.qtfx.library.mkt.server.servers.dukascopy.DkConnectionManager - Failed to connect Dukascopy servers
-2017-10-30 15:04:14 ERROR com.qtfx.platform.action.ActionSynchronizeInstruments - Catching
-java.lang.IllegalStateException: Not connected
-	at com.dukascopy.api.impl.connect.DCClientImpl.startJFRunnable(DCClientImpl.java:1249) ~[greed-common-318.4.30.jar:318.4.30]
-	at com.dukascopy.api.impl.connect.DCClientImpl.startStrategy(DCClientImpl.java:1221) ~[greed-common-318.4.30.jar:318.4.30]
-	at com.qtfx.library.mkt.server.servers.dukascopy.DkConnectionManager.connect(DkConnectionManager.java:108) ~[classes/:?]
-	at com.qtfx.platform.ServerConnector.connect(ServerConnector.java:29) ~[classes/:?]
-	at com.qtfx.platform.action.ActionSynchronizeInstruments$Synchronizer.run(ActionSynchronizeInstruments.java:55) [classes/:?]
-	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_144]
-2017-10-30 15:04:53 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-10-30 15:05:06 ERROR com.qtfx.library.mkt.server.servers.dukascopy.DkConnectionManager - Failed to connect Dukascopy servers
-2017-10-30 15:05:06 ERROR com.qtfx.platform.action.ActionSynchronizeInstruments - Catching
-java.lang.IllegalStateException: Not connected
-	at com.dukascopy.api.impl.connect.DCClientImpl.startJFRunnable(DCClientImpl.java:1249) ~[greed-common-318.4.30.jar:318.4.30]
-	at com.dukascopy.api.impl.connect.DCClientImpl.startStrategy(DCClientImpl.java:1221) ~[greed-common-318.4.30.jar:318.4.30]
-	at com.qtfx.library.mkt.server.servers.dukascopy.DkConnectionManager.connect(DkConnectionManager.java:108) ~[classes/:?]
-	at com.qtfx.platform.ServerConnector.connect(ServerConnector.java:29) ~[classes/:?]
-	at com.qtfx.platform.action.ActionSynchronizeInstruments$Synchronizer.run(ActionSynchronizeInstruments.java:55) [classes/:?]
-	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_144]
+Caused by: org.postgresql.util.PSQLException: Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:262) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:52) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:216) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.Driver.makeConnection(Driver.java:404) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.Driver.connect(Driver.java:272) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at java.sql.DriverManager.getConnection(DriverManager.java:664) ~[?:1.8.0_144]
+	at java.sql.DriverManager.getConnection(DriverManager.java:247) ~[?:1.8.0_144]
+	at org.postgresql.ds.common.BaseDataSource.getConnection(BaseDataSource.java:86) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.ds.common.BaseDataSource.getConnection(BaseDataSource.java:71) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.ds.PGConnectionPoolDataSource.getPooledConnection(PGConnectionPoolDataSource.java:58) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.ds.PGPoolingDataSource.getPooledConnection(PGPoolingDataSource.java:378) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.ds.PGPoolingDataSource.getConnection(PGPoolingDataSource.java:323) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at com.qtfx.library.db.rdbms.DBEngine.getConnection(DBEngine.java:105) ~[classes/:?]
+	at com.qtfx.library.db.MetaData.getRecordSetSchemas(MetaData.java:289) ~[classes/:?]
+	at com.qtfx.library.db.MetaData.existsSchema(MetaData.java:492) ~[classes/:?]
+	at com.qtfx.library.db.rdbms.DBPersistorDDL.existsSchema(DBPersistorDDL.java:208) ~[classes/:?]
+	... 11 more
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method) ~[?:1.8.0_144]
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:85) ~[?:1.8.0_144]
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350) ~[?:1.8.0_144]
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206) ~[?:1.8.0_144]
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188) ~[?:1.8.0_144]
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172) ~[?:1.8.0_144]
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392) ~[?:1.8.0_144]
+	at java.net.Socket.connect(Socket.java:589) ~[?:1.8.0_144]
+	at org.postgresql.core.PGStream.<init>(PGStream.java:61) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:144) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:52) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:216) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.Driver.makeConnection(Driver.java:404) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.Driver.connect(Driver.java:272) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at java.sql.DriverManager.getConnection(DriverManager.java:664) ~[?:1.8.0_144]
+	at java.sql.DriverManager.getConnection(DriverManager.java:247) ~[?:1.8.0_144]
+	at org.postgresql.ds.common.BaseDataSource.getConnection(BaseDataSource.java:86) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.ds.common.BaseDataSource.getConnection(BaseDataSource.java:71) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.ds.PGConnectionPoolDataSource.getPooledConnection(PGConnectionPoolDataSource.java:58) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.ds.PGPoolingDataSource.getPooledConnection(PGPoolingDataSource.java:378) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at org.postgresql.ds.PGPoolingDataSource.getConnection(PGPoolingDataSource.java:323) ~[postgresql-9.4.1212.jar:9.4.1212]
+	at com.qtfx.library.db.rdbms.DBEngine.getConnection(DBEngine.java:105) ~[classes/:?]
+	at com.qtfx.library.db.MetaData.getRecordSetSchemas(MetaData.java:289) ~[classes/:?]
+	at com.qtfx.library.db.MetaData.existsSchema(MetaData.java:492) ~[classes/:?]
+	at com.qtfx.library.db.rdbms.DBPersistorDDL.existsSchema(DBPersistorDDL.java:208) ~[classes/:?]
+	... 11 more
+2017-11-04 10:05:39 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
+2017-11-04 10:05:41 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.

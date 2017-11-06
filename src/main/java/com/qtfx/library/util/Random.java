@@ -15,6 +15,7 @@
 package com.qtfx.library.util;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.LongStream;
 
 /**
  * Simplifies calls to <tt>ThreadLocalRandom.current()</tt>.
@@ -48,5 +49,9 @@ public class Random {
 	 */
 	public static double nextGaussian() {
 		return ThreadLocalRandom.current().nextGaussian();
+	}
+	
+	public static LongStream longs(long randomNumberOrigin, long randomNumberBound) {
+		return ThreadLocalRandom.current().longs(randomNumberOrigin, randomNumberBound);
 	}
 }

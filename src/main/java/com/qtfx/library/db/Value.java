@@ -1610,6 +1610,14 @@ public class Value implements Comparable<Object> {
 			break;
 		}
 	}
+	/**
+	 * Returns this value as a formatted string given the locale.
+	 * 
+	 * @return The formatted string.
+	 */
+	public String toStringFormatted() {
+		return toStringFormatted(Locale.getDefault());
+	}
 
 	/**
 	 * Returns this value as a formatted string given the locale.

@@ -16,15 +16,9 @@ package learning.fx.other;
 
 import java.util.Optional;
 
-import com.qtfx.library.gui.EventFilter;
 import com.qtfx.library.util.Icons;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventType;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -42,24 +36,6 @@ public class TestDialog extends Application {
 		launch(args);
 	}
 	
-	class ActionFilter implements EventFilter<ActionEvent> {
-		public void filter(Node node, ActionEvent e) {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Information dialog");
-			alert.setHeaderText("Look, an Information Dialog");
-			alert.setContentText("I have a great message for you!");
-			Optional<ButtonType> type = alert.showAndWait();
-			if (!type.isPresent() || !type.get().getButtonData().equals(ButtonBar.ButtonData.OK_DONE)) {
-				e.consume();
-			}
-		}
-
-		@Override
-		public EventType<ActionEvent> type() {
-			return ActionEvent.ACTION;
-		}
-	}
-
 	@Override
 	public void start(Stage stage) throws Exception {
 
@@ -87,13 +63,6 @@ public class TestDialog extends Application {
 //		Image image = new Image(new FileInputStream(Icons.app_16x16_accept));
 //		buttonOk.setGraphic(new ImageView(image));
 		
-		EventFilter<ActionEvent> filter = new ActionFilter();
-		buttonOk.addEventFilter(filter.type(), event -> {
-			filter.filter(buttonOk, event);
-		});
-		buttonOther.addEventFilter(filter.type(), event -> {
-			filter.filter(buttonOther, event);
-		});
 //		dialogPane.getStyleClass().add("alert");
 //		dialogPane.getStyleClass().add("warning");
 //		dialogPane.setPrefWidth(1000);

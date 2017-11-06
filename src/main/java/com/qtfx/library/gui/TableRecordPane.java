@@ -14,28 +14,38 @@
 
 package com.qtfx.library.gui;
 
-import javafx.event.Event;
-import javafx.event.EventType;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 
 /**
- * An event filter aimed to intercept events to perform any useful action and/or consume the event.
- * 
+ * A pane with a table view on a record set an a bottom status bar.
+ *
  * @author Miquel Sas
  */
-public interface EventFilter<T extends Event> {
-	/**
-	 * Return the event type this filter sould apply.
-	 * 
-	 * @return The event type.
-	 */
-	EventType<T> type();
+public class TableRecordPane {
+
+	/** Border pane. */
+	private BorderPane borderPane;
+	/** Status bar. */
+	private StatusBar statusBar = new StatusBar();
 
 	/**
-	 * Filter the event, performing an appropriate action or consuming it.
-	 * 
-	 * @param node The node that gives access to the scene tree.
-	 * @param e The event.
+	 * Constructor.
 	 */
-	void filter(Node node, T e);
+	public TableRecordPane() {
+		super();
+		borderPane = new BorderPane();
+		statusBar = new StatusBar();
+		borderPane.setBottom(statusBar);
+	}
+
+	/**
+	 * Return the root node of this table record.
+	 * 
+	 * @return The root node of this table record.
+	 */
+	public Node getNode() {
+		return borderPane;
+	}
 }

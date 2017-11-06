@@ -33,6 +33,7 @@
 	<entry key="tokenElapsed">Elapsed</entry>
 	<entry key="tokenEnd">End</entry>
 	<entry key="tokenEstimated">Estimated</entry>
+	<entry key="tokenExit">Exit</entry>
 	<entry key="tokenHour">Hour</entry>
 	<entry key="tokenHours">Hours</entry>
 	<entry key="tokenMinute">Minute</entry>

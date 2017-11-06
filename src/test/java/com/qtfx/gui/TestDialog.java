@@ -44,25 +44,25 @@ public class TestDialog extends Application {
 
 		Option result;
 		
-		result = getDialogEmpty(stage).show();
-		System.out.println(result);
+//		result = getDialogEmpty(stage).show();
+//		System.out.println(result);
 		
 		result = getDialogBottomPlain(stage).show();
 		System.out.println(result);
 		
-		for (int i = 0; i < 5; i++) {
-			result = getDialogBottomPlainRandom(stage).show();
-			System.out.println(result);
-		}
+//		for (int i = 0; i < 5; i++) {
+//			result = getDialogBottomPlainRandom(stage).show();
+//			System.out.println(result);
+//		}
 		
-		result = getDialogLeftPlain(stage).show();
-		System.out.println(result);
+//		result = getDialogLeftPlain(stage).show();
+//		System.out.println(result);
 		
-		result = getDialogBottomGroups(stage).show();
-		System.out.println(result);
+//		result = getDialogBottomGroups(stage).show();
+//		System.out.println(result);
 		
-		result = getDialogLeftGroups(stage).show();
-		System.out.println(result);
+//		result = getDialogLeftGroups(stage).show();
+//		System.out.println(result);
 	}
 
 	private Dialog getDialogBottomPlain(Stage stage) {

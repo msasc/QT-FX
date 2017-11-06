@@ -14,19 +14,14 @@
 
 package com.qtfx.library.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.base.Objects;
 import com.qtfx.library.util.TextServer;
 
-import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
 /**
- * An option packs the necessary attributes to define a button. Buttons are ordered by the order key within groups that
- * in turn are ordered by the group key.
+ * An option packs the necessary attributes to define a button to be laid in an option pane. Buttons are ordered by the
+ * order key within groups that in turn are ordered by the group key.
  * 
  * @author Miquel Sas
  */
@@ -135,11 +130,12 @@ public class Option {
 	private String order;
 	/** Group string. */
 	private String group;
-	/** Event filter list. */
-	private List<EventFilter<? super Event>> eventFilters = new ArrayList<>();
 
 	/** The button associated with this option. */
 	private Button button;
+
+	/** Action event handler. */
+	private ActionHandler actionHandler;
 
 	/**
 	 * Constructor assigning text and default and cancel flags.
@@ -176,13 +172,6 @@ public class Option {
 			// Image if present.
 			if (imageView != null) {
 				button.setGraphic(imageView);
-			}
-
-			// Event filters.
-			for (EventFilter<? super Event> eventFilter : eventFilters) {
-				button.addEventFilter(eventFilter.type(), e -> {
-					eventFilter.filter(button, e);
-				});
 			}
 
 			// Set this option as user data.
@@ -306,12 +295,21 @@ public class Option {
 	}
 
 	/**
-	 * Add an event filter to the list of filters that should perform the underlying button.
+	 * Return this option action handler.
 	 * 
-	 * @param eventFilter The event filter.
+	 * @return The action handler.
 	 */
-	public void addEventFilter(EventFilter<? super Event> eventFilter) {
-		eventFilters.add(eventFilter);
+	public ActionHandler getActionHandler() {
+		return actionHandler;
+	}
+
+	/**
+	 * Set this option action handler.
+	 * 
+	 * @param actionHandler The action handler.
+	 */
+	public void setActionHandler(ActionHandler actionHandler) {
+		this.actionHandler = actionHandler;
 	}
 
 	/**
@@ -319,7 +317,7 @@ public class Option {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (Objects.equal(this, obj)) {
+		if (this == obj || (this != null && this == obj)) {
 			return true;
 		}
 		if (obj instanceof Option) {

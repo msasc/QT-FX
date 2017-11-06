@@ -14,7 +14,12 @@
 
 package com.qtfx.library.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 /**
@@ -41,4 +46,44 @@ public class SceneUtils {
 		return null;
 	}
 
+	/**
+	 * Return a list with all nodes of the scene.
+	 * 
+	 * @param scene The reference scene.
+	 * @return The list of nodes.
+	 */
+	public static List<Node> getNodes(Scene scene) {
+		return getNodes(scene.getRoot());
+	}
+
+	/**
+	 * Return a list with all sub-nodes of the reference node, included.
+	 * 
+	 * @param node The reference node.
+	 * @return The list of nodes.
+	 */
+	public static List<Node> getNodes(Node node) {
+		List<Node> nodes = new ArrayList<>();
+		fillNodes(node, nodes);
+		return nodes;
+	}
+
+	/**
+	 * Fill the list of nodes with this node and its children tree if any.
+	 * 
+	 * @param node The reference node.
+	 * @param nodes The list of nodes to fill.
+	 */
+	private static void fillNodes(Node node, List<Node> nodes) {
+		if (node.getClass().getName().startsWith("com.sun.javafx")) {
+			return;
+		}
+		nodes.add(node);
+		if (node instanceof Parent) {
+			Parent parent = (Parent) node;
+			for (Node child : parent.getChildrenUnmodifiable()) {
+				fillNodes(child, nodes);
+			}
+		}
+	}
 }

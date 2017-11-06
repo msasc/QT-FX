@@ -1,0 +1,20 @@
+2017-10-31 15:45:22 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
+2017-10-31 15:45:38 ERROR com.qtfx.library.mkt.server.servers.dukascopy.DkConnectionManager - Failed to connect Dukascopy servers
+2017-10-31 15:45:38 ERROR com.qtfx.platform.action.ActionSynchronizeInstruments - Catching
+java.lang.IllegalStateException: Not connected
+	at com.dukascopy.api.impl.connect.DCClientImpl.startJFRunnable(DCClientImpl.java:1249) ~[greed-common-318.4.30.jar:318.4.30]
+	at com.dukascopy.api.impl.connect.DCClientImpl.startStrategy(DCClientImpl.java:1221) ~[greed-common-318.4.30.jar:318.4.30]
+	at com.qtfx.library.mkt.server.servers.dukascopy.DkConnectionManager.connect(DkConnectionManager.java:108) ~[classes/:?]
+	at com.qtfx.platform.ServerConnector.connect(ServerConnector.java:29) ~[classes/:?]
+	at com.qtfx.platform.action.ActionSynchronizeInstruments$Synchronizer.run(ActionSynchronizeInstruments.java:55) [classes/:?]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_144]
+2017-10-31 15:51:26 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
+2017-10-31 15:51:43 ERROR com.qtfx.library.mkt.server.servers.dukascopy.DkConnectionManager - Failed to connect Dukascopy servers
+2017-10-31 15:51:43 ERROR com.qtfx.platform.action.ActionSynchronizeInstruments - Catching
+java.lang.IllegalStateException: Not connected
+	at com.dukascopy.api.impl.connect.DCClientImpl.startJFRunnable(DCClientImpl.java:1249) ~[greed-common-318.4.30.jar:318.4.30]
+	at com.dukascopy.api.impl.connect.DCClientImpl.startStrategy(DCClientImpl.java:1221) ~[greed-common-318.4.30.jar:318.4.30]
+	at com.qtfx.library.mkt.server.servers.dukascopy.DkConnectionManager.connect(DkConnectionManager.java:108) ~[classes/:?]
+	at com.qtfx.platform.ServerConnector.connect(ServerConnector.java:29) ~[classes/:?]
+	at com.qtfx.platform.action.ActionSynchronizeInstruments$Synchronizer.run(ActionSynchronizeInstruments.java:55) [classes/:?]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_144]

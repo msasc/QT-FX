@@ -14,220 +14,70 @@
 
 package com.qtfx.library.gui.db;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-
 import com.qtfx.library.db.Record;
+import com.qtfx.library.db.RecordSet;
 
-import javafx.beans.InvalidationListener;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
+import javafx.collections.ModifiableObservableListBase;
 
 /**
+ * An observable and modifiable record set.
  *
  * @author Miquel Sas
- *
  */
-public class ObservableRecordSet implements ObservableList<Record> {
+public class ObservableRecordSet extends ModifiableObservableListBase<Record> {
+	
+	/** Internal record set. */
+	private RecordSet recordSet;
 
 	/**
+	 * Constructor.
 	 * 
+	 * @param recordSet The record set.
 	 */
-	public ObservableRecordSet() {
-		// TODO Auto-generated constructor stub
+	public ObservableRecordSet(RecordSet recordSet) {
+		super();
+		this.recordSet = recordSet;
 	}
 
-	@Override
-	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return false;
-	}
-
-	@Override
-	public boolean contains(Object o) {
-		return false;
-	}
-
-	@Override
-	public Iterator<Record> iterator() {
-		return null;
-	}
-
-	@Override
-	public Object[] toArray() {
-		return null;
-	}
-
-	@Override
-	public <T> T[] toArray(T[] a) {
-		return null;
-	}
-
-	@Override
-	public boolean add(Record e) {
-		return false;
-	}
-
-	@Override
-	public boolean remove(Object o) {
-		return false;
-	}
-
-	@Override
-	public boolean containsAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean addAll(Collection<? extends Record> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean addAll(int index, Collection<? extends Record> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean removeAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean retainAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Record get(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return recordSet.get(index);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public Record set(int index, Record element) {
-		// TODO Auto-generated method stub
-		return null;
+	public int size() {
+		return recordSet.size();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void add(int index, Record element) {
-		// TODO Auto-generated method stub
-		
+	protected void doAdd(int index, Record record) {
+		recordSet.add(index, record);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public Record remove(int index) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Record doSet(int index, Record record) {
+		Record current = recordSet.get(index);
+		recordSet.set(index, record);
+		return current;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public int indexOf(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
+	protected Record doRemove(int index) {
+		return recordSet.remove(index);
 	}
-
-	@Override
-	public int lastIndexOf(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public ListIterator<Record> listIterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ListIterator<Record> listIterator(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Record> subList(int fromIndex, int toIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void addListener(InvalidationListener listener) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeListener(InvalidationListener listener) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addListener(ListChangeListener<? super Record> listener) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeListener(ListChangeListener<? super Record> listener) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean addAll(Record... elements) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean setAll(Record... elements) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean setAll(Collection<? extends Record> col) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean removeAll(Record... elements) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean retainAll(Record... elements) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void remove(int from, int to) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
