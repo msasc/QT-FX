@@ -14,6 +14,11 @@
 
 package com.qtfx.lib.db;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +29,16 @@ import com.qtfx.lib.util.Strings;
  *
  * @author Miquel Sas
  */
-public class Field {
+public class Field implements Comparable<Object> {
 
 	/**
 	 * A possible value is a pair value-label.
 	 */
 	public static class PossibleValue {
-		private Object value;
+		private Value value;
 		private String label;
 
-		public PossibleValue(Object value, String label) {
+		public PossibleValue(Value value, String label) {
 			this.value = value;
 			this.label = label;
 		}
@@ -109,6 +114,8 @@ public class Field {
 	private boolean nullable = true;
 	/** A flag that indicates whether this field is a primary key field. */
 	private boolean primaryKey = false;
+	/** A supported database function if the column is virtual or calculated. */
+	private String function;
 	/** Optional parent table. */
 	private Table table;
 	/** Optional parent view. */
@@ -155,6 +162,7 @@ public class Field {
 		this.persistent = field.persistent;
 		this.nullable = field.nullable;
 		this.primaryKey = field.primaryKey;
+		this.function = field.function;
 		this.table = field.table;
 		this.view = field.view;
 	}
@@ -413,8 +421,7 @@ public class Field {
 	 *
 	 * @param initialValue The initial value.
 	 */
-	public void setInitialValue(Object initialValue) {
-		Types.check(initialValue, getType());
+	public void setInitialValue(Value initialValue) {
 		this.initialValue = initialValue;
 	}
 
@@ -432,8 +439,7 @@ public class Field {
 	 *
 	 * @param maximumValue The maximum value.
 	 */
-	public void setMaximumValue(Object maximumValue) {
-		Types.check(maximumValue, getType());
+	public void setMaximumValue(Value maximumValue) {
 		this.maximumValue = maximumValue;
 	}
 
@@ -451,8 +457,7 @@ public class Field {
 	 *
 	 * @param minimumValue The minimum value.
 	 */
-	public void setMinimumValue(Object minimumValue) {
-		Types.check(minimumValue, getType());
+	public void setMinimumValue(Value minimumValue) {
 		this.minimumValue = minimumValue;
 	}
 
@@ -498,7 +503,7 @@ public class Field {
 	 * @param value The value.
 	 * @param label The label.
 	 */
-	public void addPossibleValue(Object value, String label) {
+	public void addPossibleValue(Value value, String label) {
 		PossibleValue possibleValue = new PossibleValue(value, label);
 		if (!possibleValues.contains(possibleValue)) {
 			possibleValues.add(possibleValue);
@@ -520,7 +525,7 @@ public class Field {
 	public List<PossibleValue> getPossibleValues() {
 		return new ArrayList<>(possibleValues);
 	}
-	
+
 	/**
 	 * Returns the possible value label or null if not applicable or not found.
 	 * 
@@ -594,6 +599,24 @@ public class Field {
 		if (primaryKey) {
 			setNullable(false);
 		}
+	}
+
+	/**
+	 * Gets the function or formula.
+	 *
+	 * @return The function.
+	 */
+	public String getFunction() {
+		return function;
+	}
+
+	/**
+	 * Sets the function or formula.
+	 *
+	 * @param function The function.
+	 */
+	public void setFunction(String function) {
+		this.function = function;
 	}
 
 	/**
@@ -750,5 +773,99 @@ public class Field {
 	 */
 	public boolean isByteArray() {
 		return getType().isTimestamp();
+	}
+	/**
+	 * Returns the default value padded with characters if it is string.
+	 *
+	 * @return The default blank value.
+	 */
+	public Object getBlankValue() {
+		if (isString()) {
+			return Strings.repeat(" ", getLength());
+		}
+		return getDefaultValue();
+	}
+
+	/**
+	 * Returns the default value for this field.
+	 *
+	 * @return The default value.
+	 */
+	public Object getDefaultValue() {
+		if (isBoolean()) {
+			return Boolean.FALSE;
+		}
+		if (isByteArray()) {
+			return new byte[0];
+		}
+		if (isDate()) {
+			return new Date(System.currentTimeMillis());
+		}
+		if (isDecimal()) {
+			return new BigDecimal(0).setScale(getDecimals(), BigDecimal.ROUND_HALF_UP);
+		}
+		if (isDouble()) {
+			return new Double(0);
+		}
+		if (isInteger()) {
+			return new Integer(0);
+		}
+		if (isLong()) {
+			return new Long(0);
+		}
+		if (isString()) {
+			return "";
+		}
+		if (isTime()) {
+			return new Time(System.currentTimeMillis());
+		}
+		if (isTimestamp()) {
+			return new Timestamp(System.currentTimeMillis());
+		}
+		return null;
+	}
+
+	
+	///////////////////////////////////
+	// Comparable and object overrides.
+
+	/**
+	 * Returns a negative integer, zero, or a positive integer as this value is less than, equal to, or greater than the
+	 * specified value.
+	 * <p>
+	 * A field is considered to be equal to another field if the alias, type, length and decimals are the same.
+	 *
+	 * @param o The object to compare.
+	 * @return The comparison integer.
+	 */
+	@Override
+	public int compareTo(Object o) {
+		Field field = null;
+		try {
+			field = (Field) o;
+		} catch (ClassCastException exc) {
+			throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+		}
+		if (getAlias().equals(field.getAlias())) {
+			if (getType().equals(field.getType())) {
+				if (getLength() == field.getLength()) {
+					if (getDecimals() == field.getDecimals()) {
+						return 0;
+					}
+				}
+			}
+		}
+		return getAlias().compareTo(field.getAlias());
+	}
+
+	/**
+	 * Returns the hash code for this field.
+	 *
+	 * @return The hash code
+	 */
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		return hash;
 	}
 }
