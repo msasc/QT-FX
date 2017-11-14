@@ -21,8 +21,8 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 
-import com.qtfx.lib.util.Arrays;
-import com.qtfx.lib.util.Numbers;
+import com.qtfx.lib.util.ArrayUtils;
+import com.qtfx.lib.util.NumberUtils;
 import com.qtfx.lib.util.Values;
 
 /**
@@ -264,7 +264,7 @@ public class Value implements Comparable<Object> {
 			v.value = new Boolean(getBoolean());
 			break;
 		case BYTEARRAY:
-			v.value = Arrays.copy(getByteArray());
+			v.value = ArrayUtils.copy(getByteArray());
 			break;
 		case DATE:
 			v.value = new Date(getDate().getTime());
@@ -291,7 +291,7 @@ public class Value implements Comparable<Object> {
 			v.value = new Timestamp(getTimestamp().getTime());
 			break;
 		case VALUEARRAY:
-			v.value = Arrays.copy(getValueArray());
+			v.value = ArrayUtils.copy(getValueArray());
 			break;
 		default:
 			v.value = value;
@@ -376,7 +376,7 @@ public class Value implements Comparable<Object> {
 			if (!v.isByteArray()) {
 				throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
 			}
-			return Arrays.compare(getByteArray(), v.getByteArray());
+			return ArrayUtils.compare(getByteArray(), v.getByteArray());
 		}
 		throw new IllegalArgumentException(MessageFormat.format("Value {0} is not comparable", toString()));
 	}
@@ -450,7 +450,7 @@ public class Value implements Comparable<Object> {
 				return false;
 			}
 			byte[] byteArray = (byte[]) o;
-			return Arrays.equals(getByteArray(), byteArray);
+			return ArrayUtils.equals(getByteArray(), byteArray);
 		}
 		// Value
 		if (o instanceof Value) {
@@ -484,7 +484,7 @@ public class Value implements Comparable<Object> {
 				return getNumber().equals(v.getNumber());
 			}
 			if (isByteArray()) {
-				return Arrays.equals(getByteArray(), v.getByteArray());
+				return ArrayUtils.equals(getByteArray(), v.getByteArray());
 			}
 		}
 		return false;
@@ -522,7 +522,7 @@ public class Value implements Comparable<Object> {
 				return getTimestamp().hashCode();
 			}
 		}
-		return Numbers.MIN_INTEGER;
+		return NumberUtils.MIN_INTEGER;
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Miquel Sas
+ * Copyright (C) 2015 Miquel Sas
  * 
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
@@ -12,30 +12,18 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.util;
-
-import org.apache.commons.lang3.StringUtils;
+package com.qtfx.lib.db;
 
 /**
- * String utilities.
- *
+ * A customizer of a recordset.
+ * 
  * @author Miquel Sas
  */
-public class Strings extends StringUtils {
+public interface RecordSetCustomizer {
 	/**
-	 * Returns the first string not null, or an empty string.
+	 * Customize the argument recordset.
 	 * 
-	 * @param strings The list of strings.
-	 * @return The first string not null, or an empty string.
+	 * @param recordSet The recordset to customize.
 	 */
-	public static String getFirstNotNull(String... strings) {
-		StringBuilder b = new StringBuilder();
-		for (String s : strings) {
-			if (s != null) {
-				b.append(s);
-				break;
-			}
-		}
-		return b.toString();
-	}
+	void customize(RecordSet recordSet);
 }

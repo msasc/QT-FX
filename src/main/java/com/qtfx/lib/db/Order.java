@@ -14,6 +14,7 @@
 package com.qtfx.lib.db;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Objects;
  *
  * @author Miquel Sas
  */
-public class Order extends ArrayList<Order.Segment> {
+public class Order {
 
 	/**
 	 * An order segment is a small structure to pack order segment information.
@@ -141,8 +142,7 @@ public class Order extends ArrayList<Order.Segment> {
 			try {
 				orderSegment = (Segment) o;
 			} catch (ClassCastException exc) {
-				throw new UnsupportedOperationException("Not comparable type: "
-					+ o.getClass().getName());
+				throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 			}
 			int compare = field.compareTo(orderSegment.field);
 			if (compare != 0) {
@@ -175,6 +175,9 @@ public class Order extends ArrayList<Order.Segment> {
 
 	}
 
+	/** List of segments. */
+	private List<Segment> segments = new ArrayList<>();
+
 	/**
 	 * Default constructor.
 	 */
@@ -183,21 +186,12 @@ public class Order extends ArrayList<Order.Segment> {
 	}
 
 	/**
-	 * Constructor assigning the initial capacity.
-	 *
-	 * @param initialCapacity The initial capacity.
-	 */
-	public Order(int initialCapacity) {
-		super(initialCapacity);
-	}
-
-	/**
 	 * Add an ascending segment with the given field.
 	 *
 	 * @param field The field.
 	 */
 	public void add(Field field) {
-		add(new Segment(field, true));
+		segments.add(new Segment(field, true));
 	}
 
 	/**
@@ -207,7 +201,7 @@ public class Order extends ArrayList<Order.Segment> {
 	 * @param asc The ascending flag
 	 */
 	public void add(Field field, boolean asc) {
-		add(new Segment(field, asc));
+		segments.add(new Segment(field, asc));
 	}
 
 	/**
@@ -217,7 +211,7 @@ public class Order extends ArrayList<Order.Segment> {
 	 * @return A boolean.
 	 */
 	public boolean contains(Field field) {
-		for (Segment segment : this) {
+		for (Segment segment : segments) {
 			if (segment.getField().equals(field)) {
 				return true;
 			}
@@ -232,12 +226,22 @@ public class Order extends ArrayList<Order.Segment> {
 	 * @return The segment containing the argument field or null.
 	 */
 	public Segment get(Field field) {
-		for (Segment segment : this) {
+		for (Segment segment : segments) {
 			if (segment.getField().equals(field)) {
 				return segment;
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Returns the segment at the given index.
+	 * 
+	 * @param index The segment index.
+	 * @return The segment.
+	 */
+	public Segment get(int index) {
+		return segments.get(index);
 	}
 
 	/**
@@ -254,6 +258,25 @@ public class Order extends ArrayList<Order.Segment> {
 	}
 
 	/**
+	 * Returns the field at the given index.
+	 * 
+	 * @param index The index of the field.
+	 * @return The field.
+	 */
+	public Field getField(int index) {
+		return get(index).getField();
+	}
+
+	/**
+	 * Return the size or number of segments.
+	 * 
+	 * @return The number of segments.
+	 */
+	public int size() {
+		return segments.size();
+	}
+
+	/**
 	 * Returns a string representation of this order.
 	 *
 	 * @return A string
@@ -261,9 +284,9 @@ public class Order extends ArrayList<Order.Segment> {
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder(256);
-		for (int i = 0; i < size(); i++) {
-			b.append(get(i).toString());
-			if (i < size() - 1) {
+		for (int i = 0; i < segments.size(); i++) {
+			b.append(segments.get(i).toString());
+			if (i < segments.size() - 1) {
 				b.append("; ");
 			}
 		}

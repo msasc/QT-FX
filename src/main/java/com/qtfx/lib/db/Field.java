@@ -22,7 +22,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qtfx.lib.util.Strings;
+import com.qtfx.lib.util.StringUtils;
 
 /**
  * Definition a an item usually of tabular data.
@@ -43,7 +43,7 @@ public class Field implements Comparable<Object> {
 			this.label = label;
 		}
 
-		public Object getValue() {
+		public Value getValue() {
 			return value;
 		}
 
@@ -88,26 +88,35 @@ public class Field implements Comparable<Object> {
 	private String title;
 	/** Adjusted display length. */
 	private int displayLength;
+	/** Field group. */
+	private FieldGroup fieldGroup = FieldGroup.emptyFieldGroup;
 
 	////////////////////////////////////////
 	// Validation and formatting properties.
 
 	/** Initial value. */
-	private Object initialValue;
+	private Value initialValue;
 	/** Maximum value. */
-	private Object maximumValue;
+	private Value maximumValue;
 	/** Minimum value. */
-	private Object minimumValue;
+	private Value minimumValue;
 	/** List of possible values. */
 	private List<PossibleValue> possibleValues = new ArrayList<>();
 	/** A flag indicating whether a non empty value is required for this field. */
 	private boolean required;
 	/** Upper case flag. */
 	private boolean uppercase;
+	/** Optional calculator. */
+	private Calculator calculator;
 
 	///////////////////////////////
 	// Database related properties.
 
+	/**
+	 * A boolean that indicates if the field, when not present in an insert clause (DEFAULT) should be initialized with
+	 * the database function for a datte, time or time stamp.
+	 */
+	private boolean currentDateTimeOrTimestamp = false;
 	/** A flag that indicates whether this field is persistent. */
 	private boolean persistent = true;
 	/** A flag that indicates whether this field can be null. */
@@ -365,6 +374,24 @@ public class Field implements Comparable<Object> {
 		this.displayLength = displayLength;
 	}
 
+	/**
+	 * Returns the field group if any.
+	 * 
+	 * @return The field group if any.
+	 */
+	public FieldGroup getFieldGroup() {
+		return fieldGroup;
+	}
+
+	/**
+	 * Sets the field group.
+	 * 
+	 * @param fieldGroup The field group.
+	 */
+	public void setFieldGroup(FieldGroup fieldGroup) {
+		this.fieldGroup = fieldGroup;
+	}
+
 	///////////////////////////////
 	// Safe description properties.
 
@@ -374,7 +401,7 @@ public class Field implements Comparable<Object> {
 	 * @return A not null description.
 	 */
 	public String getDisplayDescription() {
-		return Strings.getFirstNotNull(getDescription(), getTitle(), getLabel(), getHeader());
+		return StringUtils.getFirstNotNull(getDescription(), getTitle(), getLabel(), getHeader());
 	}
 
 	/**
@@ -383,7 +410,7 @@ public class Field implements Comparable<Object> {
 	 * @return A not null header.
 	 */
 	public String getDisplayLabel() {
-		return Strings.getFirstNotNull(getLabel(), getHeader(), getTitle(), getDescription());
+		return StringUtils.getFirstNotNull(getLabel(), getHeader(), getTitle(), getDescription());
 	}
 
 	/**
@@ -392,7 +419,7 @@ public class Field implements Comparable<Object> {
 	 * @return A not null header.
 	 */
 	public String getDisplayHeader() {
-		return Strings.getFirstNotNull(getHeader(), getLabel(), getTitle(), getDescription());
+		return StringUtils.getFirstNotNull(getHeader(), getLabel(), getTitle(), getDescription());
 	}
 
 	/**
@@ -401,7 +428,7 @@ public class Field implements Comparable<Object> {
 	 * @return A not null title.
 	 */
 	public String getDisplayTitle() {
-		return Strings.getFirstNotNull(getTitle(), getLabel(), getHeader(), getDescription());
+		return StringUtils.getFirstNotNull(getTitle(), getLabel(), getHeader(), getDescription());
 	}
 
 	////////////////////////////////////////
@@ -412,7 +439,7 @@ public class Field implements Comparable<Object> {
 	 *
 	 * @return The initial value.
 	 */
-	public Object getInitialValue() {
+	public Value getInitialValue() {
 		return initialValue;
 	}
 
@@ -422,6 +449,7 @@ public class Field implements Comparable<Object> {
 	 * @param initialValue The initial value.
 	 */
 	public void setInitialValue(Value initialValue) {
+		Types.validateValueType(initialValue, getType());
 		this.initialValue = initialValue;
 	}
 
@@ -430,7 +458,7 @@ public class Field implements Comparable<Object> {
 	 *
 	 * @return The maximum value.
 	 */
-	public Object getMaximumValue() {
+	public Value getMaximumValue() {
 		return maximumValue;
 	}
 
@@ -440,6 +468,7 @@ public class Field implements Comparable<Object> {
 	 * @param maximumValue The maximum value.
 	 */
 	public void setMaximumValue(Value maximumValue) {
+		Types.validateValueType(maximumValue, getType());
 		this.maximumValue = maximumValue;
 	}
 
@@ -448,7 +477,7 @@ public class Field implements Comparable<Object> {
 	 *
 	 * @return The minimum value.
 	 */
-	public Object getMinimumValue() {
+	public Value getMinimumValue() {
 		return minimumValue;
 	}
 
@@ -458,6 +487,7 @@ public class Field implements Comparable<Object> {
 	 * @param minimumValue The minimum value.
 	 */
 	public void setMinimumValue(Value minimumValue) {
+		Types.validateValueType(minimumValue, getType());
 		this.minimumValue = minimumValue;
 	}
 
@@ -495,6 +525,15 @@ public class Field implements Comparable<Object> {
 	 */
 	public void setUppercase(boolean uppercase) {
 		this.uppercase = uppercase;
+	}
+
+	/**
+	 * Add a possible value.
+	 * 
+	 * @param value The value.
+	 */
+	public void addPossibleValue(Value value) {
+		addPossibleValue(value, value.toString());
 	}
 
 	/**
@@ -541,8 +580,71 @@ public class Field implements Comparable<Object> {
 		return "";
 	}
 
+	/**
+	 * Return the optional calculator.
+	 * 
+	 * @return The optional calculator.
+	 */
+	public Calculator getCalculator() {
+		return calculator;
+	}
+
+	/**
+	 * Set the optional calculator.
+	 * 
+	 * @param calculator The optional calculator.
+	 */
+	public void setCalculator(Calculator calculator) {
+		this.calculator = calculator;
+	}
+
 	///////////////////////////////
 	// Database related properties.
+
+	/**
+	 * Check the current date, time or time stamp flag.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean isCurrentDateTimeOrTimestamp() {
+		return currentDateTimeOrTimestamp;
+	}
+
+	/**
+	 * Check if his field should initialize to the current date.
+	 * 
+	 * @return A boolean indicating that it should be initialized to the current date.
+	 */
+	public boolean isCurrentDate() {
+		return isDate() && isCurrentDateTimeOrTimestamp();
+	}
+
+	/**
+	 * Check if his field should initialize to the current time.
+	 * 
+	 * @return A boolean indicating that it should be initialized to the current time.
+	 */
+	public boolean isCurrentTime() {
+		return isTime() && isCurrentDateTimeOrTimestamp();
+	}
+
+	/**
+	 * Check if his field should initialize to the current time stamp.
+	 * 
+	 * @return A boolean indicating that it should be initialized to the current time stamp.
+	 */
+	public boolean isCurrentTimestamp() {
+		return isTimestamp() && isCurrentDateTimeOrTimestamp();
+	}
+
+	/**
+	 * Set the current date, time or time stamp flag.
+	 * 
+	 * @param currentDateTimeOrTimestamp A boolean.
+	 */
+	public void setCurrentDateTimeOrTimestamp(boolean currentDateTimeOrTimestamp) {
+		this.currentDateTimeOrTimestamp = currentDateTimeOrTimestamp;
+	}
 
 	/**
 	 * Check whether this field is persistent.
@@ -653,6 +755,128 @@ public class Field implements Comparable<Object> {
 	 */
 	public void setView(View view) {
 		this.view = view;
+	}
+
+	/**
+	 * Gets the name to use in a <code>CREATE TABLE</code> or <code>ALTER TABLE</code> statement.
+	 *
+	 * @return The name.
+	 */
+	public String getNameCreate() {
+		return getName();
+	}
+
+	/**
+	 * Returns the name to use in an <code>DELETE</code> statement.
+	 *
+	 * @return The name.
+	 */
+	public String getNameDelete() {
+		return getNameUpdate();
+	}
+
+	/**
+	 * Returns the name of the field in the database, qualified with the parent table or view alias if it exists.
+	 *
+	 * @return The name.
+	 */
+	public String getNameParent() {
+		String name = getName();
+		String tableAlias = (getTable() != null ? getTable().getAlias() : null);
+		if (tableAlias != null) {
+			return tableAlias + "." + name;
+		}
+		return name;
+	}
+
+	/**
+	 * Returns the name to use in a relation of a select statement.
+	 *
+	 * @return The name.
+	 */
+	public String getNameRelate() {
+		return getNameParent();
+	}
+
+	/**
+	 * Returns the name to use in the column list of a <code>SELECT</code> query.
+	 *
+	 * @return The name.
+	 */
+	public String getNameSelect() {
+		StringBuilder name = new StringBuilder();
+		if (isVirtual()) {
+			name.append("(");
+			name.append(getFunction());
+			name.append(")");
+		} else {
+			name.append(getNameParent());
+		}
+		if (getAlias() != null) {
+			name.append(" AS ");
+			name.append(getAlias());
+		}
+		return name.toString();
+	}
+
+	/**
+	 * Returns the name to use in an <code>UPDATE</code> statement.
+	 *
+	 * @return The name.
+	 */
+	public String getNameUpdate() {
+		String name = getName();
+		String parentName = (getTable() != null ? getTable().getName() : null);
+		if (parentName != null) {
+			return parentName + "." + name;
+		}
+		return name;
+	}
+
+	/**
+	 * Returns the name to use in a <code>WHERE</code> clause.
+	 *
+	 * @return The name.
+	 */
+	public String getNameWhere() {
+		if (isVirtual()) {
+			return "(" + getFunction() + ")";
+		}
+		return getNameParent();
+	}
+
+	/**
+	 * Returns the name to use in a <code>GROUP BY</code> clause of a <code>SELECT</code> query.
+	 *
+	 * @return The name.
+	 */
+	public String getNameGroupBy() {
+		StringBuilder name = new StringBuilder();
+		if (isVirtual()) {
+			name.append("(");
+			name.append(getFunction());
+			name.append(")");
+		} else {
+			name.append(getNameParent());
+		}
+		return name.toString();
+	}
+
+	/**
+	 * Returns the name to use in an <code>ORDER BY</code> clause of a select query.
+	 *
+	 * @return The name.
+	 */
+	public String getNameOrderBy() {
+		StringBuilder name = new StringBuilder();
+		if (isVirtual()) {
+			name.append("(");
+			name.append(getFunction());
+			name.append(")");
+		} else {
+			name.append(getNameParent());
+		}
+		return name.toString();
 	}
 
 	/////////////////
@@ -774,14 +998,15 @@ public class Field implements Comparable<Object> {
 	public boolean isByteArray() {
 		return getType().isTimestamp();
 	}
+
 	/**
 	 * Returns the default value padded with characters if it is string.
 	 *
 	 * @return The default blank value.
 	 */
-	public Object getBlankValue() {
+	public Value getBlankValue() {
 		if (isString()) {
-			return Strings.repeat(" ", getLength());
+			return new Value(StringUtils.repeat(" ", getLength()));
 		}
 		return getDefaultValue();
 	}
@@ -791,41 +1016,40 @@ public class Field implements Comparable<Object> {
 	 *
 	 * @return The default value.
 	 */
-	public Object getDefaultValue() {
+	public Value getDefaultValue() {
 		if (isBoolean()) {
-			return Boolean.FALSE;
+			return new Value(false);
 		}
 		if (isByteArray()) {
-			return new byte[0];
+			return new Value(new byte[0]);
 		}
 		if (isDate()) {
-			return new Date(System.currentTimeMillis());
+			return new Value((Date) null);
 		}
 		if (isDecimal()) {
-			return new BigDecimal(0).setScale(getDecimals(), BigDecimal.ROUND_HALF_UP);
+			return new Value(new BigDecimal(0).setScale(getDecimals(), BigDecimal.ROUND_HALF_UP));
 		}
 		if (isDouble()) {
-			return new Double(0);
+			return new Value((double) 0);
 		}
 		if (isInteger()) {
-			return new Integer(0);
+			return new Value(0);
 		}
 		if (isLong()) {
-			return new Long(0);
+			return new Value((long) 0);
 		}
 		if (isString()) {
-			return "";
+			return new Value("");
 		}
 		if (isTime()) {
-			return new Time(System.currentTimeMillis());
+			return new Value((Time) null);
 		}
 		if (isTimestamp()) {
-			return new Timestamp(System.currentTimeMillis());
+			return new Value((Timestamp) null);
 		}
 		return null;
 	}
 
-	
 	///////////////////////////////////
 	// Comparable and object overrides.
 
@@ -867,5 +1091,49 @@ public class Field implements Comparable<Object> {
 	public int hashCode() {
 		int hash = 3;
 		return hash;
+	}
+
+	/**
+	 * Check if this field is a foreign field, that is, belongs to a foreign table in the list of relations of the
+	 * parent view.
+	 * 
+	 * @return A boolean that indicates if this field is a foreign field
+	 */
+	public boolean isForeign() {
+		// Parent table null and parent view not null can not be. Or both null, or parent view or none.
+		if (getTable() == null) {
+			return false;
+		}
+		if (getView() == null) {
+			return false;
+		}
+		if (getView().getMasterTable().equals(getTable())) {
+			return false;
+		}
+		List<Relation> relations = getView().getRelations();
+		for (Relation relation : relations) {
+			if (relation.getForeignTable().equals(getTable())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Check if this field is a local field. Has no parent table or belongs to the parent table.
+	 * 
+	 * @return A boolean that indicates if this field is a local field.
+	 */
+	public boolean isLocal() {
+		return !isForeign();
+	}
+
+	/**
+	 * Check if this column is virtual. A column is virtual is it has a function but not a name.
+	 *
+	 * @return A <code>boolean</code>.
+	 */
+	public boolean isVirtual() {
+		return (getFunction() != null);
 	}
 }

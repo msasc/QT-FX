@@ -50,6 +50,23 @@ public enum Types {
 	 * The fixed length to select between VARCHAR/VARBINARY or LONVARCHAR/LONGVARBINARY.
 	 */
 	public static final int FIXED_LENGTH = 2000;
+	
+	/**
+	 * Validates that the type of the argument value is valid for this field.
+	 *
+	 * @param value The value to validate.
+	 * @param type The required type.
+	 */
+	public static void validateValueType(Value value, Types type) {
+		if ((type.isBoolean() && !value.isBoolean())
+			|| (type.isDateTimeOrTimestamp() && !value.isDateTimeOrTimestamp())
+			|| (type.isString() && !value.isString())
+			|| (type.isNumber() && !value.isNumber())) {
+			throw new IllegalArgumentException(
+				MessageFormat.format("Invalid value type ({0}) for field type {1}", value.getType(), type));
+		}
+	}
+
 
 	/**
 	 * Check if this type is a boolean.

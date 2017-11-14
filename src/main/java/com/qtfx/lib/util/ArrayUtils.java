@@ -21,7 +21,7 @@ import com.qtfx.lib.db.Value;
  * 
  * @author Miquel Sas
  */
-public class Arrays {
+public class ArrayUtils {
 
 	/**
 	 * Compare two byte arrays.
