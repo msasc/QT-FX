@@ -50,7 +50,7 @@ public class ButtonPane extends FlowPane {
 	static class ButtonComparator implements Comparator<Button> {
 		@Override
 		public int compare(Button o1, Button o2) {
-			return Buttons.getPropertyOrder(o1).compareTo(Buttons.getPropertyOrder(o2));
+			return Nodes.getOrder(o1).compareTo(Nodes.getOrder(o2));
 		}
 	}
 
@@ -204,10 +204,10 @@ public class ButtonPane extends FlowPane {
 		// Fill a sorted map with groups.
 		Map<String, List<Button>> groups = new TreeMap<>();
 		for (Button button : buttons) {
-			List<Button> group = groups.get(Buttons.getPropertyGroup(button));
+			List<Button> group = groups.get(Nodes.getGroup(button));
 			if (group == null) {
 				group = new ArrayList<>();
-				groups.put(Buttons.getPropertyGroup(button), group);
+				groups.put(Nodes.getGroup(button), group);
 			}
 			group.add(button);
 		}
@@ -230,7 +230,7 @@ public class ButtonPane extends FlowPane {
 	private int countGroups() {
 		List<String> groups = new ArrayList<>();
 		for (Button button : buttons) {
-			String group = Buttons.getPropertyGroup(button);
+			String group = Nodes.getGroup(button);
 			if (!groups.contains(group)) {
 				groups.add(group);
 			}
@@ -246,7 +246,7 @@ public class ButtonPane extends FlowPane {
 	private int countOrders() {
 		List<String> orders = new ArrayList<>();
 		for (Button button : buttons) {
-			String order = Buttons.getPropertyOrder(button);
+			String order = Nodes.getOrder(button);
 			if (!orders.contains(order)) {
 				orders.add(order);
 			}

@@ -14,10 +14,18 @@
 
 package com.qtfx.lib.gui;
 
+import com.qtfx.lib.gui.action.ActionClose;
+import com.qtfx.lib.gui.action.ActionList;
+
+import javafx.beans.InvalidationListener;
+import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -39,6 +47,28 @@ import javafx.stage.Window;
  */
 public class Dialog {
 
+	/**
+	 * Action to set the result button.
+	 */
+	private class Result implements EventHandler<ActionEvent> {
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void handle(ActionEvent event) {
+			Node node = (Node) event.getTarget();
+			if (node != null && node instanceof Button) {
+				result = (Button) node;
+			}
+		}
+	}
+
+	/**
+	 * Private instance of action list.
+	 */
+	private class Actions extends ActionList {
+	}
+
 	/** Stage. */
 	private Stage stage;
 	/** Main border pane. */
@@ -47,14 +77,14 @@ public class Dialog {
 	private ButtonPane buttonPane;
 	/** Result button. */
 	private Button result;
-	
+
 	/**
 	 * Constructor, application modal.
 	 */
 	public Dialog() {
 		this(null);
 	}
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -193,4 +223,85 @@ public class Dialog {
 		borderPane.setRight(node);
 	}
 
+	/**
+	 * Setup the button. Set the stage, save the initial action, and set a list of actions to close the stage if
+	 * required and to set the result.
+	 * 
+	 * @param button The button to setup.
+	 */
+	private void setupButton(Button button) {
+		// Set the stage.
+		Nodes.setStage(button, stage);
+		// The list of actions that will be set to the node.
+		Actions actions = new Actions();
+		// If the button has an initial action, save it.
+		if (button.getOnAction() != null && !(button.getOnAction() instanceof Actions)) {
+			Nodes.setAction(button, button.getOnAction());
+		}
+		// If the button had an initial current action, add it.
+		if (Nodes.getAction(button) != null) {
+			actions.addHandler(Nodes.getAction(button));
+		}
+		// If the button wants to close the stage, add the proper action.
+		if (Nodes.isClose(button)) {
+			actions.addHandler(new ActionClose());
+		}
+		// Add the action to set the result to be the button.
+		actions.addHandler(new Result());
+		// Set the action list as the button action.
+		button.setOnAction(actions);
+	}
+
+	/**
+	 * Show the dialog and return the button that closed it.
+	 * 
+	 * @return The button that closed the dialog.
+	 */
+	public Button show() {
+
+		// Layout options and set the event handler to close the stage and set the result.
+		if (buttonPane != null) {
+			buttonPane.layoutButtons();
+			// Set listeners to setup the buttons if the list of buttons has changed.
+			buttonPane.getButtons().addListener((ListChangeListener<? super Button>) e -> {
+				buttonPane.getButtons().forEach(button -> setupButton(button));
+			});
+			buttonPane.getButtons().addListener((InvalidationListener) e -> {
+				buttonPane.getButtons().forEach(button -> setupButton(button));
+			});
+			// Initial buttons setup.
+			buttonPane.getButtons().forEach(button -> setupButton(button));
+		}
+
+		// Set ESC to close the stage.
+		stage.getScene().setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.ESCAPE) {
+				stage.close();
+			}
+		});
+
+		// Do show.
+		stage.showAndWait();
+
+		// If result is null expect close by other means, look for a cancel button to assign the result.
+		if (result == null && buttonPane != null) {
+			// Look for a cancel button.
+			for (Button button : buttonPane.getButtons()) {
+				if (button.isCancelButton()) {
+					result = button;
+					break;
+				}
+			}
+			// Only one button and not cancel button, take it anyway.
+			if (result == null && buttonPane.getButtons().size() == 1) {
+				result = buttonPane.getButtons().get(0);
+			}
+		}
+		// No buttons, result is default close button.
+		if (result == null && (buttonPane == null || buttonPane.getButtons().isEmpty())) {
+			result = Buttons.buttonClose();
+		}
+
+		return result;
+	}
 }

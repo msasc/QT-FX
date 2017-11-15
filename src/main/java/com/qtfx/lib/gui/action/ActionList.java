@@ -12,7 +12,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.gui;
+package com.qtfx.lib.gui.action;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import javafx.event.EventHandler;
  *
  * @author Miquel Sas
  */
-public class ListActionHandler implements EventHandler<ActionEvent> {
+public class ActionList implements EventHandler<ActionEvent> {
 
 	/** List of action event handlers. */
 	private List<EventHandler<ActionEvent>> handlers = new ArrayList<>();
@@ -33,7 +33,7 @@ public class ListActionHandler implements EventHandler<ActionEvent> {
 	/**
 	 * Constructor.
 	 */
-	public ListActionHandler() {
+	public ActionList() {
 		super();
 	}
 

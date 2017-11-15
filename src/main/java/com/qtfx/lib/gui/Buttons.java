@@ -17,7 +17,6 @@ package com.qtfx.lib.gui;
 import com.qtfx.lib.util.TextServer;
 
 import javafx.scene.control.Button;
-import javafx.stage.Window;
 
 /**
  * Buttons all around this development system are expected to have properties set in the user data, properties like the
@@ -60,18 +59,32 @@ public class Buttons {
 	/**
 	 * Return the button.
 	 * 
-	 * id The button id.
-	 * 
+	 * @param id The button id.
 	 * @param text The text.
 	 * @param defaultButton A boolean.
 	 * @param cancelButton A boolean.
 	 * @return The button.
 	 */
 	public static Button button(String id, String text, boolean defaultButton, boolean cancelButton) {
+		return button(id, text, defaultButton, cancelButton, true);
+	}
+
+	/**
+	 * Return the button.
+	 * 
+	 * @param id The button id.
+	 * @param text The text.
+	 * @param defaultButton A boolean.
+	 * @param cancelButton A boolean.
+	 * @param close A boolean to force close the window.
+	 * @return The button.
+	 */
+	public static Button button(String id, String text, boolean defaultButton, boolean cancelButton, boolean close) {
 		Button button = new Button(text);
 		button.setId(id);
 		button.setDefaultButton(defaultButton);
 		button.setCancelButton(cancelButton);
+		Nodes.setClose(button, close);
 		return button;
 	}
 
@@ -166,70 +179,4 @@ public class Buttons {
 		return button(ID_YES, TextServer.getString("buttonYes"), true, false);
 	}
 
-	/** Property GROUP. */
-	public static final String PROPERTY_GROUP = "GROUP";
-	/** Property ORDER. */
-	public static final String PROPERTY_ORDER = "ORDER";
-	/** Property ORDER. */
-	public static final String PROPERTY_WINDOW = "WINDOW";
-
-	/**
-	 * Return the button group.
-	 * 
-	 * @param button The button.
-	 * @return The group.
-	 */
-	public static String getPropertyGroup(Button button) {
-		return Nodes.getString(button, PROPERTY_GROUP);
-	}
-
-	/**
-	 * Set the button group.
-	 * 
-	 * @param button The button.
-	 * @param group The group.
-	 */
-	public static void setPropertyGroup(Button button, String group) {
-		Nodes.setString(button, PROPERTY_GROUP, group);
-	}
-
-	/**
-	 * Return the button order in the group.
-	 * 
-	 * @param button The button.
-	 * @return The order in the group.
-	 */
-	public static String getPropertyOrder(Button button) {
-		return Nodes.getString(button, PROPERTY_ORDER);
-	}
-
-	/**
-	 * Set the button order in the group.
-	 * 
-	 * @param button The button.
-	 * @param order The order in the group.
-	 */
-	public static void setPropertyOrder(Button button, String order) {
-		Nodes.setString(button, PROPERTY_ORDER, order);
-	}
-
-	/**
-	 * Return the window property.
-	 * 
-	 * @param button The button.
-	 * @return The window property.
-	 */
-	public static Window getPropertyWindow(Button button) {
-		return (Window) Nodes.getObject(button, PROPERTY_WINDOW);
-	}
-
-	/**
-	 * Set the window property.
-	 * 
-	 * @param button The button.
-	 * @param window The window property.
-	 */
-	public static void setPropertyWindow(Button button, Window window) {
-		Nodes.setObject(button, PROPERTY_WINDOW, window);
-	}
 }

@@ -16,7 +16,10 @@ package com.qtfx.lib.gui;
 
 import com.qtfx.lib.util.Properties;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.stage.Stage;
 
 /**
  * Nodes in this JavaFX development tools are sometimes expected to have properties in the user data. This class help
@@ -25,6 +28,140 @@ import javafx.scene.Node;
  * @author Miquel Sas
  */
 public class Nodes {
+	
+	/** Property ACTION. */
+	public static final String PROPERTY_ACTION = "ACTION";
+	/** Property CLOSE. */
+	public static final String PROPERTY_CLOSE = "CLOSE";
+	/** Property GROUP. */
+	public static final String PROPERTY_GROUP = "GROUP";
+	/** Property ORDER. */
+	public static final String PROPERTY_ORDER = "ORDER";
+	/** Property WINDOW. */
+	public static final String PROPERTY_STAGE = "STAGE";
+
+	/**
+	 * Return the action property.
+	 * 
+	 * @param node The node.
+	 * @return The action property.
+	 */
+	@SuppressWarnings("unchecked")
+	public static EventHandler<ActionEvent> getAction(Node node) {
+		return (EventHandler<ActionEvent>) getObject(node, PROPERTY_ACTION);
+	}
+
+	/**
+	 * Set the action property.
+	 * 
+	 * @param node The node.
+	 * @param action The action.
+	 */
+	public static void setAction(Node node, EventHandler<ActionEvent> action) {
+		setObject(node, PROPERTY_ACTION, action);
+	}
+
+	/**
+	 * Return the close property.
+	 * 
+	 * @param node The node.
+	 * @return A boolean.
+	 */
+	public static boolean isClose(Node node) {
+		return getBoolean(node, PROPERTY_CLOSE);
+	}
+
+	/**
+	 * Set the close property.
+	 * 
+	 * @param node The node.
+	 * @param close A boolean.
+	 */
+	public static void setClose(Node node, boolean close) {
+		setBoolean(node, PROPERTY_CLOSE, close);
+	}
+
+	/**
+	 * Return the group property.
+	 * 
+	 * @param node The node.
+	 * @return The group.
+	 */
+	public static String getGroup(Node node) {
+		return getString(node, PROPERTY_GROUP);
+	}
+
+	/**
+	 * Set the group property.
+	 * 
+	 * @param node The node.
+	 * @param group The group.
+	 */
+	public static void setGroup(Node node, String group) {
+		setString(node, PROPERTY_GROUP, group);
+	}
+
+	/**
+	 * Return the order in the group.
+	 * 
+	 * @param node The node.
+	 * @return The order in the group.
+	 */
+	public static String getOrder(Node node) {
+		return getString(node, PROPERTY_ORDER);
+	}
+
+	/**
+	 * Set the order in the group.
+	 * 
+	 * @param node The node.
+	 * @param order The order in the group.
+	 */
+	public static void setOrder(Node node, String order) {
+		setString(node, PROPERTY_ORDER, order);
+	}
+
+	/**
+	 * Return the stage property.
+	 * 
+	 * @param node The node.
+	 * @return The stage property.
+	 */
+	public static Stage getStage(Node node) {
+		return (Stage) getObject(node, PROPERTY_STAGE);
+	}
+
+	/**
+	 * Set the stage property.
+	 * 
+	 * @param node The node.
+	 * @param stage The stage property.
+	 */
+	public static void setStage(Node node, Stage stage) {
+		setObject(node, PROPERTY_STAGE, stage);
+	}
+
+	/**
+	 * Return a boolean property for the given key, with false default value.
+	 * 
+	 * @param node The node.
+	 * @param key The key.
+	 * @return A boolean.
+	 */
+	public static boolean getBoolean(Node node, Object key) {
+		return getProperties(node).getBoolean(key);
+	}
+
+	/**
+	 * Set the boolean property.
+	 * 
+	 * @param node The node.
+	 * @param key The key.
+	 * @param value A boolean.
+	 */
+	public static void setBoolean(Node node, Object key, boolean value) {
+		getProperties(node).setBoolean(key, value);
+	}
 
 	/**
 	 * Return a string property for the given key and an empty string default value.
