@@ -71,7 +71,7 @@ public class SystemUtils {
 	 */
 	public static Properties getProperties(File file) throws IOException {
 		boolean xml = false;
-		if (FileUtils.getFileExtension(file.getAbsolutePath()).toLowerCase().equals("xml")) {
+		if (Files.getFileExtension(file.getAbsolutePath()).toLowerCase().equals("xml")) {
 			xml = true;
 		}
 		FileInputStream fileIn = new FileInputStream(file);

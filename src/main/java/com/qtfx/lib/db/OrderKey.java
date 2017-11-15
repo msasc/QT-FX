@@ -17,14 +17,14 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qtfx.lib.util.ListUtils;
+import com.qtfx.lib.util.Lists;
 
 /**
  * An order key.
  * 
  * @author Miquel Sas
  */
-public class OrderKey extends ArrayList<OrderKey.Segment> implements Comparable<Object> {
+public class OrderKey implements Comparable<Object> {
 
 	/**
 	 * An order key segment is a small structure to pack segment (value,asc/desc) information.
@@ -68,8 +68,7 @@ public class OrderKey extends ArrayList<OrderKey.Segment> implements Comparable<
 			try {
 				segment = (Segment) o;
 			} catch (ClassCastException exc) {
-				throw new UnsupportedOperationException(
-					MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+				throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
 			}
 			int compare = value.compareTo(segment.value);
 			if (compare != 0) {
@@ -160,8 +159,9 @@ public class OrderKey extends ArrayList<OrderKey.Segment> implements Comparable<
 		}
 
 	}
-	
+
 	/** List of segments. */
+	private List<Segment> segments = new ArrayList<>();
 
 	/**
 	 * Default constructor.
@@ -171,21 +171,12 @@ public class OrderKey extends ArrayList<OrderKey.Segment> implements Comparable<
 	}
 
 	/**
-	 * Constructor assigning the initial capacity.
-	 *
-	 * @param initialCapacity The initial capacity.
-	 */
-	public OrderKey(int initialCapacity) {
-		super(initialCapacity);
-	}
-
-	/**
 	 * Constructor assigning a list of values in ascending order.
 	 * 
 	 * @param values The list of values.
 	 */
 	public OrderKey(Value... values) {
-		this(ListUtils.asList(values));
+		this(Lists.asList(values));
 	}
 
 	/**
@@ -201,13 +192,41 @@ public class OrderKey extends ArrayList<OrderKey.Segment> implements Comparable<
 	}
 
 	/**
+	 * Add a value to the key.
+	 * 
+	 * @param value The value.
+	 */
+	public void add(Value value) {
+		add(value, true);
+	}
+
+	/**
 	 * Add a value segment to the segment list.
 	 *
 	 * @param value The value of the segment.
 	 * @param asc The ascending/descending flag
 	 */
 	public void add(Value value, boolean asc) {
-		add(new Segment(value, asc));
+		segments.add(new Segment(value, asc));
+	}
+
+	/**
+	 * Return the segment at the given index.
+	 * 
+	 * @param index The index.
+	 * @return The segment.
+	 */
+	public Segment get(int index) {
+		return segments.get(index);
+	}
+
+	/**
+	 * Return the size or number of segments.
+	 * 
+	 * @return The number of segments.
+	 */
+	public int size() {
+		return segments.size();
 	}
 
 	/**
@@ -219,7 +238,7 @@ public class OrderKey extends ArrayList<OrderKey.Segment> implements Comparable<
 	 */
 	@Override
 	public int compareTo(Object o) {
-		return ListUtils.compareTo(this, o);
+		return Lists.compare(segments, o);
 	}
 
 	/**

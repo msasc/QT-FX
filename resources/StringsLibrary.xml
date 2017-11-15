@@ -3,21 +3,21 @@
 <properties>
 	<comment>System library strings</comment>
 
-	<!-- Alert options. -->
+	<!-- Standard buttons. -->
 
-	<entry key="alertOptionAccept">Accept</entry>
-	<entry key="alertOptionApply">Apply</entry>
-	<entry key="alertOptionCancel">Cancel</entry>
-	<entry key="alertOptionClose">Close</entry>
-	<entry key="alertOptionFinish">Finish</entry>
-	<entry key="alertOptionIgnore">Ignore</entry>
-	<entry key="alertOptionNext">Next</entry>
-	<entry key="alertOptionNo">No</entry>
-	<entry key="alertOptionOk">Ok</entry>
-	<entry key="alertOptionOpen">Open</entry>
-	<entry key="alertOptionPrevious">Previous</entry>
-	<entry key="alertOptionRetry">Retry</entry>
-	<entry key="alertOptionYes">Yes</entry>
+	<entry key="buttonAccept">Accept</entry>
+	<entry key="buttonApply">Apply</entry>
+	<entry key="buttonCancel">Cancel</entry>
+	<entry key="buttonClose">Close</entry>
+	<entry key="buttonFinish">Finish</entry>
+	<entry key="buttonIgnore">Ignore</entry>
+	<entry key="buttonNext">Next</entry>
+	<entry key="buttonNo">No</entry>
+	<entry key="buttonOk">Ok</entry>
+	<entry key="buttonOpen">Open</entry>
+	<entry key="buttonPrevious">Previous</entry>
+	<entry key="buttonRetry">Retry</entry>
+	<entry key="buttonYes">Yes</entry>
 	
 	<entry key="alertTitleError">Error</entry>
 	<entry key="alertTitleInformation">Information</entry>

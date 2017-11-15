@@ -14,8 +14,8 @@
 
 package com.qtfx.lib.db;
 
-import com.qtfx.lib.util.NumberUtils;
-import com.qtfx.lib.util.StringUtils;
+import com.qtfx.lib.util.Numbers;
+import com.qtfx.lib.util.Strings;
 
 /**
  * A group of fields within a table or view. Domains of the same group are expected to same a related meaning.
@@ -36,7 +36,7 @@ public class FieldGroup implements Comparable<FieldGroup> {
 	 */
 	private static final FieldGroup getEmptyFieldGroup() {
 		FieldGroup fieldGroup = new FieldGroup();
-		fieldGroup.index = NumberUtils.MIN_INTEGER;
+		fieldGroup.index = Numbers.MIN_INTEGER;
 		fieldGroup.name = "";
 		fieldGroup.title = "";
 		fieldGroup.description = "";
@@ -183,7 +183,7 @@ public class FieldGroup implements Comparable<FieldGroup> {
 	 * @return The display title.
 	 */
 	public String getDisplayTitle() {
-		return StringUtils.getFirstNotNull(getTitle(), getName(), getDescription());
+		return Strings.getFirstNotNull(getTitle(), getName(), getDescription());
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class FieldGroup implements Comparable<FieldGroup> {
 	 * @return The display description.
 	 */
 	public String getDisplayDescription() {
-		return StringUtils.getFirstNotNull(getDescription(), getTitle(), getName());
+		return Strings.getFirstNotNull(getDescription(), getTitle(), getName());
 	}
 
 	/**

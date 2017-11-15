@@ -17,7 +17,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qtfx.lib.util.ListUtils;
+import com.qtfx.lib.util.Lists;
 
 /**
  * Filters are used to build complex <code>WHERE</code> clauses programmatic. Filters chain expressions with logical
@@ -98,7 +98,7 @@ public class Filter extends ArrayList<Filter.Segment> {
 		public Segment(String string, Value... values) {
 			this.string = string;
 			this.values = new ArrayList<>();
-			this.values.addAll(ListUtils.asList(values));
+			this.values.addAll(Lists.asList(values));
 		}
 
 		/**

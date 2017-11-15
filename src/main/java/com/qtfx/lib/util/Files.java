@@ -33,7 +33,7 @@ import java.util.jar.JarFile;
  * 
  * @author Miquel Sas
  */
-public class FileUtils {
+public class Files {
 
 	/**
 	 * Enum sizes.

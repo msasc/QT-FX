@@ -542,7 +542,7 @@ public class Record implements Comparable<Object> {
 	 */
 	public OrderKey getPrimaryKey() {
 		List<Field> primaryKeyFields = getPrimaryKeyFields();
-		OrderKey orderKey = new OrderKey(primaryKeyFields.size());
+		OrderKey orderKey = new OrderKey();
 		for (Field field : primaryKeyFields) {
 			orderKey.add(getValue(field.getAlias()), true);
 		}

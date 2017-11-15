@@ -23,7 +23,7 @@ import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Field.PossibleValue;
 import com.qtfx.lib.db.Table;
 import com.qtfx.lib.db.Value;
-import com.qtfx.lib.util.StringUtils;
+import com.qtfx.lib.util.Strings;
 
 /**
  * An ALTER TABLE ADD CONSTRAINT name CHECK (condition) builder to apply the constraints related to the field.
@@ -43,7 +43,7 @@ public class AddCheck extends Statement {
 		StringBuilder b = new StringBuilder();
 		b.append(table.getName());
 		b.append("_CHK");
-		b.append(StringUtils.leftPad(Integer.toString(fieldIndex), 2, '0'));
+		b.append(Strings.leftPad(Integer.toString(fieldIndex), 2, '0'));
 		return b.toString();
 	}
 

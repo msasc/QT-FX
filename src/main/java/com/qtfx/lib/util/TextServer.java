@@ -249,7 +249,7 @@ public class TextServer {
 			return;
 		}
 		// Separate name and extension.
-		String ext = FileUtils.getFileExtension(fileName);
+		String ext = Files.getFileExtension(fileName);
 		// Check compressed.
 		boolean zipped = (ext.equalsIgnoreCase("zip") || ext.equalsIgnoreCase("jar"));
 		if (!zipped) {
@@ -268,9 +268,9 @@ public class TextServer {
 	 * @throws IOException If an IO error occurs.
 	 */
 	private void loadResourceStd(String fileName, Locale locale) throws IOException {
-		String name = FileUtils.getFileName(fileName);
-		String ext = FileUtils.getFileExtension(fileName);
-		File file = FileUtils.getLocalizedFile(locale, name, ext);
+		String name = Files.getFileName(fileName);
+		String ext = Files.getFileExtension(fileName);
+		File file = Files.getLocalizedFile(locale, name, ext);
 		if (file != null) {
 			Properties properties = SystemUtils.getProperties(file);
 			mergeResources(properties);
@@ -285,7 +285,7 @@ public class TextServer {
 	 * @throws IOException If an IO error occurs.
 	 */
 	private void loadResourceZip(String fileName, Locale locale) throws IOException {
-		File file = FileUtils.getFileFromClassPathEntries(fileName);
+		File file = Files.getFileFromClassPathEntries(fileName);
 		FileInputStream fis = new FileInputStream(file);
 		ZipInputStream zis = new ZipInputStream(new BufferedInputStream(fis));
 		ZipEntry entry;
@@ -313,7 +313,7 @@ public class TextServer {
 	 * @return A boolean that indicates if the resoource is a base resource.
 	 */
 	private boolean isBaseResource(String resourceName) {
-		String name = FileUtils.getFileName(resourceName);
+		String name = Files.getFileName(resourceName);
 		if (name.charAt(name.length() - 3) == '_') {
 			return false;
 		}
@@ -328,7 +328,7 @@ public class TextServer {
 	 * @return A boolean that indicates if the resoource is a base resource.
 	 */
 	private boolean isLocalizedResource(String resourceName, Locale locale) {
-		String name = FileUtils.getFileName(resourceName);
+		String name = Files.getFileName(resourceName);
 		String language_country = locale.getLanguage() + "_" + locale.getCountry();
 		String language = locale.getLanguage();
 		if (name.endsWith(language_country) || name.endsWith(language)) {

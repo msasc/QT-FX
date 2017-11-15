@@ -19,7 +19,7 @@ package com.qtfx.lib.util;
  *
  * @author Miquel Sas
  */
-public class StringUtils extends org.apache.commons.lang3.StringUtils {
+public class Strings extends org.apache.commons.lang3.StringUtils {
 	/**
 	 * Returns the first string not null, or an empty string.
 	 * 

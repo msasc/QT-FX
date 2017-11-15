@@ -39,8 +39,8 @@ import com.qtfx.lib.db.rdbms.sql.Insert;
 import com.qtfx.lib.db.rdbms.sql.Select;
 import com.qtfx.lib.db.rdbms.sql.Statement;
 import com.qtfx.lib.db.rdbms.sql.Update;
-import com.qtfx.lib.util.ListUtils;
-import com.qtfx.lib.util.StringUtils;
+import com.qtfx.lib.util.Lists;
+import com.qtfx.lib.util.Strings;
 
 /**
  * A database engine represent a backend JDBC database.
@@ -949,7 +949,7 @@ public class DBEngine {
 		throws SQLException {
 
 		// Check the function MIN, MAX, SUM
-		if (!StringUtils.in(function, "MIN", "MAX", "SUM")) {
+		if (!Strings.in(function, "MIN", "MAX", "SUM")) {
 			throw new IllegalArgumentException("Allowed functions are MIN, MAX and SUM.");
 		}
 		boolean sum = function.equals("SUM");
@@ -1005,7 +1005,7 @@ public class DBEngine {
 	 */
 	private ValueMap executeSelectFunctionMap(String function, View view, Filter filter, int... indexes)
 		throws SQLException {
-		List<Integer> indexesList = ListUtils.asList(indexes);
+		List<Integer> indexesList = Lists.asList(indexes);
 		List<Value> values = executeSelectFunction(function, view, filter, indexesList);
 		return ValueMap.getIndexesMap(indexesList, values);
 	}
@@ -1024,7 +1024,7 @@ public class DBEngine {
 		throws SQLException {
 		List<Integer> indexes = view.getFieldIndexes(aliases);
 		List<Value> values = executeSelectFunction(function, view, filter, indexes);
-		List<String> aliasesList = ListUtils.asList(aliases);
+		List<String> aliasesList = Lists.asList(aliases);
 		return ValueMap.getAliasesMap(aliasesList, values);
 	}
 

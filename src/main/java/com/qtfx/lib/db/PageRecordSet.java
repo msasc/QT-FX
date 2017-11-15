@@ -22,7 +22,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.qtfx.lib.db.Condition.Operator;
-import com.qtfx.lib.util.ListUtils;
+import com.qtfx.lib.util.Lists;
 
 /**
  * A <tt>PageRecordSet</tt> is a <tt>RecordSet</tt> that first paginates the underliying <tt>Persistor</tt> and
@@ -552,7 +552,7 @@ public class PageRecordSet extends RecordSet {
 	 * @return The last page in the list.
 	 */
 	synchronized private Page getLastPage() {
-		return ListUtils.getLast(pages);
+		return Lists.getLast(pages);
 	}
 
 	/**

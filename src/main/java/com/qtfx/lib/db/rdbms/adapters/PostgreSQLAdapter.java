@@ -26,7 +26,7 @@ import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Types;
 import com.qtfx.lib.db.rdbms.DBEngineAdapter;
 import com.qtfx.lib.db.rdbms.DataSourceInfo;
-import com.qtfx.lib.util.FormatUtils;
+import com.qtfx.lib.util.Formats;
 
 /**
  * PostgreSQL database adapter.
@@ -163,7 +163,7 @@ public class PostgreSQLAdapter extends DBEngineAdapter {
 	 */
 	@Override
 	public String toStringSQL(Date date) {
-		String sdate = FormatUtils.unformattedFromDate(date);
+		String sdate = Formats.unformattedFromDate(date);
 		String syear = (sdate.length() == 8 ? sdate.substring(0, 4) : sdate.substring(0, 5));
 		String smonth = (sdate.length() == 8 ? sdate.substring(4, 6) : sdate.substring(5, 7));
 		String sday = (sdate.length() == 8 ? sdate.substring(6, 8) : sdate.substring(7, 9));
@@ -178,7 +178,7 @@ public class PostgreSQLAdapter extends DBEngineAdapter {
 	 */
 	@Override
 	public String toStringSQL(Time time) {
-		String stime = FormatUtils.unformattedFromTime(time);
+		String stime = Formats.unformattedFromTime(time);
 		String sHour = stime.substring(0, 2);
 		String sMin = stime.substring(2, 4);
 		String sSec = stime.substring(4, 6);
@@ -194,7 +194,7 @@ public class PostgreSQLAdapter extends DBEngineAdapter {
 	 */
 	@Override
 	public String toStringSQL(Timestamp timestamp) {
-		String stime = FormatUtils.unformattedFromTimestamp(timestamp, false);
+		String stime = Formats.unformattedFromTimestamp(timestamp, false);
 		String sYear = (stime.length() == 14 ? stime.substring(0, 4) : stime.substring(0, 5));
 		String sMonth = (stime.length() == 14 ? stime.substring(4, 6) : stime.substring(5, 7));
 		String sDay = (stime.length() == 14 ? stime.substring(6, 8) : stime.substring(7, 9));

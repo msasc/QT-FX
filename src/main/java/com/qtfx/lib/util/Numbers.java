@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Miquel Sas
  */
-public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils {
+public class Numbers extends org.apache.commons.lang3.math.NumberUtils {
 	
 	/**
 	 * Maximum positive double.
@@ -225,7 +225,7 @@ public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils {
 		int lowerScale = (integerDigits - 1) * (-1);
 		for (int scale = upperScale; scale >= lowerScale; scale--) {
 			for (int multiplier : multipliers) {
-				BigDecimal value = NumberUtils.getBigDecimal(Math.pow(10, -scale), scale);
+				BigDecimal value = Numbers.getBigDecimal(Math.pow(10, -scale), scale);
 				BigDecimal multiplicand = new BigDecimal(multiplier).setScale(0, BigDecimal.ROUND_HALF_UP);
 				increaments.add(value.multiply(multiplicand));
 			}

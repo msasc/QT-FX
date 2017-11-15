@@ -27,7 +27,7 @@ import com.qtfx.lib.db.rdbms.adapters.sql.OracleCreateSchema;
 import com.qtfx.lib.db.rdbms.adapters.sql.OracleDropSchema;
 import com.qtfx.lib.db.rdbms.sql.CreateSchema;
 import com.qtfx.lib.db.rdbms.sql.DropSchema;
-import com.qtfx.lib.util.FormatUtils;
+import com.qtfx.lib.util.Formats;
 
 /**
  * The Oracle database adapter.
@@ -163,7 +163,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	 */
 	@Override
 	public String toStringSQL(Date date) {
-		String sdate = FormatUtils.unformattedFromDate(date);
+		String sdate = Formats.unformattedFromDate(date);
 		return "TO_DATE('" + sdate + "','SYYYYMMDD')";
 	}
 
@@ -175,7 +175,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	 */
 	@Override
 	public String toStringSQL(Time time) {
-		String stime = FormatUtils.unformattedFromTime(time);
+		String stime = Formats.unformattedFromTime(time);
 		return "TO_DATE('" + stime + "','HH24MISS')";
 	}
 
@@ -188,7 +188,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	 */
 	@Override
 	public String toStringSQL(Timestamp timestamp) {
-		String stime = FormatUtils.unformattedFromTimestamp(timestamp, false);
+		String stime = Formats.unformattedFromTimestamp(timestamp, false);
 		return "TO_DATE('" + stime + "','YYYYMMDDHH24MISS')";
 	}
 

@@ -18,12 +18,10 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.List;
 
-import com.qtfx.lib.util.ArrayUtils;
-import com.qtfx.lib.util.NumberUtils;
-import com.qtfx.lib.util.Values;
+import com.qtfx.lib.util.Lists;
+import com.qtfx.lib.util.Numbers;
 
 /**
  * A generic container for a value of different types. Valid types for a Value are Boolean, String, Decimal, Double,
@@ -264,7 +262,7 @@ public class Value implements Comparable<Object> {
 			v.value = new Boolean(getBoolean());
 			break;
 		case BYTEARRAY:
-			v.value = ArrayUtils.copy(getByteArray());
+			v.value = Lists.copy(getByteArray());
 			break;
 		case DATE:
 			v.value = new Date(getDate().getTime());
@@ -291,7 +289,7 @@ public class Value implements Comparable<Object> {
 			v.value = new Timestamp(getTimestamp().getTime());
 			break;
 		case VALUEARRAY:
-			v.value = ArrayUtils.copy(getValueArray());
+			v.value = Lists.copy(getValueArray());
 			break;
 		default:
 			v.value = value;
@@ -376,7 +374,7 @@ public class Value implements Comparable<Object> {
 			if (!v.isByteArray()) {
 				throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
 			}
-			return ArrayUtils.compare(getByteArray(), v.getByteArray());
+			return Lists.compare(getByteArray(), v.getByteArray());
 		}
 		throw new IllegalArgumentException(MessageFormat.format("Value {0} is not comparable", toString()));
 	}
@@ -450,7 +448,7 @@ public class Value implements Comparable<Object> {
 				return false;
 			}
 			byte[] byteArray = (byte[]) o;
-			return ArrayUtils.equals(getByteArray(), byteArray);
+			return Lists.equals(getByteArray(), byteArray);
 		}
 		// Value
 		if (o instanceof Value) {
@@ -484,7 +482,7 @@ public class Value implements Comparable<Object> {
 				return getNumber().equals(v.getNumber());
 			}
 			if (isByteArray()) {
-				return ArrayUtils.equals(getByteArray(), v.getByteArray());
+				return Lists.equals(getByteArray(), v.getByteArray());
 			}
 		}
 		return false;
@@ -522,7 +520,7 @@ public class Value implements Comparable<Object> {
 				return getTimestamp().hashCode();
 			}
 		}
-		return NumberUtils.MIN_INTEGER;
+		return Numbers.MIN_INTEGER;
 	}
 
 	/**
@@ -1272,7 +1270,7 @@ public class Value implements Comparable<Object> {
 	 * @return True if this value is in the list.
 	 */
 	public boolean in(Value... values) {
-		return Values.in(this, values);
+		return Lists.in(this, values);
 	}
 
 	/**
@@ -1281,8 +1279,8 @@ public class Value implements Comparable<Object> {
 	 * @param values The list of values to check.
 	 * @return True if this value is in the list.
 	 */
-	public boolean in(Collection<Value> values) {
-		return Values.in(this, values);
+	public boolean in(List<Value> values) {
+		return Lists.in(this, values);
 	}
 
 	/**
@@ -1292,7 +1290,7 @@ public class Value implements Comparable<Object> {
 	 * @return True if this value is not in the list.
 	 */
 	public boolean notIn(Value... values) {
-		return !Values.in(this, values);
+		return !Lists.in(this, values);
 	}
 
 	/**
@@ -1302,7 +1300,7 @@ public class Value implements Comparable<Object> {
 	 * @return True if this value is not in the list.
 	 */
 	public boolean notIn(List<Value> values) {
-		return !Values.in(this, values);
+		return !Lists.in(this, values);
 	}
 
 	/**

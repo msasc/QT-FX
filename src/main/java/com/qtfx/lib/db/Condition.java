@@ -17,7 +17,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qtfx.lib.util.ListUtils;
+import com.qtfx.lib.util.Lists;
 
 /**
  * A condition used to build filtering criteria.
@@ -694,17 +694,11 @@ public class Condition {
 		return new Condition(field, Operator.NOT_BETWEEN_NOCASE, new Value[] { value1, value2 });
 	}
 
-	/**
-	 * The field to compare is the left operand.
-	 */
+	/** The field to compare is the left operand. */
 	private Field field = null;
-	/**
-	 * The operator to apply.
-	 */
+	/** The operator to apply. */
 	private Operator operator = null;
-	/**
-	 * The right operand is a list of one or more values.
-	 */
+	/** The right operand is a list of one or more values. */
 	private final List<Value> values = new ArrayList<>();
 
 	/**
@@ -745,7 +739,7 @@ public class Condition {
 	public Condition(Field field, Operator operator, Value... values) {
 		this.field = field;
 		this.operator = operator;
-		this.values.addAll(ListUtils.asList(values));
+		this.values.addAll(Lists.asList(values));
 		validate(field, operator, this.values);
 	}
 

@@ -36,7 +36,7 @@ import com.qtfx.lib.db.Value;
  * 
  * @author Miquel Sas
  */
-public class FormatUtils {
+public class Formats {
 	/** Format index. */
 	private static int propertyIndex = 0;
 	/** The normalized date format key. */

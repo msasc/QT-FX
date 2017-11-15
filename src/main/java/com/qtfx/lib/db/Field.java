@@ -22,7 +22,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qtfx.lib.util.StringUtils;
+import com.qtfx.lib.util.Strings;
 
 /**
  * Definition a an item usually of tabular data.
@@ -401,7 +401,7 @@ public class Field implements Comparable<Object> {
 	 * @return A not null description.
 	 */
 	public String getDisplayDescription() {
-		return StringUtils.getFirstNotNull(getDescription(), getTitle(), getLabel(), getHeader());
+		return Strings.getFirstNotNull(getDescription(), getTitle(), getLabel(), getHeader());
 	}
 
 	/**
@@ -410,7 +410,7 @@ public class Field implements Comparable<Object> {
 	 * @return A not null header.
 	 */
 	public String getDisplayLabel() {
-		return StringUtils.getFirstNotNull(getLabel(), getHeader(), getTitle(), getDescription());
+		return Strings.getFirstNotNull(getLabel(), getHeader(), getTitle(), getDescription());
 	}
 
 	/**
@@ -419,7 +419,7 @@ public class Field implements Comparable<Object> {
 	 * @return A not null header.
 	 */
 	public String getDisplayHeader() {
-		return StringUtils.getFirstNotNull(getHeader(), getLabel(), getTitle(), getDescription());
+		return Strings.getFirstNotNull(getHeader(), getLabel(), getTitle(), getDescription());
 	}
 
 	/**
@@ -428,7 +428,7 @@ public class Field implements Comparable<Object> {
 	 * @return A not null title.
 	 */
 	public String getDisplayTitle() {
-		return StringUtils.getFirstNotNull(getTitle(), getLabel(), getHeader(), getDescription());
+		return Strings.getFirstNotNull(getTitle(), getLabel(), getHeader(), getDescription());
 	}
 
 	////////////////////////////////////////
@@ -1006,7 +1006,7 @@ public class Field implements Comparable<Object> {
 	 */
 	public Value getBlankValue() {
 		if (isString()) {
-			return new Value(StringUtils.repeat(" ", getLength()));
+			return new Value(Strings.repeat(" ", getLength()));
 		}
 		return getDefaultValue();
 	}
