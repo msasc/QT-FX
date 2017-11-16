@@ -292,22 +292,22 @@ public class Alert {
 		}
 		switch (type) {
 		case PLAIN:
-			dialog.getOptionPane().getButtons().add(OK);
+			dialog.getButtonPane().getButtons().add(OK);
 			break;
 		case INFORMATION:
-			dialog.getOptionPane().getButtons().add(OK);
+			dialog.getButtonPane().getButtons().add(OK);
 			graphics = Icons.get(Icons.APP_32x32_DIALOG_INFORMATION);
 			break;
 		case ERROR:
-			dialog.getOptionPane().getButtons().add(OK);
+			dialog.getButtonPane().getButtons().add(OK);
 			graphics = Icons.get(Icons.APP_32x32_DIALOG_ERROR);
 			break;
 		case WARNING:
-			dialog.getOptionPane().getButtons().add(OK);
+			dialog.getButtonPane().getButtons().add(OK);
 			graphics = Icons.get(Icons.APP_32x32_DIALOG_WARNING);
 			break;
 		case CONFIRMATION:
-			dialog.getOptionPane().getButtons().addAll(OK, CANCEL);
+			dialog.getButtonPane().getButtons().addAll(OK, CANCEL);
 			graphics = Icons.get(Icons.APP_32x32_DIALOG_CONFIRMATION);
 			break;
 		}
@@ -328,7 +328,7 @@ public class Alert {
 	 * @param buttons The list of buttons.
 	 */
 	public void addButtons(Button... buttons) {
-		dialog.getOptionPane().getButtons().addAll(buttons);
+		dialog.getButtonPane().getButtons().addAll(buttons);
 	}
 
 	/**
@@ -337,8 +337,8 @@ public class Alert {
 	 * @param buttons The list of buttons.
 	 */
 	public void setButtons(Button... buttons) {
-		dialog.getOptionPane().getButtons().clear();
-		dialog.getOptionPane().getButtons().addAll(buttons);
+		dialog.getButtonPane().getButtons().clear();
+		dialog.getButtonPane().getButtons().addAll(buttons);
 	}
 
 	/**
@@ -379,7 +379,7 @@ public class Alert {
 	public Button show() {
 
 		textFlow.setPadding(new Insets(padding, padding, padding, padding));
-		dialog.getOptionPane().setPadding(new Insets(0, padding, padding, padding));
+		dialog.getButtonPane().setPadding(new Insets(0, padding, padding, padding));
 
 		BorderPane content = new BorderPane();
 		if (graphics != null) {

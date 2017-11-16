@@ -64,7 +64,8 @@ public class Dialog {
 	}
 
 	/**
-	 * Private instance of action list.
+	 * Private instance of action list. A private extension is used to identify that the action saved is the original
+	 * button action and not the list of actions setup by this dialog to close and set the result.
 	 */
 	private class Actions extends ActionList {
 	}
@@ -77,6 +78,8 @@ public class Dialog {
 	private ButtonPane buttonPane;
 	/** Result button. */
 	private Button result;
+	/** User properties setter. */
+	private PropertySetter propertySetter;
 
 	/**
 	 * Constructor, application modal.
@@ -153,7 +156,7 @@ public class Dialog {
 	 * 
 	 * @return The option pane.
 	 */
-	public ButtonPane getOptionPane() {
+	public ButtonPane getButtonPane() {
 		return buttonPane;
 	}
 
@@ -224,6 +227,24 @@ public class Dialog {
 	}
 
 	/**
+	 * Return the properties setter.
+	 * 
+	 * @return The properties setter.
+	 */
+	public PropertySetter getPropertySetter() {
+		return propertySetter;
+	}
+
+	/**
+	 * Set the properties setter.
+	 * 
+	 * @param propertySetter The properties setter.
+	 */
+	public void setPropertySetter(PropertySetter propertySetter) {
+		this.propertySetter = propertySetter;
+	}
+
+	/**
 	 * Setup the button. Set the stage, save the initial action, and set a list of actions to close the stage if
 	 * required and to set the result.
 	 * 
@@ -250,6 +271,10 @@ public class Dialog {
 		actions.addHandler(new Result());
 		// Set the action list as the button action.
 		button.setOnAction(actions);
+		// User properties.
+		if (getPropertySetter() != null) {
+			getPropertySetter().setProperties(button);
+		}
 	}
 
 	/**

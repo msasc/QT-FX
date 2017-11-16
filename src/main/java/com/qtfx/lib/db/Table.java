@@ -69,8 +69,6 @@ public class Table {
 	private List<ForeignKey> foreignKeys = new ArrayList<>();
 	/** The persistor that provides persistence to this table. */
 	private Persistor persistor;
-	/** Optional and additional properties. */
-	private Properties properties;
 
 	/**
 	 * Constructor.
@@ -229,18 +227,6 @@ public class Table {
 		Record record = getFieldList().getDefaultRecord();
 		record.setPersistor(getPersistor());
 		return record;
-	}
-
-	/**
-	 * Returns the properties container to store any use additional property.
-	 * 
-	 * @return The properties.
-	 */
-	public Properties getProperties() {
-		if (properties == null) {
-			properties = new Properties();
-		}
-		return properties;
 	}
 
 	/**

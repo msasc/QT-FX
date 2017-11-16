@@ -14,8 +14,10 @@
 
 package com.qtfx.lib.gui;
 
-import com.qtfx.lib.util.Properties;
-
+import javafx.beans.property.SimpleMapProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -28,7 +30,7 @@ import javafx.stage.Stage;
  * @author Miquel Sas
  */
 public class Nodes {
-	
+
 	/** Property ACTION. */
 	public static final String PROPERTY_ACTION = "ACTION";
 	/** Property CLOSE. */
@@ -128,7 +130,9 @@ public class Nodes {
 	 * @return The stage property.
 	 */
 	public static Stage getStage(Node node) {
-		return (Stage) getObject(node, PROPERTY_STAGE);
+		Object value = getProperty(node, PROPERTY_STAGE).get();
+		checkType(value, PROPERTY_STAGE, Stage.class);
+		return (value == null ? null : (Stage) value);
 	}
 
 	/**
@@ -149,7 +153,9 @@ public class Nodes {
 	 * @return A boolean.
 	 */
 	public static boolean getBoolean(Node node, Object key) {
-		return getProperties(node).getBoolean(key);
+		Object value = getProperty(node, key).get();
+		checkType(value, key, Boolean.class);
+		return (value == null ? false : (Boolean) value);
 	}
 
 	/**
@@ -160,7 +166,7 @@ public class Nodes {
 	 * @param value A boolean.
 	 */
 	public static void setBoolean(Node node, Object key, boolean value) {
-		getProperties(node).setBoolean(key, value);
+		getProperty(node, key).set(value);
 	}
 
 	/**
@@ -171,7 +177,9 @@ public class Nodes {
 	 * @return The string property.
 	 */
 	public static String getString(Node node, Object key) {
-		return getProperties(node).getString(key, "");
+		Object value = getProperty(node, key).get();
+		checkType(value, key, String.class);
+		return (value == null ? "" : (String) value);
 	}
 
 	/**
@@ -182,7 +190,7 @@ public class Nodes {
 	 * @param value The value.
 	 */
 	public static void setString(Node node, Object key, String value) {
-		getProperties(node).setString(key, value);
+		getProperty(node, key).set(value);
 	}
 
 	/**
@@ -193,7 +201,7 @@ public class Nodes {
 	 * @return The object property.
 	 */
 	public static Object getObject(Node node, Object key) {
-		return getProperties(node).getObject(key);
+		return getProperty(node, key).get();
 	}
 
 	/**
@@ -204,28 +212,79 @@ public class Nodes {
 	 * @param value The value.
 	 */
 	public static void setObject(Node node, Object key, Object value) {
-		getProperties(node).setObject(key, value);
+		getProperty(node, key).set(value);
 	}
 
 	/**
-	 * Return the properties in the user data of the node. If the node has a user data of a non properties class, an
-	 * illegal argument exception is thrown.
+	 * Return the property with the given key. If the property has not been set, a new empty property with the given key
+	 * is set.
 	 * 
 	 * @param node The node.
-	 * @return The <em>Properties</em> in the user data.
+	 * @param key The key.
+	 * @return The property.
 	 */
-	public static Properties getProperties(Node node) {
+	public static SimpleObjectProperty<Object> getProperty(Node node, Object key) {
+		SimpleObjectProperty<Object> property = getPropertyMap(node).get(key);
+		if (property == null) {
+			property = new SimpleObjectProperty<Object>();
+			getPropertyMap(node).put(key, property);
+		}
+		return property;
+	}
+
+	/**
+	 * Return a property map set in the user data of the node. If the node has a user data of a non
+	 * <em>SimpleMapProperty</em> class, an illegal argument exception is thrown.
+	 * <p>
+	 * The usage of an observable map with observable object properties allows adding listeners either to the map or the
+	 * properties.
+	 * 
+	 * @param node The node.
+	 * @return The property map.
+	 */
+	@SuppressWarnings("unchecked")
+	public static SimpleMapProperty<Object, SimpleObjectProperty<Object>> getPropertyMap(Node node) {
 		Object userData = node.getUserData();
-		if (userData != null && !(userData instanceof Properties)) {
-			throw new IllegalArgumentException("Noide has user data of type: " + userData.getClass());
+		if (userData != null && !(userData instanceof SimpleMapProperty)) {
+			throw new IllegalArgumentException("Node has user data of type: " + userData.getClass());
 		}
-		Properties properties;
-		if (userData instanceof Properties) {
-			properties = (Properties) userData;
+		SimpleMapProperty<Object, SimpleObjectProperty<Object>> propertyMap;
+		if (userData instanceof SimpleMapProperty) {
+			propertyMap = (SimpleMapProperty<Object, SimpleObjectProperty<Object>>) userData;
 		} else {
-			properties = new Properties();
-			node.setUserData(properties);
+			propertyMap = new SimpleMapProperty<>(FXCollections.observableHashMap());
+			node.setUserData(propertyMap);
 		}
-		return properties;
+		return propertyMap;
+	}
+
+	/**
+	 * Check the proper type of the value for the key.
+	 * 
+	 * @param value The value.
+	 * @param key The key.
+	 * @param clazz The required type.
+	 */
+	@SuppressWarnings("rawtypes")
+	private static void checkType(Object value, Object key, Class clazz) {
+		if (value != null && !clazz.isInstance(value)) {
+			throw new IllegalStateException("Invalid type for key: " + key);
+		}
+	}
+
+	/**
+	 * Return the node with the given id from the list.
+	 * 
+	 * @param nodes The list of nodes.
+	 * @param id The id.
+	 * @return The node or null.
+	 */
+	public static Node getNode(ObservableList<Node> nodes, String id) {
+		for (Node node : nodes) {
+			if (node.getId() != null && node.getId().equals(id)) {
+				return node;
+			}
+		}
+		return null;
 	}
 }
