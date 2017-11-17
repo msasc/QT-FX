@@ -154,10 +154,11 @@ public class Update extends Statement {
 			throw new IllegalStateException("Malformed UPDATE query: the record must be set after the table");
 		}
 		this.record = record;
-		for (int i = 0; i < record.getFieldCount(); i++) {
+		for (int i = 0; i < record.size(); i++) {
 			Field field = record.getField(i);
 			Value value = record.getValue(i);
-			if (value.isModified() && field.isPersistent()) {
+			boolean modified = record.isModified(i);
+			if (modified && field.isPersistent()) {
 				set(field, value);
 			}
 		}

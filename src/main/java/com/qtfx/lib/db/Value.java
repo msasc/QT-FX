@@ -24,10 +24,7 @@ import com.qtfx.lib.util.Lists;
 import com.qtfx.lib.util.Numbers;
 
 /**
- * A generic container for a value of different types. Valid types for a Value are Boolean, String, Decimal, Double,
- * Integer, Long, Date, Time, Timestamp, ByteArray.
- *
- * Note that other types will be included uppon need.
+ * An immutable value of supported types.
  *
  * @author Miquel Sas
  */
@@ -37,16 +34,6 @@ public class Value implements Comparable<Object> {
 	private Types type;
 	/** The value itself. */
 	private Object value;
-	/** Modified flag. */
-	private boolean modified;
-
-	/**
-	 * The number of decimal places when it is a big decimal. It is neccesary to save it when created, because the value
-	 * can be set to null and then set again through <code>setDouble</code>, for instance, and we do not want to loose
-	 * the number of decimal places or scale.
-	 */
-	private int decimals = -1;
-
 	/**
 	 * Private constructor for internal usage.
 	 */
@@ -66,17 +53,6 @@ public class Value implements Comparable<Object> {
 		}
 		type = v.type;
 		value = v.value;
-	}
-
-	/**
-	 * Constructor assigning a value array.
-	 * 
-	 * @param valueArray A value array.
-	 */
-	public Value(Value[] valueArray) {
-		super();
-		value = valueArray;
-		type = Types.VALUEARRAY;
 	}
 
 	/**
@@ -121,11 +97,6 @@ public class Value implements Comparable<Object> {
 		super();
 		value = b;
 		type = Types.DECIMAL;
-		if (b == null) {
-			decimals = 0;
-		} else {
-			decimals = b.scale();
-		}
 	}
 
 	/**
@@ -137,7 +108,6 @@ public class Value implements Comparable<Object> {
 		super();
 		value = d;
 		type = Types.DOUBLE;
-		decimals = -1;
 	}
 
 	/**
@@ -149,7 +119,6 @@ public class Value implements Comparable<Object> {
 		super();
 		value = d;
 		type = Types.DOUBLE;
-		decimals = -1;
 	}
 
 	/**
@@ -161,7 +130,6 @@ public class Value implements Comparable<Object> {
 		super();
 		value = i;
 		type = Types.INTEGER;
-		decimals = 0;
 	}
 
 	/**
@@ -173,7 +141,6 @@ public class Value implements Comparable<Object> {
 		super();
 		value = i;
 		type = Types.INTEGER;
-		decimals = 0;
 	}
 
 	/**
@@ -185,7 +152,6 @@ public class Value implements Comparable<Object> {
 		super();
 		value = l;
 		type = Types.LONG;
-		decimals = 0;
 	}
 
 	/**
@@ -197,7 +163,6 @@ public class Value implements Comparable<Object> {
 		super();
 		value = l;
 		type = Types.LONG;
-		decimals = 0;
 	}
 
 	/**
@@ -252,8 +217,6 @@ public class Value implements Comparable<Object> {
 	public Value getCopy() {
 		Value v = new Value();
 		v.type = type;
-		v.modified = modified;
-		v.decimals = decimals;
 		if (isNull()) {
 			return v;
 		}
@@ -268,7 +231,8 @@ public class Value implements Comparable<Object> {
 			v.value = new Date(getDate().getTime());
 			break;
 		case DECIMAL:
-			v.value = new BigDecimal(getDouble()).setScale(decimals, BigDecimal.ROUND_HALF_UP);
+			BigDecimal b = (BigDecimal) value;
+			v.value = new BigDecimal(b.doubleValue()).setScale(b.scale(), BigDecimal.ROUND_HALF_UP);
 			break;
 		case DOUBLE:
 			v.value = new Double(getDouble());
@@ -287,9 +251,6 @@ public class Value implements Comparable<Object> {
 			break;
 		case TIMESTAMP:
 			v.value = new Timestamp(getTimestamp().getTime());
-			break;
-		case VALUEARRAY:
-			v.value = Lists.copy(getValueArray());
 			break;
 		default:
 			v.value = value;
@@ -578,20 +539,6 @@ public class Value implements Comparable<Object> {
 	}
 
 	/**
-	 * Returns the number of decimal places. If it is not a number it throws an unsupported operation exception,
-	 * otherwise it returns the number of decimal places, 0 or greater if it is a big decimal, 0 if it is an integer or
-	 * a long, and -1 if it is a double.
-	 * 
-	 * @return The number of decimal places.
-	 */
-	public int getDecimals() {
-		if (!isNumber()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a number", value));
-		}
-		return decimals;
-	}
-
-	/**
 	 * Get the value as a <code>Time</code>.
 	 *
 	 * @return A Time
@@ -640,18 +587,6 @@ public class Value implements Comparable<Object> {
 			return (byte[]) value;
 		}
 		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a byte array", value));
-	}
-
-	/**
-	 * Get the value as a ValueArray.
-	 *
-	 * @return A value array.
-	 */
-	public Value[] getValueArray() {
-		if (isValueArray()) {
-			return (Value[]) value;
-		}
-		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a value array", value));
 	}
 
 	/**
@@ -784,15 +719,6 @@ public class Value implements Comparable<Object> {
 	}
 
 	/**
-	 * Check if this value is a value array.
-	 *
-	 * @return A boolean.
-	 */
-	public boolean isValueArray() {
-		return getType().isValueArray();
-	}
-
-	/**
 	 * Check if this value is null. Null is not a type, but a value can be null if the holder object its so.
 	 *
 	 * @return A boolean indicating if the value is null.
@@ -838,7 +764,7 @@ public class Value implements Comparable<Object> {
 			if (isDouble()) {
 				return new BigDecimal(getDouble());
 			}
-			return new BigDecimal(getLong()).setScale(decimals, BigDecimal.ROUND_HALF_UP);
+			return new BigDecimal(getLong());
 		}
 		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a number", value));
 	}
@@ -889,347 +815,6 @@ public class Value implements Comparable<Object> {
 	}
 
 	/**
-	 * Set this value to NULL.
-	 */
-	public void setNull() {
-		modified = modified || (!isNull());
-		value = null;
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param b A BigDecimal
-	 */
-	public void setBigDecimal(BigDecimal b) {
-		if (!isNumber()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a number", value));
-		}
-		modified = true;
-		if (b == null) {
-			setNull();
-			return;
-		}
-		if (isDecimal()) {
-			value = b.setScale(decimals, BigDecimal.ROUND_HALF_UP);
-			return;
-		}
-		if (isDouble()) {
-			value = b.doubleValue();
-			decimals = -1;
-			return;
-		}
-		if (isInteger()) {
-			value = b.intValue();
-			decimals = 0;
-			return;
-		}
-		if (isLong()) {
-			value = b.longValue();
-			decimals = 0;
-			return;
-		}
-		throw new UnsupportedOperationException("Not expected exception");
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param b A BigDecimal
-	 */
-	public void setValue(BigDecimal b) {
-		setBigDecimal(b);
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param b A boolean
-	 */
-	public void setBoolean(boolean b) {
-		if (!isBoolean()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a boolean", value));
-		}
-		modified = true;
-		value = b;
-		return;
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param b A boolean
-	 */
-	public void setValue(boolean b) {
-		setBoolean(b);
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param bytes A byte[]
-	 */
-	public void setByteArray(byte[] bytes) {
-		if (!isByteArray()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a byte array", value));
-		}
-		modified = true;
-		value = bytes;
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param bytes A byte[]
-	 */
-	public void setValue(byte[] bytes) {
-		setByteArray(bytes);
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param d A Date
-	 */
-	public void setDate(Date d) {
-		if (!isDate()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a date", value));
-		}
-		modified = true;
-		if (d == null) {
-			setNull();
-			return;
-		}
-		value = d;
-		return;
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param d A Date
-	 */
-	public void setValue(Date d) {
-		setDate(d);
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param s A String.
-	 */
-	public void setString(String s) {
-		if (!isString()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a string", value));
-		}
-		modified = true;
-		if (s == null) {
-			setNull();
-			return;
-		}
-		value = s;
-		return;
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param s A String.
-	 */
-	public void setValue(String s) {
-		setString(s);
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param t A Time
-	 */
-	public void setTime(Time t) {
-		if (!isTime()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a time", value));
-		}
-		modified = true;
-		if (t == null) {
-			setNull();
-			return;
-		}
-		value = t;
-		return;
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param t A Time
-	 */
-	public void setValue(Time t) {
-		setTime(t);
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param t A Timestamp
-	 */
-	public void setTimestamp(Timestamp t) {
-		if (!isTimestamp()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a date, time or timestamp", value));
-		}
-		modified = true;
-		if (t == null) {
-			setNull();
-			return;
-		}
-		value = t;
-		return;
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param t A Timestamp
-	 */
-	public void setValue(Timestamp t) {
-		setTimestamp(t);
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param valueArray A value array
-	 */
-	public void setValueArray(Value[] valueArray) {
-		if (!isValueArray()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a value array", value));
-		}
-		modified = true;
-		if (valueArray == null) {
-			setNull();
-			return;
-		}
-		value = valueArray;
-		return;
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param d The double value
-	 */
-	public void setDouble(double d) {
-		if (!isNumber()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a number", value));
-		}
-		modified = true;
-		if (isDouble()) {
-			value = d;
-			return;
-		}
-		if (isDecimal()) {
-			BigDecimal b = new BigDecimal(d).setScale(decimals, BigDecimal.ROUND_HALF_UP);
-			value = b;
-			return;
-		}
-		if (isInteger()) {
-			value = (int) d;
-			return;
-		}
-		if (isLong()) {
-			value = (long) d;
-			return;
-		}
-		throw new UnsupportedOperationException("Not expected exception");
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param d The double value
-	 */
-	public void setValue(double d) {
-		setDouble(d);
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param i An int
-	 */
-	public void setInteger(int i) {
-		if (!isNumber()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a number", value));
-		}
-		modified = true;
-		if (isInteger()) {
-			value = i;
-			return;
-		}
-		if (isLong()) {
-			value = (long) i;
-			return;
-		}
-		if (isDouble()) {
-			value = (double) i;
-			return;
-		}
-		if (isDecimal()) {
-			BigDecimal b = new BigDecimal(i).setScale(decimals, BigDecimal.ROUND_HALF_UP);
-			value = b;
-			return;
-		}
-		throw new UnsupportedOperationException("Not expected exception");
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param i An int
-	 */
-	public void setValue(int i) {
-		setInteger(i);
-	}
-
-	/**
-	 * Set the value.
-	 *
-	 * @param l A long
-	 */
-	public void setLong(long l) {
-		if (!isNumber()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a number", value));
-		}
-		modified = true;
-		if (isInteger()) {
-			value = (int) l;
-			return;
-		}
-		if (isLong()) {
-			value = l;
-			return;
-		}
-		if (isDouble()) {
-			value = (double) l;
-			return;
-		}
-		if (isDecimal()) {
-			BigDecimal b = new BigDecimal(l).setScale(decimals, BigDecimal.ROUND_HALF_UP);
-			value = b;
-			return;
-		}
-		throw new UnsupportedOperationException("Not expected exception");
-	}
-
-	/**
-	 * Check if this value has been modified calling a setter method.
-	 *
-	 * @return the modified flag
-	 */
-	public boolean isModified() {
-		return modified;
-	}
-
-	/**
 	 * Privately access the value
 	 *
 	 * @return The value
@@ -1252,15 +837,6 @@ public class Value implements Comparable<Object> {
 			return new String((byte[]) value);
 		}
 		return value.toString();
-	}
-
-	/**
-	 * Set the modified flag.
-	 *
-	 * @param modified The flag that indicates that the values shoud be considered modified.
-	 */
-	public void setModified(boolean modified) {
-		this.modified = modified;
 	}
 
 	/**
@@ -1301,17 +877,5 @@ public class Value implements Comparable<Object> {
 	 */
 	public boolean notIn(List<Value> values) {
 		return !Lists.in(this, values);
-	}
-
-	/**
-	 * Set the decimals, only supported for type decimal.
-	 * 
-	 * @param decimals The number of decimal places.
-	 */
-	public void setDecimals(int decimals) {
-		if (getType() != Types.DECIMAL) {
-			throw new UnsupportedOperationException("Not supported for types different than decimal.");
-		}
-		this.decimals = decimals;
 	}
 }

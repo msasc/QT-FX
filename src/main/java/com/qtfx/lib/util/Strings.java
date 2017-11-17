@@ -20,6 +20,23 @@ package com.qtfx.lib.util;
  * @author Miquel Sas
  */
 public class Strings extends org.apache.commons.lang3.StringUtils {
+
+	/** Sample list of digits to generate random digits. */
+	public static final String DIGITS = "0123456789";
+	/** Sample list of letters to generate random letters. */
+	public static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	/**
+	 * Returns a random char within the source string.
+	 * 
+	 * @param source The source string.
+	 * @return The random char.
+	 */
+	public static char getRandomChar(String source) {
+		int index = Random.nextInt(source.length());
+		return source.charAt(index);
+	}
+	
 	/**
 	 * Returns the first string not null, or an empty string.
 	 * 

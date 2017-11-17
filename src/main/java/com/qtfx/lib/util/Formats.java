@@ -409,7 +409,7 @@ public class Formats {
 		case BOOLEAN:
 			return formattedFromBoolean(value.getBoolean(), locale);
 		case DECIMAL:
-			return formattedFromBigDecimal(value.getBigDecimal(), value.getDecimals(), locale);
+			return formattedFromBigDecimal(value.getBigDecimal(), value.getBigDecimal().scale(), locale);
 		case DATE:
 			return formattedFromDate(value.getDate(), locale);
 		case DOUBLE:

@@ -286,28 +286,28 @@ public class FieldProperties {
 	 */
 	public Record getProperties(Field field, int index, boolean ascending) {
 		Record properties = getProperties();
-		properties.setValue(INDEX, index);
-		properties.setValue(GROUP, getFieldGroupTitle(field.getFieldGroup()));
-		properties.setValue(GROUP_INDEX, getFieldGroupIndex(field.getFieldGroup()));
-		properties.setValue(NAME, field.getName());
-		properties.setValue(ALIAS, field.getAlias());
-		properties.setValue(HEADER, field.getHeader());
-		properties.setValue(TITLE, field.getTitle());
-		properties.setValue(TYPE, field.getType().name());
-		properties.setValue(LENGTH, field.getLength());
-		properties.setValue(DECIMALS, field.getDecimals());
+		properties.setValue(INDEX, new Value(index));
+		properties.setValue(GROUP, new Value(getFieldGroupTitle(field.getFieldGroup())));
+		properties.setValue(GROUP_INDEX, new Value(getFieldGroupIndex(field.getFieldGroup())));
+		properties.setValue(NAME, new Value(field.getName()));
+		properties.setValue(ALIAS, new Value(field.getAlias()));
+		properties.setValue(HEADER, new Value(field.getHeader()));
+		properties.setValue(TITLE, new Value(field.getTitle()));
+		properties.setValue(TYPE, new Value(field.getType().name()));
+		properties.setValue(LENGTH, new Value(field.getLength()));
+		properties.setValue(DECIMALS, new Value(field.getDecimals()));
 		// Special property
 		String strAscending = TextServer.getString(ascending ? "tokenAsc" : "tokenDesc");
-		properties.setValue(ASCENDING, strAscending);
+		properties.setValue(ASCENDING, new Value(strAscending));
 		// Set the source field that gave values to this properties.
 		properties.getProperties().setObject("Source", field);
 
 		// Nullify length and decimals if appropriate.
 		if (!field.isNumber()) {
-			properties.getValue(DECIMALS).setNull();
+			properties.setNull(DECIMALS);
 		}
 		if (field.getLength() <= 0) {
-			properties.getValue(LENGTH).setNull();
+			properties.setNull(LENGTH);
 		}
 
 		// Store group and subgroup as objects.

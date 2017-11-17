@@ -13,6 +13,10 @@
  */
 package com.qtfx.lib.db;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 
 /**
@@ -42,9 +46,7 @@ public enum Types {
 	/** Binary (byte array). */
 	BYTEARRAY,
 	/** Value. */
-	VALUE,
-	/** Value array. */
-	VALUEARRAY;
+	VALUE;
 
 	/**
 	 * The fixed length to select between VARCHAR/VARBINARY or LONVARCHAR/LONGVARBINARY.
@@ -65,6 +67,45 @@ public enum Types {
 			throw new IllegalArgumentException(
 				MessageFormat.format("Invalid value type ({0}) for field type {1}", value.getType(), type));
 		}
+	}
+
+	/**
+	 * Returns the null value for this field.
+	 *
+	 * @return The null value.
+	 */
+	public Value getNullValue() {
+		if (isBoolean()) {
+			return new Value((Boolean) null);
+		}
+		if (isByteArray()) {
+			return new Value((byte[]) null);
+		}
+		if (isDate()) {
+			return new Value((Date) null);
+		}
+		if (isDecimal()) {
+			return new Value((BigDecimal) null);
+		}
+		if (isDouble()) {
+			return new Value((Double) null);
+		}
+		if (isInteger()) {
+			return new Value((Integer) null);
+		}
+		if (isLong()) {
+			return new Value((Long) null);
+		}
+		if (isString()) {
+			return new Value((String) null);
+		}
+		if (isTime()) {
+			return new Value((Time) null);
+		}
+		if (isTimestamp()) {
+			return new Value((Timestamp) null);
+		}
+		return null;
 	}
 
 
@@ -183,15 +224,6 @@ public enum Types {
 	 */
 	public boolean isByteArray() {
 		return equals(BYTEARRAY);
-	}
-
-	/**
-	 * Check if this type is a ValueArray.
-	 *
-	 * @return A boolean
-	 */
-	public boolean isValueArray() {
-		return equals(VALUEARRAY);
 	}
 
 	/**

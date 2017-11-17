@@ -226,7 +226,7 @@ public class Nodes {
 	public static SimpleObjectProperty<Object> getProperty(Node node, Object key) {
 		SimpleObjectProperty<Object> property = getPropertyMap(node).get(key);
 		if (property == null) {
-			property = new SimpleObjectProperty<Object>();
+			property = new SimpleObjectProperty<>(node, key.toString());
 			getPropertyMap(node).put(key, property);
 		}
 		return property;
@@ -252,7 +252,7 @@ public class Nodes {
 		if (userData instanceof SimpleMapProperty) {
 			propertyMap = (SimpleMapProperty<Object, SimpleObjectProperty<Object>>) userData;
 		} else {
-			propertyMap = new SimpleMapProperty<>(FXCollections.observableHashMap());
+			propertyMap = new SimpleMapProperty<>(node, "PROPERTIES", FXCollections.observableHashMap());
 			node.setUserData(propertyMap);
 		}
 		return propertyMap;

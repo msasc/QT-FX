@@ -26,13 +26,9 @@ import java.util.List;
  */
 public class RecordSet implements Iterable<Record> {
 
-	/**
-	 * The list of records.
-	 */
+	/** The list of records. */
 	private List<Record> records = new ArrayList<>();
-	/**
-	 * The list of fields.
-	 */
+	/** The list of fields. */
 	private FieldList fields;
 
 	/**
@@ -134,9 +130,6 @@ public class RecordSet implements Iterable<Record> {
 	 * @return A boolean indicating if the record has been added.
 	 */
 	public boolean add(Record record) {
-		if (record.getFieldList() == null) {
-			record.setFieldList(fields);
-		}
 		if (fields == null) {
 			fields = record.getFieldList();
 		}
@@ -150,9 +143,6 @@ public class RecordSet implements Iterable<Record> {
 	 * @param record The record to insert.
 	 */
 	public void add(int index, Record record) {
-		if (record.getFieldList() == null) {
-			record.setFieldList(fields);
-		}
 		if (fields == null) {
 			fields = record.getFieldList();
 		}

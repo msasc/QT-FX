@@ -22,7 +22,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.qtfx.lib.db.Field;
@@ -48,12 +47,11 @@ public class DBUtils {
 	 * @throws SQLException If such an error occurs.
 	 */
 	public static Record readRecord(FieldList fieldList, ResultSet rs) throws SQLException {
-		Record record = new Record();
-		record.setFieldList(fieldList);
+		Record record = new Record(fieldList);
 		List<Field> fields = fieldList.getFields();
-		List<Value> values = new ArrayList<>(fields.size());
 		int index = 1;
-		for (Field field : fields) {
+		for (int i = 0; i < fields.size(); i++) {
+			Field field = fields.get(i);
 			Types type = field.getType();
 			int decimals = field.getDecimals();
 			Value value;
@@ -62,9 +60,8 @@ public class DBUtils {
 			} else {
 				value = field.getDefaultValue();
 			}
-			values.add(value);
+			record.setValue(i, value, false);
 		}
-		record.setValues(values);
 		return record;
 	}
 
@@ -125,9 +122,7 @@ public class DBUtils {
 			value = new Value(resultSet.getBytes(index));
 		}
 		if (!type.isNumber() && resultSet.wasNull()) {
-			if (value != null) {
-				value.setNull();
-			}
+			value = type.getNullValue();
 		}
 		return value;
 	}

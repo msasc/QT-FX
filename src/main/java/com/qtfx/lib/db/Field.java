@@ -88,6 +88,8 @@ public class Field implements Comparable<Object> {
 	private String title;
 	/** Adjusted display length. */
 	private int displayLength;
+	/** A boolean that indicates whether the field is fixed width. */
+	private boolean fixedWidth = true;
 	/** Field group. */
 	private FieldGroup fieldGroup = FieldGroup.emptyFieldGroup;
 
@@ -157,6 +159,7 @@ public class Field implements Comparable<Object> {
 		this.label = field.label;
 		this.header = field.header;
 		this.title = field.title;
+		this.fixedWidth = field.fixedWidth;
 		this.displayLength = field.displayLength;
 
 		// Validation and formatting properties.
@@ -351,6 +354,24 @@ public class Field implements Comparable<Object> {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	/**
+	 * Check if the field is fixed with. Non fixed width fields expand to the width of the form.
+	 *
+	 * @return A boolean indicating if the field is fixed-width.
+	 */
+	public boolean isFixedWidth() {
+		return fixedWidth;
+	}
+
+	/**
+	 * Set if the field is fixed width.
+	 *
+	 * @param fixedWidth A boolean
+	 */
+	public void setFixedWidth(boolean fixedWidth) {
+		this.fixedWidth = fixedWidth;
 	}
 
 	/**
@@ -1048,6 +1069,15 @@ public class Field implements Comparable<Object> {
 			return new Value((Timestamp) null);
 		}
 		return null;
+	}
+
+	/**
+	 * Returns the null value for this field.
+	 *
+	 * @return The null value.
+	 */
+	public Value getNullValue() {
+		return getType().getNullValue();
 	}
 
 	///////////////////////////////////

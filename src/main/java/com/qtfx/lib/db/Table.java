@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.qtfx.lib.db.TableLink.Segment;
-import com.qtfx.lib.util.Properties;
 
 /**
  * A table definition.
@@ -224,7 +223,7 @@ public class Table {
 	 * @return The default record.
 	 */
 	public Record getDefaultRecord() {
-		Record record = getFieldList().getDefaultRecord();
+		Record record = new Record(getFieldList());
 		record.setPersistor(getPersistor());
 		return record;
 	}

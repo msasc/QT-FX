@@ -55,30 +55,6 @@ public class FieldList {
 		}
 	}
 
-
-	/**
-	 * Returns a record with default values from this field list.
-	 * 
-	 * @return A default record.
-	 */
-	public Record getDefaultRecord() {
-		return getRecord(getDefaultValues());
-	}
-
-	/**
-	 * Returns a record created with this field list and the list of values. For performance issues this method does not
-	 * validate that field-value type match. The method <i>validateValues</i> can be used to validate the values if
-	 * necessary.
-	 * 
-	 * @param values The list of values.
-	 * @return The record.
-	 */
-	public Record getRecord(List<Value> values) {
-		Record record = new Record();
-		record.setFieldListAndValues(this, values);
-		return record;
-	}
-
 	/**
 	 * Validates the values against this field list checking that all field-value types are equal.
 	 * 
@@ -144,10 +120,10 @@ public class FieldList {
 	 *
 	 * @return The list of values.
 	 */
-	public List<Value> getDefaultValues() {
-		List<Value> values = new ArrayList<>();
-		for (Field field : fields) {
-			values.add(field.getDefaultValue());
+	public Value[] getDefaultValues() {
+		Value values[] = new Value[fields.size()];
+		for (int i = 0; i < fields.size(); i++) {
+			values[i] = fields.get(i).getDefaultValue();
 		}
 		return values;
 	}

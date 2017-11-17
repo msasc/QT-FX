@@ -451,7 +451,7 @@ public class View implements Comparable<Object> {
 	 * @return The default record.
 	 */
 	public Record getDefaultRecord() {
-		Record record = getFieldList().getDefaultRecord();
+		Record record = new Record(getFieldList());
 		record.setPersistor(getPersistor());
 		return record;
 	}

@@ -13,10 +13,6 @@
  */
 package com.qtfx.lib.db;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +38,7 @@ public class Record implements Comparable<Object> {
 	 * @param destination The destination record.
 	 */
 	public static void move(Record source, Record destination) {
-		for (int i = 0; i < source.getFieldCount(); i++) {
+		for (int i = 0; i < source.size(); i++) {
 			String alias = source.getField(i).getAlias();
 			Value value = source.getValue(i);
 			Types type = source.getField(i).getType();
@@ -90,33 +86,19 @@ public class Record implements Comparable<Object> {
 		move(source, destination);
 	}
 
-	/**
-	 * The list of values.
-	 */
-	private List<Value> values;
-	/**
-	 * The list of fields.
-	 */
+	/** The list of fields. */
 	private FieldList fields;
-	/**
-	 * An arbitrary map of properties.
-	 */
-	private Properties properties;
-	/**
-	 * The persistor.
-	 */
-	private Persistor persistor;
-	/**
-	 * The validator.
-	 */
-	private Validator<Record> validator;
+	/** The list of values. */
+	private Value[] values;
+	/** List of modified flags. */
+	private boolean[] modifieds;
 
-	/**
-	 * Default constructor.
-	 */
-	public Record() {
-		super();
-	}
+	/** An arbitrary map of properties. */
+	private Properties properties;
+	/** The persistor. */
+	private Persistor persistor;
+	/** The validator. */
+	private Validator<Record> validator;
 
 	/**
 	 * Constructor assigning the list of fields.
@@ -125,29 +107,9 @@ public class Record implements Comparable<Object> {
 	 */
 	public Record(FieldList fields) {
 		super();
-		setFieldList(fields);
-	}
-
-	/**
-	 * Sets the field list.
-	 *
-	 * @param fields The field list.
-	 */
-	public void setFieldList(FieldList fields) {
 		this.fields = fields;
 		this.values = fields.getDefaultValues();
-	}
-
-	/**
-	 * Sets the field list and values.For performance issues this method does not validate that field-value type match.
-	 * The method <i>FieldList.validateValues</i> can be used to validate the values if necessary.
-	 *
-	 * @param fields The field list.
-	 * @param values The list of values.
-	 */
-	public void setFieldListAndValues(FieldList fields, List<Value> values) {
-		this.fields = fields;
-		this.values = values;
+		this.modifieds = new boolean[size()];
 	}
 
 	/**
@@ -155,7 +117,7 @@ public class Record implements Comparable<Object> {
 	 *
 	 * @return The number of fields.
 	 */
-	public int getFieldCount() {
+	public int size() {
 		return fields.size();
 	}
 
@@ -192,9 +154,8 @@ public class Record implements Comparable<Object> {
 	 * Clears this record fields to their default values.
 	 */
 	public void clear() {
-		values.clear();
-		for (int i = 0; i < getFieldCount(); i++) {
-			values.add(getField(i).getDefaultValue());
+		for (int i = 0; i < size(); i++) {
+			values[i] = getField(i).getDefaultValue();
 		}
 	}
 
@@ -209,7 +170,7 @@ public class Record implements Comparable<Object> {
 		if (calculator != null) {
 			return calculator.getValue(this);
 		}
-		return values.get(index);
+		return values[index];
 	}
 
 	/**
@@ -221,15 +182,6 @@ public class Record implements Comparable<Object> {
 	public Value getValue(String alias) {
 		int index = fields.getFieldIndex(alias);
 		return (index == -1 ? null : getValue(index));
-	}
-
-	/**
-	 * Returns the list of values.
-	 *
-	 * @return The list of values.
-	 */
-	public List<Value> getValues() {
-		return values;
 	}
 
 	/**
@@ -277,23 +229,14 @@ public class Record implements Comparable<Object> {
 	}
 
 	/**
-	 * Set the list of values.
-	 *
-	 * @param values The list of values.
-	 */
-	public void setValues(List<Value> values) {
-		this.values = values;
-	}
-
-	/**
 	 * Set the value at the given index.
 	 *
 	 * @param index The index of the value.
 	 * @param value The value to set.
 	 */
 	public void setValue(int index, Value value) {
-		values.set(index, value);
-		values.get(index).setModified(value.isModified());
+		values[index] = value;
+		setModified(index, true);
 	}
 
 	/**
@@ -301,105 +244,17 @@ public class Record implements Comparable<Object> {
 	 *
 	 * @param index The index of the value.
 	 * @param value The value to set.
+	 * @param modified A boolean.
 	 */
-	public void setValue(int index, BigDecimal value) {
-		values.get(index).setBigDecimal(value);
+	public void setValue(int index, Value value, boolean modified) {
+		values[index] = value;
+		setModified(index, modified);
 	}
 
 	/**
 	 * Set the value at the given index.
 	 *
-	 * @param index The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(int index, boolean value) {
-		values.get(index).setBoolean(value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param index The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(int index, byte[] value) {
-		values.get(index).setByteArray(value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param index The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(int index, Date value) {
-		values.get(index).setDate(value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param index The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(int index, Time value) {
-		values.get(index).setTime(value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param index The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(int index, Timestamp value) {
-		values.get(index).setTimestamp(value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param index The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(int index, String value) {
-		values.get(index).setString(value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param index The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(int index, double value) {
-		values.get(index).setDouble(value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param index The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(int index, int value) {
-		values.get(index).setInteger(value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param index The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(int index, long value) {
-		values.get(index).setLong(value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param alias The index of the value.
+	 * @param alias The alias of the field.
 	 * @param value The value to set.
 	 */
 	public void setValue(String alias, Value value) {
@@ -408,113 +263,65 @@ public class Record implements Comparable<Object> {
 	}
 
 	/**
-	 * Set the value at the given index.
-	 *
-	 * @param alias The index of the value.
-	 * @param value The value to set.
+	 * Tag the value as modified.
+	 * 
+	 * @param index The index.
+	 * @param modified A boolean.
 	 */
-	public void setValue(String alias, BigDecimal value) {
-		int index = fields.getFieldIndex(alias);
-		setValue(index, value);
+	public void setModified(int index, boolean modified) {
+		modifieds[index] = modified;
 	}
 
 	/**
-	 * Set the value at the given index.
-	 *
-	 * @param alias The index of the value.
-	 * @param value The value to set.
+	 * Tag the value as modified.
+	 * 
+	 * @param alias The alias of the field.
+	 * @param modified A boolean.
 	 */
-	public void setValue(String alias, boolean value) {
+	public void setModified(String alias, boolean modified) {
 		int index = fields.getFieldIndex(alias);
-		setValue(index, value);
+		setModified(index, modified);
 	}
 
 	/**
-	 * Set the value at the given index.
-	 *
-	 * @param alias The index of the value.
-	 * @param value The value to set.
+	 * Check if the value is modified.
+	 * 
+	 * @param index The index.
+	 * @return The value.
 	 */
-	public void setValue(String alias, byte[] value) {
-		int index = fields.getFieldIndex(alias);
-		setValue(index, value);
+	public boolean isModified(int index) {
+		return modifieds[index];
 	}
 
 	/**
-	 * Set the value at the given index.
-	 *
-	 * @param alias The index of the value.
-	 * @param value The value to set.
+	 * Check if the value is modified.
+	 * 
+	 * @param alias The alias of the field.
+	 * @return The value.
 	 */
-	public void setValue(String alias, Date value) {
+	public boolean isModified(String alias) {
 		int index = fields.getFieldIndex(alias);
-		setValue(index, value);
+		return isModified(index);
 	}
 
 	/**
-	 * Set the value at the given index.
-	 *
-	 * @param alias The index of the value.
-	 * @param value The value to set.
+	 * Nullify the value.
+	 * 
+	 * @param alias The alias of the field.
 	 */
-	public void setValue(String alias, Time value) {
+	public void setNull(String alias) {
 		int index = fields.getFieldIndex(alias);
-		setValue(index, value);
+		setNull(index);
 	}
 
 	/**
-	 * Set the value at the given index.
-	 *
-	 * @param alias The index of the value.
-	 * @param value The value to set.
+	 * Nullify the value.
+	 * 
+	 * @param index The index.
 	 */
-	public void setValue(String alias, Timestamp value) {
-		int index = fields.getFieldIndex(alias);
-		setValue(index, value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param alias The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(String alias, String value) {
-		int index = fields.getFieldIndex(alias);
-		setValue(index, value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param alias The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(String alias, double value) {
-		int index = fields.getFieldIndex(alias);
-		setValue(index, value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param alias The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(String alias, int value) {
-		int index = fields.getFieldIndex(alias);
-		setValue(index, value);
-	}
-
-	/**
-	 * Set the value at the given index.
-	 *
-	 * @param alias The index of the value.
-	 * @param value The value to set.
-	 */
-	public void setValue(String alias, long value) {
-		int index = fields.getFieldIndex(alias);
-		setValue(index, value);
+	public void setNull(int index) {
+		values[index] = fields.getField(index).getNullValue();
+		setModified(index, true);
 	}
 
 	/**
@@ -573,8 +380,8 @@ public class Record implements Comparable<Object> {
 	 * @return A boolean.
 	 */
 	public boolean isModified() {
-		for (Value value : values) {
-			if (value.isModified()) {
+		for (int i = 0; i < modifieds.length; i++) {
+			if (modifieds[i]) {
 				return true;
 			}
 		}
@@ -594,8 +401,7 @@ public class Record implements Comparable<Object> {
 		try {
 			record = (Record) o;
 		} catch (ClassCastException exc) {
-			throw new UnsupportedOperationException(
-				MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+			throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
 		}
 		// Compare using the primary key pointers.
 		RecordComparator comparator = new RecordComparator(getPrimaryOrder());
@@ -653,7 +459,7 @@ public class Record implements Comparable<Object> {
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();
-		for (int i = 0; i < getFieldCount(); i++) {
+		for (int i = 0; i < size(); i++) {
 			if (i > 0) {
 				b.append(", ");
 			}
@@ -679,9 +485,6 @@ public class Record implements Comparable<Object> {
 				b.append("'" + value.toString() + "'");
 				break;
 			case VALUE:
-				b.append(value.toString());
-				break;
-			case VALUEARRAY:
 				b.append(value.toString());
 				break;
 			default:

@@ -61,5 +61,18 @@
 	<entry key="taskFailed">Failed</entry>
 	<entry key="taskSucceeded">Succeeded</entry>
 	<entry key="taskParallel">Parallel processing...</entry>
+	
+	
+	<!-- Unit descriptions. -->
+
+	<entry key="unitTick">Tick</entry>
+	<entry key="unitMillisecond">ms</entry>
+	<entry key="unitSecond">Sec</entry>
+	<entry key="unitMinute">Min</entry>
+	<entry key="unitHour">Hour</entry>
+	<entry key="unitDay">Day</entry>
+	<entry key="unitWeek">Week</entry>
+	<entry key="unitMonth">Month</entry>
+	<entry key="unitYear">Year</entry>
 
 </properties>

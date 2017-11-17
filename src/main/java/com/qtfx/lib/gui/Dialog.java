@@ -14,6 +14,9 @@
 
 package com.qtfx.lib.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.qtfx.lib.gui.action.ActionClose;
 import com.qtfx.lib.gui.action.ActionList;
 
@@ -78,8 +81,9 @@ public class Dialog {
 	private ButtonPane buttonPane;
 	/** Result button. */
 	private Button result;
-	/** User properties setter. */
-	private PropertySetter propertySetter;
+	
+	/** User property setters. */
+	private List<PropertySetter> propertySetters = new ArrayList<>();
 
 	/**
 	 * Constructor, application modal.
@@ -227,21 +231,11 @@ public class Dialog {
 	}
 
 	/**
-	 * Return the properties setter.
-	 * 
-	 * @return The properties setter.
+	 * Add a property setter to the list.
+	 * @param propertySetter
 	 */
-	public PropertySetter getPropertySetter() {
-		return propertySetter;
-	}
-
-	/**
-	 * Set the properties setter.
-	 * 
-	 * @param propertySetter The properties setter.
-	 */
-	public void setPropertySetter(PropertySetter propertySetter) {
-		this.propertySetter = propertySetter;
+	public void addPropertySetter(PropertySetter propertySetter) {
+		propertySetters.add(propertySetter);
 	}
 
 	/**
@@ -272,9 +266,7 @@ public class Dialog {
 		// Set the action list as the button action.
 		button.setOnAction(actions);
 		// User properties.
-		if (getPropertySetter() != null) {
-			getPropertySetter().setProperties(button);
-		}
+		propertySetters.forEach(propertySetter -> propertySetter.setProperties(button));
 	}
 
 	/**
