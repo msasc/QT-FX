@@ -292,7 +292,7 @@ public class Formats {
 	 * @param date The <i>Date</i> to convert.
 	 * @param locale The locale to apply.
 	 */
-	public static String formattedFromDate(java.sql.Date date, Locale locale) {
+	public static String formattedFromDate(Date date, Locale locale) {
 		if (date == null) {
 			return "";
 		}
@@ -306,7 +306,7 @@ public class Formats {
 	 * @param timestamp The <i>Timestamp</i> to convert.
 	 * @param locale The locale to apply.
 	 */
-	public static String formattedFromTimestamp(java.sql.Timestamp timestamp, Locale locale) {
+	public static String formattedFromTimestamp(Timestamp timestamp, Locale locale) {
 		if (timestamp == null) {
 			return "";
 		}
@@ -320,7 +320,7 @@ public class Formats {
 	 * @param time The <i>Time</i> to convert.
 	 * @param locale The locale to apply.
 	 */
-	public static String formattedFromTime(java.sql.Time time, Locale locale) {
+	public static String formattedFromTime(Time time, Locale locale) {
 		if (time == null) {
 			return "";
 		}
@@ -619,7 +619,7 @@ public class Formats {
 	 * @return A string.
 	 * @param d A <i>Date</i>.
 	 */
-	public static String unformattedFromDate(java.sql.Date d) {
+	public static String unformattedFromDate(Date d) {
 		if (d == null) {
 			return "";
 		}
@@ -677,7 +677,7 @@ public class Formats {
 	 * @return The string.
 	 * @param t A <i>Time</i>.
 	 */
-	public static String unformattedFromTime(java.sql.Time t) {
+	public static String unformattedFromTime(Time t) {
 		return unformattedFromTime(t, false);
 	}
 
@@ -688,7 +688,7 @@ public class Formats {
 	 * @param time A <i>Time</i>.
 	 * @param millis A <i>boolean</i> to include milliseconds.
 	 */
-	public static String unformattedFromTime(java.sql.Time time, boolean millis) {
+	public static String unformattedFromTime(Time time, boolean millis) {
 		if (time == null) {
 			return "";
 		}
@@ -707,7 +707,7 @@ public class Formats {
 	 * @return The string.
 	 * @param t A <i>Timestamp</i>.
 	 */
-	public static String unformattedFromTimestamp(java.sql.Timestamp t) {
+	public static String unformattedFromTimestamp(Timestamp t) {
 		return unformattedFromTimestamp(t, true, false);
 	}
 
@@ -719,7 +719,7 @@ public class Formats {
 	 * @param timestamp A <code>Timestamp</code>.
 	 * @param millis A <code>boolean</code> to include milliseconds.
 	 */
-	public static String unformattedFromTimestamp(java.sql.Timestamp timestamp, boolean millis) {
+	public static String unformattedFromTimestamp(Timestamp timestamp, boolean millis) {
 		return unformattedFromTimestamp(timestamp, millis, false);
 	}
 
@@ -732,7 +732,7 @@ public class Formats {
 	 * @param millis A <code>boolean</code> to include milliseconds.
 	 * @param separators A boolean to include standard separators
 	 */
-	public static String unformattedFromTimestamp(java.sql.Timestamp timestamp, boolean millis, boolean separators) {
+	public static String unformattedFromTimestamp(Timestamp timestamp, boolean millis, boolean separators) {
 		return unformattedFromTimestamp(timestamp, true, true, true, true, true, true, millis, separators);
 	}
 
@@ -752,7 +752,7 @@ public class Formats {
 	 * @param separators A boolean to include standard separators
 	 */
 	public static String unformattedFromTimestamp(
-		java.sql.Timestamp timestamp,
+		Timestamp timestamp,
 		boolean year,
 		boolean month,
 		boolean day,

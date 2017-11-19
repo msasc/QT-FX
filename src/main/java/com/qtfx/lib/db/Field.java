@@ -88,6 +88,8 @@ public class Field implements Comparable<Object> {
 	private String title;
 	/** Adjusted display length. */
 	private int displayLength;
+	/** Display decimals, normally used for DOUBLE, INTEGER and LONG types. */
+	private int displayDecimals = -1;
 	/** A boolean that indicates whether the field is fixed width. */
 	private boolean fixedWidth = true;
 	/** Field group. */
@@ -261,6 +263,7 @@ public class Field implements Comparable<Object> {
 	 */
 	public void setDecimals(int decimals) {
 		this.decimals = decimals;
+		setDisplayDecimals(decimals);
 	}
 
 	/**
@@ -393,6 +396,24 @@ public class Field implements Comparable<Object> {
 	 */
 	public void setDisplayLength(int displayLength) {
 		this.displayLength = displayLength;
+	}
+
+	/**
+	 * Return the display decimals.
+	 * 
+	 * @return The decimals used to display the value.
+	 */
+	public int getDisplayDecimals() {
+		return displayDecimals;
+	}
+
+	/**
+	 * Set the decimals used to display the value.
+	 * 
+	 * @param displayDecimals The display decimals.
+	 */
+	public void setDisplayDecimals(int displayDecimals) {
+		this.displayDecimals = displayDecimals;
 	}
 
 	/**

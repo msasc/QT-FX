@@ -238,7 +238,11 @@ public class OrderKey implements Comparable<Object> {
 	 */
 	@Override
 	public int compareTo(Object o) {
-		return Lists.compare(segments, o);
+		if (o instanceof OrderKey) {
+			OrderKey orderKey = (OrderKey) o;
+			return Lists.compare(segments, orderKey.segments);
+		}
+		throw new IllegalArgumentException();
 	}
 
 	/**

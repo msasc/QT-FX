@@ -19,7 +19,9 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Locale;
 
+import com.qtfx.lib.util.Formats;
 import com.qtfx.lib.util.Lists;
 import com.qtfx.lib.util.Numbers;
 
@@ -34,6 +36,7 @@ public class Value implements Comparable<Object> {
 	private Types type;
 	/** The value itself. */
 	private Object value;
+
 	/**
 	 * Private constructor for internal usage.
 	 */
@@ -837,6 +840,16 @@ public class Value implements Comparable<Object> {
 			return new String((byte[]) value);
 		}
 		return value.toString();
+	}
+
+	/**
+	 * Return this value as a formatted string.
+	 * 
+	 * @param locale The required locale.
+	 * @return The formatted string.
+	 */
+	public String toStringFormatted(Locale locale) {
+		return Formats.formattedFromValue(this, locale);
 	}
 
 	/**
