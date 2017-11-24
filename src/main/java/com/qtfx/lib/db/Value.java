@@ -843,16 +843,6 @@ public class Value implements Comparable<Object> {
 	}
 
 	/**
-	 * Return this value as a formatted string.
-	 * 
-	 * @param locale The required locale.
-	 * @return The formatted string.
-	 */
-	public String toStringFormatted(Locale locale) {
-		return Formats.formattedFromValue(this, locale);
-	}
-
-	/**
 	 * Returns true if this value is in the list, false otherwise.
 	 *
 	 * @param values The list of values to check.

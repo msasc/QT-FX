@@ -613,13 +613,22 @@ public class Field implements Comparable<Object> {
 	 * @param value The target value.
 	 * @return The possible value label.
 	 */
-	public String getPossibleValueLabel(Object value) {
+	public String getPossibleValueLabel(Value value) {
 		for (PossibleValue possibleValue : possibleValues) {
 			if (possibleValue.getValue().equals(value)) {
 				return possibleValue.getLabel();
 			}
 		}
 		return "";
+	}
+
+	/**
+	 * Check if the field has possible values.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean isPossibleValues() {
+		return !possibleValues.isEmpty();
 	}
 
 	/**

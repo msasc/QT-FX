@@ -72,6 +72,13 @@ public class Dialog {
 	 */
 	private class Actions extends ActionList {
 	}
+	
+	/**
+	 * Private enumeration of buttons positions.
+	 */
+	private enum ButtonPanePos {
+		TOP, LEFT, BOTTOM, RIGHT
+	}
 
 	/** Stage. */
 	private Stage stage;
@@ -79,6 +86,8 @@ public class Dialog {
 	private BorderPane borderPane;
 	/** Button pane. */
 	private ButtonPane buttonPane;
+	/** Button pane pos. */
+	private ButtonPanePos buttonPanePos;
 	/** Result button. */
 	private Button result;
 	
@@ -128,7 +137,8 @@ public class Dialog {
 	 */
 	public void setButtonsTop() {
 		buttonPane = new ButtonPane(Orientation.HORIZONTAL);
-		borderPane.setTop(buttonPane);
+		borderPane.setTop(buttonPane.getPane());
+		buttonPanePos = ButtonPanePos.TOP;
 	}
 
 	/**
@@ -136,7 +146,8 @@ public class Dialog {
 	 */
 	public void setButtonsBottom() {
 		buttonPane = new ButtonPane(Orientation.HORIZONTAL);
-		borderPane.setBottom(buttonPane);
+		borderPane.setBottom(buttonPane.getPane());
+		buttonPanePos = ButtonPanePos.BOTTOM;
 	}
 
 	/**
@@ -144,7 +155,8 @@ public class Dialog {
 	 */
 	public void setButtonsRight() {
 		buttonPane = new ButtonPane(Orientation.VERTICAL);
-		borderPane.setRight(buttonPane);
+		borderPane.setRight(buttonPane.getPane());
+		buttonPanePos = ButtonPanePos.RIGHT;
 	}
 
 	/**
@@ -152,7 +164,8 @@ public class Dialog {
 	 */
 	public void setButtonsLeft() {
 		buttonPane = new ButtonPane(Orientation.VERTICAL);
-		borderPane.setLeft(buttonPane);
+		borderPane.setLeft(buttonPane.getPane());
+		buttonPanePos = ButtonPanePos.LEFT;
 	}
 
 	/**
@@ -188,7 +201,7 @@ public class Dialog {
 	 * @param node The node.
 	 */
 	public void setTop(Node node) {
-		if (borderPane.getTop() != null && borderPane.getTop() instanceof ButtonPane) {
+		if (buttonPanePos != null && buttonPanePos.equals(ButtonPanePos.TOP)) {
 			throw new IllegalStateException("Buttons position is top");
 		}
 		borderPane.setTop(node);
@@ -200,7 +213,7 @@ public class Dialog {
 	 * @param node The node.
 	 */
 	public void setLeft(Node node) {
-		if (borderPane.getLeft() != null && borderPane.getLeft() instanceof ButtonPane) {
+		if (buttonPanePos != null && buttonPanePos.equals(ButtonPanePos.LEFT)) {
 			throw new IllegalStateException("Buttons position is left");
 		}
 		borderPane.setLeft(node);
@@ -212,7 +225,7 @@ public class Dialog {
 	 * @param node The node.
 	 */
 	public void setBottom(Node node) {
-		if (borderPane.getBottom() != null && borderPane.getBottom() instanceof ButtonPane) {
+		if (buttonPanePos != null && buttonPanePos.equals(ButtonPanePos.BOTTOM)) {
 			throw new IllegalStateException("Buttons position is bottom");
 		}
 		borderPane.setBottom(node);
@@ -224,7 +237,7 @@ public class Dialog {
 	 * @param node The node.
 	 */
 	public void setRight(Node node) {
-		if (borderPane.getRight() != null && borderPane.getRight() instanceof ButtonPane) {
+		if (buttonPanePos != null && buttonPanePos.equals(ButtonPanePos.RIGHT)) {
 			throw new IllegalStateException("Buttons position is right");
 		}
 		borderPane.setRight(node);

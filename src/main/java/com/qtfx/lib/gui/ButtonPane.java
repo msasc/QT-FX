@@ -42,7 +42,7 @@ import javafx.scene.layout.VBox;
  * 
  * @author Miquel Sas
  */
-public class ButtonPane extends FlowPane {
+public class ButtonPane {
 
 	/**
 	 * Button comparator by order.
@@ -54,6 +54,8 @@ public class ButtonPane extends FlowPane {
 		}
 	}
 
+	/** Internal flow pane. */
+	private FlowPane flowPane;
 	/** List of buttons. */
 	private ObservableList<Button> buttons = FXCollections.observableArrayList();
 	/** A boolean that indicates if the pane has been laid out for the first time. */
@@ -76,12 +78,22 @@ public class ButtonPane extends FlowPane {
 	 * @param orientation The orientation, either HORIZONTAL or VERTICAL.
 	 */
 	public ButtonPane(Orientation orientation) {
-		super(orientation);
+		super();
+		flowPane = new FlowPane(orientation);
 		if (orientation.equals(Orientation.HORIZONTAL)) {
-			setAlignment(Pos.CENTER_RIGHT);
+			flowPane.setAlignment(Pos.CENTER_RIGHT);
 		} else {
-			setAlignment(Pos.TOP_CENTER);
+			flowPane.setAlignment(Pos.TOP_CENTER);
 		}
+	}
+
+	/**
+	 * Return the internal flow pane.
+	 * 
+	 * @return The internal pane.
+	 */
+	public FlowPane getPane() {
+		return flowPane;
 	}
 
 	/**
@@ -91,6 +103,15 @@ public class ButtonPane extends FlowPane {
 	 */
 	public ObservableList<Button> getButtons() {
 		return buttons;
+	}
+
+	/**
+	 * Set the internal pane padding.
+	 * 
+	 * @param insets The insets.
+	 */
+	public void setPadding(Insets insets) {
+		getPane().setPadding(insets);
 	}
 
 	/**
@@ -115,14 +136,14 @@ public class ButtonPane extends FlowPane {
 				cancelSet = true;
 			}
 		}
-		
+
 		// Set insets and spacing.
 		if (countGroups() == 1) {
 			insets = new Insets(2, 2, 2, 2);
 			spacing = 0;
 		} else {
 			spacing = 3;
-			if (getOrientation().equals(Orientation.HORIZONTAL)) {
+			if (flowPane.getOrientation().equals(Orientation.HORIZONTAL)) {
 				insets = new Insets(2, 6, 2, 6);
 			} else {
 				insets = new Insets(6, 2, 6, 2);
@@ -130,13 +151,13 @@ public class ButtonPane extends FlowPane {
 		}
 
 		// Clear current children.
-		getChildren().clear();
+		flowPane.getChildren().clear();
 		Map<String, List<Button>> groups = getGroups();
 		Iterator<String> keys = groups.keySet().iterator();
 		while (keys.hasNext()) {
-			getChildren().add(getGroupBox(groups.get(keys.next())));
+			flowPane.getChildren().add(getGroupBox(groups.get(keys.next())));
 		}
-	
+
 		// If not armed add a listener to layout again if the list changes or is invalidated.
 		if (!armed) {
 			buttons.addListener((ListChangeListener<? super Button>) e -> {
@@ -156,7 +177,7 @@ public class ButtonPane extends FlowPane {
 	 * @return The group node.
 	 */
 	private Node getGroupBox(List<Button> group) {
-		if (getOrientation().equals(Orientation.HORIZONTAL)) {
+		if (flowPane.getOrientation().equals(Orientation.HORIZONTAL)) {
 			HBox hbox = new HBox(spacing);
 			hbox.setPadding(insets);
 			for (Button button : group) {
@@ -180,10 +201,10 @@ public class ButtonPane extends FlowPane {
 	 * @return The list of button groups.
 	 */
 	private Map<String, List<Button>> getGroups() {
-		
+
 		ButtonComparator comparator = new ButtonComparator();
 		List<Button> buttons = new ArrayList<>(this.buttons);
-		
+
 		// If the number of groups is 1, return one group per option.
 		// If the number of orders is 1, set the natural add order.
 		if (countGroups() == 1) {
@@ -199,8 +220,8 @@ public class ButtonPane extends FlowPane {
 				groups.put(groupKey, group);
 			}
 			return groups;
-		}		
-		
+		}
+
 		// Fill a sorted map with groups.
 		Map<String, List<Button>> groups = new TreeMap<>();
 		for (Button button : buttons) {

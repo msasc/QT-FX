@@ -19,6 +19,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
  * A RecordSet packs a list of records.
  *
@@ -360,5 +363,14 @@ public class RecordSet implements Iterable<Record> {
 			b.append(get(i));
 		}
 		return b.toString();
+	}
+
+	/**
+	 * Returns an observable list of this list of records.
+	 * 
+	 * @return The observable list of record.
+	 */
+	public ObservableList<Record> getObservableList() {
+		return FXCollections.observableList(records);
 	}
 }

@@ -38,6 +38,7 @@
 	<entry key="tokenHours">Hours</entry>
 	<entry key="tokenMinute">Minute</entry>
 	<entry key="tokenMinutes">Minutes</entry>
+	<entry key="tokenNo">No</entry>
 	<entry key="tokenOf">of</entry>
 	<entry key="tokenProcessed">Processed</entry>
 	<entry key="tokenProcessing">Processing</entry>
@@ -47,6 +48,7 @@
 	<entry key="tokenStart">Start</entry>
 	<entry key="tokenStarted">Started</entry>
 	<entry key="tokenTime">Time</entry>
+	<entry key="tokenYes">Yes</entry>
 	
 	<!-- Several widely used tool tips. -->
 	

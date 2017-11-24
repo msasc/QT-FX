@@ -275,6 +275,15 @@ public class Order {
 	public int size() {
 		return segments.size();
 	}
+	
+	/**
+	 * Invert the ascending flag for each segment.
+	 */
+	public void invertAsc() {
+		for (Segment segment : segments) {
+			segment.setAsc(!segment.isAsc());
+		}
+	}
 
 	/**
 	 * Returns a string representation of this order.

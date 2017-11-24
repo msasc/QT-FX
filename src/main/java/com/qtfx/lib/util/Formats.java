@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import com.qtfx.lib.db.Types;
+import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Value;
 
 /**
@@ -130,10 +130,10 @@ public class Formats {
 	}
 
 	/**
-	 * Returns the normalized simple timestamp format for the argument locale.
+	 * Returns the normalized simple time stamp format for the argument locale.
 	 * 
 	 * @param locale The applying locale.
-	 * @return The normalized timestamp format.
+	 * @return The normalized time stamp format.
 	 */
 	public static SimpleDateFormat getNormalizedTimestampFormat(Locale locale) {
 		return (SimpleDateFormat) getProperties(locale).get(NORMALIZED_TIMESTAMP_FORMAT);
@@ -261,17 +261,6 @@ public class Formats {
 	}
 
 	/**
-	 * Convert from a <i>BigDecimal</i> forcing the scale.
-	 * 
-	 * @return A string.
-	 * @param number A number as a <code>java.math.BigDecimal</code>
-	 * @param locale The desired locale.
-	 */
-	public static String formattedFromBigDecimal(BigDecimal number, Locale locale) {
-		return formattedFromBigDecimal(number, number.scale(), locale);
-	}
-
-	/**
 	 * Returns the formatted string representation of a boolean.
 	 * 
 	 * @param bool The boolean value
@@ -338,17 +327,6 @@ public class Formats {
 		return NumberFormat.getNumberInstance(locale).format(d);
 	}
 	
-	/**
-	 * Convert from a <i>BigDecimal</i> forcing the scale.
-	 * 
-	 * @return A string.
-	 * @param d The <i>double</i> to convert.
-	 * @param scale The scale.
-	 */
-	public static String formattedFromDouble(double d, int scale) {
-		return formattedFromDouble(d, scale, Locale.getDefault());
-	}
-
 	/**
 	 * Convert from a <i>BigDecimal</i> forcing the scale.
 	 * 
@@ -557,15 +535,15 @@ public class Formats {
 	/**
 	 * Convert to <i>Value</i>
 	 * 
-	 * @param type The type of the formatted string.
+	 * @param field The field of the formatted string.
 	 * @param str The formatted string to convert.
 	 * @param locale The locale to apply.
 	 * @return The parsed value.
 	 * @throws ParseException If an error occurs parsing the string.
 	 */
 	@SuppressWarnings("incomplete-switch")
-	public static Value formattedToValue(Types type, String str, Locale locale) throws ParseException {
-		switch (type) {
+	public static Value formattedToValue(Field field, String str, Locale locale) throws ParseException {
+		switch (field.getType()) {
 		case BOOLEAN:
 			return new Value(formattedToBoolean(str, locale));
 		case DECIMAL:
