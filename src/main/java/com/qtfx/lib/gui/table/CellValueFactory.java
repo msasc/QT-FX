@@ -15,7 +15,6 @@
 package com.qtfx.lib.gui.table;
 
 import java.lang.ref.WeakReference;
-import java.util.Locale;
 
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Record;
@@ -182,6 +181,9 @@ public class CellValueFactory implements Callback<CellDataFeatures<Record, Value
 			}
 		}
 
+		/**
+		 * Invalidation listener when the value is bound.
+		 */
 		private class Listener implements InvalidationListener {
 
 			private final WeakReference<ValueProperty> wref;

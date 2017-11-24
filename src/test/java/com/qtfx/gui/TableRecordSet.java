@@ -18,6 +18,7 @@ import com.qtfx.lib.db.Order;
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.RecordComparator;
 import com.qtfx.lib.db.RecordSet;
+import com.qtfx.lib.gui.TableRecordPane;
 import com.qtfx.lib.gui.table.TableColumns;
 import com.qtfx.lib.util.TextServer;
 import com.qtfx.util.Util;
@@ -51,38 +52,36 @@ public class TableRecordSet extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		
+		TableRecordPane table = new TableRecordPane();
 		RecordSet rs = Util.getRandomRecordSet(10000, Util.getFieldList());
+		table.setRecordSet(rs);
 
-		TableView<Record> table = new TableView<>();
+		table.addColumn("ICHECKED",false);
+		table.addColumn("CARTICLE",true);
+		table.addColumn("DARTICLE",false);
+		table.addColumn("CBUSINESS",false);
+		table.addColumn("TCREATED",false);
+		table.addColumn("QSALES",false);
+		table.addColumn("IREQUIRED",false);
+		table.addColumn("ISTATUS",false);
 		
-		ObservableList<Record> list = rs.getObservableList();
-		
-		table.setItems(list);
-		table.getColumns().add(TableColumns.getColumn(rs.getField("ICHECKED"),false));
-		table.getColumns().add(TableColumns.getColumn(rs.getField("CARTICLE"),true));
-		table.getColumns().add(TableColumns.getColumn(rs.getField("DARTICLE"),false));
-		table.getColumns().add(TableColumns.getColumn(rs.getField("CBUSINESS"),false));
-		table.getColumns().add(TableColumns.getColumn(rs.getField("TCREATED"),false));
-		table.getColumns().add(TableColumns.getColumn(rs.getField("QSALES"),false));
-		table.getColumns().add(TableColumns.getColumn(rs.getField("IREQUIRED"),false));
-		table.getColumns().add(TableColumns.getColumn(rs.getField("ISTATUS"),false));
-		
-		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		table.setSelectionMode(SelectionMode.MULTIPLE);
 
 		BorderPane root = new BorderPane();
-		table.setPadding(new Insets(10, 10, 10, 10));
-		root.setCenter(table);
+		table.getPane().setPadding(new Insets(10, 10, 10, 10));
+		root.setCenter(table.getPane());
 		
 		Order order = new Order();
 		order.add(rs.getField("ICHECKED"), false);
 		order.add(rs.getField("CARTICLE"), true);
 
-		Button button = new Button("Sort");
-		button.setOnAction(a -> {
-			order.invertAsc();
-			list.sort(new RecordComparator(order));
-		});
-		root.setBottom(button);
+//		Button button = new Button("Sort");
+//		button.setOnAction(a -> {
+//			order.invertAsc();
+//			list.sort(new RecordComparator(order));
+//		});
+//		root.setBottom(button);
 
 		Scene scene = new Scene(root);
 		stage.setTitle("Table RecordSet Sample");

@@ -28,8 +28,10 @@ import javafx.scene.layout.FlowPane;
  *
  * @author Miquel Sas
  */
-public class StatusBar extends FlowPane {
+public class StatusBar {
 
+	/** Internal flow pane. */
+	private FlowPane flowPane;
 	/** Default progress width. */
 	private double progressWidth = 80;
 
@@ -38,10 +40,20 @@ public class StatusBar extends FlowPane {
 	 */
 	public StatusBar() {
 		super();
-		setPadding(new Insets(2, 10, 2, 10));
-		setHgap(10);
-		setVgap(2);
-		setAlignment(Pos.CENTER_RIGHT);
+		flowPane = new FlowPane();
+		flowPane.setPadding(new Insets(2, 10, 2, 10));
+		flowPane.setHgap(10);
+		flowPane.setVgap(2);
+		flowPane.setAlignment(Pos.CENTER_RIGHT);
+	}
+	
+	/**
+	 * Return the internal flow pane.
+	 * 
+	 * @return The internal pane.
+	 */
+	public FlowPane getPane() {
+		return flowPane;
 	}
 
 	/**
@@ -59,12 +71,12 @@ public class StatusBar extends FlowPane {
 	 * @param id The id of the label.
 	 */
 	public void removeLabel(String id) {
-		Node node = Nodes.getNode(getChildren(), id);
+		Node node = Nodes.getNode(flowPane.getChildren(), id);
 		if (node == null || !(node instanceof Label)) {
 			throw new IllegalArgumentException();
 		}
 		Threads.runLater(() -> {
-			getChildren().remove(node);
+			flowPane.getChildren().remove(node);
 		});
 	}
 
@@ -75,7 +87,7 @@ public class StatusBar extends FlowPane {
 	 * @param text The text.
 	 */
 	public void setLabel(String id, String text) {
-		Node node = Nodes.getNode(getChildren(), id);
+		Node node = Nodes.getNode(flowPane.getChildren(), id);
 		if (node != null && !(node instanceof Label)) {
 			throw new IllegalArgumentException();
 		}
@@ -91,7 +103,7 @@ public class StatusBar extends FlowPane {
 		}
 		Threads.runLater(() -> {
 			if (add) {
-				getChildren().add(label);
+				flowPane.getChildren().add(label);
 			}
 			label.setText(text);
 		});
@@ -103,12 +115,12 @@ public class StatusBar extends FlowPane {
 	 * @param id The id of the progress bar.
 	 */
 	public void removeProgress(String id) {
-		Node node = Nodes.getNode(getChildren(), id);
+		Node node = Nodes.getNode(flowPane.getChildren(), id);
 		if (node == null || !(node instanceof ProgressBar)) {
 			throw new IllegalArgumentException();
 		}
 		Threads.runLater(() -> {
-			getChildren().remove(node);
+			flowPane.getChildren().remove(node);
 		});
 	}
 
@@ -121,7 +133,7 @@ public class StatusBar extends FlowPane {
 	 * @param totalWork
 	 */
 	public void setProgress(String id, double workDone, double totalWork) {
-		Node node = Nodes.getNode(getChildren(), id);
+		Node node = Nodes.getNode(flowPane.getChildren(), id);
 		if (node != null && !(node instanceof ProgressBar)) {
 			throw new IllegalArgumentException();
 		}
@@ -138,7 +150,7 @@ public class StatusBar extends FlowPane {
 		}
 		Threads.runLater(() -> {
 			if (add) {
-				getChildren().add(progressBar);
+				flowPane.getChildren().add(progressBar);
 			}
 			progressBar.setProgress(workDone / totalWork);
 		});

@@ -36,6 +36,7 @@
 	<entry key="tokenExit">Exit</entry>
 	<entry key="tokenHour">Hour</entry>
 	<entry key="tokenHours">Hours</entry>
+	<entry key="tokenLine">Line</entry>
 	<entry key="tokenMinute">Minute</entry>
 	<entry key="tokenMinutes">Minutes</entry>
 	<entry key="tokenNo">No</entry>
@@ -63,8 +64,7 @@
 	<entry key="taskFailed">Failed</entry>
 	<entry key="taskSucceeded">Succeeded</entry>
 	<entry key="taskParallel">Parallel processing...</entry>
-	
-	
+
 	<!-- Unit descriptions. -->
 
 	<entry key="unitTick">Tick</entry>
@@ -76,5 +76,7 @@
 	<entry key="unitWeek">Week</entry>
 	<entry key="unitMonth">Month</entry>
 	<entry key="unitYear">Year</entry>
+	
+	
 
 </properties>
