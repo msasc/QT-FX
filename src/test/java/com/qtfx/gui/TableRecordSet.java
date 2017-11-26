@@ -19,7 +19,6 @@ import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.RecordComparator;
 import com.qtfx.lib.db.RecordSet;
 import com.qtfx.lib.gui.TableRecordPane;
-import com.qtfx.lib.gui.table.TableColumns;
 import com.qtfx.lib.util.TextServer;
 import com.qtfx.util.Util;
 
@@ -29,7 +28,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -55,13 +53,14 @@ public class TableRecordSet extends Application {
 		
 		TableRecordPane table = new TableRecordPane();
 		RecordSet rs = Util.getRandomRecordSet(10000, Util.getFieldList());
-		table.setRecordSet(rs);
+		ObservableList<Record> list = rs.getObservableList();
+		table.setRecords(list);
 
 		table.addColumn("ICHECKED",false);
 		table.addColumn("CARTICLE",true);
 		table.addColumn("DARTICLE",false);
 		table.addColumn("CBUSINESS",false);
-		table.addColumn("TCREATED",false);
+		table.addColumn("TCREATED",true);
 		table.addColumn("QSALES",false);
 		table.addColumn("IREQUIRED",false);
 		table.addColumn("ISTATUS",false);
@@ -76,12 +75,12 @@ public class TableRecordSet extends Application {
 		order.add(rs.getField("ICHECKED"), false);
 		order.add(rs.getField("CARTICLE"), true);
 
-//		Button button = new Button("Sort");
-//		button.setOnAction(a -> {
-//			order.invertAsc();
-//			list.sort(new RecordComparator(order));
-//		});
-//		root.setBottom(button);
+		Button button = new Button("Sort");
+		button.setOnAction(a -> {
+			order.invertAsc();
+			list.sort(new RecordComparator(order));
+		});
+		root.setBottom(button);
 
 		Scene scene = new Scene(root);
 		stage.setTitle("Table RecordSet Sample");

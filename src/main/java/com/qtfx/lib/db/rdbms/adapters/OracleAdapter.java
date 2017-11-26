@@ -180,10 +180,10 @@ public class OracleAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Return a string representation of the timestamp, valid to be used in an SQL statement.
+	 * Return a string representation of the time-stamp, valid to be used in an SQL statement.
 	 * <p>
 	 * 
-	 * @param timestamp The timestamp.
+	 * @param time-stamp The time-stamp.
 	 * @return The representation.
 	 */
 	@Override

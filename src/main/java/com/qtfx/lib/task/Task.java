@@ -488,11 +488,11 @@ public abstract class Task extends ForkJoinTask<Void> {
 			double percentage = (workDone <= 0 ? 0.0 : (workDone / totalWork) * 100.0);
 			b.append(Numbers.getBigDecimal(percentage, progressDecimals));
 			b.append("% (");
-			b.append(Formats.formattedFromLong(Double.valueOf(workDone).longValue()));
+			b.append(Formats.formattedFromLong(Double.valueOf(workDone).longValue(), locale));
 			b.append(" ");
 			b.append(TextServer.getString("tokenOf"));
 			b.append(" ");
-			b.append(Formats.formattedFromLong(Double.valueOf(totalWork).longValue()));
+			b.append(Formats.formattedFromLong(Double.valueOf(totalWork).longValue(), locale));
 			b.append(")");
 		}
 		return b.toString();
@@ -574,10 +574,10 @@ public abstract class Task extends ForkJoinTask<Void> {
 	}
 
 	/**
-	 * Returns the formatted time stamp.
+	 * Returns the formatted time-stamp.
 	 * 
 	 * @param time The time in milliseconds.
-	 * @return The formatted time stamp.
+	 * @return The formatted time-stamp.
 	 */
 	private String getTimestampString(double time) {
 		return Formats.formattedFromTimestamp(new Timestamp((long) time), locale);

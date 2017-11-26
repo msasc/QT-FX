@@ -23,7 +23,6 @@ import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Types;
 import com.qtfx.lib.db.rdbms.DBEngineAdapter;
 import com.qtfx.lib.db.rdbms.DataSourceInfo;
-import com.qtfx.lib.util.Formats;
 
 /**
  * The Derby database adapter.
@@ -154,11 +153,7 @@ public class DerbyAdapter extends DBEngineAdapter {
 	 */
 	@Override
 	public String toStringSQL(Date date) {
-		String sdate = Formats.unformattedFromDate(date);
-		String syear = (sdate.length() == 8 ? sdate.substring(0, 4) : sdate.substring(0, 5));
-		String smonth = (sdate.length() == 8 ? sdate.substring(4, 6) : sdate.substring(5, 7));
-		String sday = (sdate.length() == 8 ? sdate.substring(6, 8) : sdate.substring(7, 9));
-		return "'" + syear + "-" + smonth + "-" + sday + "'";
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -169,28 +164,17 @@ public class DerbyAdapter extends DBEngineAdapter {
 	 */
 	@Override
 	public String toStringSQL(Time time) {
-		String stime = Formats.unformattedFromTime(time);
-		String sHour = stime.substring(0, 2);
-		String sMin = stime.substring(2, 4);
-		String sSec = stime.substring(4, 6);
-		return "'" + sHour + ":" + sMin + ":" + sSec + "'";
+		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * Return a string representation of the timestamp, valid to be used in an SQL statement.
+	 * Return a string representation of the time-stamp, valid to be used in an SQL statement.
 	 *
-	 * @param timestamp The timestamp.
+	 * @param time-stamp The time-stamp.
 	 * @return The representation.
 	 */
 	@Override
 	public String toStringSQL(Timestamp timestamp) {
-		String stime = Formats.unformattedFromTimestamp(timestamp, false);
-		String sYear = (stime.length() == 14 ? stime.substring(0, 4) : stime.substring(0, 5));
-		String sMonth = (stime.length() == 14 ? stime.substring(4, 6) : stime.substring(5, 7));
-		String sDay = (stime.length() == 14 ? stime.substring(6, 8) : stime.substring(7, 9));
-		String sHour = (stime.length() == 14 ? stime.substring(8, 10) : stime.substring(9, 11));
-		String sMin = (stime.length() == 14 ? stime.substring(10, 12) : stime.substring(11, 13));
-		String sSec = (stime.length() == 14 ? stime.substring(12, 14) : stime.substring(13, 15));
-		return "'" + sYear + "-" + sMonth + "-" + sDay + " " + sHour + ":" + sMin + ":" + sSec + "'";
+		throw new UnsupportedOperationException();
 	}
 }

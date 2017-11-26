@@ -147,12 +147,6 @@ public class CellValueFactory implements Callback<CellDataFeatures<Record, Value
 		public Value get() {
 			valid = true;
 			Value value = record.getValue(field.getAlias());
-			if (field.isPossibleValues()) {
-				String label = field.getPossibleValueLabel(value);
-				if (label != null) {
-					value = new Value(label);
-				}
-			}
 			return observable == null ? value : observable.getValue();
 		}
 
@@ -162,7 +156,7 @@ public class CellValueFactory implements Callback<CellDataFeatures<Record, Value
 		@Override
 		public void set(Value newValue) {
 			if (isBound()) {
-				throw new java.lang.RuntimeException((getBean() != null && getName() != null ? getBean().getClass().getSimpleName() + "." + getName() + " : " : "") + "A bound value cannot be set.");
+				throw new RuntimeException((getBean() != null && getName() != null ? getBean().getClass().getSimpleName() + "." + getName() + " : " : "") + "A bound value cannot be set.");
 			}
 			Value value = record.getValue(field.getAlias());
 			if ((value == null) ? newValue != null : !value.equals(newValue)) {

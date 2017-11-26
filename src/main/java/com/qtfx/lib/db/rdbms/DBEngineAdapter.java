@@ -13,9 +13,12 @@
  */
 package com.qtfx.lib.db.rdbms;
 
+import java.sql.Date;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -78,9 +81,9 @@ import com.qtfx.lib.db.rdbms.sql.Update;
  * WHERE Detail.product_id = Product.id(+)
  * </code>
  * <p>
- * <b>System functions.</b> System functions like the current date, time or timestamp unfortunately have different names
+ * <b>System functions.</b> System functions like the current date, time or time-stamp unfortunately have different names
  * for different databases. This class addresses this issue by mapping database function names for the current date,
- * time or timestamp.
+ * time or time-stamp.
  *
  * @author Miquel Sas
  */
@@ -574,7 +577,7 @@ public abstract class DBEngineAdapter {
 	 * @param date The date.
 	 * @return The SQL string representation.
 	 */
-	public abstract String toStringSQL(java.sql.Date date);
+	public abstract String toStringSQL(Date date);
 
 	/**
 	 * Return a string representation of the time, valid to be used in an SQL statement.
@@ -582,15 +585,15 @@ public abstract class DBEngineAdapter {
 	 * @param time The time.
 	 * @return The SQL string representation.
 	 */
-	public abstract String toStringSQL(java.sql.Time time);
+	public abstract String toStringSQL(Time time);
 
 	/**
-	 * Return a string representation of the timestamp, valid to be used in an SQL statement.
+	 * Return a string representation of the time-stamp, valid to be used in an SQL statement.
 	 * 
-	 * @param timestamp The timestamp.
+	 * @param time-stamp The time-stamp.
 	 * @return The SQL string representation.
 	 */
-	public abstract String toStringSQL(java.sql.Timestamp timestamp);
+	public abstract String toStringSQL(Timestamp timestamp);
 
 	/**
 	 * Return a string representation of the number, valid to be used in an SQL statement.

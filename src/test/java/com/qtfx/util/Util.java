@@ -27,8 +27,11 @@ import com.qtfx.lib.db.RecordSet;
 import com.qtfx.lib.db.Types;
 import com.qtfx.lib.db.Value;
 import com.qtfx.lib.util.Calendar;
+import com.qtfx.lib.util.Formats;
 import com.qtfx.lib.util.Random;
 import com.qtfx.lib.util.Strings;
+
+import javafx.util.StringConverter;
 
 /**
  * Test utilities, field list, random values...
@@ -49,7 +52,7 @@ public class Util {
 	public static Value getRandomPossibleValues(Field field) {
 		int count = field.getPossibleValues().size();
 		int index = Random.nextInt(count);
-		return field.getPossibleValues().get(index).getValue();
+		return field.getPossibleValues().get(index);
 	}
 
 	/**
@@ -124,6 +127,24 @@ public class Util {
 		int length = minLength + Random.nextInt(maxLength - minLength);
 		return getRandomString(length, source);
 	}
+	static class ArticleStringConverter extends StringConverter<Value> {
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String toString(Value value) {
+			String sv = value.toString();
+			return sv.substring(0, 2) + "-" + sv.substring(2);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Value fromString(String string) {
+			return null;
+		}
+	}
 
 	/**
 	 * Returns a field list suitable for many tests.
@@ -158,6 +179,8 @@ public class Util {
 		fCARTICLE.setFixedWidth(true);
 		fCARTICLE.setPrimaryKey(true);
 		fCARTICLE.setFieldGroup(fgKEY);
+		fCARTICLE.setStringConverter(new ArticleStringConverter());
+		fCARTICLE.setStyle("-fx-font-family: monospace; -fx-font-weight: bold; -fx-font-size: 16");
 		fieldList.addField(fCARTICLE);
 
 		Field fDARTICLE = new Field();
@@ -212,7 +235,7 @@ public class Util {
 		fICHECKED.setLabel("Checked");
 		fICHECKED.setHeader("Checked");
 		fICHECKED.setType(Types.BOOLEAN);
-//		fICHECKED.setEditBooleanInCheckBox(true);
+		fICHECKED.setEditBooleanInCheckBox(true);
 		fICHECKED.setFieldGroup(fgOTHER);
 		fieldList.addField(fICHECKED);
 
@@ -223,6 +246,7 @@ public class Util {
 		fIREQUIRED.setLabel("Required");
 		fIREQUIRED.setHeader("Required");
 		fIREQUIRED.setType(Types.BOOLEAN);
+		fIREQUIRED.setEditBooleanInCheckBox(false);
 		fIREQUIRED.setFieldGroup(fgOTHER);
 		fieldList.addField(fIREQUIRED);
 

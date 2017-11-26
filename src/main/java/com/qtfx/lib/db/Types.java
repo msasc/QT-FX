@@ -200,7 +200,7 @@ public enum Types {
 	}
 
 	/**
-	 * Check if this type is a timestamp.
+	 * Check if this type is a time-stamp.
 	 *
 	 * @return A boolean
 	 */
@@ -209,7 +209,7 @@ public enum Types {
 	}
 
 	/**
-	 * Check if this type is date, time or timestamp.
+	 * Check if this type is date, time or time-stamp.
 	 *
 	 * @return A boolean
 	 */

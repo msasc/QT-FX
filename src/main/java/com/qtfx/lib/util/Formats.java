@@ -28,9 +28,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import com.qtfx.lib.db.Field;
-import com.qtfx.lib.db.Value;
-
 /**
  * General formatting utilities.
  * 
@@ -43,11 +40,11 @@ public class Formats {
 	private static final int NORMALIZED_DATE_FORMAT = propertyIndex++;
 	/** The normalized time format key. */
 	private static final int NORMALIZED_TIME_FORMAT = propertyIndex++;
-	/** The normalized time stamp format. */
+	/** The normalized time-stamp format. */
 	private static final int NORMALIZED_TIMESTAMP_FORMAT = propertyIndex++;
 
 	/**
-	 * Date, time and timestamp mask chars.
+	 * Date, time and time-stamp mask chars.
 	 */
 	public static final String TIMESTAMP_MASK_CHARS = "dMyHmsS";
 	/**
@@ -66,7 +63,7 @@ public class Formats {
 	}
 
 	/**
-	 * Returns the list of separators in a normalized date, time or timestamp pattern.
+	 * Returns the list of separators in a normalized date, time or time-stamp pattern.
 	 * 
 	 * @param pattern the pattern.
 	 * @return The list of separators.
@@ -79,7 +76,7 @@ public class Formats {
 			if (c == ' ') {
 				continue;
 			}
-			// Skip characters in the timestamp mask chars
+			// Skip characters in the time-stamp mask chars
 			if (TIMESTAMP_MASK_CHARS.indexOf(c) >= 0) {
 				continue;
 			}
@@ -120,20 +117,20 @@ public class Formats {
 	}
 
 	/**
-	 * Returns the normalized time stamp pattern for the argument locale.
+	 * Returns the normalized time-stamp pattern for the argument locale.
 	 * 
 	 * @param locale The applying locale.
-	 * @return The normalized time stamp pattern.
+	 * @return The normalized time-stamp pattern.
 	 */
 	public static String getNormalizedTimestampPattern(Locale locale) {
 		return getNormalizedTimestampFormat(locale).toPattern();
 	}
 
 	/**
-	 * Returns the normalized simple time stamp format for the argument locale.
+	 * Returns the normalized simple time-stamp format for the argument locale.
 	 * 
 	 * @param locale The applying locale.
-	 * @return The normalized time stamp format.
+	 * @return The normalized time-stamp format.
 	 */
 	public static SimpleDateFormat getNormalizedTimestampFormat(Locale locale) {
 		return (SimpleDateFormat) getProperties(locale).get(NORMALIZED_TIMESTAMP_FORMAT);
@@ -142,13 +139,13 @@ public class Formats {
 	/**
 	 * Returns the normalized pattern for a date or time.
 	 * <p>
-	 * The normalized pattern for a date, or the date part of a time stamp, is always two digit long for days and months
+	 * The normalized pattern for a date, or the date part of a time-stamp, is always two digit long for days and months
 	 * and four digit long for the year.
 	 * <p>
-	 * The normalized pattern for a time, or the time part of a time stamp, is always two digit long for the hour, the
+	 * The normalized pattern for a time, or the time part of a time-stamp, is always two digit long for the hour, the
 	 * minute and the second.
 	 * <p>
-	 * In a time or time stamp, the millisecond part is always three digit long.
+	 * In a time or time-stamp, the millisecond part is always three digit long.
 	 * <p>
 	 * The hour is always converted to the 0-23 format (H).
 	 * 
@@ -206,7 +203,6 @@ public class Formats {
 		return b.toString().trim();
 	}
 
-
 	/**
 	 * Returns the set of properties given the locale. If the properties has not already been set it sets them, thus
 	 * always returning a valid map of properties.
@@ -214,7 +210,7 @@ public class Formats {
 	 * @param locale The locale.
 	 * @return A map with the properties.
 	 */
-	synchronized private static Map<Integer, Object> getProperties(Locale locale) {
+	private static Map<Integer, Object> getProperties(Locale locale) {
 		Map<Integer, Object> localeProperties = properties.get(locale);
 		if (localeProperties == null) {
 			localeProperties = new HashMap<>();
@@ -231,9 +227,8 @@ public class Formats {
 			timeFormat = new SimpleDateFormat(timePattern, DateFormatSymbols.getInstance(locale));
 			localeProperties.put(NORMALIZED_TIME_FORMAT, timeFormat);
 
-			// Normalized timestamp format and pattern
-			SimpleDateFormat timestampFormat =
-				(SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM, locale);
+			// Normalized time-stamp format and pattern
+			SimpleDateFormat timestampFormat = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM, locale);
 			String timestampPattern = getNormalizedPattern(timestampFormat.toPattern());
 			timestampFormat = new SimpleDateFormat(timestampPattern, DateFormatSymbols.getInstance(locale));
 			localeProperties.put(NORMALIZED_TIMESTAMP_FORMAT, timestampFormat);
@@ -254,10 +249,7 @@ public class Formats {
 	 * @param locale The desired locale.
 	 */
 	public static String formattedFromBigDecimal(BigDecimal number, int scale, Locale locale) {
-		NumberFormat formatted = NumberFormat.getNumberInstance(locale);
-		formatted.setMaximumFractionDigits(scale);
-		formatted.setMinimumFractionDigits(scale);
-		return formatted.format(number.doubleValue());
+		return getNumberFormat(scale, locale).format(number.doubleValue());
 	}
 
 	/**
@@ -275,24 +267,10 @@ public class Formats {
 	}
 
 	/**
-	 * Convert from a <i>Date</i>.
-	 * 
-	 * @return A string.
-	 * @param date The <i>Date</i> to convert.
-	 * @param locale The locale to apply.
-	 */
-	public static String formattedFromDate(Date date, Locale locale) {
-		if (date == null) {
-			return "";
-		}
-		return getNormalizedDateFormat(locale).format(date);
-	}
-
-	/**
 	 * Convert from a <i>Timestamp</i>.
 	 * 
 	 * @return A string.
-	 * @param timestamp The <i>Timestamp</i> to convert.
+	 * @param time-stamp The <i>Timestamp</i> to convert.
 	 * @param locale The locale to apply.
 	 */
 	public static String formattedFromTimestamp(Timestamp timestamp, Locale locale) {
@@ -300,20 +278,6 @@ public class Formats {
 			return "";
 		}
 		return getNormalizedTimestampFormat(locale).format(timestamp);
-	}
-
-	/**
-	 * Convert from a <i>Time</i>.
-	 * 
-	 * @return A string.
-	 * @param time The <i>Time</i> to convert.
-	 * @param locale The locale to apply.
-	 */
-	public static String formattedFromTime(Time time, Locale locale) {
-		if (time == null) {
-			return "";
-		}
-		return getNormalizedTimeFormat(locale).format(time);
 	}
 
 	/**
@@ -326,7 +290,7 @@ public class Formats {
 	public static String formattedFromDouble(double d, Locale locale) {
 		return NumberFormat.getNumberInstance(locale).format(d);
 	}
-	
+
 	/**
 	 * Convert from a <i>BigDecimal</i> forcing the scale.
 	 * 
@@ -336,10 +300,7 @@ public class Formats {
 	 * @param locale The desired locale.
 	 */
 	public static String formattedFromDouble(double d, int scale, Locale locale) {
-		NumberFormat formatted = NumberFormat.getNumberInstance(locale);
-		formatted.setMaximumFractionDigits(scale);
-		formatted.setMinimumFractionDigits(scale);
-		return formatted.format(d);
+		return getNumberFormat(scale, locale).format(d);
 	}
 
 	/**
@@ -350,17 +311,7 @@ public class Formats {
 	 * @param locale The locale to apply.
 	 */
 	public static String formattedFromInteger(int i, Locale locale) {
-		return NumberFormat.getNumberInstance(locale).format(i);
-	}
-
-	/**
-	 * Convert from an <i>long</i>.
-	 * 
-	 * @return A string.
-	 * @param l The <i>long</i> to convert.
-	 */
-	public static String formattedFromLong(long l) {
-		return formattedFromLong(l, Locale.getDefault());
+		return getNumberFormat(locale).format(i);
 	}
 
 	/**
@@ -371,41 +322,7 @@ public class Formats {
 	 * @param locale The locale to apply.
 	 */
 	public static String formattedFromLong(long l, Locale locale) {
-		return NumberFormat.getNumberInstance(locale).format(l);
-	}
-
-	/**
-	 * Convert from a <i>Value</i>.
-	 * 
-	 * @return A string.
-	 * @param value The <i>Value</i> to convert.
-	 * @param locale The locale to apply.
-	 */
-	@SuppressWarnings("incomplete-switch")
-	public static String formattedFromValue(Value value, Locale locale) {
-		switch (value.getType()) {
-		case BOOLEAN:
-			return formattedFromBoolean(value.getBoolean(), locale);
-		case DECIMAL:
-			return formattedFromBigDecimal(value.getBigDecimal(), value.getBigDecimal().scale(), locale);
-		case DATE:
-			return formattedFromDate(value.getDate(), locale);
-		case DOUBLE:
-			return formattedFromDouble(value.getDouble(), locale);
-		case INTEGER:
-			return formattedFromInteger(value.getInteger(), locale);
-		case LONG:
-			return formattedFromLong(value.getLong(), locale);
-		case STRING:
-			return value.getString();
-		case TIME:
-			return formattedFromTime(value.getTime(), locale);
-		case TIMESTAMP:
-			return formattedFromTimestamp(value.getTimestamp(), locale);
-		/** Types that do not support a formated conversion. */
-		case BYTEARRAY:
-		}
-		return value.toString();
+		return getNumberFormat(locale).format(l);
 	}
 
 	/**
@@ -524,48 +441,12 @@ public class Formats {
 	 * 
 	 * @param str The formatted string to convert.
 	 * @param locale The locale to apply.
-	 * @return The time stamp.
+	 * @return The time-stamp.
 	 * @throws ParseException If an error occurs parsing the string.
 	 */
 	public static Timestamp formattedToTimestamp(String str, Locale locale) throws ParseException {
 		java.util.Date date = getNormalizedTimestampFormat(locale).parse(str);
 		return new Timestamp(date.getTime());
-	}
-
-	/**
-	 * Convert to <i>Value</i>
-	 * 
-	 * @param field The field of the formatted string.
-	 * @param str The formatted string to convert.
-	 * @param locale The locale to apply.
-	 * @return The parsed value.
-	 * @throws ParseException If an error occurs parsing the string.
-	 */
-	@SuppressWarnings("incomplete-switch")
-	public static Value formattedToValue(Field field, String str, Locale locale) throws ParseException {
-		switch (field.getType()) {
-		case BOOLEAN:
-			return new Value(formattedToBoolean(str, locale));
-		case DECIMAL:
-			return new Value(formattedToBigDecimal(str, locale));
-		case DATE:
-			return new Value(formattedToDate(str, locale));
-		case DOUBLE:
-			return new Value(formattedToDouble(str, locale));
-		case INTEGER:
-			return new Value(formattedToInteger(str, locale));
-		case LONG:
-			return new Value(formattedToLong(str, locale));
-		case STRING:
-			return new Value(str);
-		case TIME:
-			return new Value(formattedToTime(str, locale));
-		case TIMESTAMP:
-			return new Value(formattedToTimestamp(str, locale));
-		/** Types that do not support a formated conversion. */
-		case BYTEARRAY:
-		}
-		return new Value(str);
 	}
 
 	/**
@@ -589,23 +470,6 @@ public class Formats {
 	 */
 	public static String unformattedFromBoolean(boolean b) {
 		return (b ? Boolean.TRUE.toString() : Boolean.FALSE.toString());
-	}
-
-	/**
-	 * Convert a <i>Date</i> to the unformatted form.
-	 * 
-	 * @return A string.
-	 * @param d A <i>Date</i>.
-	 */
-	public static String unformattedFromDate(Date d) {
-		if (d == null) {
-			return "";
-		}
-		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-		SimpleDateFormat ef = new SimpleDateFormat("G");
-		String sdate = df.format(d);
-		String sera = ef.format(d);
-		return (sera.equals("BC") ? "-" + sdate : sdate);
 	}
 
 	/**
@@ -647,143 +511,6 @@ public class Formats {
 	 */
 	public static String unformattedFromLong(long n) {
 		return Long.toString(n);
-	}
-
-	/**
-	 * Convert from a <i>Time</i> to an unlocalized string with the format <i>hhmmss</i>.
-	 * 
-	 * @return The string.
-	 * @param t A <i>Time</i>.
-	 */
-	public static String unformattedFromTime(Time t) {
-		return unformattedFromTime(t, false);
-	}
-
-	/**
-	 * Convert from a <i>Time</i> to an unlocalized string with the format <i>hhmmss</i> or <i>hhmmssnnn</i>.
-	 * 
-	 * @return The string.
-	 * @param time A <i>Time</i>.
-	 * @param millis A <i>boolean</i> to include milliseconds.
-	 */
-	public static String unformattedFromTime(Time time, boolean millis) {
-		if (time == null) {
-			return "";
-		}
-		StringBuilder pattern = new StringBuilder();
-		pattern.append("HHmmss");
-		if (millis) {
-			pattern.append("SSS");
-		}
-		SimpleDateFormat df = new SimpleDateFormat(pattern.toString());
-		return df.format(time);
-	}
-
-	/**
-	 * Convert from a <i>Timestamp</i> to an unlocalized string with the format <b>yyyymmddhhmmss</b>.
-	 * 
-	 * @return The string.
-	 * @param t A <i>Timestamp</i>.
-	 */
-	public static String unformattedFromTimestamp(Timestamp t) {
-		return unformattedFromTimestamp(t, true, false);
-	}
-
-	/**
-	 * Convert from a <i>Timestamp</i> to an unlocalized string with the format <b>yyyymmddhhmmss</b> or
-	 * <b>yyyymmddhhmmssnnn</b>
-	 * 
-	 * @return The string.
-	 * @param timestamp A <code>Timestamp</code>.
-	 * @param millis A <code>boolean</code> to include milliseconds.
-	 */
-	public static String unformattedFromTimestamp(Timestamp timestamp, boolean millis) {
-		return unformattedFromTimestamp(timestamp, millis, false);
-	}
-
-	/**
-	 * Convert from a <i>Timestamp</i> to an unlocalized string with the format <b>yyyymmddhhmmss</b> or
-	 * <b>yyyymmddhhmmssnnn</b>
-	 * 
-	 * @return The string.
-	 * @param timestamp A <code>Timestamp</code>.
-	 * @param millis A <code>boolean</code> to include milliseconds.
-	 * @param separators A boolean to include standard separators
-	 */
-	public static String unformattedFromTimestamp(Timestamp timestamp, boolean millis, boolean separators) {
-		return unformattedFromTimestamp(timestamp, true, true, true, true, true, true, millis, separators);
-	}
-
-	/**
-	 * Convert from a <i>Timestamp</i> to an unlocalized string with the format <b>yyyymmddhhmmss</b> or
-	 * <b>yyyymmddhhmmssnnn</b>
-	 * 
-	 * @return The string.
-	 * @param timestamp A <code>Timestamp</code>.
-	 * @param year A <code>boolean</code> to include year.
-	 * @param month A <code>boolean</code> to include month.
-	 * @param day A <code>boolean</code> to include day.
-	 * @param hour A <code>boolean</code> to include hour.
-	 * @param minute A <code>boolean</code> to include minute.
-	 * @param second A <code>boolean</code> to include second.
-	 * @param millis A <code>boolean</code> to include milliseconds.
-	 * @param separators A boolean to include standard separators
-	 */
-	public static String unformattedFromTimestamp(
-		Timestamp timestamp,
-		boolean year,
-		boolean month,
-		boolean day,
-		boolean hour,
-		boolean minute,
-		boolean second,
-		boolean millis,
-		boolean separators) {
-		if (timestamp == null) {
-			return "";
-		}
-		StringBuilder pattern = new StringBuilder();
-		if (year) {
-			pattern.append("yyyy");
-		}
-		if (month) {
-			if (separators && pattern.length() != 0) {
-				pattern.append("-");
-			}
-			pattern.append("MM");
-		}
-		if (day) {
-			if (separators && pattern.length() != 0) {
-				pattern.append("-");
-			}
-			pattern.append("dd");
-		}
-		if (hour) {
-			if (separators && pattern.length() != 0) {
-				pattern.append(" ");
-			}
-			pattern.append("HH");
-		}
-		if (minute) {
-			if (separators && pattern.length() != 0) {
-				pattern.append(":");
-			}
-			pattern.append("mm");
-		}
-		if (second) {
-			if (separators && pattern.length() != 0) {
-				pattern.append(":");
-			}
-			pattern.append("ss");
-		}
-		if (millis) {
-			if (separators && pattern.length() != 0) {
-				pattern.append(".");
-			}
-			pattern.append("SSS");
-		}
-		SimpleDateFormat df = new SimpleDateFormat(pattern.toString());
-		return df.format(timestamp);
 	}
 
 	/**
@@ -964,7 +691,206 @@ public class Formats {
 				throw new Exception();
 			}
 		} catch (Exception e) {
-			throw new IllegalArgumentException("Invalid unformatted timestamp " + str);
+			throw new IllegalArgumentException("Invalid unformatted time-stamp " + str);
 		}
+	}
+
+	/**
+	 * Return the number format.
+	 * 
+	 * @param locale The required locale.
+	 * @return The number format.
+	 */
+	public static NumberFormat getNumberFormat(Locale locale) {
+		return getNumberFormat(0, locale);
+	}
+
+	/**
+	 * Return the number format.
+	 * 
+	 * @param decimals The number of decimals.
+	 * @param locale The required locale.
+	 * @return The number format.
+	 */
+	public static NumberFormat getNumberFormat(int decimals, Locale locale) {
+		NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
+		if (decimals >= 0) {
+			numberFormat.setMaximumFractionDigits(decimals);
+			numberFormat.setMinimumFractionDigits(decimals);
+		}
+		return numberFormat;
+	}
+
+	/**
+	 * Convert a <i>Date</i> to the unformatted form.
+	 * 
+	 * @return A string.
+	 * @param d A <i>Date</i>.
+	 */
+	public static String unformattedFromDate(Date d) {
+		if (d == null) {
+			return "";
+		}
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat ef = new SimpleDateFormat("G");
+		String sdate = df.format(d);
+		String sera = ef.format(d);
+		return (sera.equals("BC") ? "-" + sdate : sdate);
+	}
+
+	/**
+	 * Convert from a <i>Time</i> to an unlocalized string with the format <i>hhmmss</i>.
+	 * 
+	 * @return The string.
+	 * @param t A <i>Time</i>.
+	 */
+	public static String unformattedFromTime(Time t) {
+		return unformattedFromTime(t, false);
+	}
+
+	/**
+	 * Convert from a <i>Time</i> to an unlocalized string with the format <i>hhmmss</i> or <i>hhmmssnnn</i>.
+	 * 
+	 * @return The string.
+	 * @param time A <i>Time</i>.
+	 * @param millis A <i>boolean</i> to include milliseconds.
+	 */
+	public static String unformattedFromTime(Time time, boolean millis) {
+		if (time == null) {
+			return "";
+		}
+		StringBuilder pattern = new StringBuilder();
+		pattern.append("HHmmss");
+		if (millis) {
+			pattern.append("SSS");
+		}
+		SimpleDateFormat df = new SimpleDateFormat(pattern.toString());
+		return df.format(time);
+	}
+
+	/**
+	 * Convert from a <i>Timestamp</i> to an unlocalized string with the format <b>yyyymmddhhmmss</b>.
+	 * 
+	 * @return The string.
+	 * @param t A <i>Timestamp</i>.
+	 */
+	public static String unformattedFromTimestamp(Timestamp t) {
+		return unformattedFromTimestamp(t, true, false);
+	}
+
+	/**
+	 * Convert from a <i>Timestamp</i> to an unlocalized string with the format <b>yyyymmddhhmmss</b> or
+	 * <b>yyyymmddhhmmssnnn</b>
+	 * 
+	 * @return The string.
+	 * @param time-stamp A <code>Timestamp</code>.
+	 * @param millis A <code>boolean</code> to include milliseconds.
+	 */
+	public static String unformattedFromTimestamp(Timestamp timestamp, boolean millis) {
+		return unformattedFromTimestamp(timestamp, millis, false);
+	}
+
+	/**
+	 * Convert from a <i>Timestamp</i> to an unlocalized string with the format <b>yyyymmddhhmmss</b> or
+	 * <b>yyyymmddhhmmssnnn</b>
+	 * 
+	 * @return The string.
+	 * @param time-stamp A <code>Timestamp</code>.
+	 * @param millis A <code>boolean</code> to include milliseconds.
+	 * @param separators A boolean to include standard separators
+	 */
+	public static String unformattedFromTimestamp(Timestamp timestamp, boolean millis, boolean separators) {
+		return unformattedFromTimestamp(timestamp, true, true, true, true, true, true, millis, separators);
+	}
+
+	/**
+	 * Convert from a <i>Timestamp</i> to an unlocalized string with the format <b>yyyymmddhhmmss</b> or
+	 * <b>yyyymmddhhmmssnnn</b>
+	 * 
+	 * @return The string.
+	 * @param time-stamp A <code>Timestamp</code>.
+	 * @param year A <code>boolean</code> to include year.
+	 * @param month A <code>boolean</code> to include month.
+	 * @param day A <code>boolean</code> to include day.
+	 * @param hour A <code>boolean</code> to include hour.
+	 * @param minute A <code>boolean</code> to include minute.
+	 * @param second A <code>boolean</code> to include second.
+	 * @param millis A <code>boolean</code> to include milliseconds.
+	 * @param separators A boolean to include standard separators
+	 */
+	public static String unformattedFromTimestamp(Timestamp timestamp, boolean year, boolean month, boolean day, boolean hour, boolean minute, boolean second, boolean millis, boolean separators) {
+		if (timestamp == null) {
+			return "";
+		}
+		StringBuilder pattern = new StringBuilder();
+		if (year) {
+			pattern.append("yyyy");
+		}
+		if (month) {
+			if (separators && pattern.length() != 0) {
+				pattern.append("-");
+			}
+			pattern.append("MM");
+		}
+		if (day) {
+			if (separators && pattern.length() != 0) {
+				pattern.append("-");
+			}
+			pattern.append("dd");
+		}
+		if (hour) {
+			if (separators && pattern.length() != 0) {
+				pattern.append(" ");
+			}
+			pattern.append("HH");
+		}
+		if (minute) {
+			if (separators && pattern.length() != 0) {
+				pattern.append(":");
+			}
+			pattern.append("mm");
+		}
+		if (second) {
+			if (separators && pattern.length() != 0) {
+				pattern.append(":");
+			}
+			pattern.append("ss");
+		}
+		if (millis) {
+			if (separators && pattern.length() != 0) {
+				pattern.append(".");
+			}
+			pattern.append("SSS");
+		}
+		SimpleDateFormat df = new SimpleDateFormat(pattern.toString());
+		return df.format(timestamp);
+	}
+
+	/**
+	 * Convert from a <i>Date</i>.
+	 * 
+	 * @return A string.
+	 * @param date The <i>Date</i> to convert.
+	 * @param locale The locale to apply.
+	 */
+	public static String formattedFromDate(Date date, Locale locale) {
+		if (date == null) {
+			return "";
+		}
+		return getNormalizedDateFormat(locale).format(date);
+	}
+
+	/**
+	 * Convert from a <i>Time</i>.
+	 * 
+	 * @return A string.
+	 * @param time The <i>Time</i> to convert.
+	 * @param locale The locale to apply.
+	 */
+	public static String formattedFromTime(Time time, Locale locale) {
+		if (time == null) {
+			return "";
+		}
+		return getNormalizedTimeFormat(locale).format(time);
 	}
 }

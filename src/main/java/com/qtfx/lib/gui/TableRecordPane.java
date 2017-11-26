@@ -14,6 +14,8 @@
 
 package com.qtfx.lib.gui;
 
+import java.util.Locale;
+
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.FieldList;
 import com.qtfx.lib.db.Record;
@@ -21,6 +23,7 @@ import com.qtfx.lib.db.RecordSet;
 import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.table.CellFactory;
 import com.qtfx.lib.gui.table.CellValueFactory;
+import com.qtfx.lib.util.Formats;
 import com.qtfx.lib.util.TextServer;
 
 import javafx.beans.value.ChangeListener;
@@ -58,12 +61,24 @@ public class TableRecordPane {
 	private TableView<Record> tableView;
 	/** Status bar. */
 	private StatusBar statusBar;
+	/** The user locale. */
+	private Locale locale;
 
 	/**
 	 * Constructor.
 	 */
 	public TableRecordPane() {
+		this(Locale.getDefault());
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param locale The required locale.
+	 */
+	public TableRecordPane(Locale locale) {
 		super();
+		this.locale = locale;
 
 		borderPane = new BorderPane();
 		tableView = new TableView<>();
@@ -156,7 +171,7 @@ public class TableRecordPane {
 		b.append(TextServer.getString("tokenLine"));
 		b.append(" ");
 		if (line > 0) {
-			b.append(line);
+			b.append(Formats.getNumberFormat(0, locale).format(line));
 		} else {
 			b.append("#");
 		}
@@ -168,11 +183,11 @@ public class TableRecordPane {
 			lines = getTableView().getItems().size();
 		}
 		if (lines > 0) {
-			b.append(lines);
+			b.append(Formats.getNumberFormat(0, locale).format(lines));
 		} else {
 			b.append("#");
 		}
-		statusBar.setLabel(LINE_OF_LINES, b.toString());
+		statusBar.setLabel(LINE_OF_LINES, b.toString(), "-fx-font-size: 12; -fx-font-style: italic;");
 	}
 
 	/**

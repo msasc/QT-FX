@@ -171,7 +171,7 @@ public class AddCheck extends Statement {
 			}
 		} else {
 			for (PossibleValue possibleValue : possibleValues) {
-				values.add(possibleValue.getValue());
+				values.add(possibleValue);
 			}
 		}
 		return values;

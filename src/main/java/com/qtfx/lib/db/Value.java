@@ -19,9 +19,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Locale;
 
-import com.qtfx.lib.util.Formats;
 import com.qtfx.lib.util.Lists;
 import com.qtfx.lib.util.Numbers;
 
@@ -41,7 +39,6 @@ public class Value implements Comparable<Object> {
 	 * Private constructor for internal usage.
 	 */
 	private Value() {
-		super();
 	}
 
 	/**
@@ -202,9 +199,9 @@ public class Value implements Comparable<Object> {
 	}
 
 	/**
-	 * Constructor assigning a timestamp.
+	 * Constructor assigning a time-stamp.
 	 *
-	 * @param t The timestamp
+	 * @param t The time-stamp
 	 */
 	public Value(Timestamp t) {
 		super();
@@ -577,7 +574,7 @@ public class Value implements Comparable<Object> {
 		if (isTime()) {
 			return new Timestamp(getTime().getTime());
 		}
-		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a date, time or timestamp", value));
+		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a date, time or time-stamp", value));
 	}
 
 	/**
@@ -704,7 +701,7 @@ public class Value implements Comparable<Object> {
 	}
 
 	/**
-	 * Check if this value is a date, time or timestamp.
+	 * Check if this value is a date, time or time-stamp.
 	 *
 	 * @return A boolean.
 	 */

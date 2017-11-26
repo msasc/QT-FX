@@ -24,6 +24,8 @@ import java.util.List;
 
 import com.qtfx.lib.util.Strings;
 
+import javafx.util.StringConverter;
+
 /**
  * Definition a an item usually of tabular data.
  *
@@ -34,31 +36,18 @@ public class Field implements Comparable<Object> {
 	/**
 	 * A possible value is a pair value-label.
 	 */
-	public static class PossibleValue {
-		private Value value;
+	public static class PossibleValue extends Value {
 		private String label;
 
 		public PossibleValue(Value value, String label) {
-			this.value = value;
+			super(value);
 			this.label = label;
-		}
-
-		public Value getValue() {
-			return value;
 		}
 
 		public String getLabel() {
 			return label;
 		}
 
-		@Override
-		public boolean equals(Object obj) {
-			if (obj instanceof PossibleValue) {
-				PossibleValue pv = (PossibleValue) obj;
-				return this.value.equals(pv.value);
-			}
-			return false;
-		}
 	}
 
 	///////////////////
@@ -112,13 +101,19 @@ public class Field implements Comparable<Object> {
 	private boolean uppercase;
 	/** Optional calculator. */
 	private Calculator calculator;
+	/** A boolean that indicates whether a boolean field is displayed/edited in a check or combo box. */
+	private boolean editBooleanInCheckBox = true;
+	/** Optional string converter. */
+	private StringConverter<Value> stringConverter;
+	/** Optional CSS style. */
+	private String style;
 
 	///////////////////////////////
 	// Database related properties.
 
 	/**
 	 * A boolean that indicates if the field, when not present in an insert clause (DEFAULT) should be initialized with
-	 * the database function for a datte, time or time stamp.
+	 * the database function for a datte, time or time-stamp.
 	 */
 	private boolean currentDateTimeOrTimestamp = false;
 	/** A flag that indicates whether this field is persistent. */
@@ -615,7 +610,7 @@ public class Field implements Comparable<Object> {
 	 */
 	public String getPossibleValueLabel(Value value) {
 		for (PossibleValue possibleValue : possibleValues) {
-			if (possibleValue.getValue().equals(value)) {
+			if (possibleValue.equals(value)) {
 				return possibleValue.getLabel();
 			}
 		}
@@ -649,11 +644,65 @@ public class Field implements Comparable<Object> {
 		this.calculator = calculator;
 	}
 
+	/**
+	 * Check whether boolean will be edited with a check box.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean isEditBooleanInCheckBox() {
+		return editBooleanInCheckBox;
+	}
+
+	/**
+	 * Set whether boolean will be edited with a check box.
+	 * 
+	 * @param editBooleanInCheckBox A boolean.
+	 */
+	public void setEditBooleanInCheckBox(boolean editBooleanInCheckBox) {
+		this.editBooleanInCheckBox = editBooleanInCheckBox;
+	}
+
+	/**
+	 * Return the optional string converter.
+	 * 
+	 * @return The optional string converter.
+	 */
+	public StringConverter<Value> getStringConverter() {
+		return stringConverter;
+	}
+
+	/**
+	 * Set the optional string converter.
+	 * 
+	 * @param stringConverter The optional string converter.
+	 */
+	public void setStringConverter(StringConverter<Value> stringConverter) {
+		this.stringConverter = stringConverter;
+	}
+
+	/**
+	 * Return the optional CSS style.
+	 * 
+	 * @return The optional CSS style.
+	 */
+	public String getStyle() {
+		return style;
+	}
+
+	/**
+	 * Set the optional CSS style.
+	 * 
+	 * @param style The optional CSS style.
+	 */
+	public void setStyle(String style) {
+		this.style = style;
+	}
+
 	///////////////////////////////
 	// Database related properties.
 
 	/**
-	 * Check the current date, time or time stamp flag.
+	 * Check the current date, time or time-stamp flag.
 	 * 
 	 * @return A boolean.
 	 */
@@ -680,16 +729,16 @@ public class Field implements Comparable<Object> {
 	}
 
 	/**
-	 * Check if his field should initialize to the current time stamp.
+	 * Check if his field should initialize to the current time-stamp.
 	 * 
-	 * @return A boolean indicating that it should be initialized to the current time stamp.
+	 * @return A boolean indicating that it should be initialized to the current time-stamp.
 	 */
 	public boolean isCurrentTimestamp() {
 		return isTimestamp() && isCurrentDateTimeOrTimestamp();
 	}
 
 	/**
-	 * Set the current date, time or time stamp flag.
+	 * Set the current date, time or time-stamp flag.
 	 * 
 	 * @param currentDateTimeOrTimestamp A boolean.
 	 */
@@ -1033,7 +1082,7 @@ public class Field implements Comparable<Object> {
 	}
 
 	/**
-	 * Check if this field is a date, time or time stamp.
+	 * Check if this field is a date, time or time-stamp.
 	 *
 	 * @return A boolean.
 	 */

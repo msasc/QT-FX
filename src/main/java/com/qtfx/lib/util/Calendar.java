@@ -552,7 +552,7 @@ public class Calendar extends GregorianCalendar {
 	/**
 	 * Constructor assigning a <code>Timestamp</code>.
 	 *
-	 * @param timestamp The <code>Timestamp</code>.
+	 * @param time-stamp The <code>Timestamp</code>.
 	 */
 	public Calendar(java.sql.Timestamp timestamp) {
 		setTimeInMillis(timestamp.getTime());

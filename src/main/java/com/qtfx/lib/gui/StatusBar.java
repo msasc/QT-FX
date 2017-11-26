@@ -41,12 +41,20 @@ public class StatusBar {
 	public StatusBar() {
 		super();
 		flowPane = new FlowPane();
-		flowPane.setPadding(new Insets(2, 10, 2, 10));
 		flowPane.setHgap(10);
 		flowPane.setVgap(2);
 		flowPane.setAlignment(Pos.CENTER_RIGHT);
 	}
-	
+
+	/**
+	 * Set the padding.
+	 * 
+	 * @param insets The insets.
+	 */
+	public void setPadding(Insets insets) {
+		flowPane.setPadding(insets);
+	}
+
 	/**
 	 * Return the internal flow pane.
 	 * 
@@ -87,6 +95,17 @@ public class StatusBar {
 	 * @param text The text.
 	 */
 	public void setLabel(String id, String text) {
+		setLabel(id, text, null);
+	}
+
+	/**
+	 * Set the text to the label with the given id. If such label does not exist, it is created and added to the end.
+	 * 
+	 * @param id The id of the label.
+	 * @param text The text.
+	 * @param style Optional style.
+	 */
+	public void setLabel(String id, String text, String style) {
 		Node node = Nodes.getNode(flowPane.getChildren(), id);
 		if (node != null && !(node instanceof Label)) {
 			throw new IllegalArgumentException();
@@ -100,6 +119,9 @@ public class StatusBar {
 		} else {
 			label = (Label) node;
 			add = false;
+		}
+		if (style != null) {
+			label.setStyle(style);
 		}
 		Threads.runLater(() -> {
 			if (add) {
