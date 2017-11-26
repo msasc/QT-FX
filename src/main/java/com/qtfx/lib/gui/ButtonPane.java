@@ -88,11 +88,11 @@ public class ButtonPane {
 	}
 
 	/**
-	 * Return the internal flow pane.
+	 * Return the node to install in the scene.
 	 * 
-	 * @return The internal pane.
+	 * @return The node to install in the scene.
 	 */
-	public FlowPane getPane() {
+	public Node getNode() {
 		return flowPane;
 	}
 
@@ -111,7 +111,7 @@ public class ButtonPane {
 	 * @param insets The insets.
 	 */
 	public void setPadding(Insets insets) {
-		getPane().setPadding(insets);
+		flowPane.setPadding(insets);
 	}
 
 	/**

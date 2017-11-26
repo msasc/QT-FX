@@ -137,7 +137,7 @@ public class Dialog {
 	 */
 	public void setButtonsTop() {
 		buttonPane = new ButtonPane(Orientation.HORIZONTAL);
-		borderPane.setTop(buttonPane.getPane());
+		borderPane.setTop(buttonPane.getNode());
 		buttonPanePos = ButtonPanePos.TOP;
 	}
 
@@ -146,7 +146,7 @@ public class Dialog {
 	 */
 	public void setButtonsBottom() {
 		buttonPane = new ButtonPane(Orientation.HORIZONTAL);
-		borderPane.setBottom(buttonPane.getPane());
+		borderPane.setBottom(buttonPane.getNode());
 		buttonPanePos = ButtonPanePos.BOTTOM;
 	}
 
@@ -155,7 +155,7 @@ public class Dialog {
 	 */
 	public void setButtonsRight() {
 		buttonPane = new ButtonPane(Orientation.VERTICAL);
-		borderPane.setRight(buttonPane.getPane());
+		borderPane.setRight(buttonPane.getNode());
 		buttonPanePos = ButtonPanePos.RIGHT;
 	}
 
@@ -164,7 +164,7 @@ public class Dialog {
 	 */
 	public void setButtonsLeft() {
 		buttonPane = new ButtonPane(Orientation.VERTICAL);
-		borderPane.setLeft(buttonPane.getPane());
+		borderPane.setLeft(buttonPane.getNode());
 		buttonPanePos = ButtonPanePos.LEFT;
 	}
 

@@ -82,7 +82,7 @@ public class Field implements Comparable<Object> {
 	/** A boolean that indicates whether the field is fixed width. */
 	private boolean fixedWidth = true;
 	/** Field group. */
-	private FieldGroup fieldGroup = FieldGroup.emptyFieldGroup;
+	private FieldGroup fieldGroup;
 
 	////////////////////////////////////////
 	// Validation and formatting properties.
@@ -158,6 +158,9 @@ public class Field implements Comparable<Object> {
 		this.title = field.title;
 		this.fixedWidth = field.fixedWidth;
 		this.displayLength = field.displayLength;
+		this.displayDecimals = field.displayDecimals;
+		this.fixedWidth = field.fixedWidth;
+		this.fieldGroup = field.fieldGroup;
 
 		// Validation and formatting properties.
 		this.initialValue = field.initialValue;
@@ -166,8 +169,13 @@ public class Field implements Comparable<Object> {
 		this.possibleValues = new ArrayList<>(field.possibleValues);
 		this.required = field.required;
 		this.uppercase = field.uppercase;
+		this.calculator = field.calculator;
+		this.editBooleanInCheckBox = field.editBooleanInCheckBox;
+		this.stringConverter = field.stringConverter;
+		this.style = field.style;
 
 		// Database related properties.
+		this.currentDateTimeOrTimestamp = field.currentDateTimeOrTimestamp;
 		this.persistent = field.persistent;
 		this.nullable = field.nullable;
 		this.primaryKey = field.primaryKey;
@@ -417,7 +425,7 @@ public class Field implements Comparable<Object> {
 	 * @return The field group if any.
 	 */
 	public FieldGroup getFieldGroup() {
-		return fieldGroup;
+		return (fieldGroup != null ? fieldGroup : FieldGroup.emptyFieldGroup);
 	}
 
 	/**

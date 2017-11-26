@@ -68,8 +68,8 @@ public class TableRecordSet extends Application {
 		table.setSelectionMode(SelectionMode.MULTIPLE);
 
 		BorderPane root = new BorderPane();
-		table.getPane().setPadding(new Insets(10, 10, 10, 10));
-		root.setCenter(table.getPane());
+		table.setPadding(new Insets(10, 10, 10, 10));
+		root.setCenter(table.getNode());
 		
 		Order order = new Order();
 		order.add(rs.getField("ICHECKED"), false);

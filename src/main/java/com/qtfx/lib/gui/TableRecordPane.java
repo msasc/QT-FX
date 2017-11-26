@@ -29,6 +29,8 @@ import com.qtfx.lib.util.TextServer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -203,12 +205,21 @@ public class TableRecordPane {
 	}
 
 	/**
-	 * Return the main pane.
+	 * Return the node to install in the scene.
 	 * 
-	 * @return The main pane.
+	 * @return The node to install in the scene.
 	 */
-	public BorderPane getPane() {
+	public Node getNode() {
 		return borderPane;
+	}
+
+	/**
+	 * Set the padding.
+	 * 
+	 * @param insets The padding.
+	 */
+	public void setPadding(Insets insets) {
+		borderPane.setPadding(insets);
 	}
 
 	/**
