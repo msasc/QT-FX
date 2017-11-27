@@ -83,6 +83,12 @@ public class Field implements Comparable<Object> {
 	private boolean fixedWidth = true;
 	/** Field group. */
 	private FieldGroup fieldGroup;
+	/**
+	 * A boolean that indicates if this field is the main description of the possible parent record. It is useful in
+	 * lookup actions to show the description beside the code. I fno main description is found for the record, the first
+	 * non-fixed with field is taken. If no non-fixed field exists, then no description is shown beside the lookup code.
+	 */
+	private boolean mainDescription = false;
 
 	////////////////////////////////////////
 	// Validation and formatting properties.
@@ -113,7 +119,7 @@ public class Field implements Comparable<Object> {
 
 	/**
 	 * A boolean that indicates if the field, when not present in an insert clause (DEFAULT) should be initialized with
-	 * the database function for a datte, time or time-stamp.
+	 * the database function for a date, time or time-stamp.
 	 */
 	private boolean currentDateTimeOrTimestamp = false;
 	/** A flag that indicates whether this field is persistent. */
@@ -161,6 +167,7 @@ public class Field implements Comparable<Object> {
 		this.displayDecimals = field.displayDecimals;
 		this.fixedWidth = field.fixedWidth;
 		this.fieldGroup = field.fieldGroup;
+		this.mainDescription = field.mainDescription;
 
 		// Validation and formatting properties.
 		this.initialValue = field.initialValue;
@@ -435,6 +442,24 @@ public class Field implements Comparable<Object> {
 	 */
 	public void setFieldGroup(FieldGroup fieldGroup) {
 		this.fieldGroup = fieldGroup;
+	}
+
+	/**
+	 * Return the main-description indicator.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean isMainDescription() {
+		return mainDescription;
+	}
+
+	/**
+	 * Set the main-description indicator.
+	 * 
+	 * @param mainDescription A boolean.
+	 */
+	public void setMainDescription(boolean mainDescription) {
+		this.mainDescription = mainDescription;
 	}
 
 	///////////////////////////////

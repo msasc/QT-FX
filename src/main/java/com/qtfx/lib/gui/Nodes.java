@@ -32,15 +32,17 @@ import javafx.stage.Stage;
 public class Nodes {
 
 	/** Property ACTION. */
-	public static final String PROPERTY_ACTION = "ACTION";
+	private static final String PROPERTY_ACTION = "ACTION";
 	/** Property CLOSE. */
-	public static final String PROPERTY_CLOSE = "CLOSE";
+	private static final String PROPERTY_CLOSE = "CLOSE";
 	/** Property GROUP. */
-	public static final String PROPERTY_GROUP = "GROUP";
+	private static final String PROPERTY_GROUP = "GROUP";
 	/** Property ORDER. */
-	public static final String PROPERTY_ORDER = "ORDER";
+	private static final String PROPERTY_ORDER = "ORDER";
 	/** Property WINDOW. */
-	public static final String PROPERTY_STAGE = "STAGE";
+	private static final String PROPERTY_STAGE = "STAGE";
+	/** Property TABLE_RECORD_PANE. */
+	private static final String PROPERTY_TABLE_RECORD_PANE = "TABLE_RECORD_PANE";
 
 	/**
 	 * Return the action property.
@@ -144,6 +146,38 @@ public class Nodes {
 	public static void setStage(Node node, Stage stage) {
 		setObject(node, PROPERTY_STAGE, stage);
 	}
+	
+	/**
+	 * Return the table record pane with the default empty id.
+	 * 
+	 * @param node The node.
+	 * @return The action property.
+	 */
+	public static TableRecordPane getTableRecordPane(Node node) {
+		return getTableRecordPane("", node);
+	}
+
+	/**
+	 * Return the table record pane with the given id.
+	 * 
+	 * @param id Pane id.
+	 * @param node The node.
+	 * @return The action property.
+	 */
+	public static TableRecordPane getTableRecordPane(String id, Node node) {
+		return (TableRecordPane) getObject(node, PROPERTY_TABLE_RECORD_PANE + "-" + id);
+	}
+
+	/**
+	 * Set the action property.
+	 * 
+	 * @param node The node.
+	 * @param action The action.
+	 */
+	public static void setTableRecordPane(Node node, TableRecordPane tableRecordPane) {
+		setObject(node, PROPERTY_TABLE_RECORD_PANE + "-" + tableRecordPane.getId(), tableRecordPane);
+	}
+
 
 	/**
 	 * Return a boolean property for the given key, with false default value.

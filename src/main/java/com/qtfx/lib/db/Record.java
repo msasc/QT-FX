@@ -452,6 +452,48 @@ public class Record implements Comparable<Object> {
 	}
 
 	/**
+	 * Check if the record has a main description field or at least a non fixed width field.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean hasMainDescription() {
+		boolean hasMainDescription = false;
+		boolean hasNonFixedWidthFields = false;
+		for (int i = 0; i < size(); i++) {
+			Field field = getField(i);
+			if (field.isMainDescription()) {
+				hasMainDescription = true;
+				break;
+			}
+			if (!field.isFixedWidth()) {
+				hasNonFixedWidthFields = true;
+			}
+		}
+		return (hasMainDescription || hasNonFixedWidthFields);
+	}
+
+	/**
+	 * Return the main description field or if non exists, the first non fixed width field.
+	 * 
+	 * @return The main description field or if non exists, the first non fixed width field.
+	 */
+	public Field getMainDescription() {
+		Field mainDescription = null;
+		Field firstNonFixedWidth = null;
+		for (int i = 0; i < size(); i++) {
+			Field field = getField(i);
+			if (field.isMainDescription()) {
+				mainDescription = field;
+				break;
+			}
+			if (!field.isFixedWidth() && firstNonFixedWidth == null) {
+				firstNonFixedWidth = field;
+			}
+		}
+		return (mainDescription != null ? mainDescription : firstNonFixedWidth);
+	}
+
+	/**
 	 * Returns a string representation of this record.
 	 * 
 	 * @return A string representation of this record.

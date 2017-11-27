@@ -38,9 +38,10 @@ import javafx.stage.Window;
 /**
  * Implementation of the dialog functionality.
  * <p>
- * The root is a border pane. Buttons can be disposed top, right, bottom or left, and there is a content pane, the
- * center of a border layout, where it is expected to dispose any other layout. If not buttons are set, the show method
- * returns the default close button. The rest of panes, left, right, top, bottom or center is available to set any node.
+ * The root is a border pane. Buttons can be disposed top, right, bottom or left, default is bottom, and there is a
+ * content pane, the center of a border layout, where it is expected to dispose any other layout. If not buttons are
+ * set, the show method returns the default close button. The rest of panes, left, right, top, bottom or center is
+ * available to set any node.
  * <p>
  * The main window is set as a property to the buttons, so they can use it to close the dialog when handling the action
  * event.
@@ -72,7 +73,7 @@ public class Dialog {
 	 */
 	private class Actions extends ActionList {
 	}
-	
+
 	/**
 	 * Private enumeration of buttons positions.
 	 */
@@ -90,7 +91,7 @@ public class Dialog {
 	private ButtonPanePos buttonPanePos;
 	/** Result button. */
 	private Button result;
-	
+
 	/** User property setters. */
 	private List<PropertySetter> propertySetters = new ArrayList<>();
 
@@ -121,6 +122,8 @@ public class Dialog {
 		borderPane = new BorderPane();
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
+
+		setButtonsBottom();
 	}
 
 	/**
@@ -130,6 +133,126 @@ public class Dialog {
 	 */
 	protected Stage getStage() {
 		return stage;
+	}
+
+	/**
+	 * Set the width.
+	 * 
+	 * @param width The width.
+	 * @see javafx.stage.Window#setWidth(double)
+	 */
+	public final void setWidth(double width) {
+		stage.setWidth(width);
+	}
+
+	/**
+	 * Return the width.
+	 * 
+	 * @return The width.
+	 * @see javafx.stage.Window#getWidth()
+	 */
+	public final double getWidth() {
+		return stage.getWidth();
+	}
+
+	/**
+	 * Set the height.
+	 * 
+	 * @param height The height.
+	 * @see javafx.stage.Window#setHeight(double)
+	 */
+	public final void setHeight(double height) {
+		stage.setHeight(height);
+	}
+
+	/**
+	 * Return the height.
+	 * 
+	 * @return The height.
+	 * @see javafx.stage.Window#getHeight()
+	 */
+	public final double getHeight() {
+		return stage.getHeight();
+	}
+
+	/**
+	 * Set the minimum width.
+	 * 
+	 * @param minWidth The minimum width.
+	 * @see javafx.stage.Stage#setMinWidth(double)
+	 */
+	public final void setMinWidth(double minWidth) {
+		stage.setMinWidth(minWidth);
+	}
+
+	/**
+	 * Return the minimum width.
+	 * 
+	 * @return The minimum width.
+	 * @see javafx.stage.Stage#getMinWidth()
+	 */
+	public final double getMinWidth() {
+		return stage.getMinWidth();
+	}
+
+	/**
+	 * Set the minimum height.
+	 * 
+	 * @param minHeight The minimum height.
+	 * @see javafx.stage.Stage#setMinHeight(double)
+	 */
+	public final void setMinHeight(double minHeight) {
+		stage.setMinHeight(minHeight);
+	}
+
+	/**
+	 * Return the minimum height.
+	 * 
+	 * @return The minimum height.
+	 * @see javafx.stage.Stage#getMinHeight()
+	 */
+	public final double getMinHeight() {
+		return stage.getMinHeight();
+	}
+
+	/**
+	 * Set the maximum width.
+	 * 
+	 * @param maxWidth The maximum width.
+	 * @see javafx.stage.Stage#setMaxWidth(double)
+	 */
+	public final void setMaxWidth(double maxWidth) {
+		stage.setMaxWidth(maxWidth);
+	}
+
+	/**
+	 * Return the maximum width.
+	 * 
+	 * @return The maximum width.
+	 * @see javafx.stage.Stage#getMaxWidth()
+	 */
+	public final double getMaxWidth() {
+		return stage.getMaxWidth();
+	}
+
+	/**
+	 * Set the maximum height.
+	 * 
+	 * @param maxHeight The maximum height.
+	 * @see javafx.stage.Stage#setMaxHeight(double)
+	 */
+	public final void setMaxHeight(double maxHeight) {
+		stage.setMaxHeight(maxHeight);
+	}
+
+	/**
+	 * Return the maximum height.
+	 * 
+	 * @return The maximum height.
+	 * @see javafx.stage.Stage#getMaxHeight()
+	 */
+	public final double getMaxHeight() {
+		return stage.getMaxHeight();
 	}
 
 	/**
@@ -245,6 +368,7 @@ public class Dialog {
 
 	/**
 	 * Add a property setter to the list.
+	 * 
 	 * @param propertySetter
 	 */
 	public void addPropertySetter(PropertySetter propertySetter) {
@@ -260,7 +384,8 @@ public class Dialog {
 	private void setupButton(Button button) {
 		// Set the stage.
 		Nodes.setStage(button, stage);
-		// The list of actions that will be set to the node.
+		// The list of actions that will be set to the node. Use an instance of the private extension of action-list to
+		// correctly identify and manage the original button action.
 		Actions actions = new Actions();
 		// If the button has an initial action, save it.
 		if (button.getOnAction() != null && !(button.getOnAction() instanceof Actions)) {
@@ -309,7 +434,7 @@ public class Dialog {
 				stage.close();
 			}
 		});
-
+		
 		// Do show.
 		stage.showAndWait();
 

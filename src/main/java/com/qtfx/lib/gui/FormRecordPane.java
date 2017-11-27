@@ -154,8 +154,8 @@ public class FormRecordPane {
 		borderPane.setPadding(insets);
 	}
 
-	//////////////////////////////////////////////////////
-	// Methods to add fields and required utility helpers.
+	////////////////////////////////////
+	// Methods to add and remove fields.
 
 	/**
 	 * Add a field to the default (0, 0) sub-panel.
@@ -202,6 +202,85 @@ public class FormRecordPane {
 		groupItems.clear();
 	}
 
+	//////////////////////////////////////////////
+	// Layout fields and required utility helpers.
+
+	/**
+	 * Auto-layout fields, attending at the group and grid definition.
+	 */
+	public void layoutFields() {
+
+		// Current field groups.
+		List<FieldGroup> fieldGroups = getFieldGroups();
+
+		// If we have only one field group, we will add a single grid pane in the center of the border pane, otherwise
+		// we will add a tab pane with a grid pane for each field group in each tab.
+
+	}
+
+	/**
+	 * Returns the list of defined/used field groups.
+	 * 
+	 * @return The list of defined/used field groups.
+	 */
+	private List<FieldGroup> getFieldGroups() {
+		List<FieldGroup> fieldGroups = new ArrayList<>();
+		for (GroupItem groupItem : groupItems) {
+			FieldGroup fieldGroup = groupItem.fieldGroup;
+			if (!fieldGroups.contains(fieldGroup)) {
+				fieldGroups.add(fieldGroup);
+			}
+		}
+		return fieldGroups;
+	}
+
+	/**
+	 * Returns the number of rows in a group item.
+	 * 
+	 * @param groupItem The group item.
+	 * @param column The column.
+	 * @return The number of rows.
+	 */
+	private int getGroupItemRows(GroupItem groupItem, int column) {
+		int rows = 0;
+		List<GridItem> gridItems = getGridItems(groupItem, column);
+		for (GridItem gridItem : gridItems) {
+			rows = Math.max(rows, gridItem.gridy);
+		}
+		return rows + 1;
+	}
+
+	/**
+	 * Returns the number of columns in a group item.
+	 * 
+	 * @param groupItem The group item.
+	 * @return The number of columns.
+	 */
+	private int getGroupItemColumns(GroupItem groupItem) {
+		int columns = 0;
+		for (GridItem gridItem : groupItem.gridItems) {
+			columns = Math.max(columns, gridItem.gridx);
+		}
+		return columns + 1;
+	}
+
+	/**
+	 * Returns the list of grid items from a group item, to locate in the argument column.
+	 * 
+	 * @param groupItem The group item.
+	 * @param column The column.
+	 * @return The list of grid items.
+	 */
+	private List<GridItem> getGridItems(GroupItem groupItem, int column) {
+		List<GridItem> columnGridItems = new ArrayList<>();
+		for (GridItem gridItem : groupItem.gridItems) {
+			if (gridItem.gridx == column) {
+				columnGridItems.add(gridItem);
+			}
+		}
+		return columnGridItems;
+	}
+
 	/**
 	 * Returns the group item of the argument field group.
 	 * 
@@ -236,35 +315,6 @@ public class FormRecordPane {
 		GridItem gridItem = new GridItem(gridx, gridy);
 		groupItem.gridItems.add(gridItem);
 		return gridItem;
-	}
-
-	//////////////////////////////////////////////
-	// Layout fields and required utility helpers.
-
-	/**
-	 * Auto-layout fields, attending at the group and grid definition.
-	 */
-	public void layoutFields() {
-
-		// Current field groups.
-		List<FieldGroup> fieldGroups = getFieldGroups();
-
-	}
-
-	/**
-	 * Returns the list of defined/used field groups.
-	 * 
-	 * @return The list of defined/used field groups.
-	 */
-	private List<FieldGroup> getFieldGroups() {
-		List<FieldGroup> fieldGroups = new ArrayList<>();
-		for (GroupItem groupItem : groupItems) {
-			FieldGroup fieldGroup = groupItem.fieldGroup;
-			if (!fieldGroups.contains(fieldGroup)) {
-				fieldGroups.add(fieldGroup);
-			}
-		}
-		return fieldGroups;
 	}
 
 	//////////////////////////////////////////

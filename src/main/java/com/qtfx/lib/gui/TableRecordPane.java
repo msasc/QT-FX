@@ -24,10 +24,12 @@ import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.table.CellFactory;
 import com.qtfx.lib.gui.table.CellValueFactory;
 import com.qtfx.lib.util.Formats;
+import com.qtfx.lib.util.Numbers;
 import com.qtfx.lib.util.TextServer;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -57,6 +59,30 @@ public class TableRecordPane {
 
 	}
 
+	/**
+	 * Property setter.
+	 */
+	class NodePropertySetter implements PropertySetter {
+		@Override
+		public void setProperties(Node node) {
+			Nodes.setTableRecordPane(node, TableRecordPane.this);
+		}
+	}
+
+	/**
+	 * List change listener.
+	 */
+	class RecordsChangeListener implements ListChangeListener<Record> {
+		@Override
+		public void onChanged(Change<? extends Record> c) {
+			if (c.wasReplaced()) {
+				calculateLinesPercentScale();
+			}
+		}
+	}
+
+	/** Identifier. */
+	private String id;
 	/** Internal border pane. */
 	private BorderPane borderPane;
 	/** Table view. */
@@ -65,6 +91,9 @@ public class TableRecordPane {
 	private StatusBar statusBar;
 	/** The user locale. */
 	private Locale locale;
+
+	/** Lines percent scale. */
+	private transient int linesPercentScale = -1;
 
 	/**
 	 * Constructor.
@@ -89,6 +118,33 @@ public class TableRecordPane {
 		borderPane.setBottom(statusBar.getPane());
 
 		tableView.getSelectionModel().selectedIndexProperty().addListener(new SelectedIndexListener());
+	}
+
+	/**
+	 * Return the pane identifier to get it from node properties.
+	 * 
+	 * @return The identifier.
+	 */
+	public String getId() {
+		return (id != null ? id : "");
+	}
+
+	/**
+	 * Set the pane identifier.
+	 * 
+	 * @param id The identifier.
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * Return a suitable property setter.
+	 * 
+	 * @return A suitable property setter.
+	 */
+	public PropertySetter getPropertySetter() {
+		return new NodePropertySetter();
 	}
 
 	/**
@@ -140,8 +196,16 @@ public class TableRecordPane {
 	 * @param recordSet The record set.
 	 */
 	public void setRecordSet(RecordSet recordSet) {
-		getTableView().setItems(recordSet.getObservableList());
-		getTableView().getSelectionModel().select(0);
+		setRecords(recordSet.getObservableList());
+	}
+
+	/**
+	 * Return the list of records.
+	 * 
+	 * @return The list of observable records.
+	 */
+	public ObservableList<Record> getRecords() {
+		return getTableView().getItems();
 	}
 
 	/**
@@ -151,7 +215,9 @@ public class TableRecordPane {
 	 */
 	public void setRecords(ObservableList<Record> records) {
 		getTableView().setItems(records);
+		getRecords().addListener(new RecordsChangeListener());
 		getTableView().getSelectionModel().select(0);
+		calculateLinesPercentScale();
 	}
 
 	/**
@@ -161,6 +227,13 @@ public class TableRecordPane {
 	 */
 	public void setSelectionMode(SelectionMode selectionMode) {
 		getTableView().getSelectionModel().setSelectionMode(selectionMode);
+	}
+
+	/**
+	 * Calculate the scale to show the percentage of the current line.
+	 */
+	private void calculateLinesPercentScale() {
+		linesPercentScale = Math.max(0, Numbers.getDigits(getTableView().getItems().size()) - 2);
 	}
 
 	/**
@@ -189,6 +262,12 @@ public class TableRecordPane {
 		} else {
 			b.append("#");
 		}
+		if (line > 0 && lines > 0) {
+			double percent = 100d * Double.valueOf(line).doubleValue() / Double.valueOf(lines).doubleValue();
+			b.append(" (");
+			b.append(Formats.formattedFromDouble(percent, linesPercentScale, locale));
+			b.append(" %)");
+		}
 		statusBar.setLabel(LINE_OF_LINES, b.toString(), "-fx-font-size: 12; -fx-font-style: italic;");
 	}
 
@@ -202,6 +281,16 @@ public class TableRecordPane {
 			throw new IllegalStateException("Items must be set to access the field list.");
 		}
 		return getTableView().getItems().get(0).getFieldList();
+	}
+
+	/**
+	 * Return the field with the giv en alias.
+	 * 
+	 * @param alias The alias.
+	 * @return The field.
+	 */
+	public Field getField(String alias) {
+		return getFieldList().getField(alias);
 	}
 
 	/**
