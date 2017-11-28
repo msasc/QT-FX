@@ -14,6 +14,8 @@
 
 package com.qtfx.lib.gui;
 
+import java.util.Locale;
+
 import com.qtfx.lib.db.Field;
 
 import javafx.scene.control.Control;
@@ -62,10 +64,11 @@ public class Fields {
 	 * Return a suitable edit control for the field.
 	 * 
 	 * @param field The field.
+	 * @param locale The locale.
 	 * @return The edit control.
 	 */
-	public static Control getFormFieldControl(Field field) {
-
+	public static Control getFormFieldControl(Field field, Locale locale) {
+		
 		return null;
 	}
 }

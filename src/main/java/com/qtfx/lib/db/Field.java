@@ -84,7 +84,7 @@ public class Field implements Comparable<Object> {
 	private FieldGroup fieldGroup;
 	/**
 	 * A boolean that indicates if this field is the main description of the possible parent record. It is useful in
-	 * lookup actions to show the description beside the code. I fno main description is found for the record, the first
+	 * lookup actions to show the description beside the code. I no main description is found for the record, the first
 	 * non-fixed with field is taken. If no non-fixed field exists, then no description is shown beside the lookup code.
 	 */
 	private boolean mainDescription = false;
@@ -635,6 +635,21 @@ public class Field implements Comparable<Object> {
 	}
 
 	/**
+	 * Return the possible value given the label.
+	 * 
+	 * @param label The label
+	 * @return The possible value.
+	 */
+	public Value getPossibleValue(String label) {
+		for (PossibleValue possibleValue : possibleValues) {
+			if (possibleValue.getLabel().equals(label)) {
+				return possibleValue;
+			}
+		}
+		throw new IllegalArgumentException("Invalid possible value label");
+	}
+
+	/**
 	 * Returns the possible value label or null if not applicable or not found.
 	 * 
 	 * @param value The target value.
@@ -1009,6 +1024,24 @@ public class Field implements Comparable<Object> {
 			name.append(getNameParent());
 		}
 		return name.toString();
+	}
+
+	/**
+	 * Returns the list of relations associated with the parent view or table of this field.
+	 * 
+	 * @return The list of relations.
+	 */
+	public List<Relation> getRelations() {
+		List<Relation> relations = new ArrayList<>();
+		if (getView() != null) {
+			relations.addAll(getView().getRelations());
+		} else if (getTable() != null) {
+			List<ForeignKey> foreignKeys = getTable().getForeignKeys();
+			for (ForeignKey foreignKey : foreignKeys) {
+				relations.add(foreignKey.getRelation());
+			}
+		}
+		return relations;
 	}
 
 	/////////////////

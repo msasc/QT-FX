@@ -349,7 +349,7 @@ public class Formats {
 	 * @return The parsed Boolean.
 	 * @throws ParseException If an error occurs parsing the string.
 	 */
-	public static Boolean formattedToBoolean(String str, Locale locale) throws ParseException {
+	public static Boolean formattedToBoolean(String str, Locale locale) {
 		String yes = TextServer.getString("tokenYes", locale);
 		if (str.toLowerCase().equals(yes.toLowerCase())) {
 			return Boolean.TRUE;

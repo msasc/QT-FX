@@ -15,6 +15,7 @@
 package com.qtfx.gui;
 
 import com.qtfx.lib.db.Order;
+import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.RecordComparator;
 import com.qtfx.lib.gui.Buttons;
 import com.qtfx.lib.gui.Dialog;
@@ -49,7 +50,7 @@ public class TableRecordSet extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 
-		TableRecordPane table = new TableRecordPane();
+		TableRecordPane table = new TableRecordPane(new Record(Util.getFieldList()));
 		table.setRecordSet(Util.getRandomRecordSet(50000, Util.getFieldList()));
 
 		table.addColumn("ICHECKED", false);
@@ -62,7 +63,7 @@ public class TableRecordSet extends Application {
 		table.addColumn("ISTATUS", false);
 
 		table.setSelectionMode(SelectionMode.MULTIPLE);
-		table.setPadding(new Insets(10, 10, 10, 10));
+		table.setPadding(new Insets(10, 10, 0, 10));
 
 		Dialog dialog = new Dialog(stage);
 		dialog.setTitle("Table RecordSet Sample");

@@ -19,7 +19,9 @@ import java.util.Locale;
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.Value;
-import com.qtfx.lib.util.Formats;
+import com.qtfx.lib.gui.converters.BooleanStringConverter;
+import com.qtfx.lib.gui.converters.NumberStringConverter;
+import com.qtfx.lib.gui.converters.PossibleValueStringConverter;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -32,7 +34,6 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 /**
  * A table cell factory that relies on fields.
@@ -53,73 +54,6 @@ public class CellFactory implements Callback<TableColumn<Record, Value>, TableCe
 			Record record = items.get(index);
 			Value value = record.getValue(field.getAlias());
 			return new SimpleBooleanProperty(value.getBoolean());
-		}
-	}
-
-	/**
-	 * String converter for numbers.
-	 */
-	class NumberStringConverter extends StringConverter<Value> {
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String toString(Value value) {
-			return Formats.getNumberFormat(field.getDisplayDecimals(), locale).format(value.getDouble());
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Value fromString(String string) {
-			return null;
-		}
-	}
-
-	/**
-	 * String converter for booleans.
-	 */
-	class BooleanStringConverter extends StringConverter<Value> {
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String toString(Value value) {
-			return Formats.formattedFromBoolean(value.getBoolean(), locale);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Value fromString(String string) {
-			return null;
-		}
-	}
-
-	/**
-	 * String converter for a possible value.
-	 */
-	class PossibleValueStringConverter extends StringConverter<Value> {
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String toString(Value value) {
-			if (value instanceof Field.PossibleValue) {
-				Field.PossibleValue pv = (Field.PossibleValue) value;
-				return pv.getLabel();
-			}
-			return value.toString();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Value fromString(String string) {
-			return null;
 		}
 	}
 
@@ -170,7 +104,7 @@ public class CellFactory implements Callback<TableColumn<Record, Value>, TableCe
 	public TableCell<Record, Value> call(TableColumn<Record, Value> param) {
 		items = param.getTableView().getItems();
 		if (field.isPossibleValues()) {
-			tableCell = new ComboBoxTableCell<>(new PossibleValueStringConverter(), possibleValues);
+			tableCell = new ComboBoxTableCell<>(new PossibleValueStringConverter(field), possibleValues);
 		} else if (field.getStringConverter() != null) {
 			tableCell = new TextFieldTableCell<>(field.getStringConverter());
 		} else {
@@ -179,7 +113,7 @@ public class CellFactory implements Callback<TableColumn<Record, Value>, TableCe
 				if (field.isEditBooleanInCheckBox()) {
 					tableCell = new CheckBoxTableCell<Record, Value>(new CheckBoxCell());
 				} else {
-					tableCell = new ComboBoxTableCell<>(new BooleanStringConverter(), booleanValues);
+					tableCell = new ComboBoxTableCell<>(new BooleanStringConverter(field, locale), booleanValues);
 				}
 				break;
 			case STRING:
@@ -189,7 +123,7 @@ public class CellFactory implements Callback<TableColumn<Record, Value>, TableCe
 			case DOUBLE:
 			case INTEGER:
 			case LONG:
-				tableCell = new TextFieldTableCell<>(new NumberStringConverter());
+				tableCell = new TextFieldTableCell<>(new NumberStringConverter(field, locale));
 				tableCell.setAlignment(Pos.CENTER_RIGHT);
 				break;
 			default:

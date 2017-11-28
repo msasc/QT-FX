@@ -21,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -30,6 +31,9 @@ import javafx.stage.Stage;
  * @author Miquel Sas
  */
 public class Nodes {
+
+	//////////////////////
+	// Keys of properties.
 
 	/** Property ACTION. */
 	private static final String PROPERTY_ACTION = "ACTION";
@@ -43,6 +47,9 @@ public class Nodes {
 	private static final String PROPERTY_STAGE = "STAGE";
 	/** Property TABLE_RECORD_PANE. */
 	private static final String PROPERTY_TABLE_RECORD_PANE = "TABLE_RECORD_PANE";
+
+	//////////////////////////////////
+	// Properties getters and setters.
 
 	/**
 	 * Return the action property.
@@ -146,7 +153,7 @@ public class Nodes {
 	public static void setStage(Node node, Stage stage) {
 		setObject(node, PROPERTY_STAGE, stage);
 	}
-	
+
 	/**
 	 * Return the table record pane with the default empty id.
 	 * 
@@ -177,7 +184,6 @@ public class Nodes {
 	public static void setTableRecordPane(Node node, TableRecordPane tableRecordPane) {
 		setObject(node, PROPERTY_TABLE_RECORD_PANE + "-" + tableRecordPane.getId(), tableRecordPane);
 	}
-
 
 	/**
 	 * Return a boolean property for the given key, with false default value.
@@ -306,6 +312,9 @@ public class Nodes {
 		}
 	}
 
+	///////////////
+	// Node access.
+
 	/**
 	 * Return the node with the given id from the list.
 	 * 
@@ -320,5 +329,30 @@ public class Nodes {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Lookup for the node with the give id exploring the scene graph.
+	 * 
+	 * @param id The required id.
+	 * @param node The start node.
+	 * @return The required node or null.
+	 */
+	public static Node lookup(String id, Node node) {
+		return lookup(id, node.getScene());
+	}
+
+	/**
+	 * Lookup for the node with the give id exploring the scene graph.
+	 * 
+	 * @param id The required id.
+	 * @param scene The scene.
+	 * @return The required node or null.
+	 */
+	public static Node lookup(String id, Scene scene) {
+		if (!id.startsWith("#")) {
+			id = "#" + id;
+		}
+		return scene.lookup(id);
 	}
 }

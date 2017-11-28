@@ -52,6 +52,8 @@ public class Buttons {
 	public static final String ID_PREVIOUS = "PREVIOUS";
 	/** Id for the RETRY button. */
 	public static final String ID_RETRY = "RETRY";
+	/** Id for the SELECT button. */
+	public static final String ID_SELECT = "SELECT";
 	/** Id for the YES button. */
 	public static final String ID_YES = "YES";
 
@@ -253,6 +255,20 @@ public class Buttons {
 	 */
 	public static Button buttonRetry(Locale locale) {
 		return button(ID_RETRY, TextServer.getString("buttonRetry", locale), false, false);
+	}
+
+	/**
+	 * @return A new SELECT button, false, false.
+	 */
+	public static Button buttonSelect() {
+		return button(ID_SELECT, TextServer.getString("buttonSelect"), true, false, true);
+	}
+
+	/**
+	 * @return A new SELECT button, false, false.
+	 */
+	public static Button buttonSelect(Locale locale) {
+		return button(ID_RETRY, TextServer.getString("buttonSelect", locale), true, false, true);
 	}
 
 	/**

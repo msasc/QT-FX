@@ -17,6 +17,7 @@
 	<entry key="buttonOpen">Open</entry>
 	<entry key="buttonPrevious">Previous</entry>
 	<entry key="buttonRetry">Retry</entry>
+	<entry key="buttonSelect">Select</entry>
 	<entry key="buttonYes">Yes</entry>
 	
 	<entry key="alertTitleError">Error</entry>
@@ -77,6 +78,8 @@
 	<entry key="unitMonth">Month</entry>
 	<entry key="unitYear">Year</entry>
 	
+	<!-- Default strings and titles. -->
 	
+	<entry key="defaultRecordSelection">Record selection</entry>
 
 </properties>

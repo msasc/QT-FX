@@ -17,7 +17,6 @@ package com.qtfx.lib.gui;
 import java.util.Locale;
 
 import com.qtfx.lib.db.Field;
-import com.qtfx.lib.db.FieldList;
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.RecordSet;
 import com.qtfx.lib.db.Value;
@@ -97,20 +96,32 @@ public class TableRecordPane {
 	/** Lines percent scale. */
 	private transient int linesPercentScale = -1;
 
+	/** Master record. */
+	private Record masterRecord;
+
 	/**
 	 * Constructor.
+	 * 
+	 * @param masterRecord The master record.
 	 */
-	public TableRecordPane() {
-		this(Locale.getDefault());
+	public TableRecordPane(Record masterRecord) {
+		this(masterRecord, Locale.getDefault());
 	}
 
 	/**
 	 * Constructor.
 	 * 
+	 * @param masterRecord The master record.
 	 * @param locale The required locale.
 	 */
-	public TableRecordPane(Locale locale) {
+	public TableRecordPane(Record masterRecord, Locale locale) {
 		super();
+
+		if (masterRecord == null) {
+			throw new NullPointerException();
+		}
+
+		this.masterRecord = masterRecord;
 		this.locale = locale;
 
 		borderPane = new BorderPane();
@@ -120,6 +131,15 @@ public class TableRecordPane {
 		borderPane.setBottom(statusBar.getPane());
 
 		tableView.getSelectionModel().selectedIndexProperty().addListener(new SelectedIndexListener());
+	}
+
+	/**
+	 * Return the master record.
+	 * 
+	 * @return The master record.
+	 */
+	public Record getMasterRecord() {
+		return masterRecord;
 	}
 
 	/**
@@ -189,7 +209,7 @@ public class TableRecordPane {
 	 * @param sortable A boolean.
 	 */
 	public void addColumn(String alias, boolean sortable) {
-		addColumn(getFieldList().getField(alias), sortable);
+		addColumn(masterRecord.getFieldList().getField(alias), sortable);
 	}
 
 	/**
@@ -274,25 +294,13 @@ public class TableRecordPane {
 	}
 
 	/**
-	 * Return the field list if record are set.
-	 * 
-	 * @return The field list.
-	 */
-	private FieldList getFieldList() {
-		if (getTableView().getItems() == null || getTableView().getItems().isEmpty()) {
-			throw new IllegalStateException("Items must be set to access the field list.");
-		}
-		return getTableView().getItems().get(0).getFieldList();
-	}
-
-	/**
 	 * Return the field with the giv en alias.
 	 * 
 	 * @param alias The alias.
 	 * @return The field.
 	 */
 	public Field getField(String alias) {
-		return getFieldList().getField(alias);
+		return masterRecord.getFieldList().getField(alias);
 	}
 
 	/**
@@ -329,5 +337,23 @@ public class TableRecordPane {
 	 */
 	public StatusBar getStatusBar() {
 		return statusBar;
+	}
+
+	/**
+	 * Returns the list of selected records.
+	 * 
+	 * @return The list of selected records.
+	 */
+	public ObservableList<Record> getSelectedRecords() {
+		return getTableView().getSelectionModel().getSelectedItems();
+	}
+
+	/**
+	 * Return the used locale.
+	 * 
+	 * @return The locale.
+	 */
+	public Locale getLocale() {
+		return locale;
 	}
 }

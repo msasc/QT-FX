@@ -46,9 +46,21 @@ import javafx.scene.layout.GridPane;
 public class FormRecordPane {
 
 	/**
+	 * Utility class to manage the controls automatically used by the form record pane.
+	 * <p>
+	 * Controls in a form-record-pane depend of the field type and can only be the following.
+	 * <ul>
+	 * <li>Instantiate the panel.</li>
+	 * </ul>
+	 */
+	public static class Controls {
+
+	}
+
+	/**
 	 * Grid item structure.
 	 */
-	class GridItem {
+	private static class GridItem {
 		int gridx;
 		int gridy;
 		List<Field> fields = new ArrayList<>();
@@ -71,7 +83,7 @@ public class FormRecordPane {
 	/**
 	 * Group item structure.
 	 */
-	class GroupItem implements Comparable<GroupItem> {
+	private static class GroupItem implements Comparable<GroupItem> {
 		FieldGroup fieldGroup;
 		List<GridItem> gridItems = new ArrayList<>();
 
