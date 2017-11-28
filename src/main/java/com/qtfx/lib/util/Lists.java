@@ -129,8 +129,7 @@ public class Lists {
 		try {
 			comparable = ((ArrayList) o);
 		} catch (ClassCastException exc) {
-			throw new UnsupportedOperationException(
-				MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+			throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 		}
 		if (list.isEmpty() && comparable.size() > 0) {
 			return -1;

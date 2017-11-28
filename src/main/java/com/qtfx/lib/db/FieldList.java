@@ -13,7 +13,6 @@
  */
 package com.qtfx.lib.db;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +67,14 @@ public class FieldList {
 			Field field = fields.get(i);
 			Value value = values.get(i);
 			if (!field.getType().equals(value.getType())) {
-				throw new IllegalArgumentException(MessageFormat.format("Field {0} type {1} does not match the corresponding value type {2}", field.getName(), field.getType(), value.getType()));
+				StringBuilder b = new StringBuilder();
+				b.append("Field ");
+				b.append(field.getName());
+				b.append(" of type ");
+				b.append(field.getType());
+				b.append(" does not match the corresponding value of type ");
+				b.append(value.getType());
+				throw new IllegalArgumentException(b.toString());
 			}
 		}
 	}

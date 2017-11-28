@@ -17,7 +17,6 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.util.List;
 
 import com.qtfx.lib.util.Lists;
@@ -277,7 +276,7 @@ public class Value implements Comparable<Object> {
 		try {
 			v = (Value) o;
 		} catch (ClassCastException exc) {
-			throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+			throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 		}
 
 		// Null types
@@ -293,7 +292,7 @@ public class Value implements Comparable<Object> {
 		// Compare only if comparable
 		if (isBoolean()) {
 			if (!v.isBoolean()) {
-				throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+				throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 			}
 			boolean b1 = getBoolean();
 			boolean b2 = v.getBoolean();
@@ -301,7 +300,7 @@ public class Value implements Comparable<Object> {
 		}
 		if (isNumber()) {
 			if (!v.isNumber()) {
-				throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+				throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 			}
 			double d1 = getDouble();
 			double d2 = v.getDouble();
@@ -309,35 +308,35 @@ public class Value implements Comparable<Object> {
 		}
 		if (isString()) {
 			if (!v.isString()) {
-				throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+				throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 			}
 			return getString().compareTo(v.getString());
 		}
 		if (isDate()) {
 			if (!v.isDate()) {
-				throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+				throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 			}
 			return getDate().compareTo(v.getDate());
 		}
 		if (isTime()) {
 			if (!v.isTime()) {
-				throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+				throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 			}
 			return getTime().compareTo(v.getTime());
 		}
 		if (isTimestamp()) {
 			if (!v.isTimestamp()) {
-				throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+				throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 			}
 			return getTimestamp().compareTo(v.getTimestamp());
 		}
 		if (isByteArray()) {
 			if (!v.isByteArray()) {
-				throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+				throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 			}
 			return Lists.compare(getByteArray(), v.getByteArray());
 		}
-		throw new IllegalArgumentException(MessageFormat.format("Value {0} is not comparable", toString()));
+		throw new IllegalArgumentException("Value " + toString() + " is not comparable");
 	}
 
 	/**
@@ -505,7 +504,7 @@ public class Value implements Comparable<Object> {
 			}
 			return ((Boolean) value);
 		}
-		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a boolean", value));
+		throw new UnsupportedOperationException("Value " + value + " is not a boolean");
 	}
 
 	/**
@@ -515,7 +514,7 @@ public class Value implements Comparable<Object> {
 	 */
 	public String getString() {
 		if (!isString()) {
-			throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a string", value));
+			throw new UnsupportedOperationException("Value " + value + " is not a string");
 		}
 		return (String) value;
 	}
@@ -535,7 +534,7 @@ public class Value implements Comparable<Object> {
 		if (isTimestamp()) {
 			return new Date(getTimestamp().getTime());
 		}
-		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a date", value));
+		throw new UnsupportedOperationException("Value " + value + " is not a date");
 	}
 
 	/**
@@ -553,7 +552,7 @@ public class Value implements Comparable<Object> {
 		if (isTimestamp()) {
 			return new Time(getTimestamp().getTime());
 		}
-		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a time", value));
+		throw new UnsupportedOperationException("Value " + value + " is not a time");
 	}
 
 	/**
@@ -574,7 +573,7 @@ public class Value implements Comparable<Object> {
 		if (isTime()) {
 			return new Timestamp(getTime().getTime());
 		}
-		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a date, time or time-stamp", value));
+		throw new UnsupportedOperationException("Value " + value + " is not a date, time or time-stamp");
 	}
 
 	/**
@@ -586,7 +585,7 @@ public class Value implements Comparable<Object> {
 		if (isByteArray()) {
 			return (byte[]) value;
 		}
-		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a byte array", value));
+		throw new UnsupportedOperationException("Value " + value + " is not a byte array");
 	}
 
 	/**
@@ -598,7 +597,7 @@ public class Value implements Comparable<Object> {
 		if (isNumber()) {
 			return (Number) value;
 		}
-		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a number", value));
+		throw new UnsupportedOperationException("Value " + value + " is not a number");
 	}
 
 	/**
@@ -766,7 +765,7 @@ public class Value implements Comparable<Object> {
 			}
 			return new BigDecimal(getLong());
 		}
-		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a number", value));
+		throw new UnsupportedOperationException("Value " + value + " is not a number");
 	}
 
 	/**
@@ -781,7 +780,7 @@ public class Value implements Comparable<Object> {
 			}
 			return ((Number) value).doubleValue();
 		}
-		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a number", value));
+		throw new UnsupportedOperationException("Value " + value + " is not a number");
 	}
 
 	/**
@@ -796,7 +795,7 @@ public class Value implements Comparable<Object> {
 			}
 			return ((Number) value).intValue();
 		}
-		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a number", value));
+		throw new UnsupportedOperationException("Value " + value + " is not a number");
 	}
 
 	/**
@@ -811,7 +810,7 @@ public class Value implements Comparable<Object> {
 			}
 			return ((Number) value).longValue();
 		}
-		throw new UnsupportedOperationException(MessageFormat.format("Value {0} is not a number", value));
+		throw new UnsupportedOperationException("Value " + value + " is not a number");
 	}
 
 	/**

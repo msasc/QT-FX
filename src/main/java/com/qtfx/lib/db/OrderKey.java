@@ -13,7 +13,6 @@
  */
 package com.qtfx.lib.db;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +67,7 @@ public class OrderKey implements Comparable<Object> {
 			try {
 				segment = (Segment) o;
 			} catch (ClassCastException exc) {
-				throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+				throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 			}
 			int compare = value.compareTo(segment.value);
 			if (compare != 0) {

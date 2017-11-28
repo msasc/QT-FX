@@ -17,7 +17,6 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 
 /**
  * Types supported by the system.
@@ -64,8 +63,12 @@ public enum Types {
 			|| (type.isDateTimeOrTimestamp() && !value.isDateTimeOrTimestamp())
 			|| (type.isString() && !value.isString())
 			|| (type.isNumber() && !value.isNumber())) {
-			throw new IllegalArgumentException(
-				MessageFormat.format("Invalid value type ({0}) for field type {1}", value.getType(), type));
+			StringBuilder b = new StringBuilder();
+			b.append("Invalid value type (");
+			b.append(value.getType());
+			b.append(") for field type ");
+			b.append(type);
+			throw new IllegalArgumentException(b.toString());
 		}
 	}
 
@@ -263,7 +266,7 @@ public enum Types {
 		default:
 			break;
 		}
-		throw new IllegalArgumentException(MessageFormat.format("Unsupported type conversion to JDBC: {0}", this));
+		throw new IllegalArgumentException("Unsupported type conversion to JDBC: " + this);
 	}
 
 	/**
@@ -280,6 +283,6 @@ public enum Types {
 				return type;
 			}
 		}
-		throw new IllegalArgumentException(MessageFormat.format("Unsupported type name: {0}", typeName));
+		throw new IllegalArgumentException("Unsupported type name: " + typeName);
 	}
 }

@@ -14,16 +14,15 @@
 
 package com.qtfx.lib.gui;
 
+import java.util.Locale;
+
 import com.qtfx.lib.util.TextServer;
 
 import javafx.scene.control.Button;
 
 /**
- * Buttons all around this development system are expected to have properties set in the user data, properties like the
- * button group, the order in the group, or any useful property to handle the action.
- * <p>
- * The button can be accessed through the <em>getSource()</em> or <em>getTarget()</em> methods of the
- * <em>ActionEvent</em>, and this class facilitates accessing those properties.
+ * Button utilities. Buttons all around this development system are expected to have properties set in the user data,
+ * properties like the button group, the order in the group, or any useful property to handle the action.
  *
  * @author Miquel Sas
  */
@@ -96,10 +95,24 @@ public class Buttons {
 	}
 
 	/**
+	 * @return A new ACCEPT button, true, false.
+	 */
+	public static Button buttonAccept(Locale locale) {
+		return button(ID_ACCEPT, TextServer.getString("buttonAccept", locale), true, false);
+	}
+
+	/**
 	 * @return A new APPLY button, false, false.
 	 */
 	public static Button buttonApply() {
 		return button(ID_APPLY, TextServer.getString("buttonApply"), false, false);
+	}
+
+	/**
+	 * @return A new APPLY button, false, false.
+	 */
+	public static Button buttonApply(Locale locale) {
+		return button(ID_APPLY, TextServer.getString("buttonApply", locale), false, false);
 	}
 
 	/**
@@ -110,10 +123,24 @@ public class Buttons {
 	}
 
 	/**
+	 * @return A new CANCEL button, false, true.
+	 */
+	public static Button buttonCancel(Locale locale) {
+		return button(ID_CANCEL, TextServer.getString("buttonCancel", locale), false, true);
+	}
+
+	/**
 	 * @return A new CLOSE button, false, false.
 	 */
 	public static Button buttonClose() {
 		return button(ID_CLOSE, TextServer.getString("buttonClose"), false, false);
+	}
+
+	/**
+	 * @return A new CLOSE button, false, false.
+	 */
+	public static Button buttonClose(Locale locale) {
+		return button(ID_CLOSE, TextServer.getString("buttonClose", locale), false, false);
 	}
 
 	/**
@@ -124,10 +151,24 @@ public class Buttons {
 	}
 
 	/**
+	 * @return A new FINISH button, false, false.
+	 */
+	public static Button buttonFinish(Locale locale) {
+		return button(ID_FINISH, TextServer.getString("buttonFinish", locale), false, false);
+	}
+
+	/**
 	 * @return A new IGNORE button, false, false.
 	 */
 	public static Button buttonIgnore() {
 		return button(ID_IGNORE, TextServer.getString("buttonIgnore"), false, false);
+	}
+
+	/**
+	 * @return A new IGNORE button, false, false.
+	 */
+	public static Button buttonIgnore(Locale locale) {
+		return button(ID_IGNORE, TextServer.getString("buttonIgnore", locale), false, false);
 	}
 
 	/**
@@ -138,10 +179,24 @@ public class Buttons {
 	}
 
 	/**
+	 * @return A new NEXT button, false, false.
+	 */
+	public static Button buttonNext(Locale locale) {
+		return button(ID_NEXT, TextServer.getString("buttonNext", locale), false, false);
+	}
+
+	/**
 	 * @return A new NO button, false, true.
 	 */
 	public static Button buttonNo() {
 		return button(ID_NO, TextServer.getString("buttonNo"), false, true);
+	}
+
+	/**
+	 * @return A new NO button, false, true.
+	 */
+	public static Button buttonNo(Locale locale) {
+		return button(ID_NO, TextServer.getString("buttonNo", locale), false, true);
 	}
 
 	/**
@@ -152,10 +207,24 @@ public class Buttons {
 	}
 
 	/**
+	 * @return A new OK button, true, false.
+	 */
+	public static Button buttonOk(Locale locale) {
+		return button(ID_OK, TextServer.getString("buttonOk", locale), true, false);
+	}
+
+	/**
 	 * @return A new OPEN button, false, false.
 	 */
 	public static Button buttonOpen() {
 		return button(ID_OPEN, TextServer.getString("buttonOpen"), true, false);
+	}
+
+	/**
+	 * @return A new OPEN button, false, false.
+	 */
+	public static Button buttonOpen(Locale locale) {
+		return button(ID_OPEN, TextServer.getString("buttonOpen", locale), true, false);
 	}
 
 	/**
@@ -166,10 +235,24 @@ public class Buttons {
 	}
 
 	/**
+	 * @return A new PREVIOUS button, false, false.
+	 */
+	public static Button buttonPrevious(Locale locale) {
+		return button(ID_PREVIOUS, TextServer.getString("buttonPrevious", locale), false, false);
+	}
+
+	/**
 	 * @return A new RETRY button, false, false.
 	 */
 	public static Button buttonRetry() {
 		return button(ID_RETRY, TextServer.getString("buttonRetry"), false, false);
+	}
+
+	/**
+	 * @return A new RETRY button, false, false.
+	 */
+	public static Button buttonRetry(Locale locale) {
+		return button(ID_RETRY, TextServer.getString("buttonRetry", locale), false, false);
 	}
 
 	/**
@@ -179,4 +262,10 @@ public class Buttons {
 		return button(ID_YES, TextServer.getString("buttonYes"), true, false);
 	}
 
+	/**
+	 * @return A new YES button, true, false.
+	 */
+	public static Button buttonYes(Locale locale) {
+		return button(ID_YES, TextServer.getString("buttonYes", locale), true, false);
+	}
 }

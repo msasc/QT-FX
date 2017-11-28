@@ -13,7 +13,6 @@
  */
 package com.qtfx.lib.db;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -401,7 +400,7 @@ public class Record implements Comparable<Object> {
 		try {
 			record = (Record) o;
 		} catch (ClassCastException exc) {
-			throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+			throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 		}
 		// Compare using the primary key pointers.
 		RecordComparator comparator = new RecordComparator(getPrimaryOrder());

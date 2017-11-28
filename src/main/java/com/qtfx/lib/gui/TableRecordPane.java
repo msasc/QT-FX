@@ -75,8 +75,10 @@ public class TableRecordPane {
 	class RecordsChangeListener implements ListChangeListener<Record> {
 		@Override
 		public void onChanged(Change<? extends Record> c) {
-			if (c.wasReplaced()) {
-				calculateLinesPercentScale();
+			while (c.next()) {
+				if (c.wasReplaced()) {
+					calculateLinesPercentScale();
+				}
 			}
 		}
 	}

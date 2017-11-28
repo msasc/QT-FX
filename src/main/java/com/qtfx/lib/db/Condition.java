@@ -13,7 +13,6 @@
  */
 package com.qtfx.lib.db;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,146 +30,76 @@ public class Condition {
 	 */
 	public static enum Operator {
 
-		/**
-		 * Starts with, in SQL <code>FIELD LIKE '....&#37;'</code>
-		 */
+		/** Starts with, in SQL <code>FIELD LIKE '....&#37;'</code>	 */
 		LIKE_LEFT(1),
-		/**
-		 * Contains, in SQL <code>FIELD LIKE '&#37;....&#37;'</code>
-		 */
+		/** Contains, in SQL <code>FIELD LIKE '&#37;....&#37;'</code> */
 		LIKE_MID(1),
-		/**
-		 * Ends with, in SQL <code>FIELD LIKE '&#37;....'</code>
-		 */
+		/** Ends with, in SQL <code>FIELD LIKE '&#37;....'</code> */
 		LIKE_RIGHT(1),
-		/**
-		 * Equals, in SQL <code>FIELD = &#63;</code>
-		 */
+		/** Equals, in SQL <code>FIELD = &#63;</code> */
 		FIELD_EQ(1),
-		/**
-		 * Greater than, in SQL <code>FIELD &gt; &#63;</code>
-		 */
+		/** Greater than, in SQL <code>FIELD &gt; &#63;</code> */
 		FIELD_GT(1),
-		/**
-		 * Greater than or equal to, in SQL <code>FIELD &gt;= &#63;</code>
-		 */
+		/** Greater than or equal to, in SQL <code>FIELD &gt;= &#63;</code> */
 		FIELD_GE(1),
-		/**
-		 * Less than, in SQL <code>FIELD &lt; &#63;</code>
-		 */
+		/** Less than, in SQL <code>FIELD &lt; &#63;</code> */
 		FIELD_LT(1),
-		/**
-		 * Less than or equal to, in SQL <code>FIELD &lt;= &#63;</code>
-		 */
+		/** Less than or equal to, in SQL <code>FIELD &lt;= &#63;</code> */
 		FIELD_LE(1),
-		/**
-		 * Not equal to, in SQL <code>FIELD != &#63;</code>
-		 */
+		/** Not equal to, in SQL <code>FIELD != &#63;</code> */
 		FIELD_NE(1),
-		/**
-		 * In the list, in SQL <code>FIELD IN (&#63;,&#63;,...)</code>
-		 */
+		/** In the list, in SQL <code>FIELD IN (&#63;,&#63;,...)</code> */
 		IN_LIST(-1),
-		/**
-		 * Is null, in SQL <code>FIELD IS NULL</code>
-		 */
+		/** Is null, in SQL <code>FIELD IS NULL</code> */
 		IS_NULL(0),
-		/**
-		 * Between, in SQL <code>FIELD BETWEEN &#63; AND &#63;</code>
-		 */
+		/** Between, in SQL <code>FIELD BETWEEN &#63; AND &#63;</code> */
 		BETWEEN(2),
-		/**
-		 * Does not start with, in SQL <code>FIELD NOT LIKE '....&#37;'</code>
-		 */
+		/** Does not start with, in SQL <code>FIELD NOT LIKE '....&#37;'</code> */
 		NOT_LIKE_LEFT(1),
-		/**
-		 * Does not contains, in SQL <code>FIELD NOT LIKE '&#37;....&#37;'</code>
-		 */
+		/** Does not contains, in SQL <code>FIELD NOT LIKE '&#37;....&#37;'</code> */
 		NOT_LIKE_MID(1),
-		/**
-		 * Does not end with, in SQL <code>FIELD NOT LIKE '&#37;....'</code>
-		 */
+		/** Does not end with, in SQL <code>FIELD NOT LIKE '&#37;....'</code> */
 		NOT_LIKE_RIGHT(1),
-		/**
-		 * Not in the list, in SQL <code>FIELD NOT IN (&#63;,&#63;,...)</code>
-		 */
+		/** Not in the list, in SQL <code>FIELD NOT IN (&#63;,&#63;,...)</code> */
 		NOT_IN_LIST(-1),
-		/**
-		 * Not null, in SQL <code>FIELD IS NOT NULL</code>
-		 */
+		/** Not null, in SQL <code>FIELD IS NOT NULL</code> */
 		NOT_IS_NULL(0),
-		/**
-		 * Not between, in SQL <code>FIELD NOT BETWEEN &#63; AND &#63;</code>
-		 */
+		/** Not between, in SQL <code>FIELD NOT BETWEEN &#63; AND &#63;</code> */
 		NOT_BETWEEN(2),
-		/**
-		 * Starts with, no case, in SQL <code>UPPER(FIELD) LIKE '....&#37;'</code>
-		 */
+		/** Starts with, no case, in SQL <code>UPPER(FIELD) LIKE '....&#37;'</code> */
 		LIKE_LEFT_NOCASE(1),
-		/**
-		 * Contains no case, in SQL <code>UPPER(FIELD) LIKE '&#37;....&#37;'</code>
-		 */
+		/** Contains no case, in SQL <code>UPPER(FIELD) LIKE '&#37;....&#37;'</code> */
 		LIKE_MID_NOCASE(1),
-		/**
-		 * Ends with no case, in SQL <code>UPPER(FIELD) LIKE '&#37;....'</code>
-		 */
+		/** Ends with no case, in SQL <code>UPPER(FIELD) LIKE '&#37;....'</code> */
 		LIKE_RIGHT_NOCASE(1),
-		/**
-		 * Equals no case, in SQL <code>UPPER(FIELD) = UPPER(&#63;)</code>
-		 */
+		/** Equals no case, in SQL <code>UPPER(FIELD) = UPPER(&#63;)</code> */
 		FIELD_EQ_NOCASE(1),
-		/**
-		 * Greater than no case, in SQL <code>UPPER(FIELD) &gt; UPPER(&#63;)</code>
-		 */
+		/** Greater than no case, in SQL <code>UPPER(FIELD) &gt; UPPER(&#63;)</code> */
 		FIELD_GT_NOCASE(1),
-		/**
-		 * Greater than or equal to no case, in SQL <code>UPPER(FIELD) &gt;= UPPER(&#63;)</code>
-		 */
+		/** Greater than or equal to no case, in SQL <code>UPPER(FIELD) &gt;= UPPER(&#63;)</code> */
 		FIELD_GE_NOCASE(1),
-		/**
-		 * Less than no case, in SQL <code>UPPER(FIELD) &lt; UPPER(&#63;)</code>
-		 */
+		/** Less than no case, in SQL <code>UPPER(FIELD) &lt; UPPER(&#63;)</code> */
 		FIELD_LT_NOCASE(1),
-		/**
-		 * Less than or equal to no case, in SQL <code>UPPER(FIELD) &lt;= UPPER(&#63;)</code>
-		 */
+		/** Less than or equal to no case, in SQL <code>UPPER(FIELD) &lt;= UPPER(&#63;)</code> */
 		FIELD_LE_NOCASE(1),
-		/**
-		 * Not equal no case <code>UPPER(FIELD) != UPPER(&#63;)</code>
-		 */
+		/** Not equal no case <code>UPPER(FIELD) != UPPER(&#63;)</code> */
 		FIELD_NE_NOCASE(1),
-		/**
-		 * In list no case <code>UPPER(FIELD) IN (UPPER(&#63;),UPPER(&#63;),...)</code>
-		 */
+		/** In list no case <code>UPPER(FIELD) IN (UPPER(&#63;),UPPER(&#63;),...)</code> */
 		IN_LIST_NOCASE(-1),
-		/**
-		 * Between no case <code>UPPER(FIELD) BETWEEN UPPER(&#63;) AND UPPER(&#63;)</code>
-		 */
+		/** Between no case <code>UPPER(FIELD) BETWEEN UPPER(&#63;) AND UPPER(&#63;)</code> */
 		BETWEEN_NOCASE(2),
-		/**
-		 * Does not start with no case, in SQL <code>UPPER(FIELD) NOT LIKE '....&#37;'</code>
-		 */
+		/** Does not start with no case, in SQL <code>UPPER(FIELD) NOT LIKE '....&#37;'</code> */
 		NOT_LIKE_LEFT_NOCASE(1),
-		/**
-		 * Does not contain no case, in SQL <code>UPPER(FIELD) NOT LIKE '&#37;....&#37;'</code>
-		 */
+		/** Does not contain no case, in SQL <code>UPPER(FIELD) NOT LIKE '&#37;....&#37;'</code> */
 		NOT_LIKE_MID_NOCASE(1),
-		/**
-		 * Does not end with no case, in SQL <code>UPPER(FIELD) NOT LIKE '&#37;....'</code>
-		 */
+		/** Does not end with no case, in SQL <code>UPPER(FIELD) NOT LIKE '&#37;....'</code> */
 		NOT_LIKE_RIGHT_NOCASE(1),
-		/**
-		 * Not in list no case, in SQL <code>UPPER(FIELD) NOT IN (UPPER(&#63;),UPPER(&#63;),...)</code>
-		 */
+		/** Not in list no case, in SQL <code>UPPER(FIELD) NOT IN (UPPER(&#63;),UPPER(&#63;),...)</code> */
 		NOT_IN_LIST_NOCASE(-1),
-		/**
-		 * Not between no case, in SQL <code>UPPER(FIELD) NOT BETWEEN UPPER(&#63;) AND UPPER(&#63;)</code>
-		 */
+		/** Not between no case, in SQL <code>UPPER(FIELD) NOT BETWEEN UPPER(&#63;) AND UPPER(&#63;)</code> */
 		NOT_BETWEEN_NOCASE(2);
 
-		/**
-		 * This operator required number of values: -1 more than one, 1 one, 2 two, 0 none.
-		 */
+		/** This operator required number of values: -1 more than one, 1 one, 2 two, 0 none. */
 		private int requiredValues = -1;
 
 		/**
@@ -208,7 +137,6 @@ public class Condition {
 	 * @param operator The operator.
 	 * @param values The possible list of values as right operand.
 	 */
-	@SuppressWarnings("null")
 	public static final void validate(Field field, Operator operator, List<Value> values) {
 		// The field can not be null.
 		if (field == null) {
@@ -217,8 +145,7 @@ public class Condition {
 		// Null or empty values can only apply to null or not null operators.
 		if (values == null || values.isEmpty()) {
 			if (!operator.equals(Operator.IS_NULL) && !operator.equals(Operator.NOT_IS_NULL)) {
-				throw new IllegalArgumentException(
-					MessageFormat.format("Right operand is expected for operator: {0}", operator));
+				throw new IllegalArgumentException("Right operand is expected for operator: " + operator);
 			}
 		}
 		// The type of the right operand must be compatible with the type of the field.
@@ -241,9 +168,11 @@ public class Condition {
 				invalidValueType = true;
 			}
 			if (invalidValueType) {
-				throw new IllegalArgumentException(
-					MessageFormat
-						.format("Invalid value type ({0}) for field type {1}", value.getType(), field.getType()));
+				StringBuilder b = new StringBuilder();
+				b.append("Invalid value type (");
+				b.append(value.getType());
+				b.append(field.getType());
+				throw new IllegalArgumentException(b.toString());
 			}
 		}
 		// A no case operator requires a field and a value of type string.
@@ -280,8 +209,7 @@ public class Condition {
 			}
 		}
 		if (invalidNumberOfValues) {
-			throw new IllegalArgumentException(
-				MessageFormat.format("Invalid number of values for operator {0}", operator));
+			throw new IllegalArgumentException("Invalid number of values for operator " + operator);
 		}
 	}
 

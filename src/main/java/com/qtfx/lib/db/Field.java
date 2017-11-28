@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1196,13 +1195,7 @@ public class Field implements Comparable<Object> {
 	// Comparable and object overrides.
 
 	/**
-	 * Returns a negative integer, zero, or a positive integer as this value is less than, equal to, or greater than the
-	 * specified value.
-	 * <p>
-	 * A field is considered to be equal to another field if the alias, type, length and decimals are the same.
-	 *
-	 * @param o The object to compare.
-	 * @return The comparison integer.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int compareTo(Object o) {
@@ -1210,7 +1203,7 @@ public class Field implements Comparable<Object> {
 		try {
 			field = (Field) o;
 		} catch (ClassCastException exc) {
-			throw new UnsupportedOperationException(MessageFormat.format("Not comparable type: {0}", o.getClass().getName()));
+			throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 		}
 		if (getAlias().equals(field.getAlias())) {
 			if (getType().equals(field.getType())) {
@@ -1225,9 +1218,19 @@ public class Field implements Comparable<Object> {
 	}
 
 	/**
-	 * Returns the hash code for this field.
-	 *
-	 * @return The hash code
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Field) {
+			Field field = (Field) obj;
+			return (compareTo(field) == 0);
+		}
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int hashCode() {
