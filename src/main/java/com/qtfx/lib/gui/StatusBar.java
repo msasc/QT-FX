@@ -123,10 +123,10 @@ public class StatusBar {
 		if (style != null) {
 			label.setStyle(style);
 		}
+		if (add) {
+			flowPane.getChildren().add(label);
+		}
 		Threads.runLater(() -> {
-			if (add) {
-				flowPane.getChildren().add(label);
-			}
 			label.setText(text);
 		});
 	}
@@ -170,10 +170,10 @@ public class StatusBar {
 			progressBar = (ProgressBar) node;
 			add = false;
 		}
+		if (add) {
+			flowPane.getChildren().add(progressBar);
+		}
 		Threads.runLater(() -> {
-			if (add) {
-				flowPane.getChildren().add(progressBar);
-			}
 			progressBar.setProgress(workDone / totalWork);
 		});
 	}

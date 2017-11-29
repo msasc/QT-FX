@@ -13,7 +13,6 @@
  */
 package com.qtfx.lib.util;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 

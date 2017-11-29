@@ -18,8 +18,12 @@ import java.util.Locale;
 
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Record;
+import com.qtfx.lib.db.RecordSet;
+import com.qtfx.lib.util.TextServer;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.stage.Window;
 
@@ -34,6 +38,10 @@ public class LookupRecords {
 	private TableRecordPane tableRecordPane;
 	/** Window title. */
 	private String title;
+	/** First selected row. */
+	private int selectedRow = -1;
+	/** Subsequent selected rows. */
+	private int[] selectedRows;
 
 	/**
 	 * Constructor.
@@ -103,19 +111,119 @@ public class LookupRecords {
 	}
 
 	/**
+	 * Set the list of records.
+	 * 
+	 * @param records The list of records.
+	 */
+	public void setRecords(ObservableList<Record> records) {
+		tableRecordPane.setRecords(records);
+	}
+
+	/**
+	 * Set the record-set.
+	 * 
+	 * @param recordSet The record-set.
+	 */
+	public void setRecordSet(RecordSet recordSet) {
+		tableRecordPane.setRecordSet(recordSet);
+	}
+	
+	/**
+	 * Clear selected indices.
+	 */
+	public void clearSelection() {
+		tableRecordPane.clearSelection();
+	}
+
+	/**
+	 * Set the list of selected indices.
+	 * 
+	 * @param row At least one row to select.
+	 * @param rows The list of rows.
+	 */
+	public void selectedIndices(int row, int... rows) {
+		this.selectedRow = row;
+		this.selectedRows = rows;
+	}
+
+	/**
+	 * Lookup a single record.
+	 * 
+	 * @return The selected record or null.
+	 */
+	public Record lookupRecord() {
+		return lookupRecord(null);
+	}
+
+	/**
+	 * Lookup a single record.
+	 * 
+	 * @param owner The owner window.
+	 * @return The selected record or null.
+	 */
+	public Record lookupRecord(Window owner) {
+		ObservableList<Record> selected = lookupRecords(owner, SelectionMode.SINGLE);
+		if (!selected.isEmpty()) {
+			return selected.get(0);
+		}
+		return null;
+	}
+
+	/**
+	 * Lookup a single record.
+	 * 
+	 * @return The selected record or null.
+	 */
+	public ObservableList<Record> lookupRecords() {
+		return lookupRecords((Window) null);
+	}
+
+	/**
+	 * Lookup a single record.
+	 * 
+	 * @param owner The owner window.
+	 * @return The selected record or null.
+	 */
+	public ObservableList<Record> lookupRecords(Window owner) {
+		return lookupRecords(owner, SelectionMode.MULTIPLE);
+	}
+
+	/**
 	 * Lookup records indicating the selection mode.
 	 * 
 	 * @param owner The owner window.
-	 * @param records The list of records.
 	 * @param selectionMode The selection mode.
 	 * @return The list of selected records, can be empty.
 	 */
-	private ObservableList<Record> lookup(Window owner, ObservableList<Record> records, SelectionMode selectionMode) {
+	private ObservableList<Record>
+		lookupRecords(Window owner, SelectionMode selectionMode) {
 
 		// Set records and selection mode.
 		tableRecordPane.setSelectionMode(selectionMode);
-		tableRecordPane.setRecords(records);
+		tableRecordPane.clearSelection();
+		if (selectedRow >= 0) {
+			tableRecordPane.selectIndices(selectedRow, selectedRows);
+		} else {
+			tableRecordPane.selectIndices(0, 0);
+		}
 
-		return tableRecordPane.getSelectedRecords();
+		Dialog dialog = new Dialog(owner);
+		if (title != null) {
+			dialog.setTitle(title);
+		} else {
+			dialog.setTitle(TextServer.getString("defaultRecordSelection", tableRecordPane.getLocale()));
+		}
+		dialog.setCenter(tableRecordPane.getNode());
+		dialog.addPropertySetter(tableRecordPane.getPropertySetter());
+		Button select = Buttons.buttonSelect(tableRecordPane.getLocale());
+		dialog.getButtonPane().getButtons().add(select);
+		dialog.getButtonPane().getButtons().add(Buttons.buttonCancel(tableRecordPane.getLocale()));
+
+		Button result = dialog.show();
+		if (result.equals(select)) {
+			return tableRecordPane.getSelectedRecords();
+		}
+
+		return FXCollections.emptyObservableList();
 	}
 }

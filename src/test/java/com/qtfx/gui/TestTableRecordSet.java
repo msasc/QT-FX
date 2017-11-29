@@ -35,7 +35,7 @@ import javafx.stage.Stage;
  *
  * @author Miquel Sas
  */
-public class TableRecordSet extends Application {
+public class TestTableRecordSet extends Application {
 
 	/** Logger configuration. */
 	static {
@@ -71,7 +71,16 @@ public class TableRecordSet extends Application {
 		dialog.addPropertySetter(table.getPropertySetter());
 		dialog.setWidth(800);
 		dialog.setHeight(800);
+		
+		Button buttonScroll = new Button("Scroll");
+		Button buttonSelect = new Button("Select");
+		Button buttonClear = new Button("Clear");
 		Button buttonSort = new Button("Sort");
+		
+		
+		dialog.getButtonPane().getButtons().add(buttonScroll);
+		dialog.getButtonPane().getButtons().add(buttonSelect);
+		dialog.getButtonPane().getButtons().add(buttonClear);
 		dialog.getButtonPane().getButtons().add(buttonSort);
 		dialog.getButtonPane().getButtons().add(Buttons.buttonClose());
 		dialog.getButtonPane().setPadding(new Insets(10, 10, 10, 10));
@@ -80,10 +89,26 @@ public class TableRecordSet extends Application {
 		order.add(table.getField("ICHECKED"), false);
 		order.add(table.getField("CARTICLE"), false);
 
+		int scrollIndex = 1000;
+		buttonScroll.setOnAction(actionEvent -> {
+			TableRecordPane t = Nodes.getTableRecordPane(buttonSort);
+			t.getTableView().scrollTo(scrollIndex);
+		});
+
+		buttonSelect.setOnAction(actionEvent -> {
+			TableRecordPane t = Nodes.getTableRecordPane(buttonSort);
+			t.selectIndices(1, 4, 7, 9);
+		});
+
+		buttonClear.setOnAction(actionEvent -> {
+			TableRecordPane t = Nodes.getTableRecordPane(buttonSort);
+			t.clearSelection();
+		});
+
 		buttonSort.setOnAction(actionEvent -> {
 			TableRecordPane t = Nodes.getTableRecordPane(buttonSort);
 			order.invertAsc();
-			t.getRecords().sort(new RecordComparator(order));
+			t.sort(new RecordComparator(order));
 		});
 
 		dialog.show();

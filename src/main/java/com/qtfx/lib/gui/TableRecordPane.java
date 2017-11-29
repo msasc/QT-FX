@@ -14,6 +14,7 @@
 
 package com.qtfx.lib.gui;
 
+import java.util.Comparator;
 import java.util.Locale;
 
 import com.qtfx.lib.db.Field;
@@ -129,6 +130,9 @@ public class TableRecordPane {
 		statusBar = new StatusBar();
 		borderPane.setCenter(tableView);
 		borderPane.setBottom(statusBar.getPane());
+		
+		calculateLinesPercentScale();
+		setLineOfLines(-1);
 
 		tableView.getSelectionModel().selectedIndexProperty().addListener(new SelectedIndexListener());
 	}
@@ -238,7 +242,7 @@ public class TableRecordPane {
 	public void setRecords(ObservableList<Record> records) {
 		getTableView().setItems(records);
 		getRecords().addListener(new RecordsChangeListener());
-		getTableView().getSelectionModel().select(0);
+		getTableView().getSelectionModel().selectFirst();
 		calculateLinesPercentScale();
 	}
 
@@ -255,7 +259,9 @@ public class TableRecordPane {
 	 * Calculate the scale to show the percentage of the current line.
 	 */
 	private void calculateLinesPercentScale() {
-		linesPercentScale = Math.max(0, Numbers.getDigits(getTableView().getItems().size()) - 2);
+		if (getTableView().getItems() != null) {
+			linesPercentScale = Math.max(0, Numbers.getDigits(getTableView().getItems().size()) - 2);
+		}
 	}
 
 	/**
@@ -349,6 +355,32 @@ public class TableRecordPane {
 	}
 
 	/**
+	 * Clear the current selection.
+	 */
+	public void clearSelection() {
+		getTableView().getSelectionModel().clearSelection();
+	}
+
+	/**
+	 * Select the list of indices.
+	 * 
+	 * @param row At least one row to select.
+	 * @param rows The list of rows.
+	 */
+	public void selectIndices(int row, int... rows) {
+		getTableView().getSelectionModel().selectIndices(row, rows);
+	}
+
+	/**
+	 * Sort the underlying table view.
+	 * 
+	 * @param c The comparator.
+	 */
+	public void sort(Comparator<? super Record> c) {
+		getRecords().sort(c);
+	}
+
+	/**
 	 * Return the used locale.
 	 * 
 	 * @return The locale.
@@ -356,4 +388,5 @@ public class TableRecordPane {
 	public Locale getLocale() {
 		return locale;
 	}
+
 }
