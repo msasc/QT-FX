@@ -24,9 +24,7 @@ import com.qtfx.lib.db.Record;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 
 /**
  * A panel that holds a grid form of fields from a record. Fields are laid out in tabs by field group if there are field
@@ -46,35 +44,24 @@ import javafx.scene.layout.GridPane;
 public class FormRecordPane {
 
 	/**
-	 * Utility class to manage the controls automatically used by the form record pane.
-	 * <p>
-	 * Controls in a form-record-pane depend of the field type and can only be the following.
-	 * <ul>
-	 * <li>Instantiate the panel.</li>
-	 * </ul>
-	 */
-	public static class Controls {
-
-	}
-
-	/**
-	 * Grid item structure.
+	 * Grid item structure. It is a box that contains a list of fields laid vertically, label and input and optionally a
+	 * description if the input has a lookup that can provide such description.
 	 */
 	private static class GridItem {
-		int gridx;
-		int gridy;
+		int columnIndex;
+		int rowIndex;
 		List<Field> fields = new ArrayList<>();
 
-		GridItem(int gridx, int gridy) {
-			this.gridx = gridx;
-			this.gridy = gridy;
+		GridItem(int columnIndex, int rowIndex) {
+			this.columnIndex = columnIndex;
+			this.rowIndex = rowIndex;
 		}
 
 		@Override
 		public boolean equals(Object o) {
 			if (o instanceof GridItem) {
 				GridItem gridItem = (GridItem) o;
-				return (gridx == gridItem.gridx && gridy == gridItem.gridy);
+				return (columnIndex == gridItem.columnIndex && rowIndex == gridItem.rowIndex);
 			}
 			return false;
 		}
@@ -183,26 +170,26 @@ public class FormRecordPane {
 	 * the tab where the field group will be assigned. Grid coordinates are recommended to be set sequentially.
 	 * 
 	 * @param alias The field alias.
-	 * @param gridx The grid x coordinate.
-	 * @param gridy The grid y coordinate.
+	 * @param columnIndex The grid x coordinate.
+	 * @param rowIndex The grid y coordinate.
 	 */
-	public void addField(String alias, int gridx, int gridy) {
+	public void addField(String alias, int columnIndex, int rowIndex) {
 
 		// State validation.
 		if (getRecord() == null) {
 			throw new IllegalStateException("The record to edit must be set prior to add any field.");
 		}
-		if (gridx < 0) {
+		if (columnIndex < 0) {
 			throw new IllegalArgumentException("Invalid grid x coordinate.");
 		}
-		if (gridy < 0) {
+		if (rowIndex < 0) {
 			throw new IllegalArgumentException("Invalid grid y coordinate.");
 		}
 
 		// Field (a copy), group item and grid item.
 		Field field = new Field(getRecord().getField(alias));
 		GroupItem groupItem = getGroupItem(field.getFieldGroup());
-		GridItem gridItem = getGridItem(groupItem, gridx, gridy);
+		GridItem gridItem = getGridItem(groupItem, columnIndex, rowIndex);
 		gridItem.fields.add(field);
 		groupItems.sort(null);
 	}
@@ -222,28 +209,11 @@ public class FormRecordPane {
 	 */
 	public void layoutFields() {
 
-		// Current field groups.
-		List<FieldGroup> fieldGroups = getFieldGroups();
+		// If we have only one GroupItem (FieldGroup), we will add a single GriPane in the center of the border
+		// pane, otherwise we will add a TabPane with a GridPane for each FieldGroup in each Tab.
+		//
+		// A GroupItem is a GridPane with a GridItem in each cell, and a GridItem is in turn another GridPane.
 
-		// If we have only one field group, we will add a single grid pane in the center of the border pane, otherwise
-		// we will add a tab pane with a grid pane for each field group in each tab.
-
-	}
-
-	/**
-	 * Returns the list of defined/used field groups.
-	 * 
-	 * @return The list of defined/used field groups.
-	 */
-	private List<FieldGroup> getFieldGroups() {
-		List<FieldGroup> fieldGroups = new ArrayList<>();
-		for (GroupItem groupItem : groupItems) {
-			FieldGroup fieldGroup = groupItem.fieldGroup;
-			if (!fieldGroups.contains(fieldGroup)) {
-				fieldGroups.add(fieldGroup);
-			}
-		}
-		return fieldGroups;
 	}
 
 	/**
@@ -257,7 +227,7 @@ public class FormRecordPane {
 		int rows = 0;
 		List<GridItem> gridItems = getGridItems(groupItem, column);
 		for (GridItem gridItem : gridItems) {
-			rows = Math.max(rows, gridItem.gridy);
+			rows = Math.max(rows, gridItem.rowIndex);
 		}
 		return rows + 1;
 	}
@@ -271,7 +241,7 @@ public class FormRecordPane {
 	private int getGroupItemColumns(GroupItem groupItem) {
 		int columns = 0;
 		for (GridItem gridItem : groupItem.gridItems) {
-			columns = Math.max(columns, gridItem.gridx);
+			columns = Math.max(columns, gridItem.columnIndex);
 		}
 		return columns + 1;
 	}
@@ -280,13 +250,13 @@ public class FormRecordPane {
 	 * Returns the list of grid items from a group item, to locate in the argument column.
 	 * 
 	 * @param groupItem The group item.
-	 * @param column The column.
+	 * @param columnIndex The column.
 	 * @return The list of grid items.
 	 */
-	private List<GridItem> getGridItems(GroupItem groupItem, int column) {
+	private List<GridItem> getGridItems(GroupItem groupItem, int columnIndex) {
 		List<GridItem> columnGridItems = new ArrayList<>();
 		for (GridItem gridItem : groupItem.gridItems) {
-			if (gridItem.gridx == column) {
+			if (gridItem.columnIndex == columnIndex) {
 				columnGridItems.add(gridItem);
 			}
 		}
@@ -320,7 +290,7 @@ public class FormRecordPane {
 	 */
 	private GridItem getGridItem(GroupItem groupItem, int gridx, int gridy) {
 		for (GridItem gridItem : groupItem.gridItems) {
-			if (gridItem.gridx == gridx && gridItem.gridy == gridy) {
+			if (gridItem.columnIndex == gridx && gridItem.rowIndex == gridy) {
 				return gridItem;
 			}
 		}

@@ -31,6 +31,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
@@ -113,7 +114,7 @@ public class CellFactory implements Callback<TableColumn<Record, Value>, TableCe
 				if (field.isEditBooleanInCheckBox()) {
 					tableCell = new CheckBoxTableCell<Record, Value>(new CheckBoxCell());
 				} else {
-					tableCell = new ComboBoxTableCell<>(new BooleanStringConverter(field, locale), booleanValues);
+					tableCell = new ChoiceBoxTableCell<>(new BooleanStringConverter(field, locale), booleanValues);
 				}
 				break;
 			case STRING:

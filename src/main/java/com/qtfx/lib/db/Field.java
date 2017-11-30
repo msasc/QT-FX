@@ -23,6 +23,7 @@ import java.util.List;
 
 import com.qtfx.lib.util.Strings;
 
+import javafx.scene.control.TextFormatter;
 import javafx.util.StringConverter;
 
 /**
@@ -110,6 +111,8 @@ public class Field implements Comparable<Object> {
 	private boolean editBooleanInCheckBox = true;
 	/** Optional string converter. */
 	private StringConverter<Value> stringConverter;
+	/** Optional text formatter. */
+	private TextFormatter<Value> textFormatter;
 	/** Optional CSS style. */
 	private String style;
 
@@ -178,6 +181,7 @@ public class Field implements Comparable<Object> {
 		this.calculator = field.calculator;
 		this.editBooleanInCheckBox = field.editBooleanInCheckBox;
 		this.stringConverter = field.stringConverter;
+		this.textFormatter = field.textFormatter;
 		this.style = field.style;
 
 		// Database related properties.
@@ -725,6 +729,24 @@ public class Field implements Comparable<Object> {
 	 */
 	public void setStringConverter(StringConverter<Value> stringConverter) {
 		this.stringConverter = stringConverter;
+	}
+
+	/**
+	 * Return the optional text formatter.
+	 * 
+	 * @return The optional text formatter.
+	 */
+	public TextFormatter<Value> getTextFormatter() {
+		return textFormatter;
+	}
+
+	/**
+	 * Set the optional text formatter.
+	 * 
+	 * @param textFormatter The optional text formatter.
+	 */
+	public void setTextFormatter(TextFormatter<Value> textFormatter) {
+		this.textFormatter = textFormatter;
 	}
 
 	/**

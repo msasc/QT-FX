@@ -21,6 +21,7 @@ import com.qtfx.lib.gui.Buttons;
 import com.qtfx.lib.gui.Dialog;
 import com.qtfx.lib.gui.Nodes;
 import com.qtfx.lib.gui.TableRecordPane;
+import com.qtfx.lib.util.Random;
 import com.qtfx.lib.util.TextServer;
 import com.qtfx.util.Util;
 
@@ -89,15 +90,19 @@ public class TestTableRecordSet extends Application {
 		order.add(table.getField("ICHECKED"), false);
 		order.add(table.getField("CARTICLE"), false);
 
-		int scrollIndex = 1000;
+		int scrollIndex = 999;
 		buttonScroll.setOnAction(actionEvent -> {
 			TableRecordPane t = Nodes.getTableRecordPane(buttonSort);
-			t.getTableView().scrollTo(scrollIndex);
+			t.scrollTo(scrollIndex);
 		});
 
 		buttonSelect.setOnAction(actionEvent -> {
 			TableRecordPane t = Nodes.getTableRecordPane(buttonSort);
-			t.selectIndices(1, 4, 7, 9);
+			int [] rows = new int[10];
+			for (int i = 0; i < rows.length; i++) {
+				rows[i] = Random.nextInt(rows.length * 5);
+			}
+			t.selectIndices(rows[0], rows);
 		});
 
 		buttonClear.setOnAction(actionEvent -> {
@@ -111,6 +116,7 @@ public class TestTableRecordSet extends Application {
 			t.sort(new RecordComparator(order));
 		});
 
+		table.requestFocus();
 		dialog.show();
 	}
 }

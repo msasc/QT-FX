@@ -18,6 +18,7 @@ import java.util.List;
 
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.gui.LookupRecords;
+import com.qtfx.lib.util.Random;
 import com.qtfx.lib.util.TextServer;
 import com.qtfx.util.Util;
 
@@ -61,8 +62,12 @@ public class TestLookupRecords extends Application {
 		Record record = lookup.lookupRecord(stage);
 		System.out.println(record);
 
+		int[] rows = new int[10];
+		for (int i = 0; i < rows.length; i++) {
+			rows[i] = Random.nextInt(rows.length * 5);
+		}
 		lookup.clearSelection();
-		lookup.selectedIndices(3, 3, 6, 9);
+		lookup.selectedIndices(rows[0], rows);
 		List<Record> selected = lookup.lookupRecords(stage);
 		selected.forEach(rc -> System.out.println(rc));
 	}

@@ -14,6 +14,9 @@
 
 package com.qtfx.lib.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -21,6 +24,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -354,5 +358,38 @@ public class Nodes {
 			id = "#" + id;
 		}
 		return scene.lookup(id);
+	}
+
+	/**
+	 * Fill the source list of nodes with nodes starting at the argument node, included.
+	 * 
+	 * @param startNode The starting node.
+	 * @param nodes The list to fill.
+	 */
+	public void fillNodesFrom(Node startNode, List<Node> nodes) {
+		nodes.add(startNode);
+		if (startNode instanceof Parent) {
+			Parent parent = (Parent) startNode;
+			List<Node> children = parent.getChildrenUnmodifiable();
+			children.forEach(child -> fillNodesFrom(child, nodes));
+		}
+	}
+
+	/**
+	 * Return the list of field controls contained within the starting node.
+	 * 
+	 * @param startNode The starting node.
+	 * @return The list of field controls contained within the starting node.
+	 */
+	public List<FieldControl> getFieldControls(Node startNode) {
+		List<Node> nodes = new ArrayList<>();
+		fillNodesFrom(startNode, nodes);
+		List<FieldControl> controls = new ArrayList<>();
+		nodes.forEach(node -> {
+			if (node instanceof FieldControl) {
+				controls.add((FieldControl) node);
+			}
+		});
+		return controls;
 	}
 }

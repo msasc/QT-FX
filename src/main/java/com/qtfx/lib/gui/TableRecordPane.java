@@ -130,7 +130,7 @@ public class TableRecordPane {
 		statusBar = new StatusBar();
 		borderPane.setCenter(tableView);
 		borderPane.setBottom(statusBar.getPane());
-		
+
 		calculateLinesPercentScale();
 		setLineOfLines(-1);
 
@@ -369,6 +369,23 @@ public class TableRecordPane {
 	 */
 	public void selectIndices(int row, int... rows) {
 		getTableView().getSelectionModel().selectIndices(row, rows);
+		requestFocus();
+	}
+
+	/**
+	 * Scroll to the argument row.
+	 * 
+	 * @param row The row to scroll to.
+	 */
+	public void scrollTo(int row) {
+		getTableView().scrollTo(row);
+	}
+
+	/**
+	 * Request focus to the table view.
+	 */
+	public void requestFocus() {
+		getTableView().requestFocus();
 	}
 
 	/**

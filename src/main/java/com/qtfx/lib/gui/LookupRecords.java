@@ -23,6 +23,7 @@ import com.qtfx.lib.util.TextServer;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.stage.Window;
@@ -147,6 +148,15 @@ public class LookupRecords {
 	}
 
 	/**
+	 * Scroll to the argument row.
+	 * 
+	 * @param row The row to scroll to.
+	 */
+	public void scrollTo(int row) {
+		tableRecordPane.scrollTo(row);
+	}
+
+	/**
 	 * Lookup a single record.
 	 * 
 	 * @return The selected record or null.
@@ -206,6 +216,7 @@ public class LookupRecords {
 		} else {
 			tableRecordPane.selectIndices(0, 0);
 		}
+		tableRecordPane.setPadding(new Insets(10, 10, 0, 10));
 
 		Dialog dialog = new Dialog(owner);
 		if (title != null) {
@@ -213,12 +224,14 @@ public class LookupRecords {
 		} else {
 			dialog.setTitle(TextServer.getString("defaultRecordSelection", tableRecordPane.getLocale()));
 		}
+		dialog.getButtonPane().setPadding(new Insets(5, 10, 10, 10));
 		dialog.setCenter(tableRecordPane.getNode());
 		dialog.addPropertySetter(tableRecordPane.getPropertySetter());
 		Button select = Buttons.buttonSelect(tableRecordPane.getLocale());
 		dialog.getButtonPane().getButtons().add(select);
 		dialog.getButtonPane().getButtons().add(Buttons.buttonCancel(tableRecordPane.getLocale()));
 
+		tableRecordPane.requestFocus();
 		Button result = dialog.show();
 		if (result.equals(select)) {
 			return tableRecordPane.getSelectedRecords();

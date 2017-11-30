@@ -118,7 +118,7 @@ public class Util {
 		}
 		return b.toString();
 	}
-	
+
 	/**
 	 * Returns a random string.
 	 */
@@ -126,6 +126,7 @@ public class Util {
 		int length = minLength + Random.nextInt(maxLength - minLength);
 		return getRandomString(length, source);
 	}
+
 	static class ArticleStringConverter extends StringConverter<Value> {
 		/**
 		 * {@inheritDoc}
@@ -141,7 +142,15 @@ public class Util {
 		 */
 		@Override
 		public Value fromString(String string) {
-			return null;
+			String prefix = "";
+			String suffix = "";
+			if (string.length() >= 2) {
+				prefix = string.substring(0, 2);
+			}
+			if (string.length() > 2) {
+				suffix = string.substring(2);
+			}
+			return new Value(prefix + suffix);
 		}
 	}
 
@@ -154,12 +163,12 @@ public class Util {
 		fgKEY.setIndex(0);
 		fgKEY.setName("KEY");
 		fgKEY.setTitle("Key");
-		
+
 		FieldGroup fgDESC = new FieldGroup();
 		fgDESC.setIndex(1);
 		fgDESC.setName("DESC");
 		fgDESC.setTitle("Description and attributes");
-		
+
 		FieldGroup fgOTHER = new FieldGroup();
 		fgOTHER.setIndex(2);
 		fgOTHER.setName("NAME");
@@ -268,7 +277,7 @@ public class Util {
 
 		return fieldList;
 	}
-	
+
 	/**
 	 * Return a record (random)
 	 */
@@ -282,7 +291,7 @@ public class Util {
 		record.setValue("TCREATED", new Value(getRandomDate()));
 		record.setValue("ICHECKED", new Value(getRandomBoolean()));
 		record.setValue("IREQUIRED", new Value(getRandomBoolean()));
-		record.setValue("ISTATUS",getRandomPossibleValues(record.getField("ISTATUS")));
+		record.setValue("ISTATUS", getRandomPossibleValues(record.getField("ISTATUS")));
 		return record;
 	}
 
