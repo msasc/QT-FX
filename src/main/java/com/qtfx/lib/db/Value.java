@@ -17,6 +17,9 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import com.qtfx.lib.util.Lists;
@@ -182,6 +185,17 @@ public class Value implements Comparable<Object> {
 	 */
 	public Value(Date d) {
 		super();
+		value = (d != null ? d.toLocalDate() : null);
+		type = Types.DATE;
+	}
+
+	/**
+	 * Constructor assigning a date.
+	 *
+	 * @param d The date
+	 */
+	public Value(LocalDate d) {
+		super();
 		value = d;
 		type = Types.DATE;
 	}
@@ -193,6 +207,17 @@ public class Value implements Comparable<Object> {
 	 */
 	public Value(Time t) {
 		super();
+		value = (t != null ? t.toLocalTime() : null);
+		type = Types.TIME;
+	}
+
+	/**
+	 * Constructor assigning a time.
+	 *
+	 * @param t The time
+	 */
+	public Value(LocalTime t) {
+		super();
 		value = t;
 		type = Types.TIME;
 	}
@@ -203,6 +228,17 @@ public class Value implements Comparable<Object> {
 	 * @param t The time-stamp
 	 */
 	public Value(Timestamp t) {
+		super();
+		value = (t != null ? t.toLocalDateTime() : null);
+		type = Types.TIMESTAMP;
+	}
+
+	/**
+	 * Constructor assigning a time-stamp.
+	 *
+	 * @param t The date-time
+	 */
+	public Value(LocalDateTime t) {
 		super();
 		value = t;
 		type = Types.TIMESTAMP;
@@ -227,7 +263,7 @@ public class Value implements Comparable<Object> {
 			v.value = Lists.copy(getByteArray());
 			break;
 		case DATE:
-			v.value = new Date(getDate().getTime());
+			v.value = LocalDate.of(getLocalDate().getYear(), getLocalDate().getMonth(), getLocalDate().getDayOfMonth());
 			break;
 		case DECIMAL:
 			BigDecimal b = (BigDecimal) value;
@@ -246,10 +282,11 @@ public class Value implements Comparable<Object> {
 			v.value = new String(getString());
 			break;
 		case TIME:
-			v.value = new Time(getTime().getTime());
+			v.value = LocalTime.of(getLocalTime().getHour(), getLocalTime().getMinute(), getLocalTime().getSecond(),
+				getLocalTime().getNano());
 			break;
 		case TIMESTAMP:
-			v.value = new Timestamp(getTimestamp().getTime());
+			v.value = LocalDateTime.of(getLocalDateTime().toLocalDate(), getLocalDateTime().toLocalTime());
 			break;
 		default:
 			v.value = value;
@@ -316,19 +353,19 @@ public class Value implements Comparable<Object> {
 			if (!v.isDate()) {
 				throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 			}
-			return getDate().compareTo(v.getDate());
+			return getLocalDate().compareTo(v.getLocalDate());
 		}
 		if (isTime()) {
 			if (!v.isTime()) {
 				throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 			}
-			return getTime().compareTo(v.getTime());
+			return getLocalTime().compareTo(v.getLocalTime());
 		}
 		if (isTimestamp()) {
 			if (!v.isTimestamp()) {
 				throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
 			}
-			return getTimestamp().compareTo(v.getTimestamp());
+			return getLocalDateTime().compareTo(v.getLocalDateTime());
 		}
 		if (isByteArray()) {
 			if (!v.isByteArray()) {
@@ -384,7 +421,7 @@ public class Value implements Comparable<Object> {
 				return false;
 			}
 			Date d = (Date) o;
-			return getDate().equals(d);
+			return getLocalDate().equals(d);
 		}
 		// Time
 		if (o instanceof Time) {
@@ -392,7 +429,7 @@ public class Value implements Comparable<Object> {
 				return false;
 			}
 			Time t = (Time) o;
-			return getTime().equals(t);
+			return getLocalTime().equals(t);
 		}
 		// Timestamp
 		if (o instanceof Timestamp) {
@@ -400,7 +437,7 @@ public class Value implements Comparable<Object> {
 				return false;
 			}
 			Timestamp t = (Timestamp) o;
-			return getTimestamp().equals(t);
+			return getLocalDateTime().equals(t);
 		}
 		// ByteArray
 		if (o instanceof byte[]) {
@@ -436,7 +473,7 @@ public class Value implements Comparable<Object> {
 				return getString().equals(v.getString());
 			}
 			if (isDateTimeOrTimestamp()) {
-				return getTimestamp().equals(v.getTimestamp());
+				return getLocalDateTime().equals(v.getLocalDateTime());
 			}
 			if (isNumber()) {
 				return getNumber().equals(v.getNumber());
@@ -471,13 +508,13 @@ public class Value implements Comparable<Object> {
 				return getString().hashCode();
 			}
 			if (isDate()) {
-				return getDate().hashCode();
+				return getLocalDate().hashCode();
 			}
 			if (isTime()) {
-				return getTime().hashCode();
+				return getLocalTime().hashCode();
 			}
 			if (isTimestamp()) {
-				return getTimestamp().hashCode();
+				return getLocalDateTime().hashCode();
 			}
 		}
 		return Numbers.MIN_INTEGER;
@@ -522,17 +559,17 @@ public class Value implements Comparable<Object> {
 	/**
 	 * Get the value as a <code>Date</code>.
 	 *
-	 * @return A Date
+	 * @return A LocalDate
 	 */
-	public Date getDate() {
+	public LocalDate getLocalDate() {
 		if (isDate()) {
-			return (Date) value;
+			return (LocalDate) value;
 		}
 		if (isNull()) {
 			return null;
 		}
 		if (isTimestamp()) {
-			return new Date(getTimestamp().getTime());
+			return ((LocalDateTime) value).toLocalDate();
 		}
 		throw new UnsupportedOperationException("Value " + value + " is not a date");
 	}
@@ -540,17 +577,17 @@ public class Value implements Comparable<Object> {
 	/**
 	 * Get the value as a <code>Time</code>.
 	 *
-	 * @return A Time
+	 * @return A LocalTime
 	 */
-	public Time getTime() {
+	public LocalTime getLocalTime() {
 		if (isTime()) {
-			return (Time) value;
+			return (LocalTime) value;
 		}
 		if (isNull()) {
 			return null;
 		}
 		if (isTimestamp()) {
-			return new Time(getTimestamp().getTime());
+			return ((LocalDateTime) value).toLocalTime();
 		}
 		throw new UnsupportedOperationException("Value " + value + " is not a time");
 	}
@@ -558,22 +595,20 @@ public class Value implements Comparable<Object> {
 	/**
 	 * Get the value as a <code>Timestamp</code>.
 	 *
-	 * @return A Timestamp
+	 * @return A LocalDateTime
 	 */
-	public Timestamp getTimestamp() {
+	public LocalDateTime getLocalDateTime() {
 		if (isTimestamp()) {
-			return (Timestamp) value;
+			return (LocalDateTime) value;
 		}
 		if (isNull()) {
 			return null;
 		}
 		if (isDate()) {
-			return new Timestamp(getDate().getTime());
+			return LocalDateTime.of(getLocalDate().getYear(), getLocalDate().getMonth(), getLocalDate().getDayOfMonth(),
+				0, 0, 0);
 		}
-		if (isTime()) {
-			return new Timestamp(getTime().getTime());
-		}
-		throw new UnsupportedOperationException("Value " + value + " is not a date, time or time-stamp");
+		throw new UnsupportedOperationException("Value " + value + " is not a date or time-stamp");
 	}
 
 	/**

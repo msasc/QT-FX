@@ -21,6 +21,7 @@ import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.FieldControl;
 import com.qtfx.lib.gui.converters.BooleanStringConverter;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ChoiceBox;
@@ -69,7 +70,31 @@ public class ChoiceBoxField extends ChoiceBox<Value> implements FieldControl {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Field getField() {
+	public Field getFieldDef() {
 		return field;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Value getFieldValue() {
+		return getValue();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setFieldValue(Value value) {
+		setValue(value);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ObservableValue<Value> fieldValueProperty() {
+		return valueProperty();
 	}
 }

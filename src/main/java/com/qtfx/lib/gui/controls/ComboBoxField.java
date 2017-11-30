@@ -17,38 +17,39 @@ package com.qtfx.lib.gui.controls;
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.FieldControl;
+import com.qtfx.lib.gui.converters.PossibleValueStringConverter;
 
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.CheckBox;
+import javafx.collections.FXCollections;
+import javafx.scene.control.ComboBox;
 
 /**
- * A check box for fields and values of type BOOLEAN.
+ * A combo box for fields with multiple value validation.
  *
  * @author Miquel Sas
  */
-public class CheckBoxField extends CheckBox implements FieldControl {
+public class ComboBoxField extends ComboBox<Value> implements FieldControl {
 	
 	/** Field. */
 	private Field field;
-	/** Observable value. */
-	private SimpleObjectProperty<Value> fieldValueProperty;
-
+	
 	/**
 	 * Constructor.
 	 * 
 	 * @param field The field.
 	 */
-	public CheckBoxField(Field field) {
+	public ComboBoxField(Field field) {
 		super();
 		this.field = field;
 		
 		// Field must be boolean.
-		if (!field.isBoolean()) {
-			throw new IllegalArgumentException("Field must be of type BOOLEAN");
+		if (!field.isPossibleValues()) {
+			throw new IllegalArgumentException("Field must have a possible values validation.");
 		}
-		// Initialize the value property.
-		fieldValueProperty = new SimpleObjectProperty<>(field.getDefaultValue());
+		
+		// Set the list of items as the possible values.
+		setItems(FXCollections.observableArrayList(field.getPossibleValues()));
+		setConverter(new PossibleValueStringConverter(field));
 	}
 
 	/**
@@ -64,7 +65,7 @@ public class CheckBoxField extends CheckBox implements FieldControl {
 	 */
 	@Override
 	public Value getFieldValue() {
-		return fieldValueProperty.get();
+		return getValue();
 	}
 
 	/**
@@ -72,8 +73,7 @@ public class CheckBoxField extends CheckBox implements FieldControl {
 	 */
 	@Override
 	public void setFieldValue(Value value) {
-		fieldValueProperty.set(value);
-		setSelected(value.getBoolean());
+		setValue(value);		
 	}
 
 	/**
@@ -81,6 +81,6 @@ public class CheckBoxField extends CheckBox implements FieldControl {
 	 */
 	@Override
 	public ObservableValue<Value> fieldValueProperty() {
-		return fieldValueProperty;
+		return valueProperty();
 	}
 }

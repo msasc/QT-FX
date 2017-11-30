@@ -33,7 +33,7 @@ public class StringTextField extends TextField implements FieldControl {
 	/** Field. */
 	private Field field;
 	/** Observable value. */
-	private SimpleObjectProperty<Value> valueProperty;
+	private SimpleObjectProperty<Value> fieldValueProperty;
 
 	/**
 	 * Constructor.
@@ -49,7 +49,7 @@ public class StringTextField extends TextField implements FieldControl {
 			throw new IllegalArgumentException("Field must be of type STRING");
 		}
 		// Initialize the value property.
-		valueProperty = new SimpleObjectProperty<>(field.getDefaultValue());
+		fieldValueProperty = new SimpleObjectProperty<>(field.getDefaultValue());
 		// If there is a text formatter, install it, else, if there is a string formatter install a default text
 		// formatter using it.
 		if (field.getTextFormatter() != null) {
@@ -63,7 +63,7 @@ public class StringTextField extends TextField implements FieldControl {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Field getField() {
+	public Field getFieldDef() {
 		return field;
 	}
 
@@ -71,16 +71,16 @@ public class StringTextField extends TextField implements FieldControl {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Value getValue() {
-		return valueProperty.get();
+	public Value getFieldValue() {
+		return fieldValueProperty.get();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setValue(Value value) {
-		valueProperty.set(value);
+	public void setFieldValue(Value value) {
+		fieldValueProperty.set(value);
 		@SuppressWarnings("unchecked")
 		TextFormatter<Value> formatter = (TextFormatter<Value>) getTextFormatter();
 		if (formatter != null) {
@@ -94,7 +94,7 @@ public class StringTextField extends TextField implements FieldControl {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ObservableValue<Value> valueProperty() {
-		return valueProperty;
+	public ObservableValue<Value> fieldValueProperty() {
+		return fieldValueProperty;
 	}
 }

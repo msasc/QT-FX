@@ -31,26 +31,27 @@ public interface FieldControl {
 	 * 
 	 * @return The field.
 	 */
-	Field getField();
+	Field getFieldDef();
 
 	/**
-	 * Return the value.
+	 * Return the value. Used instead of getValue to avoid conflicts.
 	 * 
 	 * @return The value.
 	 */
-	Value getValue();
+	Value getFieldValue();
 
 	/**
-	 * Set the value.
+	 * Set the value. Used instead of getValue to avoid conflicts.
 	 * 
 	 * @param value The value.
 	 */
-	void setValue(Value value);
+	void setFieldValue(Value value);
 
 	/**
-	 * Return the value property to be able to add change and invalidation listeners.
+	 * Return the value property to be able to add change and invalidation listeners. Used instead of valueProperty to
+	 * avoid conflicts.
 	 * 
 	 * @return The value property.
 	 */
-	ObservableValue<Value> valueProperty();
+	ObservableValue<Value> fieldValueProperty();
 }

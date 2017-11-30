@@ -38,7 +38,7 @@ public class NumberTextField extends TextField implements FieldControl {
 	/** Locale. */
 	private Locale locale;
 	/** Observable value. */
-	private SimpleObjectProperty<Value> valueProperty;
+	private SimpleObjectProperty<Value> fieldValueProperty;
 
 	/**
 	 * Constructor.
@@ -59,7 +59,7 @@ public class NumberTextField extends TextField implements FieldControl {
 		super();
 		this.field = field;
 		this.locale = locale;
-		this.valueProperty = new SimpleObjectProperty<>(field.getDefaultValue());
+		this.fieldValueProperty = new SimpleObjectProperty<>(field.getDefaultValue());
 
 		// Field must be NUMBER.
 		if (!field.isString()) {
@@ -80,7 +80,7 @@ public class NumberTextField extends TextField implements FieldControl {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Field getField() {
+	public Field getFieldDef() {
 		return field;
 	}
 
@@ -88,16 +88,16 @@ public class NumberTextField extends TextField implements FieldControl {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Value getValue() {
-		return valueProperty.get();
+	public Value getFieldValue() {
+		return fieldValueProperty.get();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setValue(Value value) {
-		valueProperty.set(value);
+	public void setFieldValue(Value value) {
+		fieldValueProperty.set(value);
 		@SuppressWarnings("unchecked")
 		TextFormatter<Value> formatter = (TextFormatter<Value>) getTextFormatter();
 		if (formatter != null) {
@@ -111,7 +111,7 @@ public class NumberTextField extends TextField implements FieldControl {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ObservableValue<Value> valueProperty() {
-		return valueProperty;
+	public ObservableValue<Value> fieldValueProperty() {
+		return fieldValueProperty;
 	}
 }

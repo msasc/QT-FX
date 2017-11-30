@@ -634,15 +634,15 @@ public abstract class DBEngineAdapter {
 		if (value.isString()) {
 			return toStringSQL(value.getString());
 		}
-		if (value.isDate()) {
-			return toStringSQL(value.getDate());
-		}
-		if (value.isTime()) {
-			return toStringSQL(value.getTime());
-		}
-		if (value.isTimestamp()) {
-			return toStringSQL(value.getTimestamp());
-		}
+//		if (value.isDate()) {
+//			return toStringSQL(value.getLocalDate());
+//		}
+//		if (value.isTime()) {
+//			return toStringSQL(value.getLocalTime());
+//		}
+//		if (value.isTimestamp()) {
+//			return toStringSQL(value.getLocalDateTime());
+//		}
 		throw new IllegalArgumentException("Invalid value type: " + value.getType().name());
 	}
 

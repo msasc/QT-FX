@@ -22,6 +22,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import com.qtfx.lib.db.Field;
@@ -37,6 +40,40 @@ import com.qtfx.lib.util.Calendar;
  * @author Miquel Sas
  */
 public class DBUtils {
+
+	/**
+	 * Return a date from a local date.
+	 * 
+	 * @param d The local date.
+	 * @return The lava.sql.Date
+	 */
+	@SuppressWarnings("deprecation")
+	public static Date toDate(LocalDate d) {
+		return new Date(d.getYear() - 1900, d.getMonthValue() - 1, d.getDayOfMonth());
+	}
+
+	/**
+	 * Return the time from a local time.
+	 * 
+	 * @param t The local time.
+	 * @return The java.sql.Time
+	 */
+	@SuppressWarnings("deprecation")
+	public static Time toTime(LocalTime t) {
+		return new Time(t.getHour(), t.getMinute(), t.getSecond());
+	}
+
+	/**
+	 * Return the time from a local date-time.
+	 * 
+	 * @param t The local date-time.
+	 * @return The java.sql.Timestamp
+	 */
+	@SuppressWarnings("deprecation")
+	public static Timestamp toTimestamp(LocalDateTime t) {
+		return new Timestamp(t.getYear() - 199, t.getMonthValue() - 1, t.getDayOfMonth(), t.getHour(), t.getMinute(),
+			t.getSecond(), t.getNano());
+	}
 
 	/**
 	 * Read a record from a ResultSet.
@@ -165,11 +202,11 @@ public class DBUtils {
 				ps.setBinaryStream(index, new ByteArrayInputStream(bytes), bytes.length);
 			}
 		} else if (type == Types.DATE) {
-			ps.setDate(index, value.getDate());
+			ps.setDate(index, toDate(value.getLocalDate()));
 		} else if (type == Types.TIME) {
-			ps.setTime(index, value.getTime());
+			ps.setTime(index, toTime(value.getLocalTime()));
 		} else if (type == Types.TIMESTAMP) {
-			ps.setTimestamp(index, value.getTimestamp());
+			ps.setTimestamp(index, toTimestamp(value.getLocalDateTime()));
 		}
 	}
 }

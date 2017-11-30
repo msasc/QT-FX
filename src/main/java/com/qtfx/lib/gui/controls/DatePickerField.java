@@ -14,21 +14,36 @@
 
 package com.qtfx.lib.gui.controls;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.FieldControl;
 
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
+import javafx.util.converter.LocalDateStringConverter;
 
 /**
- * A check box for fields and values of type BOOLEAN.
+ * Date picker for fields of type DATE. Standard ISO format is used.
  *
  * @author Miquel Sas
  */
-public class CheckBoxField extends CheckBox implements FieldControl {
+public class DatePickerField extends DatePicker implements FieldControl {
 	
+	/**
+	 * Change listener to forward changes.
+	 */
+	class ValueListener implements ChangeListener<LocalDate> {
+		@Override
+		public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
+			fieldValueProperty.set(new Value(newValue));
+		}
+	}
+
 	/** Field. */
 	private Field field;
 	/** Observable value. */
@@ -39,16 +54,31 @@ public class CheckBoxField extends CheckBox implements FieldControl {
 	 * 
 	 * @param field The field.
 	 */
-	public CheckBoxField(Field field) {
-		super();
+	public DatePickerField(Field field) {
+		this(field, null);
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param field The field.
+	 * @param localDate The local date.
+	 */
+	public DatePickerField(Field field, LocalDate localDate) {
+		super(localDate);
 		this.field = field;
 		
-		// Field must be boolean.
-		if (!field.isBoolean()) {
-			throw new IllegalArgumentException("Field must be of type BOOLEAN");
+		// Field must be DATE.
+		if (!field.isDate()) {
+			throw new IllegalArgumentException("Field must be of type DATE");
 		}
 		// Initialize the value property.
 		fieldValueProperty = new SimpleObjectProperty<>(field.getDefaultValue());
+		
+		setEditable(false);
+		setConverter(new LocalDateStringConverter(DateTimeFormatter.ISO_LOCAL_DATE,DateTimeFormatter.ISO_LOCAL_DATE));
+		
+		valueProperty().addListener(new ValueListener());
 	}
 
 	/**
@@ -72,8 +102,7 @@ public class CheckBoxField extends CheckBox implements FieldControl {
 	 */
 	@Override
 	public void setFieldValue(Value value) {
-		fieldValueProperty.set(value);
-		setSelected(value.getBoolean());
+		setValue(value.getLocalDate());
 	}
 
 	/**
@@ -83,4 +112,5 @@ public class CheckBoxField extends CheckBox implements FieldControl {
 	public ObservableValue<Value> fieldValueProperty() {
 		return fieldValueProperty;
 	}
+
 }
