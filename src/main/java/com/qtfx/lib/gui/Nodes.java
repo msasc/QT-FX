@@ -51,6 +51,8 @@ public class Nodes {
 	private static final String PROPERTY_STAGE = "STAGE";
 	/** Property TABLE_RECORD_PANE. */
 	private static final String PROPERTY_TABLE_RECORD_PANE = "TABLE_RECORD_PANE";
+	/** Property FORM_RECORD_PANE. */
+	private static final String PROPERTY_FORM_RECORD_PANE = "FORM_RECORD_PANE";
 
 	//////////////////////////////////
 	// Properties getters and setters.
@@ -162,7 +164,7 @@ public class Nodes {
 	 * Return the table record pane with the default empty id.
 	 * 
 	 * @param node The node.
-	 * @return The action property.
+	 * @return The table record pane.
 	 */
 	public static TableRecordPane getTableRecordPane(Node node) {
 		return getTableRecordPane("", node);
@@ -173,7 +175,7 @@ public class Nodes {
 	 * 
 	 * @param id Pane id.
 	 * @param node The node.
-	 * @return The action property.
+	 * @return The table record pane.
 	 */
 	public static TableRecordPane getTableRecordPane(String id, Node node) {
 		return (TableRecordPane) getObject(node, PROPERTY_TABLE_RECORD_PANE + "-" + id);
@@ -183,10 +185,41 @@ public class Nodes {
 	 * Set the action property.
 	 * 
 	 * @param node The node.
-	 * @param action The action.
+	 * @param tableRecordPane The table record pane.
 	 */
 	public static void setTableRecordPane(Node node, TableRecordPane tableRecordPane) {
 		setObject(node, PROPERTY_TABLE_RECORD_PANE + "-" + tableRecordPane.getId(), tableRecordPane);
+	}
+
+	/**
+	 * Return the form record pane with the default empty id.
+	 * 
+	 * @param node The node.
+	 * @return The form record pane.
+	 */
+	public static FormRecordPane getFormRecordPane(Node node) {
+		return getFormRecordPane("", node);
+	}
+
+	/**
+	 * Return the form record pane with the given id.
+	 * 
+	 * @param id Pane id.
+	 * @param node The node.
+	 * @return The form record pane.
+	 */
+	public static FormRecordPane getFormRecordPane(String id, Node node) {
+		return (FormRecordPane) getObject(node, PROPERTY_FORM_RECORD_PANE + "-" + id);
+	}
+
+	/**
+	 * Set the action property.
+	 * 
+	 * @param node The node.
+	 * @param formRecordPane The form record pane.
+	 */
+	public static void setFormRecordPane(Node node, FormRecordPane formRecordPane) {
+		setObject(node, PROPERTY_FORM_RECORD_PANE + "-" + formRecordPane.getId(), formRecordPane);
 	}
 
 	/**
@@ -366,7 +399,7 @@ public class Nodes {
 	 * @param startNode The starting node.
 	 * @param nodes The list to fill.
 	 */
-	public void fillNodesFrom(Node startNode, List<Node> nodes) {
+	public static void fillNodesFrom(Node startNode, List<Node> nodes) {
 		nodes.add(startNode);
 		if (startNode instanceof Parent) {
 			Parent parent = (Parent) startNode;
@@ -381,7 +414,7 @@ public class Nodes {
 	 * @param startNode The starting node.
 	 * @return The list of field controls contained within the starting node.
 	 */
-	public List<FieldControl> getFieldControls(Node startNode) {
+	public static List<FieldControl> getFieldControls(Node startNode) {
 		List<Node> nodes = new ArrayList<>();
 		fillNodesFrom(startNode, nodes);
 		List<FieldControl> controls = new ArrayList<>();

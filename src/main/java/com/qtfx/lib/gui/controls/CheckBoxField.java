@@ -20,6 +20,7 @@ import com.qtfx.lib.gui.FieldControl;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 
 /**
@@ -82,5 +83,13 @@ public class CheckBoxField extends CheckBox implements FieldControl {
 	@Override
 	public ObservableValue<Value> fieldValueProperty() {
 		return fieldValueProperty;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Node getNode() {
+		return this;
 	}
 }

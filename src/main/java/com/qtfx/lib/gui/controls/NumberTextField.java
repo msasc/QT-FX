@@ -23,6 +23,7 @@ import com.qtfx.lib.gui.converters.NumberStringConverter;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 
@@ -113,5 +114,13 @@ public class NumberTextField extends TextField implements FieldControl {
 	@Override
 	public ObservableValue<Value> fieldValueProperty() {
 		return fieldValueProperty;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Node getNode() {
+		return this;
 	}
 }

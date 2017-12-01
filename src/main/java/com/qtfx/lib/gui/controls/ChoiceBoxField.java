@@ -24,6 +24,7 @@ import com.qtfx.lib.gui.converters.BooleanStringConverter;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 
 /**
@@ -96,5 +97,13 @@ public class ChoiceBoxField extends ChoiceBox<Value> implements FieldControl {
 	@Override
 	public ObservableValue<Value> fieldValueProperty() {
 		return valueProperty();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Node getNode() {
+		return this;
 	}
 }

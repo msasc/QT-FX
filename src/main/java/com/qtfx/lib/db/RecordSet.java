@@ -330,6 +330,9 @@ public class RecordSet implements Iterable<Record> {
 	 * @return The result record set.
 	 */
 	public RecordSet getRecordSet(Criteria criteria) {
+		if (criteria == null || criteria.isEmpty()) {
+			return this;
+		}
 		RecordSet recordSet = new RecordSet(fields);
 		for (Record record : records) {
 			if (criteria.check(record)) {

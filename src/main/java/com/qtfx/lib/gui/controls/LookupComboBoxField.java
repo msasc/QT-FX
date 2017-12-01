@@ -12,22 +12,24 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.gui;
+package com.qtfx.lib.gui.controls;
 
 import com.qtfx.lib.db.Value;
 
 import javafx.scene.control.ComboBox;
 
 /**
+ * A combo box that launches an <{@link com.qtfx.lib.gui.action.ActionLookup }.
+ * 
  *
  * @author Miquel Sas
  */
-public class LookupComboBox extends ComboBox<Value> {
+public class LookupComboBoxField extends ComboBox<Value> {
 
 	/**
 	 * 
 	 */
-	public LookupComboBox() {
+	public LookupComboBoxField() {
 		// TODO Auto-generated constructor stub
 	}
 

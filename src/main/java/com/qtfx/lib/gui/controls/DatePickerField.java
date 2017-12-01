@@ -24,6 +24,7 @@ import com.qtfx.lib.gui.FieldControl;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.util.converter.LocalDateStringConverter;
 
@@ -113,4 +114,11 @@ public class DatePickerField extends DatePicker implements FieldControl {
 		return fieldValueProperty;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Node getNode() {
+		return this;
+	}
 }

@@ -493,6 +493,22 @@ public class Record implements Comparable<Object> {
 	}
 
 	/**
+	 * Return the list of all fields tagged for lookup.
+	 * 
+	 * @return The list of all lookup fields.
+	 */
+	public List<Field> getLookupFields() {
+		List<Field> lookupFields = new ArrayList<>();
+		for (int i = 0; i < size(); i++) {
+			Field field = getField(i);
+			if (field.isLookup()) {
+				lookupFields.add(field);
+			}
+		}
+		return lookupFields;
+	}
+	
+	/**
 	 * Returns a string representation of this record.
 	 * 
 	 * @return A string representation of this record.

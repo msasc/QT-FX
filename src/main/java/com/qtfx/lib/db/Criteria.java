@@ -23,15 +23,20 @@ import java.util.List;
  */
 public class Criteria extends ArrayList<Criteria.Segment> {
 
+	/** Operators. */
+	private enum Operator {
+		AND, OR;
+	}
+
 	/**
 	 * OR logical operator.
 	 */
-	public static final boolean OR = false;
+	public static final Operator OR = Operator.OR;
 
 	/**
 	 * AND logical operator.
 	 */
-	public static final boolean AND = true;
+	public static final Operator AND = Operator.AND;
 
 	/**
 	 * A criteria segment is a list of conditions related with an operator, either OR or AND.
@@ -45,7 +50,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 		/**
 		 * Operator (and/or)
 		 */
-		private boolean and = AND;
+		private Operator operator = AND;
 		/**
 		 * Full criteria
 		 */
@@ -59,22 +64,22 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 		 * Generic constructor.
 		 *
 		 * @param conditions The list of conditions.
-		 * @param and The operator.
+		 * @param operator The operator.
 		 */
-		public Segment(List<Condition> conditions, boolean and) {
+		public Segment(List<Condition> conditions, Operator operator) {
 			super();
 			this.conditions.addAll(conditions);
-			this.and = and;
+			this.operator = operator;
 		}
 
 		/**
 		 * Constructor.
 		 *
-		 * @param and The operator.
+		 * @param operator The operator.
 		 */
-		public Segment(boolean and) {
+		public Segment(Operator operator) {
 			super();
-			this.and = and;
+			this.operator = operator;
 		}
 
 		/**
@@ -84,7 +89,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 		 */
 		public Segment(Criteria criteria) {
 			super();
-			this.and = AND;
+			this.operator = AND;
 			this.criteria = criteria;
 		}
 
@@ -96,7 +101,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 		 */
 		public Segment(Criteria criteria, boolean negate) {
 			super();
-			this.and = AND;
+			this.operator = AND;
 			this.criteria = criteria;
 			this.negate = negate;
 		}
@@ -109,7 +114,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 		public Segment(Segment segment) {
 			super();
 			this.conditions.addAll(segment.conditions);
-			this.and = segment.and;
+			this.operator = segment.operator;
 			if (segment.criteria != null) {
 				this.criteria = new Criteria(segment.criteria);
 			}
@@ -167,7 +172,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 		 * @return A boolean.
 		 */
 		public boolean isAnd() {
-			return and;
+			return operator == AND;
 		}
 
 		/**
@@ -176,7 +181,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 		 * @return A boolean.
 		 */
 		public boolean isOr() {
-			return !and;
+			return !isAnd();
 		}
 
 		/**
@@ -219,7 +224,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 				b.append("(");
 				for (int i = 0; i < getConditionCount(); i++) {
 					if (i > 0) {
-						b.append(and ? " AND " : " OR ");
+						b.append(isAnd() ? " AND " : " OR ");
 					}
 					b.append(getCondition(i).toString());
 				}
@@ -276,7 +281,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 		public int hashCode() {
 			int hash = 0;
 			hash ^= conditions.hashCode();
-			hash ^= Boolean.valueOf(and).hashCode();
+			hash ^= operator.hashCode();
 			if (criteria != null) {
 				hash ^= criteria.hashCode();
 			}
@@ -301,7 +306,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 			if (!conditions.equals(segment.conditions)) {
 				return false;
 			}
-			if (and != segment.and) {
+			if (operator != segment.operator) {
 				return false;
 			}
 			if (criteria != null && segment.criteria == null) {
@@ -353,14 +358,14 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 	/**
 	 * Operator (and/or)
 	 */
-	private boolean and = AND;
+	private Operator operator = AND;
 
 	/**
 	 * Default constructor. By default segments are connected by AND operator.
 	 */
 	public Criteria() {
 		super();
-		this.and = AND;
+		this.operator = AND;
 	}
 
 	/**
@@ -370,18 +375,18 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 	 */
 	public Criteria(Criteria criteria) {
 		super();
-		this.and = criteria.and;
+		this.operator = criteria.operator;
 		addAll(criteria);
 	}
 
 	/**
 	 * Constructor assigning the and flag.
 	 *
-	 * @param and Indicates that the AND operator will be used to connect segments in this criteria.
+	 * @param operator Indicates that the AND operator will be used to connect segments in this criteria.
 	 */
-	public Criteria(boolean and) {
+	public Criteria(Operator operator) {
 		super();
-		this.and = and;
+		this.operator = operator;
 	}
 
 	/**
@@ -391,7 +396,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 	 */
 	public Criteria(Condition condition) {
 		super();
-		this.and = AND;
+		this.operator = AND;
 		Segment segment = new Segment(AND);
 		segment.addCondition(condition);
 		add(segment);
@@ -412,10 +417,10 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 	 * Add a segment to the list of segments.
 	 *
 	 * @param conditions The list of conditions.
-	 * @param and The operator (and/or) to build the segment.
+	 * @param operator The operator (and/or) to build the segment.
 	 */
-	public void add(List<Condition> conditions, boolean and) {
-		add(new Segment(conditions, and));
+	public void add(List<Condition> conditions, Operator operator) {
+		add(new Segment(conditions, operator));
 	}
 
 	/**
@@ -439,7 +444,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 	 * @return A boolean.
 	 */
 	public boolean isAnd() {
-		return and;
+		return operator == AND;
 	}
 
 	/**
@@ -448,7 +453,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 	 * @return A boolean.
 	 */
 	public boolean isOr() {
-		return !and;
+		return !isAnd();
 	}
 
 	/**
@@ -463,7 +468,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 			b.append("(");
 			for (int i = 0; i < size(); i++) {
 				if (i > 0) {
-					b.append(and ? " AND " : " OR ");
+					b.append(isAnd() ? " AND " : " OR ");
 				}
 				b.append(get(i).toString());
 			}
@@ -515,7 +520,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 			return false;
 		}
 		final Criteria other = (Criteria) obj;
-		if (and != other.and) {
+		if (isAnd() != other.isAnd()) {
 			return false;
 		}
 		if (size() != other.size()) {

@@ -96,6 +96,8 @@ public class FormRecordPane {
 	/////////////////////////
 	// Definition properties.
 
+	/** Identifier. */
+	private String id;
 	/** Locale. */
 	private Locale locale;
 	/** Edit mode. */
@@ -130,6 +132,24 @@ public class FormRecordPane {
 		super();
 		this.locale = locale;
 		this.borderPane = new BorderPane();
+	}
+
+	/**
+	 * Return the pane identifier to get it from node properties.
+	 * 
+	 * @return The identifier.
+	 */
+	public String getId() {
+		return (id != null ? id : "");
+	}
+
+	/**
+	 * Set the pane identifier.
+	 * 
+	 * @param id The identifier.
+	 */
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	//////////////////////////////////////////////////
@@ -214,6 +234,10 @@ public class FormRecordPane {
 		//
 		// A GroupItem is a GridPane with a GridItem in each cell, and a GridItem is in turn another GridPane.
 
+		
+		// Setup the form record pane to all the controls.
+		List<FieldControl> controls = Nodes.getFieldControls(borderPane);
+		controls.forEach(control -> Nodes.setFormRecordPane(control.getNode(), this));
 	}
 
 	/**

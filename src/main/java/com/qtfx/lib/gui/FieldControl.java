@@ -14,17 +14,38 @@
 
 package com.qtfx.lib.gui;
 
+import java.util.List;
+
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Value;
 
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 
 /**
- * Interface for controls to edit fields.
+ * Interface for controls to edit fields. Names <em>FieldDef</em> and <em>FieldValue</em> are used instead of
+ * <em>Field</em> and <em>Value</em> to avoid naming conflicts with FX controls, like <em>DatePicker</em> that have
+ * <em>getValue</em> and <em>setValue</em> methods with argument types different than {@link com.qtfx.lib.db.Value}.
  *
  * @author Miquel Sas
  */
 public interface FieldControl {
+
+	/**
+	 * Return the control with the given field alias from the list.
+	 * 
+	 * @param alias The field alias.
+	 * @param controls The list of source controls.
+	 * @return The control with the field alias or null.
+	 */
+	static FieldControl getControl(String alias, List<FieldControl> controls) {
+		for (FieldControl control : controls) {
+			if (control.getFieldDef().getAlias().equals(alias)) {
+				return control;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Return the field under the control.
@@ -54,4 +75,11 @@ public interface FieldControl {
 	 * @return The value property.
 	 */
 	ObservableValue<Value> fieldValueProperty();
+
+	/**
+	 * Return the underlying node.
+	 * 
+	 * @return The underlying node.
+	 */
+	Node getNode();
 }

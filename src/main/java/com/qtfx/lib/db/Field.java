@@ -89,6 +89,8 @@ public class Field implements Comparable<Object> {
 	 * non-fixed with field is taken. If no non-fixed field exists, then no description is shown beside the lookup code.
 	 */
 	private boolean mainDescription = false;
+	/** A boolean that indicates if this fields should be used in lookups. */
+	private boolean lookup = false;
 
 	////////////////////////////////////////
 	// Validation and formatting properties.
@@ -170,6 +172,7 @@ public class Field implements Comparable<Object> {
 		this.fixedWidth = field.fixedWidth;
 		this.fieldGroup = field.fieldGroup;
 		this.mainDescription = field.mainDescription;
+		this.lookup = field.lookup;
 
 		// Validation and formatting properties.
 		this.initialValue = field.initialValue;
@@ -463,6 +466,24 @@ public class Field implements Comparable<Object> {
 	 */
 	public void setMainDescription(boolean mainDescription) {
 		this.mainDescription = mainDescription;
+	}
+
+	/**
+	 * Check if this is a lookup field.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean isLookup() {
+		return lookup;
+	}
+
+	/**
+	 * Set the field as lookup.
+	 * 
+	 * @param lookup A boolean.
+	 */
+	public void setLookup(boolean lookup) {
+		this.lookup = lookup;
 	}
 
 	///////////////////////////////

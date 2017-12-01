@@ -21,6 +21,7 @@ import com.qtfx.lib.gui.converters.PossibleValueStringConverter;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 
 /**
@@ -82,5 +83,13 @@ public class ComboBoxField extends ComboBox<Value> implements FieldControl {
 	@Override
 	public ObservableValue<Value> fieldValueProperty() {
 		return valueProperty();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Node getNode() {
+		return this;
 	}
 }
