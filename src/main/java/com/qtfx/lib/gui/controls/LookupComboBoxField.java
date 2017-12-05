@@ -14,8 +14,13 @@
 
 package com.qtfx.lib.gui.controls;
 
+import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Value;
+import com.qtfx.lib.gui.FX;
+import com.qtfx.lib.gui.FieldControl;
+import com.qtfx.lib.gui.action.ActionLookup;
 
+import javafx.event.ActionEvent;
 import javafx.scene.control.ComboBox;
 
 /**
@@ -24,13 +29,55 @@ import javafx.scene.control.ComboBox;
  *
  * @author Miquel Sas
  */
-public class LookupComboBoxField extends ComboBox<Value> {
+public class LookupComboBoxField extends FieldControl {
 
 	/**
-	 * 
+	 * The combo box.
 	 */
-	public LookupComboBoxField() {
-		// TODO Auto-generated constructor stub
+	private static class Lookup extends ComboBox<Value> {
+		/** Action lookup. */
+		private ActionLookup actionLookup;
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void show() {
+			// Check action lookup.
+			if (actionLookup == null) {
+				throw new IllegalStateException("Action lookup required.");
+			}
+			// Launch the action: source is the field, target the control.
+			Field field = FX.getFieldControl(this).getField();
+			actionLookup.handle(new ActionEvent(field, this));
+		}
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param field The field.
+	 * @param actionLookup The action lookup.
+	 */
+	public LookupComboBoxField(Field field, ActionLookup actionLookup) {
+		super(field, new Lookup());
+		getLookup().actionLookup = actionLookup;
+	}
+
+	/**
+	 * Return the lookup control.
+	 * 
+	 * @return The lookup control.
+	 */
+	private Lookup getLookup() {
+		return (Lookup) getControl();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setValue(Value value) {
+		getValueProperty().set(value);
+		getLookup().setValue(value);
+	}
 }

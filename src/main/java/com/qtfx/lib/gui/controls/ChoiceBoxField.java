@@ -21,10 +21,8 @@ import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.FieldControl;
 import com.qtfx.lib.gui.converters.BooleanStringConverter;
 
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 
 /**
@@ -32,11 +30,8 @@ import javafx.scene.control.ChoiceBox;
  *
  * @author Miquel Sas
  */
-public class ChoiceBoxField extends ChoiceBox<Value> implements FieldControl {
-	
-	/** Field. */
-	private Field field;
-	
+public class ChoiceBoxField extends FieldControl {
+
 	/**
 	 * Constructor.
 	 * 
@@ -53,57 +48,35 @@ public class ChoiceBoxField extends ChoiceBox<Value> implements FieldControl {
 	 * @param locale The locale to use to convert yes/no values.
 	 */
 	public ChoiceBoxField(Field field, Locale locale) {
-		super();
-		this.field = field;
-		
+		super(field, new ChoiceBox<Value>());
+
 		// Field must be boolean.
 		if (!field.isBoolean()) {
 			throw new IllegalArgumentException("Field must be of type BOOLEAN");
 		}
-		
+
 		// Set the list of items and the string converter.
 		ObservableList<Value> possibleValues = FXCollections.observableArrayList(new Value(true), new Value(false));
-		setItems(possibleValues);
-		setConverter(new BooleanStringConverter(field, locale));
+		getChoiceBox().setItems(possibleValues);
+		getChoiceBox().setConverter(new BooleanStringConverter(field, locale));
+	}
+
+	/**
+	 * Return the choice box control.
+	 * 
+	 * @return The choice box control.
+	 */
+	@SuppressWarnings("unchecked")
+	private ChoiceBox<Value> getChoiceBox() {
+		return (ChoiceBox<Value>) getControl();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Field getFieldDef() {
-		return field;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Value getFieldValue() {
-		return getValue();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setFieldValue(Value value) {
-		setValue(value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ObservableValue<Value> fieldValueProperty() {
-		return valueProperty();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Node getNode() {
-		return this;
+	public void setValue(Value value) {
+		getValueProperty().set(value);
+		getChoiceBox().setValue(value);
 	}
 }

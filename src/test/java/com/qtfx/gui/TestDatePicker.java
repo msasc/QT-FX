@@ -33,9 +33,9 @@ public class TestDatePicker extends Application {
 		
 		Record rc = Util.getRandomRecord(Util.getFieldList());
 		DatePickerField date = new DatePickerField(rc.getField("TCREATED"));
-		date.fieldValueProperty().addListener(new ValueListener());
-		date.setFieldValue(rc.getValue("TCREATED"));
-		Scene scene = new Scene(date);
+		date.valueProperty().addListener(new ValueListener());
+		date.setValue(rc.getValue("TCREATED"));
+		Scene scene = new Scene(date.getControl());
 		stage.setScene(scene);
 		stage.show();
 	}

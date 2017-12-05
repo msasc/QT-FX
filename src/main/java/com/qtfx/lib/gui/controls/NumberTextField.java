@@ -21,9 +21,6 @@ import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.FieldControl;
 import com.qtfx.lib.gui.converters.NumberStringConverter;
 
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 
@@ -32,14 +29,7 @@ import javafx.scene.control.TextFormatter;
  *
  * @author Miquel Sas
  */
-public class NumberTextField extends TextField implements FieldControl {
-
-	/** Field. */
-	private Field field;
-	/** Locale. */
-	private Locale locale;
-	/** Observable value. */
-	private SimpleObjectProperty<Value> fieldValueProperty;
+public class NumberTextField extends FieldControl {
 
 	/**
 	 * Constructor.
@@ -57,10 +47,7 @@ public class NumberTextField extends TextField implements FieldControl {
 	 * @param locale The locale.
 	 */
 	public NumberTextField(Field field, Locale locale) {
-		super();
-		this.field = field;
-		this.locale = locale;
-		this.fieldValueProperty = new SimpleObjectProperty<>(field.getDefaultValue());
+		super(field, new TextField());
 
 		// Field must be NUMBER.
 		if (!field.isString()) {
@@ -69,58 +56,35 @@ public class NumberTextField extends TextField implements FieldControl {
 		// If there is a text formatter, install it, else, if there is a string formatter install a default text
 		// formatter using it.
 		if (field.getTextFormatter() != null) {
-			setTextFormatter(field.getTextFormatter());
+			getTextField().setTextFormatter(field.getTextFormatter());
 		} else if (field.getStringConverter() != null) {
-			setTextFormatter(new TextFormatter<Value>(field.getStringConverter()));
+			getTextField().setTextFormatter(new TextFormatter<Value>(field.getStringConverter()));
 		} else {
-			setTextFormatter(new TextFormatter<Value>(new NumberStringConverter(this.field, this.locale)));
+			getTextField().setTextFormatter(new TextFormatter<Value>(new NumberStringConverter(field, locale)));
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Return the text field.
+	 * 
+	 * @return The text field.
 	 */
-	@Override
-	public Field getFieldDef() {
-		return field;
+	private TextField getTextField() {
+		return (TextField) getControl();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Value getFieldValue() {
-		return fieldValueProperty.get();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setFieldValue(Value value) {
-		fieldValueProperty.set(value);
+	public void setValue(Value value) {
+		getValueProperty().set(value);
 		@SuppressWarnings("unchecked")
-		TextFormatter<Value> formatter = (TextFormatter<Value>) getTextFormatter();
+		TextFormatter<Value> formatter = (TextFormatter<Value>) getTextField().getTextFormatter();
 		if (formatter != null) {
 			formatter.setValue(value);
 		} else {
-			setText(value.toString());
+			getTextField().setText(value.toString());
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ObservableValue<Value> fieldValueProperty() {
-		return fieldValueProperty;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Node getNode() {
-		return this;
 	}
 }

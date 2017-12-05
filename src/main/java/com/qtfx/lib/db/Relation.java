@@ -44,7 +44,7 @@ public class Relation extends TableLink {
 	 */
 	public enum Type {
 
-		Invalid, Lookup, Unique, LocalDetail, ForeignDetail;
+		INVALID, LOOKUP, UNIQUE, LOCAL_DETAIL, FOREIGN_DETAIL;
 
 		/**
 		 * Returns he category of the relation type.
@@ -53,18 +53,18 @@ public class Relation extends TableLink {
 		 */
 		public Category getCategory() {
 			switch (this) {
-			case Lookup:
-				return Category.OneToOne;
-			case Unique:
-				return Category.OneToOne;
-			case LocalDetail:
-				return Category.ManyToOne;
-			case ForeignDetail:
-				return Category.OneToMany;
-			case Invalid:
-				return Category.Unknown;
+			case LOOKUP:
+				return Category.ONE_TO_ONE;
+			case UNIQUE:
+				return Category.ONE_TO_ONE;
+			case LOCAL_DETAIL:
+				return Category.MANY_TO_ONE;
+			case FOREIGN_DETAIL:
+				return Category.ONE_TO_MANY;
+			case INVALID:
+				return Category.UNKNOWN;
 			default:
-				return Category.Unknown;
+				return Category.UNKNOWN;
 			}
 		}
 	}
@@ -73,7 +73,7 @@ public class Relation extends TableLink {
 	 * Relation categories are ONE_TO_ONE, ONE_TO_MANY, MANY_TO_ONE
 	 */
 	public enum Category {
-		Unknown, OneToOne, OneToMany, ManyToOne;
+		UNKNOWN, ONE_TO_ONE, ONE_TO_MANY, MANY_TO_ONE;
 	}
 
 	/**
@@ -192,24 +192,24 @@ public class Relation extends TableLink {
 
 			// Check type
 			if (localMatch == TOTAL_MATCH && foreignMatch == TOTAL_MATCH) {
-				type = Type.Unique;
+				type = Type.UNIQUE;
 			} else if (localMatch == TOTAL_MATCH && foreignMatch == PARTIAL_MATCH_SEG) {
-				type = Type.ForeignDetail;
+				type = Type.FOREIGN_DETAIL;
 			} else if (localMatch == PARTIAL_MATCH_KEY && foreignMatch == TOTAL_MATCH) {
-				type = Type.LocalDetail;
+				type = Type.LOCAL_DETAIL;
 			} else if (localMatch == PARTIAL_MATCH_SEG && foreignMatch == TOTAL_MATCH) {
-				type = Type.LocalDetail;
+				type = Type.LOCAL_DETAIL;
 			} else if (localMatch == NO_MATCH && foreignMatch == TOTAL_MATCH) {
-				type = Type.Lookup;
+				type = Type.LOOKUP;
 			}
 
 			// If the type has not been set it may be the one-to-one / unique
 			if (type == null && size() == localPrimaryKeyFields.size() && size() == foreignPrimaryKeyFields.size()) {
-				type = Type.Unique;
+				type = Type.UNIQUE;
 			}
 		}
 		if (type == null) {
-			type = Type.Invalid;
+			type = Type.INVALID;
 		}
 		return type;
 	}

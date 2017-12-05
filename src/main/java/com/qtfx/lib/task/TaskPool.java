@@ -22,21 +22,23 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.qtfx.lib.util.TextServer;
 
 /**
- * A task that executes other tasks in concurrent pool. If one of the tasks of the pool is indeterminate, then all are
+ * A task that executes other tasks in a concurrent pool. If one of the tasks of the pool is indeterminate, then all are
  * considered indeterminate.
  *
  * @author Miquel Sas
  */
 public class TaskPool extends Task {
-	
+
 	/**
 	 * Counter task.
 	 */
 	class Counter extends TaskAdapter {
 		TaskRun task;
+
 		Counter(TaskRun task) {
 			this.task = task;
 		}
+
 		@Override
 		protected void compute() {
 			task.setTotalWork(task.requestTotalWork());
@@ -48,7 +50,7 @@ public class TaskPool extends Task {
 			} finally {
 				getLock().unlock();
 			}
-		}		
+		}
 	}
 
 	/** List of tasks to run concurrently. */
@@ -153,7 +155,7 @@ public class TaskPool extends Task {
 		tasks.forEach(t -> t.reinitialize());
 		super.reinitialize();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -186,7 +188,7 @@ public class TaskPool extends Task {
 	 */
 	@Override
 	protected void compute() {
-		
+
 		// Instantiate the pool.
 		pool = new JoinPool(parallelism);
 

@@ -85,7 +85,7 @@ public class Buttons {
 		button.setId(id);
 		button.setDefaultButton(defaultButton);
 		button.setCancelButton(cancelButton);
-		Nodes.setClose(button, close);
+		FX.setClose(button, close);
 		return button;
 	}
 

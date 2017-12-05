@@ -30,11 +30,14 @@ import com.qtfx.lib.db.RecordSet;
 import com.qtfx.lib.db.RecordSetCustomizer;
 import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.FieldControl;
-import com.qtfx.lib.gui.Nodes;
+import com.qtfx.lib.gui.FormRecordPane;
+import com.qtfx.lib.gui.LookupRecords;
+import com.qtfx.lib.gui.FX;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Control;
 
 /**
  * An action to lookup a list of records, select one of them and update the referred controls.
@@ -218,15 +221,19 @@ public class ActionLookup implements EventHandler<ActionEvent> {
 			throw new IllegalStateException("Action not lauched from an FX node.");
 		}
 		Node node = (Node) event.getTarget();
-		List<FieldControl> controls = Nodes.getFieldControls(node);
+		FormRecordPane pane = FX.getFormRecordPane(node);
+		if (pane == null) {
+			throw new IllegalStateException("Target not installed in a FormRecordPane.");
+		}
+		List<Control> controls = FX.getControls(pane.getNode());
 		if (controls.isEmpty()) {
-			throw new IllegalStateException("No controls found in the FX node.");
+			throw new IllegalStateException("No controls found in the FormRecordPane.");
 		}
 
 		// Validate that all local key fields have a related control.
 
 		for (Field field : localKeyFields) {
-			if (FieldControl.getControl(field.getAlias(), controls) == null) {
+			if (FX.getFieldControl(field.getAlias(), controls) == null) {
 				throw new IllegalStateException("Controls not found for field " + field);
 			}
 		}
@@ -251,8 +258,8 @@ public class ActionLookup implements EventHandler<ActionEvent> {
 			// Append the criteria for the local key fields. If the field is string, then a partial value is admitted
 			// through a LikeLeft condition.
 			for (Field field : localKeyFields) {
-				FieldControl control = FieldControl.getControl(field.getAlias(), controls);
-				Value value = control.getFieldValue();
+				FieldControl control = FX.getFieldControl(field.getAlias(), controls);
+				Value value = control.getValue();
 				if (field.isString()) {
 					workingCriteria.add(Condition.likeLeft(field, value));
 				} else {
@@ -281,6 +288,37 @@ public class ActionLookup implements EventHandler<ActionEvent> {
 		// Apply the customizer if set.
 		if (recordSetCustomizer != null) {
 			recordSetCustomizer.customize(workingRecordSet);
+		}
+
+		// Configure the lookup.
+		LookupRecords lookup = new LookupRecords(masterRecord);
+		lookup.setTitle(title);
+		lookupAliases.forEach(alias -> lookup.addColumn(alias, true));
+		
+		// Select a record.
+		Record selectedRecord = lookup.lookupRecord(FX.getStage(node));
+		if (selectedRecord == null) {
+			return;
+		}
+
+		// Assign key values to related controls.
+		for (int i = 0; i < localKeyFields.size(); i++) {
+			Field localField = localKeyFields.get(i);
+			Field foreignField = foreignKeyFields.get(i);
+			FieldControl control = FX.getFieldControl(localField.getAlias(), controls);
+			Value value = selectedRecord.getValue(foreignField.getAlias());
+			control.setValue(value);
+		}
+		
+		// Assign values of any not foreign key field that has a control, e.g. the main description.
+		for (Field field : lookupFields) {
+			if (!foreignKeyFields.contains(field)) {
+				FieldControl control = FX.getFieldControl(field.getAlias(), controls);
+				if (control != null) {
+					Value value = selectedRecord.getValue(field.getAlias());
+					control.setValue(value);
+				}
+			}
 		}
 	}
 }

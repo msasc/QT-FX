@@ -14,37 +14,63 @@
 
 package com.qtfx.lib.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Value;
+import com.qtfx.lib.gui.action.ValueAction;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.Node;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Control;
 
 /**
- * Interface for controls to edit fields. Names <em>FieldDef</em> and <em>FieldValue</em> are used instead of
- * <em>Field</em> and <em>Value</em> to avoid naming conflicts with FX controls, like <em>DatePicker</em> that have
- * <em>getValue</em> and <em>setValue</em> methods with argument types different than {@link com.qtfx.lib.db.Value}.
+ * Root of controls to edit fields. Extenders should define the FX control and override <em>setValue</em>, call the
+ * super method and set the control value.
  *
  * @author Miquel Sas
  */
-public interface FieldControl {
+public abstract class FieldControl {
 
 	/**
-	 * Return the control with the given field alias from the list.
-	 * 
-	 * @param alias The field alias.
-	 * @param controls The list of source controls.
-	 * @return The control with the field alias or null.
+	 * Listener to fire value actions.
 	 */
-	static FieldControl getControl(String alias, List<FieldControl> controls) {
-		for (FieldControl control : controls) {
-			if (control.getFieldDef().getAlias().equals(alias)) {
-				return control;
+	class Listener implements ChangeListener<Value> {
+		@Override
+		public void changed(ObservableValue<? extends Value> observable, Value oldValue, Value newValue) {
+			for (ValueAction action : valueActions) {
+				action.setOldValue(oldValue);
+				action.setNewValue(newValue);
+				// Launch the action: source is the field, target the control.
+				action.handle(new ActionEvent(field, getControl()));
 			}
 		}
-		return null;
+	}
+
+	/** Field. */
+	private Field field;
+	/** Observable value. */
+	private SimpleObjectProperty<Value> valueProperty;
+	/** List of action value. */
+	private List<ValueAction> valueActions = new ArrayList<>();
+	/** FX control. */
+	private Control control;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param field The field.
+	 */
+	public FieldControl(Field field, Control control) {
+		super();
+		this.field = field;
+		this.valueProperty = new SimpleObjectProperty<>(field.getDefaultValue());
+		this.valueProperty.addListener(new Listener());
+		this.control = control;
+		FX.setFieldControl(this.control, this);
 	}
 
 	/**
@@ -52,34 +78,66 @@ public interface FieldControl {
 	 * 
 	 * @return The field.
 	 */
-	Field getFieldDef();
+	public Field getField() {
+		return field;
+	}
 
 	/**
-	 * Return the value. Used instead of getValue to avoid conflicts.
+	 * Return the value.
 	 * 
 	 * @return The value.
 	 */
-	Value getFieldValue();
+	public Value getValue() {
+		return valueProperty.get();
+	}
 
 	/**
-	 * Set the value. Used instead of getValue to avoid conflicts.
+	 * Set the value.
 	 * 
 	 * @param value The value.
 	 */
-	void setFieldValue(Value value);
+	public abstract void setValue(Value value);
 
 	/**
-	 * Return the value property to be able to add change and invalidation listeners. Used instead of valueProperty to
-	 * avoid conflicts.
+	 * Read-write protected access to the value property.
 	 * 
 	 * @return The value property.
 	 */
-	ObservableValue<Value> fieldValueProperty();
+	protected SimpleObjectProperty<Value> getValueProperty() {
+		return valueProperty;
+	}
 
 	/**
-	 * Return the underlying node.
-	 * 
-	 * @return The underlying node.
+	 * Clear the control.
 	 */
-	Node getNode();
+	public void clear() {
+		setValue(field.getDefaultValue());
+	}
+
+	/**
+	 * Add a value action.
+	 * 
+	 * @param valueAction The value action.
+	 */
+	public void addValueAction(ValueAction valueAction) {
+		valueActions.add(valueAction);
+	}
+
+	/**
+	 * Give access to the value property.
+	 * 
+	 * @return The value property.
+	 */
+	public ObservableValue<Value> valueProperty() {
+		return valueProperty;
+	}
+
+	/**
+	 * Return the underlying control.
+	 * 
+	 * @return The underlying control.
+	 */
+	public Control getControl() {
+		return control;
+	}
 }

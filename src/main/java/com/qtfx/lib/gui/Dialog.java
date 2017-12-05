@@ -383,20 +383,20 @@ public class Dialog {
 	 */
 	private void setupButton(Button button) {
 		// Set the stage.
-		Nodes.setStage(button, stage);
+		FX.setStage(button, stage);
 		// The list of actions that will be set to the node. Use an instance of the private extension of action-list to
 		// correctly identify and manage the original button action.
 		Actions actions = new Actions();
 		// If the button has an initial action, save it.
 		if (button.getOnAction() != null && !(button.getOnAction() instanceof Actions)) {
-			Nodes.setAction(button, button.getOnAction());
+			FX.setAction(button, button.getOnAction());
 		}
 		// If the button had an initial current action, add it.
-		if (Nodes.getAction(button) != null) {
-			actions.addHandler(Nodes.getAction(button));
+		if (FX.getAction(button) != null) {
+			actions.addHandler(FX.getAction(button));
 		}
 		// If the button wants to close the stage, add the proper action.
-		if (Nodes.isClose(button)) {
+		if (FX.isClose(button)) {
 			actions.addHandler(new ActionClose());
 		}
 		// Add the action to set the result to be the button.

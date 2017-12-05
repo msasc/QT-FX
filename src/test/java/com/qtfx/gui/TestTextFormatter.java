@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Types;
 import com.qtfx.lib.db.Value;
-import com.qtfx.lib.gui.Nodes;
+import com.qtfx.lib.gui.FX;
 import com.qtfx.lib.gui.converters.NumberStringConverter;
 
 import javafx.application.Application;
@@ -71,7 +71,7 @@ public class TestTextFormatter extends Application {
 		
 		button.setOnAction(a -> {
 			fmt.setValue(new Value(fmt.getValue().getBigDecimal().multiply(new BigDecimal(10))));
-			System.out.println(Nodes.lookup(text.getId(), button));
+			System.out.println(FX.lookup(text.getId(), button));
 		});
 		
 		

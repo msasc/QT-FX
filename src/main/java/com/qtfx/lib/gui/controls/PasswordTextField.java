@@ -18,35 +18,35 @@ import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.FieldControl;
 
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
 
 /**
- * A check box for fields and values of type BOOLEAN.
+ * A password field control.
  *
  * @author Miquel Sas
  */
-public class CheckBoxField extends FieldControl {
+public class PasswordTextField extends FieldControl {
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param field The field.
 	 */
-	public CheckBoxField(Field field) {
-		super(field, new CheckBox());
-		// Field must be boolean.
-		if (!field.isBoolean()) {
-			throw new IllegalArgumentException("Field must be of type BOOLEAN");
+	public PasswordTextField(Field field) {
+		super(field, new PasswordField());
+		// Field must be STRING.
+		if (!field.isString()) {
+			throw new IllegalArgumentException("Field must be of type STRING");
 		}
 	}
 
 	/**
-	 * Return the check box control.
+	 * Return the internal password field.
 	 * 
-	 * @return The check box control.
+	 * @return The password field.
 	 */
-	private CheckBox getCheckBox() {
-		return (CheckBox) getControl();
+	private PasswordField getPasswordField() {
+		return (PasswordField) getControl();
 	}
 
 	/**
@@ -55,6 +55,6 @@ public class CheckBoxField extends FieldControl {
 	@Override
 	public void setValue(Value value) {
 		getValueProperty().set(value);
-		getCheckBox().setSelected(value.getBoolean());
+		getPasswordField().setText(value.getString());
 	}
 }

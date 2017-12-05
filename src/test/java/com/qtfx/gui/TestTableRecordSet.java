@@ -19,7 +19,7 @@ import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.RecordComparator;
 import com.qtfx.lib.gui.Buttons;
 import com.qtfx.lib.gui.Dialog;
-import com.qtfx.lib.gui.Nodes;
+import com.qtfx.lib.gui.FX;
 import com.qtfx.lib.gui.TableRecordPane;
 import com.qtfx.lib.util.Random;
 import com.qtfx.lib.util.TextServer;
@@ -92,12 +92,12 @@ public class TestTableRecordSet extends Application {
 
 		int scrollIndex = 999;
 		buttonScroll.setOnAction(actionEvent -> {
-			TableRecordPane t = Nodes.getTableRecordPane(buttonSort);
+			TableRecordPane t = FX.getTableRecordPane(buttonSort);
 			t.scrollTo(scrollIndex);
 		});
 
 		buttonSelect.setOnAction(actionEvent -> {
-			TableRecordPane t = Nodes.getTableRecordPane(buttonSort);
+			TableRecordPane t = FX.getTableRecordPane(buttonSort);
 			int [] rows = new int[10];
 			for (int i = 0; i < rows.length; i++) {
 				rows[i] = Random.nextInt(rows.length * 5);
@@ -106,12 +106,12 @@ public class TestTableRecordSet extends Application {
 		});
 
 		buttonClear.setOnAction(actionEvent -> {
-			TableRecordPane t = Nodes.getTableRecordPane(buttonSort);
+			TableRecordPane t = FX.getTableRecordPane(buttonSort);
 			t.clearSelection();
 		});
 
 		buttonSort.setOnAction(actionEvent -> {
-			TableRecordPane t = Nodes.getTableRecordPane(buttonSort);
+			TableRecordPane t = FX.getTableRecordPane(buttonSort);
 			order.invertAsc();
 			t.sort(new RecordComparator(order));
 		});

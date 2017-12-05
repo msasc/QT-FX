@@ -18,35 +18,29 @@ import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.FieldControl;
 
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 
 /**
- * A check box for fields and values of type BOOLEAN.
+ * A field control that is a label, normally used for refresh fields.
  *
  * @author Miquel Sas
  */
-public class CheckBoxField extends FieldControl {
+public class LabelField extends FieldControl {
 
 	/**
-	 * Constructor.
-	 * 
-	 * @param field The field.
+	 * @param field
 	 */
-	public CheckBoxField(Field field) {
-		super(field, new CheckBox());
-		// Field must be boolean.
-		if (!field.isBoolean()) {
-			throw new IllegalArgumentException("Field must be of type BOOLEAN");
-		}
+	public LabelField(Field field) {
+		super(field, new Label());
 	}
 
 	/**
-	 * Return the check box control.
+	 * Return the label.
 	 * 
-	 * @return The check box control.
+	 * @return The label.
 	 */
-	private CheckBox getCheckBox() {
-		return (CheckBox) getControl();
+	private Label getLabel() {
+		return (Label) getControl();
 	}
 
 	/**
@@ -55,6 +49,6 @@ public class CheckBoxField extends FieldControl {
 	@Override
 	public void setValue(Value value) {
 		getValueProperty().set(value);
-		getCheckBox().setSelected(value.getBoolean());
+		getLabel().setText(value.toString());
 	}
 }

@@ -21,10 +21,8 @@ import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.FieldControl;
 
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.util.converter.LocalDateStringConverter;
 
@@ -33,22 +31,17 @@ import javafx.util.converter.LocalDateStringConverter;
  *
  * @author Miquel Sas
  */
-public class DatePickerField extends DatePicker implements FieldControl {
-	
+public class DatePickerField extends FieldControl {
+
 	/**
 	 * Change listener to forward changes.
 	 */
 	class ValueListener implements ChangeListener<LocalDate> {
 		@Override
 		public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
-			fieldValueProperty.set(new Value(newValue));
+			DatePickerField.this.getValueProperty().set(new Value(newValue));
 		}
 	}
-
-	/** Field. */
-	private Field field;
-	/** Observable value. */
-	private SimpleObjectProperty<Value> fieldValueProperty;
 
 	/**
 	 * Constructor.
@@ -66,59 +59,37 @@ public class DatePickerField extends DatePicker implements FieldControl {
 	 * @param localDate The local date.
 	 */
 	public DatePickerField(Field field, LocalDate localDate) {
-		super(localDate);
-		this.field = field;
-		
+		super(field, new DatePicker());
+
 		// Field must be DATE.
 		if (!field.isDate()) {
 			throw new IllegalArgumentException("Field must be of type DATE");
 		}
-		// Initialize the value property.
-		fieldValueProperty = new SimpleObjectProperty<>(field.getDefaultValue());
-		
-		setEditable(false);
-		setConverter(new LocalDateStringConverter(DateTimeFormatter.ISO_LOCAL_DATE,DateTimeFormatter.ISO_LOCAL_DATE));
-		
-		valueProperty().addListener(new ValueListener());
+
+		// Date picker setup
+		getDatePicker().setEditable(false);
+		getDatePicker().setConverter(
+			new LocalDateStringConverter(
+				DateTimeFormatter.ISO_LOCAL_DATE,
+				DateTimeFormatter.ISO_LOCAL_DATE));
+		getDatePicker().valueProperty().addListener(new ValueListener());
+	}
+
+	/**
+	 * Return the date picker control.
+	 * 
+	 * @return The date picker control.
+	 */
+	private DatePicker getDatePicker() {
+		return (DatePicker) getControl();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Field getFieldDef() {
-		return field;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Value getFieldValue() {
-		return fieldValueProperty.get();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setFieldValue(Value value) {
-		setValue(value.getLocalDate());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ObservableValue<Value> fieldValueProperty() {
-		return fieldValueProperty;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Node getNode() {
-		return this;
+	public void setValue(Value value) {
+		getValueProperty().set(value);
+		getDatePicker().setValue(value.getLocalDate());
 	}
 }

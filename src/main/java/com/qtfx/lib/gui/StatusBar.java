@@ -79,7 +79,7 @@ public class StatusBar {
 	 * @param id The id of the label.
 	 */
 	public void removeLabel(String id) {
-		Node node = Nodes.getNode(flowPane.getChildren(), id);
+		Node node = FX.getNode(flowPane.getChildren(), id);
 		if (node == null || !(node instanceof Label)) {
 			throw new IllegalArgumentException();
 		}
@@ -106,7 +106,7 @@ public class StatusBar {
 	 * @param style Optional style.
 	 */
 	public void setLabel(String id, String text, String style) {
-		Node node = Nodes.getNode(flowPane.getChildren(), id);
+		Node node = FX.getNode(flowPane.getChildren(), id);
 		if (node != null && !(node instanceof Label)) {
 			throw new IllegalArgumentException();
 		}
@@ -137,7 +137,7 @@ public class StatusBar {
 	 * @param id The id of the progress bar.
 	 */
 	public void removeProgress(String id) {
-		Node node = Nodes.getNode(flowPane.getChildren(), id);
+		Node node = FX.getNode(flowPane.getChildren(), id);
 		if (node == null || !(node instanceof ProgressBar)) {
 			throw new IllegalArgumentException();
 		}
@@ -155,7 +155,7 @@ public class StatusBar {
 	 * @param totalWork
 	 */
 	public void setProgress(String id, double workDone, double totalWork) {
-		Node node = Nodes.getNode(flowPane.getChildren(), id);
+		Node node = FX.getNode(flowPane.getChildren(), id);
 		if (node != null && !(node instanceof ProgressBar)) {
 			throw new IllegalArgumentException();
 		}

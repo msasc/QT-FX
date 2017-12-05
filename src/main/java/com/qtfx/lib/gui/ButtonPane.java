@@ -50,7 +50,7 @@ public class ButtonPane {
 	static class ButtonComparator implements Comparator<Button> {
 		@Override
 		public int compare(Button o1, Button o2) {
-			return Nodes.getOrder(o1).compareTo(Nodes.getOrder(o2));
+			return FX.getButtonOrder(o1).compareTo(FX.getButtonOrder(o2));
 		}
 	}
 
@@ -225,10 +225,10 @@ public class ButtonPane {
 		// Fill a sorted map with groups.
 		Map<String, List<Button>> groups = new TreeMap<>();
 		for (Button button : buttons) {
-			List<Button> group = groups.get(Nodes.getGroup(button));
+			List<Button> group = groups.get(FX.getButtonGroup(button));
 			if (group == null) {
 				group = new ArrayList<>();
-				groups.put(Nodes.getGroup(button), group);
+				groups.put(FX.getButtonGroup(button), group);
 			}
 			group.add(button);
 		}
@@ -251,7 +251,7 @@ public class ButtonPane {
 	private int countGroups() {
 		List<String> groups = new ArrayList<>();
 		for (Button button : buttons) {
-			String group = Nodes.getGroup(button);
+			String group = FX.getButtonGroup(button);
 			if (!groups.contains(group)) {
 				groups.add(group);
 			}
@@ -267,7 +267,7 @@ public class ButtonPane {
 	private int countOrders() {
 		List<String> orders = new ArrayList<>();
 		for (Button button : buttons) {
-			String order = Nodes.getOrder(button);
+			String order = FX.getButtonOrder(button);
 			if (!orders.contains(order)) {
 				orders.add(order);
 			}

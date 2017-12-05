@@ -65,7 +65,7 @@ public class TableRecordPane {
 	class NodePropertySetter implements PropertySetter {
 		@Override
 		public void setProperties(Node node) {
-			Nodes.setTableRecordPane(node, TableRecordPane.this);
+			FX.setTableRecordPane(node, TableRecordPane.this);
 		}
 	}
 

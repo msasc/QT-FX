@@ -14,7 +14,7 @@
 
 package com.qtfx.lib.gui.action;
 
-import com.qtfx.lib.gui.Nodes;
+import com.qtfx.lib.gui.FX;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -42,7 +42,7 @@ public class ActionClose implements EventHandler<ActionEvent> {
 	public void handle(ActionEvent event) {
 		Node node = (Node) event.getTarget();
 		if (node != null) {
-			Stage stage = Nodes.getStage(node);
+			Stage stage = FX.getStage(node);
 			if (stage != null) {
 				stage.close();
 			}

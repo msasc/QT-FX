@@ -19,9 +19,7 @@ import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.FieldControl;
 import com.qtfx.lib.gui.converters.PossibleValueStringConverter;
 
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 
 /**
@@ -29,67 +27,42 @@ import javafx.scene.control.ComboBox;
  *
  * @author Miquel Sas
  */
-public class ComboBoxField extends ComboBox<Value> implements FieldControl {
-	
-	/** Field. */
-	private Field field;
-	
+public class ComboBoxField extends FieldControl {
+
 	/**
 	 * Constructor.
 	 * 
 	 * @param field The field.
 	 */
 	public ComboBoxField(Field field) {
-		super();
-		this.field = field;
-		
+		super(field, new ComboBox<Value>());
+
 		// Field must be boolean.
 		if (!field.isPossibleValues()) {
 			throw new IllegalArgumentException("Field must have a possible values validation.");
 		}
-		
+
 		// Set the list of items as the possible values.
-		setItems(FXCollections.observableArrayList(field.getPossibleValues()));
-		setConverter(new PossibleValueStringConverter(field));
+		getComboBox().setItems(FXCollections.observableArrayList(field.getPossibleValues()));
+		getComboBox().setConverter(new PossibleValueStringConverter(field));
+	}
+
+	/**
+	 * Return the combo box control.
+	 * 
+	 * @return The combo box control.
+	 */
+	@SuppressWarnings("unchecked")
+	private ComboBox<Value> getComboBox() {
+		return (ComboBox<Value>) getControl();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Field getFieldDef() {
-		return field;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Value getFieldValue() {
-		return getValue();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setFieldValue(Value value) {
-		setValue(value);		
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ObservableValue<Value> fieldValueProperty() {
-		return valueProperty();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Node getNode() {
-		return this;
+	public void setValue(Value value) {
+		getValueProperty().set(value);
+		getComboBox().setValue(value);
 	}
 }

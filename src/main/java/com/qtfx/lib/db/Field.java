@@ -32,6 +32,25 @@ import javafx.util.StringConverter;
  * @author Miquel Sas
  */
 public class Field implements Comparable<Object> {
+	
+	/**
+	 * Returns the list of all relations contained in the list of fields.
+	 * 
+	 * @param fields The source list of fields.
+	 * @return The list of relations.
+	 */
+	public static List<Relation> getRelations(List<Field> fields) {
+		List<Relation> relations = new ArrayList<>();
+		for (Field field : fields) {
+			List<Relation> fieldRelations = field.getRelations();
+			for (Relation relation : fieldRelations) {
+				if (!relations.contains(relation)) {
+					relations.add(relation);
+				}
+			}
+		}
+		return relations;
+	}
 
 	/**
 	 * A possible value is a pair value-label.
@@ -91,6 +110,8 @@ public class Field implements Comparable<Object> {
 	private boolean mainDescription = false;
 	/** A boolean that indicates if this fields should be used in lookups. */
 	private boolean lookup = false;
+	/** A boolean that indicates whether this field is a password field. */
+	private boolean password = false;
 
 	////////////////////////////////////////
 	// Validation and formatting properties.
@@ -173,6 +194,7 @@ public class Field implements Comparable<Object> {
 		this.fieldGroup = field.fieldGroup;
 		this.mainDescription = field.mainDescription;
 		this.lookup = field.lookup;
+		this.password = field.password;
 
 		// Validation and formatting properties.
 		this.initialValue = field.initialValue;
@@ -466,6 +488,24 @@ public class Field implements Comparable<Object> {
 	 */
 	public void setMainDescription(boolean mainDescription) {
 		this.mainDescription = mainDescription;
+	}
+
+	/**
+	 * Return indicating if the field is a password field.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean isPassword() {
+		return password;
+	}
+
+	/**
+	 * Set if the field is a password field.
+	 * 
+	 * @param password A boolean.
+	 */
+	public void setPassword(boolean password) {
+		this.password = password;
 	}
 
 	/**

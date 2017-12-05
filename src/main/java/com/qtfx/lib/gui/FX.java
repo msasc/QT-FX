@@ -17,6 +17,8 @@ package com.qtfx.lib.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.qtfx.lib.db.FieldGroup;
+
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -26,15 +28,25 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Control;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
+ * JavaFX utility functions, including:
+ * <ul>
+ * <li>Setting additional properties to any node in the user data.</li>
+ * <li>Looking up for nodes and field controls.</li>
+ * <li>Calculating text and components sizes.</li>
+ * </ul>
+ * 
  * Nodes in this JavaFX development tools are sometimes expected to have properties in the user data. This class help
  * manage those properties.
  *
  * @author Miquel Sas
  */
-public class Nodes {
+public class FX {
 
 	//////////////////////
 	// Keys of properties.
@@ -53,6 +65,10 @@ public class Nodes {
 	private static final String PROPERTY_TABLE_RECORD_PANE = "TABLE_RECORD_PANE";
 	/** Property FORM_RECORD_PANE. */
 	private static final String PROPERTY_FORM_RECORD_PANE = "FORM_RECORD_PANE";
+	/** Property FIELD_CONTROL. */
+	private static final String PROPERTY_FIELD_CONTROL = "FIELD_CONTROL";
+	/** Property FIELD_GROUP (group of field of the same group). */
+	private static final String PROPERTY_FIELD_GROUP = "FIELD_GROUP";
 
 	//////////////////////////////////
 	// Properties getters and setters.
@@ -99,22 +115,22 @@ public class Nodes {
 	}
 
 	/**
-	 * Return the group property.
+	 * Return the button group property.
 	 * 
 	 * @param node The node.
-	 * @return The group.
+	 * @return The button group.
 	 */
-	public static String getGroup(Node node) {
+	public static String getButtonGroup(Node node) {
 		return getString(node, PROPERTY_GROUP);
 	}
 
 	/**
-	 * Set the group property.
+	 * Set the button group property.
 	 * 
 	 * @param node The node.
-	 * @param group The group.
+	 * @param group The button group.
 	 */
-	public static void setGroup(Node node, String group) {
+	public static void setButtonGroup(Node node, String group) {
 		setString(node, PROPERTY_GROUP, group);
 	}
 
@@ -124,7 +140,7 @@ public class Nodes {
 	 * @param node The node.
 	 * @return The order in the group.
 	 */
-	public static String getOrder(Node node) {
+	public static String getButtonOrder(Node node) {
 		return getString(node, PROPERTY_ORDER);
 	}
 
@@ -134,7 +150,7 @@ public class Nodes {
 	 * @param node The node.
 	 * @param order The order in the group.
 	 */
-	public static void setOrder(Node node, String order) {
+	public static void setButtonOrder(Node node, String order) {
 		setString(node, PROPERTY_ORDER, order);
 	}
 
@@ -220,6 +236,46 @@ public class Nodes {
 	 */
 	public static void setFormRecordPane(Node node, FormRecordPane formRecordPane) {
 		setObject(node, PROPERTY_FORM_RECORD_PANE + "-" + formRecordPane.getId(), formRecordPane);
+	}
+
+	/**
+	 * Return the field control.
+	 * 
+	 * @param node The node.
+	 * @return The field control.
+	 */
+	public static FieldControl getFieldControl(Node node) {
+		return (FieldControl) getObject(node, PROPERTY_FIELD_CONTROL);
+	}
+
+	/**
+	 * Set the field control.
+	 * 
+	 * @param node The node.
+	 * @param fieldControl The field control.
+	 */
+	public static void setFieldControl(Node node, FieldControl fieldControl) {
+		setObject(node, PROPERTY_FIELD_CONTROL, fieldControl);
+	}
+
+	/**
+	 * Return the field group.
+	 * 
+	 * @param node The node.
+	 * @return The field group.
+	 */
+	public static FieldGroup getFieldGroup(Node node) {
+		return (FieldGroup) getObject(node, PROPERTY_FIELD_GROUP);
+	}
+
+	/**
+	 * Set the field group.
+	 * 
+	 * @param node The node.
+	 * @param fieldGroup The field group.
+	 */
+	public static void setFieldGroup(Node node, FieldGroup fieldGroup) {
+		setObject(node, PROPERTY_FIELD_GROUP, fieldGroup);
 	}
 
 	/**
@@ -349,8 +405,8 @@ public class Nodes {
 		}
 	}
 
-	///////////////
-	// Node access.
+	//////////////////////////
+	// Node access and lookup.
 
 	/**
 	 * Return the node with the given id from the list.
@@ -412,17 +468,53 @@ public class Nodes {
 	 * Return the list of field controls contained within the starting node.
 	 * 
 	 * @param startNode The starting node.
-	 * @return The list of field controls contained within the starting node.
+	 * @return The list of controls contained within the starting node.
 	 */
-	public static List<FieldControl> getFieldControls(Node startNode) {
+	public static List<Control> getControls(Node startNode) {
 		List<Node> nodes = new ArrayList<>();
 		fillNodesFrom(startNode, nodes);
-		List<FieldControl> controls = new ArrayList<>();
+		List<Control> controls = new ArrayList<>();
 		nodes.forEach(node -> {
-			if (node instanceof FieldControl) {
-				controls.add((FieldControl) node);
+			if (node instanceof Control) {
+				controls.add((Control) node);
 			}
 		});
 		return controls;
 	}
+
+	/**
+	 * Return the control with the given field alias from the list.
+	 * 
+	 * @param alias The field alias.
+	 * @param controls The list of source controls.
+	 * @return The control with the field alias or null.
+	 */
+	public static FieldControl getFieldControl(String alias, List<Control> controls) {
+		for (Control control : controls) {
+			FieldControl fieldControl = getFieldControl(control);
+			if (fieldControl.getField().getAlias().equals(alias)) {
+				return fieldControl;
+			}
+		}
+		return null;
+	}
+
+	///////////////////
+	// Text properties.
+
+	/**
+	 * Return the string width.
+	 * 
+	 * @param string The string.
+	 * @param font Optional font.
+	 * @return The width.
+	 */
+	public static double getStringWidth(String string, Font font) {
+		Text text = new Text(string);
+		if (font != null) {
+			text.setFont(font);
+		}
+		return text.getBoundsInLocal().getWidth();
+	}
+
 }

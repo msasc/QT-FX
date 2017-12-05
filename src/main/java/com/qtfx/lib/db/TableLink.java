@@ -15,6 +15,7 @@
 package com.qtfx.lib.db;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,8 +24,11 @@ import java.util.Objects;
  * 
  * @author Miquel Sas
  */
-public class TableLink {
+public class TableLink implements Iterable<TableLink.Segment> {
 
+	/**
+	 * Segment.
+	 */
 	public static class Segment {
 
 		/** The local field. */
@@ -384,6 +388,14 @@ public class TableLink {
 	 */
 	public boolean containsForeignField(Field field) {
 		return getForeignFieldIndex(field) >= 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Iterator<Segment> iterator() {
+		return segments.iterator();
 	}
 
 }
