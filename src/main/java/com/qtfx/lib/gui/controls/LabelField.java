@@ -39,7 +39,7 @@ public class LabelField extends FieldControl {
 	 * 
 	 * @return The label.
 	 */
-	private Label getLabel() {
+	public Label getLabel() {
 		return (Label) getControl();
 	}
 

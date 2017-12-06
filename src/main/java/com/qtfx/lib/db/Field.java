@@ -442,7 +442,10 @@ public class Field implements Comparable<Object> {
 	 * @return The decimals used to display the value.
 	 */
 	public int getDisplayDecimals() {
-		return displayDecimals;
+		if (displayDecimals >= 0) {
+			return displayDecimals;
+		}
+		return getDecimals();
 	}
 
 	/**

@@ -67,7 +67,7 @@ public class ChoiceBoxField extends FieldControl {
 	 * @return The choice box control.
 	 */
 	@SuppressWarnings("unchecked")
-	private ChoiceBox<Value> getChoiceBox() {
+	public ChoiceBox<Value> getChoiceBox() {
 		return (ChoiceBox<Value>) getControl();
 	}
 

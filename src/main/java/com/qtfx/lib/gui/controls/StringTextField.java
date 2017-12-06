@@ -17,6 +17,7 @@ package com.qtfx.lib.gui.controls;
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.FieldControl;
+import com.qtfx.lib.gui.formatters.FieldTextFormatter;
 
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -40,13 +41,7 @@ public class StringTextField extends FieldControl {
 		if (!field.isString()) {
 			throw new IllegalArgumentException("Field must be of type STRING");
 		}
-		// If there is a text formatter, install it, else, if there is a string formatter install a default text
-		// formatter using it.
-		if (field.getTextFormatter() != null) {
-			getTextField().setTextFormatter(field.getTextFormatter());
-		} else if (field.getStringConverter() != null) {
-			getTextField().setTextFormatter(new TextFormatter<Value>(field.getStringConverter()));
-		}
+		getTextField().setTextFormatter(new FieldTextFormatter(field));
 	}
 
 	/**
@@ -54,7 +49,7 @@ public class StringTextField extends FieldControl {
 	 * 
 	 * @return The text field.
 	 */
-	private TextField getTextField() {
+	public TextField getTextField() {
 		return (TextField) getControl();
 	}
 

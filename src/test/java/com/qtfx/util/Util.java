@@ -133,8 +133,17 @@ public class Util {
 		 */
 		@Override
 		public String toString(Value value) {
+			if (value == null) {
+				return "";
+			}
 			String sv = value.toString();
-			return sv.substring(0, 2) + "-" + sv.substring(2);
+			if (sv.length() > 2) {
+				if (sv.substring(2,3).equals("-")) {
+					sv = sv.substring(0, 2) + sv.substring(3);
+				}
+				return sv.substring(0, 2) + "-" + sv.substring(2);
+			}
+			return sv;
 		}
 
 		/**
@@ -187,7 +196,8 @@ public class Util {
 		fCARTICLE.setFixedWidth(true);
 		fCARTICLE.setPrimaryKey(true);
 		fCARTICLE.setFieldGroup(fgKEY);
-		fCARTICLE.setStringConverter(new ArticleStringConverter());
+		fCARTICLE.setUppercase(true);
+//		fCARTICLE.setStringConverter(new ArticleStringConverter());
 		fCARTICLE.setStyle("-fx-font-family: monospace; -fx-font-weight: bold; -fx-font-size: 16");
 		fieldList.addField(fCARTICLE);
 
@@ -236,6 +246,30 @@ public class Util {
 		fQSALES.setFieldGroup(fgOTHER);
 		fieldList.addField(fQSALES);
 
+		Field fQPROD = new Field();
+		fQPROD.setName("QPROD");
+		fQPROD.setAlias("QPROD");
+		fQPROD.setTitle("Production");
+		fQPROD.setLabel("Production");
+		fQPROD.setHeader("Production");
+		fQPROD.setType(Types.DECIMAL);
+		fQPROD.setLength(14);
+		fQPROD.setDecimals(4);
+		fQPROD.setFieldGroup(fgOTHER);
+		fieldList.addField(fQPROD);
+
+		Field fQPURCH = new Field();
+		fQPURCH.setName("QPURCH");
+		fQPURCH.setAlias("QPURCH");
+		fQPURCH.setTitle("Purchases");
+		fQPURCH.setLabel("Purchases");
+		fQPURCH.setHeader("Purchases");
+		fQPURCH.setType(Types.DECIMAL);
+		fQPURCH.setLength(14);
+		fQPURCH.setDecimals(4);
+		fQPURCH.setFieldGroup(fgOTHER);
+		fieldList.addField(fQPURCH);
+
 		Field fICHECKED = new Field();
 		fICHECKED.setName("ICHECKED");
 		fICHECKED.setAlias("ICHECKED");
@@ -266,6 +300,7 @@ public class Util {
 		fISTATUS.setHeader("Status");
 		fISTATUS.setType(Types.STRING);
 		fISTATUS.setLength(2);
+		fISTATUS.setFieldGroup(fgOTHER);
 		fISTATUS.addPossibleValue(new Value("01"), "Created");
 		fISTATUS.addPossibleValue(new Value("02"), "Acceptance");
 		fISTATUS.addPossibleValue(new Value("03"), "Accepted");
@@ -288,6 +323,8 @@ public class Util {
 		record.setValue("CBUSINESS", new Value(getRandomCode(record.getField("CBUSINESS"), 4)));
 		record.setValue("TCREATED", new Value(getRandomDate()));
 		record.setValue("QSALES", new Value(getRandomDecimal(record.getField("QSALES"))));
+		record.setValue("QPROD", new Value(getRandomDecimal(record.getField("QPROD"))));
+		record.setValue("QPURCH", new Value(getRandomDecimal(record.getField("QPURCH"))));
 		record.setValue("TCREATED", new Value(getRandomDate()));
 		record.setValue("ICHECKED", new Value(getRandomBoolean()));
 		record.setValue("IREQUIRED", new Value(getRandomBoolean()));

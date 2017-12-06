@@ -53,7 +53,7 @@ public class ComboBoxField extends FieldControl {
 	 * @return The combo box control.
 	 */
 	@SuppressWarnings("unchecked")
-	private ComboBox<Value> getComboBox() {
+	public ComboBox<Value> getComboBox() {
 		return (ComboBox<Value>) getControl();
 	}
 

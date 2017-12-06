@@ -50,6 +50,9 @@ public class NumberStringConverter extends StringConverter<Value> {
 	 */
 	@Override
 	public String toString(Value value) {
+		if (value == null) {
+			return toString(field.getDefaultValue());
+		}
 		return Formats.getNumberFormat(field.getDisplayDecimals(), locale).format(value.getDouble());
 	}
 

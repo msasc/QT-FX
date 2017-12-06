@@ -33,8 +33,10 @@ import com.qtfx.lib.gui.controls.NumberTextField;
 import com.qtfx.lib.gui.controls.PasswordTextField;
 import com.qtfx.lib.gui.controls.StringTextField;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 /**
  * Field edit context, normally in a {@link com.qtfx.lib.gui.FormRecordPane}.
@@ -207,25 +209,74 @@ public class FieldContext {
 	 * @return The control.
 	 */
 	public Control getControl() {
+
+		// Password field
 		if (field.isPassword()) {
 			return new PasswordTextField(field).getControl();
-		} else if (field.isBoolean()) {
+		}
+		if (field.isBoolean()) {
 			if (field.isEditBooleanInCheckBox()) {
 				return new CheckBoxField(field).getControl();
 			} else {
 				return new ChoiceBoxField(field, locale).getControl();
 			}
-		} else if (field.isDate()) {
-			return new DatePickerField(field).getControl();
-		} else if (field.isPossibleValues()) {
-			return new ComboBoxField(field).getControl();
-		} else if (actionLookup != null) {
-			return new LookupComboBoxField(field, actionLookup).getControl();
-		} else if (field.isNumber()) {
-			return new NumberTextField(field, locale).getControl();
-		} else {
-			return new StringTextField(field).getControl();
 		}
+		if (field.isDate()) {
+			return new DatePickerField(field).getControl();
+		}
+		if (field.isPossibleValues()) {
+			return new ComboBoxField(field).getControl();
+		}
+		if (actionLookup != null) {
+			return new LookupComboBoxField(field, actionLookup).getControl();
+		}
+		if (field.isNumber()) {
+			return getNumberTextField().getControl();
+		}
+
+		// String field.
+		return getStringTextField().getControl();
+	}
+	
+	/**
+	 * Return a suitable NumberTextField control.
+	 * 
+	 * @return The NumberTextField control.
+	 */
+	private NumberTextField getNumberTextField() {
+		NumberTextField fieldControl = new NumberTextField(field, locale);
+		TextField textField = fieldControl.getTextField();
+		textField.setAlignment(Pos.CENTER_RIGHT);
+		if (field.isDecimal()) {
+			int length = field.getLength();
+			int decimals = field.getDecimals();
+			int lengthIntegerPart = length - (decimals != 0 ? decimals + 1 : 0);
+			int thousandSeparators = lengthIntegerPart / 3;
+			int displayLength = lengthIntegerPart + thousandSeparators + (decimals != 0 ? decimals + 1 : 0);
+			double avgWidth = FX.getAverageDigitWidth(textField.getFont());
+			double width = avgWidth * displayLength * 1.3;
+			textField.setPrefWidth(width);
+			textField.setMaxWidth(width);
+		}
+		return fieldControl;
+	}
+
+	/**
+	 * Return a suitable StringTextField control.
+	 * 
+	 * @return The StringTextField control.
+	 */
+	private StringTextField getStringTextField() {
+		StringTextField fieldControl = new StringTextField(field);
+		TextField textField = fieldControl.getTextField();
+		double avgWidth = FX.getAverageLetterWidth(textField.getFont());
+		// Set a width up to a maximum of 80 chars.
+		double width = avgWidth * 1.3 * Math.min(field.getDisplayLength(), 80);
+		textField.setPrefWidth(width);
+		if (getField().isFixedWidth()) {
+			textField.setMaxWidth(width);
+		}
+		return fieldControl;
 	}
 
 	/**

@@ -15,11 +15,11 @@
 package com.qtfx.gui;
 
 import java.math.BigDecimal;
+import java.util.function.UnaryOperator;
 
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Types;
 import com.qtfx.lib.db.Value;
-import com.qtfx.lib.gui.FX;
 import com.qtfx.lib.gui.converters.NumberStringConverter;
 
 import javafx.application.Application;
@@ -28,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -45,6 +46,14 @@ public class TestTextFormatter extends Application {
 
 	}
 	
+	static class Filter implements UnaryOperator<Change> {
+		@Override
+		public Change apply(Change t) {
+			t.setText(t.getText().toUpperCase());
+			return t;
+		}
+	}
+	
 	@Override
 	public void start(Stage stage) throws Exception {
 		
@@ -55,13 +64,18 @@ public class TestTextFormatter extends Application {
 		field.setType(Types.DECIMAL);
 		field.setDecimals(0);
 		
-		TextField text = new TextField();
-		text.setId("id-text");
-		NumberStringConverter cnv = new NumberStringConverter(field);
-		TextFormatter<Value> fmt = new TextFormatter<>(cnv);
-		fmt.setValue(new Value(new BigDecimal(80000000000l)));
-		text.setTextFormatter(fmt);
-		vbox.getChildren().add(text);
+		TextField textNum = new TextField();
+		textNum.setId("id-text");
+		NumberStringConverter cnvNum = new NumberStringConverter(field);
+		TextFormatter<Value> fmtNum = new TextFormatter<>(cnvNum);
+		fmtNum.setValue(new Value(new BigDecimal(80000000000l)));
+		textNum.setTextFormatter(fmtNum);
+		vbox.getChildren().add(textNum);
+		
+		TextFormatter<Value> fmtUpper = new TextFormatter<>(new Filter());
+		TextField textUpper = new TextField();
+		textUpper.setTextFormatter(fmtUpper);
+		vbox.getChildren().add(textUpper);
 		
 		Button button = new Button("Change value");
 		vbox.getChildren().add(button);
@@ -70,8 +84,7 @@ public class TestTextFormatter extends Application {
 		stage.setScene(scene);
 		
 		button.setOnAction(a -> {
-			fmt.setValue(new Value(fmt.getValue().getBigDecimal().multiply(new BigDecimal(10))));
-			System.out.println(FX.lookup(text.getId(), button));
+			fmtNum.setValue(new Value(fmtNum.getValue().getBigDecimal().multiply(new BigDecimal(10))));
 		});
 		
 		

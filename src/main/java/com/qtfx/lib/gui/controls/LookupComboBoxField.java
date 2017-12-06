@@ -68,7 +68,7 @@ public class LookupComboBoxField extends FieldControl {
 	 * 
 	 * @return The lookup control.
 	 */
-	private Lookup getLookup() {
+	public Lookup getLookup() {
 		return (Lookup) getControl();
 	}
 

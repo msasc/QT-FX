@@ -45,7 +45,7 @@ public class CheckBoxField extends FieldControl {
 	 * 
 	 * @return The check box control.
 	 */
-	private CheckBox getCheckBox() {
+	public CheckBox getCheckBox() {
 		return (CheckBox) getControl();
 	}
 

@@ -15,6 +15,7 @@ package com.qtfx.lib.db;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ import java.util.List;
  *
  * @author Miquel Sas
  */
-public class FieldList {
+public class FieldList implements Iterable<Field> {
 
 	/** Map of field indexes by alias. */
 	private HashMap<String, Integer> map = new HashMap<>();
@@ -313,5 +314,13 @@ public class FieldList {
 			}
 		}
 		return primaryKeyFields;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Iterator<Field> iterator() {
+		return fields.iterator();
 	}
 }

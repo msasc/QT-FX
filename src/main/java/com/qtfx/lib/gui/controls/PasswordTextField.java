@@ -45,7 +45,7 @@ public class PasswordTextField extends FieldControl {
 	 * 
 	 * @return The password field.
 	 */
-	private PasswordField getPasswordField() {
+	public PasswordField getPasswordField() {
 		return (PasswordField) getControl();
 	}
 

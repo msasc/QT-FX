@@ -28,6 +28,8 @@ import com.qtfx.lib.gui.action.ActionSearchAndRefreshDB;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
@@ -246,11 +248,42 @@ public class FormRecordPane {
 		// Only one pane, add directly to the center, otherwise build a tab pane.
 		if (groupItemPanes.size() == 1) {
 			borderPane.setCenter(groupItemPanes.get(0));
+		} else {
+			TabPane tabPane = new TabPane();
+			for (GridPane pane : groupItemPanes) {
+				FieldGroup fieldGroup = FX.getFieldGroup(pane);
+				Tab tab = new Tab(fieldGroup.getDisplayTitle());
+				tab.setContent(pane);
+				tabPane.getTabs().add(tab);
+			}
+			borderPane.setCenter(tabPane);
 		}
 
 		// Setup the form record pane to all the controls.
 		List<Control> controls = FX.getControls(borderPane);
 		controls.forEach(control -> FX.setFormRecordPane(control, this));
+	}
+	
+	/**
+	 * Update field control with the record values.
+	 */
+	public void updateFieldControls() {
+		List<FieldControl> fieldControls = FX.getFieldControls(borderPane);
+		for (FieldControl fieldControl : fieldControls) {
+			String alias = fieldControl.getField().getAlias();
+			fieldControl.setValue(record.getValue(alias));
+		}
+	}
+	
+	/**
+	 * Update the record with the field control values.
+	 */
+	public void updateRecord() {
+		List<FieldControl> fieldControls = FX.getFieldControls(borderPane);
+		for (FieldControl fieldControl : fieldControls) {
+			String alias = fieldControl.getField().getAlias();
+			record.setValue(alias, fieldControl.getValue());
+		}
 	}
 
 	/**
@@ -271,6 +304,7 @@ public class FormRecordPane {
 				groupItemPane.add(gridItemPane, column, row);
 			}
 		}
+		groupItemPane.setGridLinesVisible(true);
 		return groupItemPane;
 	}
 
@@ -308,6 +342,7 @@ public class FormRecordPane {
 			}
 		}
 
+		gridPane.setPadding(new Insets(10,10,10,10));
 		return gridPane;
 	}
 

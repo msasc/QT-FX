@@ -50,7 +50,7 @@ public class NumberTextField extends FieldControl {
 		super(field, new TextField());
 
 		// Field must be NUMBER.
-		if (!field.isString()) {
+		if (!field.isNumber()) {
 			throw new IllegalArgumentException("Field must be of type NUMBER");
 		}
 		// If there is a text formatter, install it, else, if there is a string formatter install a default text
@@ -69,7 +69,7 @@ public class NumberTextField extends FieldControl {
 	 * 
 	 * @return The text field.
 	 */
-	private TextField getTextField() {
+	public TextField getTextField() {
 		return (TextField) getControl();
 	}
 

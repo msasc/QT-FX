@@ -80,7 +80,7 @@ public class DatePickerField extends FieldControl {
 	 * 
 	 * @return The date picker control.
 	 */
-	private DatePicker getDatePicker() {
+	public DatePicker getDatePicker() {
 		return (DatePicker) getControl();
 	}
 

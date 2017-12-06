@@ -29,6 +29,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Control;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -459,13 +461,16 @@ public class FX {
 		nodes.add(startNode);
 		if (startNode instanceof Parent) {
 			Parent parent = (Parent) startNode;
-			List<Node> children = parent.getChildrenUnmodifiable();
-			children.forEach(child -> fillNodesFrom(child, nodes));
+			if (parent instanceof TabPane) {
+				((TabPane) parent).getTabs().forEach(tab -> fillNodesFrom(tab.getContent(), nodes));
+			} else {
+				parent.getChildrenUnmodifiable().forEach(child -> fillNodesFrom(child, nodes));
+			}
 		}
 	}
 
 	/**
-	 * Return the list of field controls contained within the starting node.
+	 * Return the list of controls contained within the starting node.
 	 * 
 	 * @param startNode The starting node.
 	 * @return The list of controls contained within the starting node.
@@ -474,11 +479,11 @@ public class FX {
 		List<Node> nodes = new ArrayList<>();
 		fillNodesFrom(startNode, nodes);
 		List<Control> controls = new ArrayList<>();
-		nodes.forEach(node -> {
+		for (Node node : nodes) {
 			if (node instanceof Control) {
 				controls.add((Control) node);
 			}
-		});
+		}
 		return controls;
 	}
 
@@ -499,6 +504,24 @@ public class FX {
 		return null;
 	}
 
+	/**
+	 * Return the list of field controls contained within the starting node.
+	 * 
+	 * @param startNode The starting node.
+	 * @return The list of field controls contained within the starting node.
+	 */
+	public static List<FieldControl> getFieldControls(Node startNode) {
+		List<FieldControl> fieldControls = new ArrayList<>();
+		List<Control> controls = getControls(startNode);
+		for (Control control : controls) {
+			FieldControl fieldControl = getFieldControl(control);
+			if (fieldControl != null) {
+				fieldControls.add(fieldControl);
+			}
+		}
+		return fieldControls;
+	}
+
 	///////////////////
 	// Text properties.
 
@@ -517,4 +540,17 @@ public class FX {
 		return text.getBoundsInLocal().getWidth();
 	}
 
+	public static double getAverageLetterWidth(Font font) {
+		String string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		double width = getStringWidth(string, font);
+		double length = string.length();
+		return width / length;
+	}
+
+	public static double getAverageDigitWidth(Font font) {
+		String string = "0123456789";
+		double width = getStringWidth(string, font);
+		double length = string.length();
+		return width / length;
+	}
 }
