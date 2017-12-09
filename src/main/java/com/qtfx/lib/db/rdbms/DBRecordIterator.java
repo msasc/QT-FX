@@ -15,7 +15,6 @@
 package com.qtfx.lib.db.rdbms;
 
 import java.sql.SQLException;
-import java.util.NoSuchElementException;
 
 import com.qtfx.lib.db.PersistorException;
 import com.qtfx.lib.db.Record;
@@ -44,10 +43,7 @@ public class DBRecordIterator implements RecordIterator {
 	}
 
 	/**
-	 * Returns {@code true} if the iteration has more records. (In other words, returns {@code true} if {@link #next}
-	 * would return a record rather than throwing an exception.)
-	 *
-	 * @return {@code true} if the iteration has more elements
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean hasNext() {
@@ -67,10 +63,7 @@ public class DBRecordIterator implements RecordIterator {
 	}
 
 	/**
-	 * Returns the next record in the iteration.
-	 *
-	 * @return the next record in the iteration
-	 * @throws NoSuchElementException if the iteration has no more records
+	 * {@inheritDoc}
 	 */
 	@Override
 	public Record next() {
@@ -78,9 +71,7 @@ public class DBRecordIterator implements RecordIterator {
 	}
 
 	/**
-	 * Close underlying resources.
-	 * 
-	 * @throws PersistorException if any errors occur closing the underlying resources
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void close() throws PersistorException {

@@ -127,9 +127,7 @@ public class ForeignKey extends TableLink {
 	}
 
 	/**
-	 * Return a string representation of this foreign key.
-	 *
-	 * @return The string representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

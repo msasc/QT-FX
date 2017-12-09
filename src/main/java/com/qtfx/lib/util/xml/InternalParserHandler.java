@@ -51,10 +51,7 @@ public class InternalParserHandler extends DefaultHandler {
 	}
 
 	/**
-	 * Receive notification of the beginning of the document. Calls the handler <i>documentStart</i> method.
-	 *
-	 * @exception org.xml.sax.SAXException Any SAX exception, possibly wrapping another exception.
-	 * @see org.xml.sax.ContentHandler#startDocument
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void startDocument() throws SAXException {
@@ -62,10 +59,7 @@ public class InternalParserHandler extends DefaultHandler {
 	}
 
 	/**
-	 * Receive notification of the end of the document. Call the handler <i>documentEnd</i> method.
-	 *
-	 * @exception org.xml.sax.SAXException Any SAX exception, possibly wrapping another exception.
-	 * @see org.xml.sax.ContentHandler#endDocument
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void endDocument() throws SAXException {
@@ -73,18 +67,7 @@ public class InternalParserHandler extends DefaultHandler {
 	}
 
 	/**
-	 * Receive notification of the start of an element. Pushes the element name onto the stack and calls the handler
-	 * <i>elementStart</i>.
-	 *
-	 * @param uri The Namespace URI, or the empty string if the element has no Namespace URI or if Namespace processing
-	 *        is not being performed.
-	 * @param localName The local name (without prefix), or the empty string if Namespace processing is not being
-	 *        performed.
-	 * @param qName The qualified name (with prefix), or the empty string if qualified names are not available.
-	 * @param attributes The attributes attached to the element. If there are no attributes, it shall be an empty
-	 *        Attributes object.
-	 * @exception org.xml.sax.SAXException Any SAX exception, possibly wrapping another exception.
-	 * @see org.xml.sax.ContentHandler#startElement
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -94,16 +77,7 @@ public class InternalParserHandler extends DefaultHandler {
 	}
 
 	/**
-	 * Receive notification of the end of an element. Calls the handler <i>elementEnd</i> method and after that pops the
-	 * element name from the stack.
-	 *
-	 * @param uri The Namespace URI, or the empty string if the element has no Namespace URI or if Namespace processing
-	 *        is not being performed.
-	 * @param localName The local name (without prefix), or the empty string if Namespace processing is not being
-	 *        performed.
-	 * @param qName The qualified name (with prefix), or the empty string if qualified names are not available.
-	 * @exception org.xml.sax.SAXException Any SAX exception, possibly wrapping another exception.
-	 * @see org.xml.sax.ContentHandler#endElement
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
@@ -113,14 +87,7 @@ public class InternalParserHandler extends DefaultHandler {
 	}
 
 	/**
-	 * Receive notification of character data inside an element. Peeks the current element name and calls the handler
-	 * <i>elementBody</i> method.
-	 *
-	 * @param ch The characters.
-	 * @param start The start position in the character array.
-	 * @param length The number of characters to use from the character array.
-	 * @exception org.xml.sax.SAXException Any SAX exception, possibly wrapping another exception.
-	 * @see org.xml.sax.ContentHandler#characters
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
@@ -133,16 +100,7 @@ public class InternalParserHandler extends DefaultHandler {
 	}
 
 	/**
-	 * Receive notification of a parser warning.
-	 * <p>
-	 * The default implementation does nothing. Application writers may override this method in a subclass to take
-	 * specific actions for each warning, such as inserting the message in a log file or printing it to the console.
-	 * </p>
-	 *
-	 * @param e The warning information encoded as an exception.
-	 * @exception org.xml.sax.SAXException Any SAX exception, possibly wrapping another exception.
-	 * @see org.xml.sax.ErrorHandler#warning
-	 * @see org.xml.sax.SAXParseException
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void warning(SAXParseException e) throws SAXException {
@@ -150,16 +108,7 @@ public class InternalParserHandler extends DefaultHandler {
 	}
 
 	/**
-	 * Receive notification of a recoverable parser error.
-	 * <p>
-	 * The default implementation does nothing. Application writers may override this method in a subclass to take
-	 * specific actions for each error, such as inserting the message in a log file or printing it to the console.
-	 * </p>
-	 *
-	 * @param e The error information encoded as an exception.
-	 * @exception org.xml.sax.SAXException Any SAX exception, possibly wrapping another exception.
-	 * @see org.xml.sax.ErrorHandler#warning
-	 * @see org.xml.sax.SAXParseException
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void error(SAXParseException e) throws SAXException {
@@ -167,18 +116,7 @@ public class InternalParserHandler extends DefaultHandler {
 	}
 
 	/**
-	 * Report a fatal XML parsing error.
-	 * <p>
-	 * The default implementation throws a SAXParseException. Application writers may override this method in a subclass
-	 * if they need to take specific actions for each fatal error (such as collecting all of the errors into a single
-	 * report): in any case, the application must stop all regular processing when this method is invoked, since the
-	 * document is no longer reliable, and the parser may no longer report parsing events.
-	 * </p>
-	 *
-	 * @param e The error information encoded as an exception.
-	 * @exception org.xml.sax.SAXException Any SAX exception, possibly wrapping another exception.
-	 * @see org.xml.sax.ErrorHandler#fatalError
-	 * @see org.xml.sax.SAXParseException
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void fatalError(SAXParseException e) throws SAXException {

@@ -102,9 +102,7 @@ public class Delete extends Statement {
 	}
 
 	/**
-	 * Returns the list of values to assign to parameters.
-	 *
-	 * @return The list of values to assign to parameters.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<Value> getValues() {
@@ -115,9 +113,7 @@ public class Delete extends Statement {
 	}
 
 	/**
-	 * Returns this <code>ALTER TABLE ADD FOREIGN KEY</code> query as a string.
-	 *
-	 * @return The query.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

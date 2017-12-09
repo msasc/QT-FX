@@ -296,11 +296,7 @@ public class Value implements Comparable<Object> {
 	}
 
 	/**
-	 * Returns a negative integer, zero, or a positive integer as this value is less than, equal to, or greater than the
-	 * specified value.
-	 *
-	 * @param o The object to compare.
-	 * @return The comparison integer.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int compareTo(Object o) {
@@ -377,10 +373,7 @@ public class Value implements Comparable<Object> {
 	}
 
 	/**
-	 * Indicates whether some other object is "equal to" this one.
-	 *
-	 * @return A boolean.
-	 * @param o The object to compare with.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object o) {
@@ -486,9 +479,7 @@ public class Value implements Comparable<Object> {
 	}
 
 	/**
-	 * Returns the hash code for this value.
-	 *
-	 * @return The hash code
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int hashCode() {
@@ -858,9 +849,7 @@ public class Value implements Comparable<Object> {
 	}
 
 	/**
-	 * Returns a string representation of this value.
-	 *
-	 * @return A string
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

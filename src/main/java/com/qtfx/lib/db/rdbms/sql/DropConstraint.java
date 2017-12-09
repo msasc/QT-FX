@@ -75,10 +75,7 @@ public class DropConstraint extends Statement {
 	}
 
 	/**
-	 * Returns this ALTER TABLE <i>table</i> DROP CONSTRAINT <i>constraint</i> statement as a string.
-	 * <p>
-	 * 
-	 * @return The statement as a string.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

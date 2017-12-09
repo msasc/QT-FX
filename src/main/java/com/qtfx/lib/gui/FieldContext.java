@@ -27,7 +27,6 @@ import com.qtfx.lib.gui.controls.CheckBoxField;
 import com.qtfx.lib.gui.controls.ChoiceBoxField;
 import com.qtfx.lib.gui.controls.ComboBoxField;
 import com.qtfx.lib.gui.controls.DatePickerField;
-import com.qtfx.lib.gui.controls.LabelField;
 import com.qtfx.lib.gui.controls.LookupComboBoxField;
 import com.qtfx.lib.gui.controls.NumberTextField;
 import com.qtfx.lib.gui.controls.PasswordTextField;
@@ -204,48 +203,111 @@ public class FieldContext {
 	}
 
 	/**
+	 * Return a suitable field control.
+	 * 
+	 * @return A suitable field control.
+	 */
+	private FieldControl getFieldControl() {
+		FieldControl fc = null;
+		if (field.isPassword()) {
+			fc = getPasswordTextField();
+		} else if (field.isBoolean()) {
+			if (field.isEditBooleanInCheckBox()) {
+				fc = getCheckBoxField();
+			} else {
+				fc = getChoiceBoxField();
+			}
+		} else if (field.isDate()) {
+			fc = getDatePickerField();
+		} else if (field.isPossibleValues()) {
+			fc = getComboBoxField();
+		} else if (actionLookup != null) {
+			fc = getLookupComboBoxField();
+		} else if (field.isNumber()) {
+			fc = getNumberTextField();
+		} else if (field.isString()) {
+			fc = getStringTextField();
+		}
+		return fc;
+	}
+
+	/**
 	 * Return the control for the main field.
 	 * 
 	 * @return The control.
 	 */
 	public Control getControl() {
-
-		// Password field
-		if (field.isPassword()) {
-			return new PasswordTextField(field).getControl();
-		}
-		if (field.isBoolean()) {
-			if (field.isEditBooleanInCheckBox()) {
-				return new CheckBoxField(field).getControl();
-			} else {
-				return new ChoiceBoxField(field, locale).getControl();
-			}
-		}
-		if (field.isDate()) {
-			return new DatePickerField(field).getControl();
-		}
-		if (field.isPossibleValues()) {
-			return new ComboBoxField(field).getControl();
-		}
-		if (actionLookup != null) {
-			return new LookupComboBoxField(field, actionLookup).getControl();
-		}
-		if (field.isNumber()) {
-			return getNumberTextField().getControl();
-		}
-
-		// String field.
-		return getStringTextField().getControl();
+		return getFieldControl().getControl();
 	}
-	
+
 	/**
-	 * Return a suitable NumberTextField control.
+	 * Return a suitable PasswordTextField.
 	 * 
-	 * @return The NumberTextField control.
+	 * @return The PasswordTextField.
+	 */
+	private PasswordTextField getPasswordTextField() {
+		PasswordTextField fc = new PasswordTextField(field);
+		return fc;
+	}
+
+	/**
+	 * Return a suitable CheckBoxField.
+	 * 
+	 * @return The CheckBoxField.
+	 */
+	private CheckBoxField getCheckBoxField() {
+		CheckBoxField fc = new CheckBoxField(field);
+		return fc;
+	}
+
+	/**
+	 * Return a suitable ChoiceBoxField.
+	 * 
+	 * @return The ChoiceBoxField.
+	 */
+	private ChoiceBoxField getChoiceBoxField() {
+		ChoiceBoxField fc = new ChoiceBoxField(field, locale);
+		return fc;
+	}
+
+	/**
+	 * Return a suitable DatePickerField.
+	 * 
+	 * @return The DatePickerField.
+	 */
+	private DatePickerField getDatePickerField() {
+		DatePickerField fc = new DatePickerField(field);
+		return fc;
+	}
+
+	/**
+	 * Return a suitable ComboBoxField.
+	 * 
+	 * @return The ComboBoxField.
+	 */
+	private ComboBoxField getComboBoxField() {
+		ComboBoxField fc = new ComboBoxField(field);
+		return fc;
+	}
+
+	/**
+	 * Return a suitable LookupComboBoxField.
+	 * 
+	 * @return The LookupComboBoxField.
+	 */
+	private LookupComboBoxField getLookupComboBoxField() {
+		LookupComboBoxField fc = new LookupComboBoxField(field, actionLookup);
+		return fc;
+	}
+
+	/**
+	 * Return a suitable NumberTextField.
+	 * 
+	 * @return The NumberTextField.
 	 */
 	private NumberTextField getNumberTextField() {
-		NumberTextField fieldControl = new NumberTextField(field, locale);
-		TextField textField = fieldControl.getTextField();
+		NumberTextField fc = new NumberTextField(field, locale);
+		TextField textField = fc.getTextField();
 		textField.setAlignment(Pos.CENTER_RIGHT);
 		if (field.isDecimal()) {
 			int length = field.getLength();
@@ -258,17 +320,17 @@ public class FieldContext {
 			textField.setPrefWidth(width);
 			textField.setMaxWidth(width);
 		}
-		return fieldControl;
+		return fc;
 	}
 
 	/**
-	 * Return a suitable StringTextField control.
+	 * Return a suitable StringTextField.
 	 * 
-	 * @return The StringTextField control.
+	 * @return The StringTextField.
 	 */
 	private StringTextField getStringTextField() {
-		StringTextField fieldControl = new StringTextField(field);
-		TextField textField = fieldControl.getTextField();
+		StringTextField fc = new StringTextField(field);
+		TextField textField = fc.getTextField();
 		double avgWidth = FX.getAverageLetterWidth(textField.getFont());
 		// Set a width up to a maximum of 80 chars.
 		double width = avgWidth * 1.3 * Math.min(field.getDisplayLength(), 80);
@@ -276,7 +338,7 @@ public class FieldContext {
 		if (getField().isFixedWidth()) {
 			textField.setMaxWidth(width);
 		}
-		return fieldControl;
+		return fc;
 	}
 
 	/**
@@ -288,6 +350,14 @@ public class FieldContext {
 		if (!isRefresh()) {
 			throw new IllegalStateException("Not a refresh context");
 		}
-		return new LabelField(refreshField).getControl();
+		StringTextField fc = new StringTextField(field);
+		TextField textField = fc.getTextField();
+		double avgWidth = FX.getAverageLetterWidth(textField.getFont());
+		// Set a width up to a maximum of 80 chars.
+		double width = avgWidth * 1.3 * Math.min(field.getDisplayLength(), 80);
+		textField.setPrefWidth(width);
+		textField.setStyle("-fx-font-style: italic; -fx-text-fill: gray;");
+		textField.setFocusTraversable(false);
+		return textField;
 	}
 }

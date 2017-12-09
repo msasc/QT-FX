@@ -19,12 +19,8 @@ package com.qtfx.lib.mkt.server;
  * @author Miquel Sas
  */
 public enum OfferSide {
-	/**
-	 * Ask, the best price the market sells.
-	 */
-	Ask,
-	/**
-	 * Bid, the best price the market buys.
-	 */
-	Bid;
+	/** Ask, the best price the market sells. */
+	ASK,
+	/** Bid, the best price the market buys. */
+	BID;
 }

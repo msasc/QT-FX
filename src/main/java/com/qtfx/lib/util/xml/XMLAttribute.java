@@ -121,7 +121,7 @@ public class XMLAttribute {
 	}
 
 	/**
-	 * Returns the hash code.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int hashCode() {
@@ -129,7 +129,7 @@ public class XMLAttribute {
 	}
 
 	/**
-	 * Check for equality.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -141,7 +141,7 @@ public class XMLAttribute {
 	}
 
 	/**
-	 * Returns a string representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

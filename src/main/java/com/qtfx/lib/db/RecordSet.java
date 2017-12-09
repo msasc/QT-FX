@@ -316,7 +316,7 @@ public class RecordSet implements Iterable<Record> {
 	}
 
 	/**
-	 * Returns the record iterator.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public Iterator<Record> iterator() {
@@ -353,9 +353,7 @@ public class RecordSet implements Iterable<Record> {
 	}
 
 	/**
-	 * Returns a string representation with the number of records listed limited to 500.
-	 * 
-	 * @return A string representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

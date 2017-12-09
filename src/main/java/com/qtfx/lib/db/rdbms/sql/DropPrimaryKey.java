@@ -53,9 +53,7 @@ public class DropPrimaryKey extends Statement {
 	}
 
 	/**
-	 * Returns this <code>ALTER TABLE DROP PRIMARY KEY</code> statement as a string.
-	 *
-	 * @return The statement.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

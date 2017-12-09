@@ -52,9 +52,7 @@ public class CreateSchema extends Statement {
 	}
 
 	/**
-	 * Returns this CREATE SCHEMA statement as a string.
-	 *
-	 * @return The statement.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

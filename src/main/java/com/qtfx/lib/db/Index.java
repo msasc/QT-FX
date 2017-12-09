@@ -141,9 +141,7 @@ public class Index extends Order {
 	}
 
 	/**
-	 * Returns the hash code value for this index.
-	 *
-	 * @return The hash code
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int hashCode() {
@@ -156,10 +154,7 @@ public class Index extends Order {
 	}
 
 	/**
-	 * Indicates whether some other object is "equal to" this one.
-	 *
-	 * @return A boolean.
-	 * @param o The object to compare with.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object o) {

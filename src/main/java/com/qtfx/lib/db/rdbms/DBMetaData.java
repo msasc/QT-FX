@@ -11,21 +11,24 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.db;
+package com.qtfx.lib.db.rdbms;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.qtfx.lib.db.rdbms.DBEngine;
-import com.qtfx.lib.db.rdbms.DBUtils;
+import com.qtfx.lib.db.Field;
+import com.qtfx.lib.db.FieldList;
+import com.qtfx.lib.db.Record;
+import com.qtfx.lib.db.RecordSet;
+import com.qtfx.lib.db.Types;
 
 /**
  * A manager of the underlying database engine JDBC meta data.
  * 
  * @author Miquel Sas
  */
-public class MetaData {
+public class DBMetaData {
 
 	public static final String TABLE_CATALOG = "TABLE_CAT";
 	public static final String TABLE_SCHEMA = "TABLE_SCHEM";
@@ -232,7 +235,7 @@ public class MetaData {
 	 * 
 	 * @param dbEngine The <i>DBEngine</i>.
 	 */
-	public MetaData(DBEngine dbEngine) {
+	public DBMetaData(DBEngine dbEngine) {
 		super();
 		this.dbEngine = dbEngine;
 	}

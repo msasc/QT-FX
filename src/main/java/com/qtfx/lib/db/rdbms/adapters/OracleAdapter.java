@@ -45,10 +45,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Returns a appropriate data source.
-	 * 
-	 * @param info The data source info.
-	 * @return The data source.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public DataSource getDataSource(DataSourceInfo info) {
@@ -56,9 +53,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Returns the CURRENT DATE function as a string.
-	 *
-	 * @return The CURRENT DATE function as a string.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String getCurrentDate() {
@@ -66,9 +61,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Returns the CURRENT TIME function as a string.
-	 *
-	 * @return The CURRENT TIME function as a string.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String getCurrentTime() {
@@ -76,9 +69,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Returns the CURRENT TIMESTAMP function as a string.
-	 *
-	 * @return The CURRENT TIMESTAMP function as a string.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String getCurrentTimestamp() {
@@ -86,10 +77,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Gets the field definition to use in a <code>CREATE TABLE</code> statement, given a field.
-	 *
-	 * @return The field definition.
-	 * @param field The field.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String getFieldDefinition(Field field) {
@@ -146,9 +134,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Check if the underlying database accepts explicit relations.
-	 *
-	 * @return A boolean.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean isExplicitRelation() {
@@ -156,10 +142,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Return a string representation of the date, valid to be used in an SQL statement.
-	 * 
-	 * @param date The date.
-	 * @return The representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toStringSQL(Date date) {
@@ -168,10 +151,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Return a string representation of the time, valid to be used in an SQL statement.
-	 * 
-	 * @param time The time.
-	 * @return The representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toStringSQL(Time time) {
@@ -180,11 +160,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Return a string representation of the time-stamp, valid to be used in an SQL statement.
-	 * <p>
-	 * 
-	 * @param time-stamp The time-stamp.
-	 * @return The representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toStringSQL(Timestamp timestamp) {
@@ -193,10 +169,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Returns the create schema statement.
-	 * 
-	 * @param schema The schema to create.
-	 * @return The statement.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public CreateSchema getStatementCreateSchema(String schema) {
@@ -207,11 +180,7 @@ public class OracleAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Returns the drop schema statement. This method is aimed to be overwritten if the database adapter has a different
-	 * syntax for the DROP TABLE statement.
-	 *
-	 * @param schema The schema.
-	 * @return The drop schema statement.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public DropSchema getStatementDropSchema(String schema) {

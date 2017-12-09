@@ -41,9 +41,12 @@ public class PageRecordSet extends RecordSet {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	/**
-	 * Runable to paginate in a thread.
+	 * Runnable to paginate in a thread.
 	 */
 	private class Paginator implements Runnable {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void run() {
 			try {
@@ -165,7 +168,7 @@ public class PageRecordSet extends RecordSet {
 		}
 
 		/**
-		 * Check equal.
+		 * {@inheritDoc}
 		 */
 		@Override
 		public boolean equals(Object o) {
@@ -177,7 +180,7 @@ public class PageRecordSet extends RecordSet {
 		}
 
 		/**
-		 * Returns the string representation.
+		 * {@inheritDoc}
 		 */
 		@Override
 		public String toString() {
@@ -273,10 +276,7 @@ public class PageRecordSet extends RecordSet {
 	}
 
 	/**
-	 * Get a record given its index in the record list.
-	 *
-	 * @return The Record.
-	 * @param index The index in the record list.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public Record get(int index) {
@@ -341,9 +341,7 @@ public class PageRecordSet extends RecordSet {
 	}
 
 	/**
-	 * Returns this record set size.
-	 *
-	 * @return The size.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int size() {

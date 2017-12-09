@@ -25,41 +25,23 @@ import com.qtfx.lib.util.Numbers;
  */
 public class Instrument {
 
-	/**
-	 * Instrument unique identifier or code.
-	 */
+	/** Instrument unique identifier or code. */
 	private String id;
-	/**
-	 * Instrument description.
-	 */
+	/** Instrument description. */
 	private String description;
-	/**
-	 * The value of a pip, e.g. 0.0001 for the currency pair EUR/USD.
-	 */
+	/** The value of a pip, e.g. 0.0001 for the currency pair EUR/USD. */
 	private double pipValue;
-	/**
-	 * The scale of a pip.
-	 */
+	/** The scale of a pip. */
 	private int pipScale;
-	/**
-	 * Tick value, e.g., 0.00001 for the currency pair EUR/USD.
-	 */
+	/** Tick value, e.g., 0.00001 for the currency pair EUR/USD. */
 	private double tickValue;
-	/**
-	 * The tick or minimum value scale.
-	 */
+	/** The tick or minimum value scale. */
 	private int tickScale;
-	/**
-	 * The volume scale.
-	 */
+	/** The volume scale. */
 	private int volumeScale;
-	/**
-	 * Primary currency.
-	 */
+	/** Primary currency. */
 	private Currency primaryCurrency;
-	/**
-	 * Secondary currency.
-	 */
+	/** Secondary currency. */
 	private Currency secondaryCurrency;
 
 	/**
@@ -72,27 +54,17 @@ public class Instrument {
 	/**
 	 * Constructor assigning the fields.
 	 * 
-	 * @param id
-	 *            Identifier or code.
-	 * @param description
-	 *            Description.
-	 * @param primaryCurrency
-	 *            The primary currency code.
-	 * @param secondaryCurrency
-	 *            The secondary currency code.
-	 * @param pipValue
-	 *            Pip value.
-	 * @param pipScale
-	 *            The pip scale.
-	 * @param tickValue
-	 *            Tick or minimum value.
-	 * @param tickScale
-	 *            Tick scale.
-	 * @param volumeScale
-	 *            The volume scale if applicable, otherwise -1.
+	 * @param id Identifier or code.
+	 * @param description Description.
+	 * @param primaryCurrency The primary currency code.
+	 * @param secondaryCurrency The secondary currency code.
+	 * @param pipValue Pip value.
+	 * @param pipScale The pip scale.
+	 * @param tickValue Tick or minimum value.
+	 * @param tickScale Tick scale.
+	 * @param volumeScale The volume scale if applicable, otherwise -1.
 	 */
-	public Instrument(String id, String description, Currency primaryCurrency, Currency secondaryCurrency,
-			double pipValue, int pipScale, double tickValue, int tickScale, int volumeScale) {
+	public Instrument(String id, String description, Currency primaryCurrency, Currency secondaryCurrency, double pipValue, int pipScale, double tickValue, int tickScale, int volumeScale) {
 
 		super();
 
@@ -136,8 +108,7 @@ public class Instrument {
 	/**
 	 * Sets the identifier or id.
 	 * 
-	 * @param id
-	 *            The identifier or id.
+	 * @param id The identifier or id.
 	 */
 	public void setId(String id) {
 		this.id = id;
@@ -155,8 +126,7 @@ public class Instrument {
 	/**
 	 * Sets the description.
 	 * 
-	 * @param description
-	 *            The description.
+	 * @param description The description.
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -174,8 +144,7 @@ public class Instrument {
 	/**
 	 * Sets the primary currency.
 	 * 
-	 * @param primaryCurrency
-	 *            The primary currency.
+	 * @param primaryCurrency The primary currency.
 	 */
 	public void setPrimaryCurrency(Currency primaryCurrency) {
 		this.primaryCurrency = primaryCurrency;
@@ -193,8 +162,7 @@ public class Instrument {
 	/**
 	 * Sets the primary currency.
 	 * 
-	 * @param secondaryCurrency
-	 *            The primary currency.
+	 * @param secondaryCurrency The primary currency.
 	 */
 	public void setSecondaryCurrency(Currency secondaryCurrency) {
 		this.secondaryCurrency = secondaryCurrency;
@@ -212,8 +180,7 @@ public class Instrument {
 	/**
 	 * Sets the pip value.
 	 * 
-	 * @param pipValue
-	 *            The pip value.
+	 * @param pipValue The pip value.
 	 */
 	public void setPipValue(double pipValue) {
 		this.pipValue = pipValue;
@@ -231,8 +198,7 @@ public class Instrument {
 	/**
 	 * Sets the pip scale.
 	 * 
-	 * @param pipScale
-	 *            The pip scale.
+	 * @param pipScale The pip scale.
 	 */
 	public void setPipScale(int pipScale) {
 		this.pipScale = pipScale;
@@ -250,8 +216,7 @@ public class Instrument {
 	/**
 	 * Sets the tick value.
 	 * 
-	 * @param tickValue
-	 *            The tick value.
+	 * @param tickValue The tick value.
 	 */
 	public void setTickValue(double tickValue) {
 		this.tickValue = tickValue;
@@ -269,8 +234,7 @@ public class Instrument {
 	/**
 	 * Sets the tick or minimum value scale.
 	 * 
-	 * @param tickScale
-	 *            The tick or minimum value scale.
+	 * @param tickScale The tick or minimum value scale.
 	 */
 	public void setTickScale(int tickScale) {
 		this.tickScale = tickScale;
@@ -288,8 +252,7 @@ public class Instrument {
 	/**
 	 * Sets the volume scale.
 	 * 
-	 * @param volumeScale
-	 *            The volume scale.
+	 * @param volumeScale The volume scale.
 	 */
 	public void setVolumeScale(int volumeScale) {
 		this.volumeScale = volumeScale;
@@ -307,8 +270,7 @@ public class Instrument {
 	/**
 	 * Returns the pip value as a big decimal with scale.
 	 * 
-	 * @param pipValue
-	 *            The pip value.
+	 * @param pipValue The pip value.
 	 * @return The pip value as a big decimal with scale.
 	 */
 	public BigDecimal getPipValueAsBigDecimal(double pipValue) {
@@ -327,8 +289,7 @@ public class Instrument {
 	/**
 	 * Returns the tick value as a big decimal with scale.
 	 * 
-	 * @param tickValue
-	 *            The tick value.
+	 * @param tickValue The tick value.
 	 * @return The tick value as a big decimal with scale.
 	 */
 	public BigDecimal getTickValueAsBigDecimal(double tickValue) {

@@ -75,9 +75,7 @@ public class AddField extends Statement {
 	}
 
 	/**
-	 * Returns this <code>ALTER TABLE ADD column</code> query as a string.
-	 *
-	 * @return The add column command as an SQL string.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

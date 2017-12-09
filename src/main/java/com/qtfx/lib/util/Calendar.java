@@ -839,7 +839,7 @@ public class Calendar extends GregorianCalendar {
 	}
 
 	/**
-	 * Returns a string representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

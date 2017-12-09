@@ -17,7 +17,7 @@ package com.qtfx.lib.db;
 import java.util.List;
 
 /**
- * Interface that should implement back end persistence engines that operate with records of views.
+ * Interface that should implement back end persistence/procurement engines that operate with records of views.
  * 
  * @author Miquel Sas
  */
@@ -146,15 +146,6 @@ public interface Persistor {
 	 * @throws PersistorException If a persistor error occurs.
 	 */
 	boolean exists(OrderKey primaryKey) throws PersistorException;
-
-	/**
-	 * Check if the primary key exists within its persistent layer.
-	 * 
-	 * @param primaryKey The list of primary key values.
-	 * @return A boolean stating if the record exists within its persistent layer.
-	 * @throws PersistorException If a persistor error occurs.
-	 */
-	boolean exists(Value... primaryKey) throws PersistorException;
 
 	/**
 	 * Returns true if the record has successfully refreshed.

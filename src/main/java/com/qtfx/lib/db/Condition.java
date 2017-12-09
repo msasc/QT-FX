@@ -752,10 +752,7 @@ public class Condition {
 	}
 
 	/**
-	 * Indicates whether some other object is "equal to" this one.
-	 *
-	 * @return A boolean.
-	 * @param o The object to compare with.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object o) {
@@ -779,9 +776,7 @@ public class Condition {
 	}
 
 	/**
-	 * Returns the hash code value for this List.
-	 *
-	 * @return The hash code
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int hashCode() {
@@ -1162,9 +1157,7 @@ public class Condition {
 	}
 
 	/**
-	 * Returns a string representation of this condition.
-	 * 
-	 * @return A string representation of this condition.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

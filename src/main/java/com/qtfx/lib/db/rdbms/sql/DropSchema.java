@@ -52,9 +52,7 @@ public class DropSchema extends Statement {
 	}
 
 	/**
-	 * Returns this DROP SCHEMA statement as a string.
-	 *
-	 * @return The statement.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

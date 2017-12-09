@@ -84,9 +84,7 @@ public class TickEvent extends EventObject {
 	}
 
 	/**
-	 * Returns a string representation of this event.
-	 * 
-	 * @return A string representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

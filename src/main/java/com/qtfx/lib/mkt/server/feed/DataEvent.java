@@ -27,21 +27,13 @@ import com.qtfx.lib.mkt.server.OfferSide;
  */
 public class DataEvent extends EventObject {
 
-	/**
-	 * Instrument.
-	 */
+	/** Instrument. */
 	private Instrument instrument;
-	/**
-	 * Period.
-	 */
+	/** Period. */
 	private Period period;
-	/**
-	 * Offer side.
-	 */
+	/** Offer side. */
 	private OfferSide offerSide;
-	/**
-	 * The price data.
-	 */
+	/** The price data. */
 	private Data data;
 
 	/**
@@ -98,9 +90,7 @@ public class DataEvent extends EventObject {
 	}
 
 	/**
-	 * Returns a string representation of this event.
-	 * 
-	 * @return A string representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

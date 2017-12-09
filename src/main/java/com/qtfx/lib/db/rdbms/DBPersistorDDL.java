@@ -18,7 +18,6 @@ import java.sql.SQLException;
 
 import com.qtfx.lib.db.ForeignKey;
 import com.qtfx.lib.db.Index;
-import com.qtfx.lib.db.MetaData;
 import com.qtfx.lib.db.PersistorDDL;
 import com.qtfx.lib.db.PersistorException;
 import com.qtfx.lib.db.Table;
@@ -46,12 +45,7 @@ public class DBPersistorDDL implements PersistorDDL {
 	}
 
 	/**
-	 * Executes an add foreign key statement.
-	 *
-	 * @param table The table.
-	 * @param foreignKey The foreign key.
-	 * @return The number of rows updated of zero if not applicable.
-	 * @throws PersistorException If such an error occurs.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int addForeignKey(Table table, ForeignKey foreignKey) throws PersistorException {
@@ -63,11 +57,7 @@ public class DBPersistorDDL implements PersistorDDL {
 	}
 
 	/**
-	 * Executes an add primary key statement.
-	 *
-	 * @param table The table.
-	 * @return The number of rows updated of zero if not applicable.
-	 * @throws PersistorException If such an error occurs.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int addPrimaryKey(Table table) throws PersistorException {
@@ -78,13 +68,8 @@ public class DBPersistorDDL implements PersistorDDL {
 		}
 	}
 
-
 	/**
-	 * Executes a table build.
-	 *
-	 * @param table The table.
-	 * @return The number of rows updated of zero if not applicable.
-	 * @throws PersistorException If such an error occurs.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int buildTable(Table table) throws PersistorException {
@@ -96,11 +81,7 @@ public class DBPersistorDDL implements PersistorDDL {
 	}
 
 	/**
-	 * Executes a create schema statement.
-	 * 
-	 * @param schema The schema.
-	 * @return The number of rows updated of zero if not applicable.
-	 * @throws PersistorException If such an error occurs.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int createSchema(String schema) throws PersistorException{
@@ -112,11 +93,7 @@ public class DBPersistorDDL implements PersistorDDL {
 	}
 	
 	/**
-	 * Executes a create table statement.
-	 *
-	 * @param table The table.
-	 * @return The number of rows updated of zero if not applicable.
-	 * @throws PersistorException If such an error occurs.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int createTable(Table table) throws PersistorException {
@@ -128,11 +105,7 @@ public class DBPersistorDDL implements PersistorDDL {
 	}
 
 	/**
-	 * Executes a create index statement.
-	 *
-	 * @param index The index to create.
-	 * @return The number of rows updated of zero if not applicable.
-	 * @throws PersistorException If such an error occurs.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int createIndex(Index index) throws PersistorException {
@@ -143,14 +116,8 @@ public class DBPersistorDDL implements PersistorDDL {
 		}
 	}
 
-
 	/**
-	 * Executes a drop foreign key statement.
-	 *
-	 * @param table The table.
-	 * @param foreignKey The foreign key to drop.
-	 * @return The number of rows updated of zero if not applicable.
-	 * @throws PersistorException If such an error occurs.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int dropForeignKey(Table table, ForeignKey foreignKey) throws PersistorException {
@@ -162,11 +129,7 @@ public class DBPersistorDDL implements PersistorDDL {
 	}
 	
 	/**
-	 * Executes a drop index statement.
-	 *
-	 * @param index The index to drop.
-	 * @return The number of rows updated of zero if not applicable.
-	 * @throws PersistorException If such an error occurs.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int dropIndex(Index index) throws PersistorException {
@@ -178,11 +141,7 @@ public class DBPersistorDDL implements PersistorDDL {
 	}
 
 	/**
-	 * Executes the drop table statement.
-	 *
-	 * @param table The table.
-	 * @return The number of rows updated of zero if not applicable.
-	 * @throws PersistorException If such an error occurs.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int dropTable(Table table) throws PersistorException {
@@ -193,18 +152,13 @@ public class DBPersistorDDL implements PersistorDDL {
 		}
 	}
 
-
 	/**
-	 * Check if the schema exists.
-	 * 
-	 * @param schema The schema name.
-	 * @return A boolean.
-	 * @throws PersistorException If such an error occurs.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean existsSchema(String schema) throws PersistorException {
 		try {
-			MetaData metaData = new MetaData(dbEngine);
+			DBMetaData metaData = new DBMetaData(dbEngine);
 			return metaData.existsSchema(schema);
 		} catch (SQLException exc) {
 			throw new PersistorException(exc);
@@ -212,11 +166,7 @@ public class DBPersistorDDL implements PersistorDDL {
 	}
 	
 	/**
-	 * Check if the table exists.
-	 * 
-	 * @param table The table.
-	 * @return A boolean.
-	 * @throws PersistorException If such an error occurs.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean existsTable(Table table) throws PersistorException {
@@ -224,17 +174,12 @@ public class DBPersistorDDL implements PersistorDDL {
 	}
 
 	/**
-	 * Check if the table exists.
-	 * 
-	 * @param schema The schema name.
-	 * @param table The table name.
-	 * @return A boolean.
-	 * @throws PersistorException If such an error occurs.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean existsTable(String schema, String table) throws PersistorException {
 		try {
-			MetaData metaData = new MetaData(dbEngine);
+			DBMetaData metaData = new DBMetaData(dbEngine);
 			return metaData.existsTable(schema, table);
 		} catch (SQLException exc) {
 			throw new PersistorException(exc);

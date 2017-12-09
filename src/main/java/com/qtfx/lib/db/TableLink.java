@@ -149,9 +149,7 @@ public class TableLink implements Iterable<TableLink.Segment> {
 		}
 
 		/**
-		 * Returns the hash code for this order key.
-		 *
-		 * @return The hash code
+		 * {@inheritDoc}
 		 */
 		@Override
 		public int hashCode() {
@@ -162,10 +160,7 @@ public class TableLink implements Iterable<TableLink.Segment> {
 		}
 
 		/**
-		 * Check whether the argument object is equal to this order segment.
-		 *
-		 * @param obj The object to compare
-		 * @return A boolean.
+		 * {@inheritDoc}
 		 */
 		@Override
 		public boolean equals(Object obj) {
@@ -183,9 +178,7 @@ public class TableLink implements Iterable<TableLink.Segment> {
 		}
 
 		/**
-		 * Returns a string representation of this segment.
-		 *
-		 * @return A string
+		 * {@inheritDoc}
 		 */
 		@Override
 		public String toString() {

@@ -23,14 +23,14 @@ import com.qtfx.lib.util.TextServer;
  * @author Miquel Sas
  */
 public enum Unit {
-	Millisecond("MS"),
-	Second("SC"),
-	Minute("MN"),
-	Hour("HR"),
-	Day("DY"),
-	Week("WK"),
-	Month("MT"),
-	Year("YR");
+	MILLISECOND("MS"),
+	SECOND("SC"),
+	MINUTE("MN"),
+	HOUR("HR"),
+	DAY("DY"),
+	WEEK("WK"),
+	MONTH("MT"),
+	YEAR("YR");
 
 	/**
 	 * Returns the unit of the given id.
@@ -76,21 +76,21 @@ public enum Unit {
 	 */
 	public String getShortDescription() {
 		switch (this) {
-		case Millisecond:
+		case MILLISECOND:
 			return TextServer.getString("unitMillisecond", Locale.UK);
-		case Second:
+		case SECOND:
 			return TextServer.getString("unitSecond", Locale.UK);
-		case Minute:
+		case MINUTE:
 			return TextServer.getString("unitMinute", Locale.UK);
-		case Hour:
+		case HOUR:
 			return TextServer.getString("unitHour", Locale.UK);
-		case Day:
+		case DAY:
 			return TextServer.getString("unitDay", Locale.UK);
-		case Week:
+		case WEEK:
 			return TextServer.getString("unitWeek", Locale.UK);
-		case Month:
+		case MONTH:
 			return TextServer.getString("unitMonth", Locale.UK);
-		case Year:
+		case YEAR:
 			return TextServer.getString("unitYear", Locale.UK);
 		default:
 			throw new IllegalArgumentException();

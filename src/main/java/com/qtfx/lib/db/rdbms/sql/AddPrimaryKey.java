@@ -57,9 +57,7 @@ public class AddPrimaryKey extends Statement {
 	}
 
 	/**
-	 * Returns this <code>ALTER TABLE ADD PRIMARY KEY</code> query as a string.
-	 *
-	 * @return The query.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

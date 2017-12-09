@@ -38,11 +38,7 @@ public class RecordComparator implements Comparator<Record> {
 	}
 
 	/**
-	 * Compares two records based on the order key.
-	 *
-	 * @param r1 Record 1.
-	 * @param r2 Record 2.
-	 * @return -1 if r1 is less than r2, 0 if equal, and 1 if greater than.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int compare(Record r1, Record r2) {

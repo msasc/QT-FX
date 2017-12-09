@@ -196,9 +196,7 @@ public class FieldGroup implements Comparable<FieldGroup> {
 	}
 
 	/**
-	 * Returns the hash code.
-	 * 
-	 * @return The hash code.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int hashCode() {
@@ -206,11 +204,7 @@ public class FieldGroup implements Comparable<FieldGroup> {
 	}
 
 	/**
-	 * Returns a boolean indicating if the argument object is equal to this field group. Field groups are compared by
-	 * name.
-	 * 
-	 * @return A boolean indicating if the argument object is equal to this field group. Field groups are compared by
-	 *         name
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -222,9 +216,7 @@ public class FieldGroup implements Comparable<FieldGroup> {
 	}
 
 	/**
-	 * Compares for sorting this field group to the argument field group.
-	 * 
-	 * @param fieldGroup The field group to compare with.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int compareTo(FieldGroup fieldGroup) {
@@ -238,9 +230,7 @@ public class FieldGroup implements Comparable<FieldGroup> {
 	}
 
 	/**
-	 * Returns a string representation.
-	 * 
-	 * @return A string representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

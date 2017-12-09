@@ -215,9 +215,7 @@ public class Relation extends TableLink {
 	}
 
 	/**
-	 * Gets a string representation of this relation.
-	 *
-	 * @return A string representation of this column spec.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

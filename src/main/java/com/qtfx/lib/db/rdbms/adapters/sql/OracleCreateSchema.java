@@ -31,9 +31,7 @@ public class OracleCreateSchema extends CreateSchema {
 	}
 
 	/**
-	 * Returns this CREATE SCHEMA statement as a string.
-	 *
-	 * @return The statement.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

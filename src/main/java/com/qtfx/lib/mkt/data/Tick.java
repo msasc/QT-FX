@@ -84,7 +84,7 @@ public class Tick {
 		}
 
 		/**
-		 * Returns a string representation of this value/volume pair.
+		 * {@inheritDoc}
 		 */
 		@Override
 		public String toString() {
@@ -239,9 +239,7 @@ public class Tick {
 	}
 
 	/**
-	 * Returns a string representation of this tick.
-	 * 
-	 * @return A string representation of this tick.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

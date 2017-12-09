@@ -96,9 +96,7 @@ public class AddCheck extends Statement {
 	}
 
 	/**
-	 * Returns this <code>ALTER TABLE ADD FOREIGN KEY</code> query as a string.
-	 *
-	 * @return The query.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {
@@ -154,9 +152,7 @@ public class AddCheck extends Statement {
 	}
 
 	/**
-	 * Returns the array list of parameterized values.
-	 *
-	 * @return The array list of values.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<Value> getValues() {

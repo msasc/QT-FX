@@ -55,11 +55,7 @@ public class OrderKey implements Comparable<Object> {
 		}
 
 		/**
-		 * Compares this segment with the argument object. Returns 0 if they are equal, -1 if this value is less than
-		 * the argument, and 1 if it is greater.
-		 *
-		 * @return An integer.
-		 * @param o The Object to compare with.
+		 * {@inheritDoc}
 		 */
 		@Override
 		public int compareTo(Object o) {
@@ -77,10 +73,7 @@ public class OrderKey implements Comparable<Object> {
 		}
 
 		/**
-		 * Check whether another object is equal to this segment.
-		 *
-		 * @param o The object to check
-		 * @return A boolean
+		 * {@inheritDoc}
 		 */
 		@Override
 		public boolean equals(Object o) {
@@ -88,9 +81,7 @@ public class OrderKey implements Comparable<Object> {
 		}
 
 		/**
-		 * Returns the hash code for this segment.
-		 *
-		 * @return The hash code
+		 * {@inheritDoc}
 		 */
 		@Override
 		public int hashCode() {
@@ -140,9 +131,7 @@ public class OrderKey implements Comparable<Object> {
 		}
 
 		/**
-		 * Returns a string representation of this segment.
-		 *
-		 * @return A string
+		 * {@inheritDoc}
 		 */
 		@Override
 		public String toString() {
@@ -229,11 +218,7 @@ public class OrderKey implements Comparable<Object> {
 	}
 
 	/**
-	 * Compares this order key with the argument object. Returns 0 if they are equal, -1 if this value is less than the
-	 * argument, and 1 if it is greater.
-	 *
-	 * @return An integer.
-	 * @param o The Object to compare with.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int compareTo(Object o) {
@@ -245,9 +230,7 @@ public class OrderKey implements Comparable<Object> {
 	}
 
 	/**
-	 * Returns a string representation of this index key.
-	 *
-	 * @return A string
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

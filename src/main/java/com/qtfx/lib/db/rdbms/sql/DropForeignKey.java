@@ -76,9 +76,7 @@ public class DropForeignKey extends Statement {
 	}
 
 	/**
-	 * Returns this <code>DROP FOREIGN KEY</code> statement as a string.
-	 *
-	 * @return The query.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

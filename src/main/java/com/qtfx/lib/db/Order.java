@@ -96,9 +96,7 @@ public class Order {
 		}
 
 		/**
-		 * Returns the hash code for this order key.
-		 *
-		 * @return The hash code
+		 * {@inheritDoc}
 		 */
 		@Override
 		public int hashCode() {
@@ -109,10 +107,7 @@ public class Order {
 		}
 
 		/**
-		 * Check whether the argument object is equal to this order segment.
-		 *
-		 * @param obj The object to compare
-		 * @return A boolean.
+		 * {@inheritDoc}
 		 */
 		@Override
 		public boolean equals(Object obj) {
@@ -130,11 +125,7 @@ public class Order {
 		}
 
 		/**
-		 * Compares this segment with the argument object. Returns 0 if they are equal, -1 if this value is less than
-		 * the argument, and 1 if it is greater.
-		 *
-		 * @return An integer.
-		 * @param o The Object to compare with.
+		 * {@inheritDoc}
 		 */
 		@Override
 		public int compareTo(Object o) {
@@ -152,9 +143,7 @@ public class Order {
 		}
 
 		/**
-		 * Returns a string representation of this segment.
-		 *
-		 * @return A string
+		 * {@inheritDoc}
 		 */
 		@Override
 		public String toString() {
@@ -286,9 +275,7 @@ public class Order {
 	}
 
 	/**
-	 * Returns a string representation of this order.
-	 *
-	 * @return A string
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

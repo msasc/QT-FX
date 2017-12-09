@@ -211,12 +211,7 @@ public class View implements Comparable<Object> {
 	}
 
 	/**
-	 * Compares this table with the argument table. Returns 0 if they are equal, -1 if this value is less than the
-	 * argument, and 1 if it is greater. A table is considered to be equal to another table in the context of a
-	 * <code>SELECT</code> statement.
-	 *
-	 * @return An int
-	 * @param o The object to compare with.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int compareTo(Object o) {

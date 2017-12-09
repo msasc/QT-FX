@@ -79,9 +79,7 @@ public class AddForeignKey extends Statement {
 	}
 
 	/**
-	 * Returns this <code>ALTER TABLE ADD FOREIGN KEY</code> query as a string.
-	 *
-	 * @return The query.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

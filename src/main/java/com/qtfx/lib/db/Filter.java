@@ -127,9 +127,7 @@ public class Filter extends ArrayList<Filter.Segment> {
 		}
 
 		/**
-		 * Returns a string representation of this segment.
-		 *
-		 * @return The segment as a string
+		 * {@inheritDoc}
 		 */
 		@Override
 		public String toString() {
@@ -143,11 +141,7 @@ public class Filter extends ArrayList<Filter.Segment> {
 		}
 
 		/**
-		 * Compares this segment with the argument object. Returns 0 if they are equal, -1 if this value is less than
-		 * the argument, and 1 if it is greater.
-		 *
-		 * @return An integer.
-		 * @param o The Object to compare with.
+		 * {@inheritDoc}
 		 */
 		@Override
 		public int compareTo(Object o) {
@@ -979,9 +973,7 @@ public class Filter extends ArrayList<Filter.Segment> {
 	}
 
 	/**
-	 * Returns this filter as a string.
-	 *
-	 * @return This filter as a string representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

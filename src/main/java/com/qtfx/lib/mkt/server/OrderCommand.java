@@ -20,60 +20,32 @@ package com.qtfx.lib.mkt.server;
  * @author Miquel Sas
  */
 public enum OrderCommand {
-	/**
-	 * Buy, the command for a long order already filled.
-	 */
-	Buy,
-	/**
-	 * Buy at market price.
-	 */
-	BuyMarket,
-	/**
-	 * Buy when ask price &lt;= specified price.
-	 */
-	BuyLimitAsk,
-	/**
-	 * Buy when bid price &lt;= specified price.
-	 */
-	BuyLimitBid,
-	/**
-	 * Buy when ask price &gt;= specified price.
-	 */
-	BuyStopAsk,
-	/**
-	 * Buy when bid price &gt;= specified price.
-	 */
-	BuyStopBid,
-	/**
-	 * Sell, the command for a short order already filled.
-	 */
-	Sell,
-	/**
-	 * Sell at market price.
-	 */
-	SellMarket,
-	/**
-	 * Sell when ask price &gt;= specified price.
-	 */
-	SellLimitAsk,
-	/**
-	 * Sell when bid price &gt;= specified price.
-	 */
-	SellLimitBid,
-	/**
-	 * Sell when ask price &lt;= specified price.
-	 */
-	SellStopAsk,
-	/**
-	 * Sell when bid price &lt;= specified price.
-	 */
-	SellStopBid,
-	/**
-	 * Place a ask at the specified price.
-	 */
-	PlaceAsk,
-	/**
-	 * Place bid at specified price.
-	 */
-	PlaceBid;
+	/** Buy, the command for a long order already filled. */
+	BUY,
+	/** Buy at market price. */
+	BUY_MARKET,
+	/** Buy when ask price &lt;= specified price. */
+	BUY_LIMIT_ASK,
+	/** Buy when bid price &lt;= specified price. */
+	BUY_LIMIT_BID,
+	/** Buy when ask price &gt;= specified price. */
+	BUY_STOP_ASK,
+	/** Buy when bid price &gt;= specified price. */
+	BUY_STOP_BID,
+	/** Sell, the command for a short order already filled. */
+	SELL,
+	/** Sell at market price. */
+	SELL_MARKET,
+	/** Sell when ask price &gt;= specified price. */
+	SELL_LIMIT_ASK,
+	/** Sell when bid price &gt;= specified price. */
+	SELL_LIMIT_BID,
+	/** Sell when ask price &lt;= specified price. */
+	SELL_STOP_ASK,
+	/*** Sell when bid price &lt;= specified price. */
+	SELL_STOP_BID,
+	/** Place a ask at the specified price. */
+	PLACE_ASK,
+	/** Place bid at specified price. */
+	PLACE_BID;
 }

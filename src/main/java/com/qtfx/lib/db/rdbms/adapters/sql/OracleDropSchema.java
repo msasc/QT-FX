@@ -31,9 +31,7 @@ public class OracleDropSchema extends DropSchema {
 	}
 
 	/**
-	 * Returns this DROP SCHEMA statement as a string.
-	 *
-	 * @return The statement.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

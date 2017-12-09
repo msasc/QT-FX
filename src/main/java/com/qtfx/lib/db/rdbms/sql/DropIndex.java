@@ -53,9 +53,7 @@ public class DropIndex extends Statement {
 	}
 
 	/**
-	 * Returns this <code>DROP INDEX</code> query as a string.
-	 *
-	 * @return The query.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

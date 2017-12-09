@@ -81,10 +81,7 @@ public class FieldList implements Iterable<Field> {
 	}
 
 	/**
-	 * Check if the argument object is equal to this field list.
-	 * 
-	 * @param obj The object to check.
-	 * @return A boolean indicating if the argument object is equal to this field list.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object obj) {

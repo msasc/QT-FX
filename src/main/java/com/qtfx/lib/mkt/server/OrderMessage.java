@@ -19,52 +19,28 @@ package com.qtfx.lib.mkt.server;
  * @author Miquel Sas
  */
 public enum OrderMessage {
-	/**
-	 * Amount changed.
-	 */
-	AmountChanged,
-	/**
-	 * Expiration time changed.
-	 */
-	ExpirationTimeChanged,
-	/**
-	 * Label changed.
-	 */
-	LabelChanged,
-	/**
-	 * Price changed.
-	 */
-	PriceChanged,
-	/**
-	 * Stop loss price changed.
-	 */
-	StopLossChanged,
-	/**
-	 * Take price changed.
-	 */
-	TakeProfitChanged,
-	/**
-	 * Order command changed.
-	 */
-	OrderCommandChanged,
-	/**
-	 * Order closed by merge.
-	 */
-	ClosedByMerge,
-	/**
-	 * Order closed by stop loss.
-	 */
-	ClosedByStopLoss,
-	/**
-	 * Order closed by take profit.
-	 */
-	ClosedByTakeProfit,
-	/**
-	 * Order closed at market.
-	 */
-	ClosedAtMarket,
-	/**
-	 * Order fully filled.
-	 */
-	Filled;
+	/** Amount changed. */
+	AMOUNT_CHANGED,
+	/** Expiration time changed. */
+	EXPIRATION_TIME_CHANGED,
+	/** Label changed. */
+	LABEL_CHANGED,
+	/** Price changed. */
+	PRICE_CHANGED,
+	/** Stop loss price changed. */
+	STOP_LOSS_CHANGED,
+	/** Take profit price changed. */
+	TAKE_PROFIT_CHANGED,
+	/** Order command changed. */
+	ORDER_COMMAND_CHANGED,
+	/** Order closed by merge. */
+	CLOSED_BY_MERGE,
+	/** Order closed by stop loss. */
+	CLOSED_BY_STOP_LOSS,
+	/** Order closed by take profit. */
+	CLOSED_BY_TAKE_PROFIT,
+	/** Order closed at market. */
+	CLOSED_AT_MARKET,
+	/** Order fully filled. */
+	FILLED;
 }

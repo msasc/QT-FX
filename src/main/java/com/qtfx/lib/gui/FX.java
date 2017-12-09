@@ -25,14 +25,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Control;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 import javafx.stage.Stage;
 
 /**
@@ -526,6 +527,18 @@ public class FX {
 	// Text properties.
 
 	/**
+	 * String to determine the logical height of a font.
+	 */
+	private static String stringForHeight = null;
+	static {
+		StringBuilder b = new StringBuilder();
+		for (char c = 32; c < 128; c++) {
+			b.append(c);
+		}
+		stringForHeight = b.toString();
+	}
+
+	/**
 	 * Return the string width.
 	 * 
 	 * @param string The string.
@@ -533,24 +546,63 @@ public class FX {
 	 * @return The width.
 	 */
 	public static double getStringWidth(String string, Font font) {
+		return getStringBounds(string, font).getWidth();
+	}
+
+	/**
+	 * Return the string height for the font.
+	 * 
+	 * @param font The font
+	 * @return The height.
+	 */
+	public static double getStringHeight(Font font) {
+		return getStringBounds(stringForHeight, font).getHeight();
+	}
+
+	/**
+	 * Return the average capital letter width.
+	 * 
+	 * @param font The font.
+	 */
+	public static double getAverageLetterWidth(Font font) {
+		return getAverageCharWidth("ABCDEFGHIJKLMNOPQRSTUVWXYZ", font);
+	}
+
+	/**
+	 * Return the average digit width.
+	 * 
+	 * @param font The font.
+	 */
+	public static double getAverageDigitWidth(Font font) {
+		return getAverageCharWidth("0123456789", font);
+	}
+
+	/**
+	 * Return the average char width of a string.
+	 * 
+	 * @param string The string.
+	 * @param font The font.
+	 * @return The average cgaracter width.
+	 */
+	public static double getAverageCharWidth(String string, Font font) {
+		double width = getStringWidth(string, font);
+		double length = string.length();
+		return width / length;
+	}
+
+	/**
+	 * Return the logical string bounds for text sizes calculations.
+	 * 
+	 * @param string The string.
+	 * @param font The optional font.
+	 * @return The bounds.
+	 */
+	public static Bounds getStringBounds(String string, Font font) {
 		Text text = new Text(string);
 		if (font != null) {
 			text.setFont(font);
 		}
-		return text.getBoundsInLocal().getWidth();
-	}
-
-	public static double getAverageLetterWidth(Font font) {
-		String string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		double width = getStringWidth(string, font);
-		double length = string.length();
-		return width / length;
-	}
-
-	public static double getAverageDigitWidth(Font font) {
-		String string = "0123456789";
-		double width = getStringWidth(string, font);
-		double length = string.length();
-		return width / length;
+		text.setBoundsType(TextBoundsType.LOGICAL_VERTICAL_CENTER);
+		return text.getLayoutBounds();
 	}
 }

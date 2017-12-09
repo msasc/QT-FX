@@ -19,24 +19,14 @@ package com.qtfx.lib.mkt.server;
  * @author Miquel Sas
  */
 public enum OrderState {
-	/**
-	 * After order was cancelled.
-	 */
-	Cancelled,
-	/**
-	 * Set after the order was closed.
-	 */
-	Closed,
-	/**
-	 * Set right after order submission and before order acceptance by the server.
-	 */
-	Created,
-	/**
-	 * Set after order was fully or partially filled.
-	 */
-	Filled,
-	/**
-	 * Set after order submission for conditional orders.
-	 */
-	Opened;
+	/** After order was cancelled. */
+	CANCELLED,
+	/** Set after the order was closed. */
+	CLOSED,
+	/** Set right after order submission and before order acceptance by the server. */
+	CREATED,
+	/** Set after order was fully or partially filled. */
+	FILLED,
+	/** Set after order submission for conditional orders. */
+	OPENED;
 }

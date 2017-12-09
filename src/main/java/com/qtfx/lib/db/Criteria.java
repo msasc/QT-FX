@@ -206,9 +206,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 		}
 
 		/**
-		 * Returns a string representation of this value.
-		 *
-		 * @return A string
+		 * {@inheritDoc}
 		 */
 		@Override
 		public String toString() {
@@ -273,9 +271,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 		}
 
 		/**
-		 * Return the hash code for this object.
-		 *
-		 * @return The has code
+		 * {@inheritDoc}
 		 */
 		@Override
 		public int hashCode() {
@@ -289,10 +285,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 		}
 
 		/**
-		 * Check if this segment is equal too the argument object.
-		 *
-		 * @param obj The object to compare with.
-		 * @return A boolean indicating if the argument object is equal to this criteria segment
+		 * {@inheritDoc}
 		 */
 		@Override
 		public boolean equals(Object obj) {
@@ -457,9 +450,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 	}
 
 	/**
-	 * Returns a string representation of this criteria.
-	 *
-	 * @return A string
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
@@ -492,9 +483,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 	}
 
 	/**
-	 * Return the hash code for this object.
-	 *
-	 * @return The has code
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int hashCode() {
@@ -506,10 +495,7 @@ public class Criteria extends ArrayList<Criteria.Segment> {
 	}
 
 	/**
-	 * Check if the argument object is equal to this object.
-	 *
-	 * @param obj The object to compare.
-	 * @return A boolean indicating if the argument object is equal to this criteria
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object obj) {

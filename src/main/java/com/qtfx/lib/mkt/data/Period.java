@@ -26,25 +26,25 @@ import com.qtfx.lib.util.Strings;
 public class Period implements Comparable<Period> {
 
 	/** One minute period. */
-	public static final Period ONE_MIN = new Period(Unit.Minute, 1);
+	public static final Period ONE_MIN = new Period(Unit.MINUTE, 1);
 	/** Three minutes period. */
-	public static final Period THREE_MINS = new Period(Unit.Minute, 3);
+	public static final Period THREE_MINS = new Period(Unit.MINUTE, 3);
 	/** Five minutes period. */
-	public static final Period FiveMins = new Period(Unit.Minute, 5);
+	public static final Period FiveMins = new Period(Unit.MINUTE, 5);
 	/** Fifteen minutes period. */
-	public static final Period FIFTEEN_MINS = new Period(Unit.Minute, 15);
+	public static final Period FIFTEEN_MINS = new Period(Unit.MINUTE, 15);
 	/** Thirty minutes period. */
-	public static final Period THIRTY_MINS = new Period(Unit.Minute, 30);
+	public static final Period THIRTY_MINS = new Period(Unit.MINUTE, 30);
 	/** One hour period. */
-	public static final Period ONE_HOUR = new Period(Unit.Hour, 1);
+	public static final Period ONE_HOUR = new Period(Unit.HOUR, 1);
 	/** Four hours period. */
-	public static final Period FOUR_HOURS = new Period(Unit.Hour, 4);
+	public static final Period FOUR_HOURS = new Period(Unit.HOUR, 4);
 	/** Daily period. */
-	public static final Period DAILY = new Period(Unit.Day, 1);
+	public static final Period DAILY = new Period(Unit.DAY, 1);
 	/** Weekly period. */
-	public static final Period WEEKLY = new Period(Unit.Week, 1);
+	public static final Period WEEKLY = new Period(Unit.WEEK, 1);
 	/** Monthly period. */
-	public static final Period MONTHLY = new Period(Unit.Month, 1);
+	public static final Period MONTHLY = new Period(Unit.MONTH, 1);
 
 	/**
 	 * Returns the list of standard pre-defined periods.
@@ -150,28 +150,28 @@ public class Period implements Comparable<Period> {
 	public long getTime() {
 		long time = 0;
 		switch (unit) {
-		case Millisecond:
+		case MILLISECOND:
 			time = 1;
 			break;
-		case Second:
+		case SECOND:
 			time = 1000;
 			break;
-		case Minute:
+		case MINUTE:
 			time = 1000 * 60;
 			break;
-		case Hour:
+		case HOUR:
 			time = 1000 * 60 * 60;
 			break;
-		case Day:
+		case DAY:
 			time = 1000 * 60 * 60 * 24;
 			break;
-		case Week:
+		case WEEK:
 			time = 1000 * 60 * 60 * 24 * 7;
 			break;
-		case Month:
+		case MONTH:
 			time = 1000 * 60 * 60 * 24 * 31;
 			break;
-		case Year:
+		case YEAR:
 			time = 1000 * 60 * 60 * 24 * 366;
 			break;
 		default:
@@ -182,11 +182,7 @@ public class Period implements Comparable<Period> {
 	}
 
 	/**
-	 * Compares this period with the argument object. Returns 0 if they are equal, -1 if this value is less than the
-	 * argument, and 1 if it is greater.
-	 *
-	 * @param p The period to compare with.
-	 * @return An integer.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int compareTo(Period p) {
@@ -213,10 +209,7 @@ public class Period implements Comparable<Period> {
 	}
 
 	/**
-	 * Indicates whether some other object is "equal to" this one.
-	 *
-	 * @return A boolean.
-	 * @param o The object to compare with.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object o) {
@@ -231,9 +224,7 @@ public class Period implements Comparable<Period> {
 	}
 
 	/**
-	 * Returns a string representation of this period.
-	 * 
-	 * @return A string representation of this period.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

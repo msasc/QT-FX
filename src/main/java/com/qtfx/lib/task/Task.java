@@ -584,9 +584,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 	}
 
 	/**
-	 * Always returns {@code null}.
-	 *
-	 * @return {@code null} always
+	 * {@inheritDoc}
 	 */
 	@Override
 	public Void getRawResult() {
@@ -594,7 +592,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 	}
 
 	/**
-	 * Requires null completion value.
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected void setRawResult(Void mustBeNull) {
@@ -622,7 +620,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 	}
 
 	/**
-	 * Implements execution convention.
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected final boolean exec() {

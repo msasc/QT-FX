@@ -48,6 +48,9 @@ public class ButtonPane {
 	 * Button comparator by order.
 	 */
 	static class ButtonComparator implements Comparator<Button> {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public int compare(Button o1, Button o2) {
 			return FX.getButtonOrder(o1).compareTo(FX.getButtonOrder(o2));

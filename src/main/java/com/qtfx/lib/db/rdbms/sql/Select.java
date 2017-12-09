@@ -137,9 +137,7 @@ public class Select extends Statement {
 	}
 
 	/**
-	 * Returns the list of values to assign to parameters.
-	 *
-	 * @return The list of values to assign to parameters.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<Value> getValues() {
@@ -150,9 +148,7 @@ public class Select extends Statement {
 	}
 
 	/**
-	 * Returns this SELECT query as a string.
-	 *
-	 * @return The query.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

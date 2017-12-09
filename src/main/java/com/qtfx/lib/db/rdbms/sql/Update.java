@@ -186,9 +186,7 @@ public class Update extends Statement {
 	}
 
 	/**
-	 * Returns the array of values to assign to parameters.
-	 *
-	 * @return The array of values to assign to parameters.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public ArrayList<Value> getValues() {
@@ -211,9 +209,7 @@ public class Update extends Statement {
 	}
 
 	/**
-	 * Returns this <code>UPDATE</code> query as a string, eventually with parameters.
-	 *
-	 * @return The query.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

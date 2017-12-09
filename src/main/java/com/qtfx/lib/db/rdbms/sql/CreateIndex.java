@@ -56,9 +56,7 @@ public class CreateIndex extends Statement {
 	}
 
 	/**
-	 * Returns this CREATE INDEX statement as a string.
-	 *
-	 * @return The query.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

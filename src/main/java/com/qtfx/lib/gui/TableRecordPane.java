@@ -52,6 +52,9 @@ public class TableRecordPane {
 	 * Selection change listener.
 	 */
 	class SelectedIndexListener implements ChangeListener<Number> {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 			setLineOfLines(newValue.intValue() + 1);
@@ -63,6 +66,9 @@ public class TableRecordPane {
 	 * Property setter.
 	 */
 	class NodePropertySetter implements PropertySetter {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void setProperties(Node node) {
 			FX.setTableRecordPane(node, TableRecordPane.this);
@@ -73,6 +79,9 @@ public class TableRecordPane {
 	 * List change listener.
 	 */
 	class RecordsChangeListener implements ListChangeListener<Record> {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void onChanged(Change<? extends Record> c) {
 			while (c.next()) {

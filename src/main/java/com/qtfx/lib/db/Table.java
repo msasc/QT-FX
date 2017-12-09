@@ -229,11 +229,7 @@ public class Table {
 	}
 
 	/**
-	 * Indicates whether an object is "equal to" this table. A table is considered to be equal to another table in the
-	 * context of a SELECT statement, that is, with name from.
-	 *
-	 * @return A boolean
-	 * @param o The object to compare with.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object o) {
@@ -248,10 +244,7 @@ public class Table {
 	}
 
 	/**
-	 * Returns the hash code for this value. A table is considered to have the same hash code than another table in the
-	 * context of a SELECT statement.
-	 *
-	 * @return The hash code
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int hashCode() {

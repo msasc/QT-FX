@@ -388,11 +388,7 @@ public class Record implements Comparable<Object> {
 	}
 
 	/**
-	 * Returns a negative integer, zero, or a positive integer as this record is less than, equal to, or greater than
-	 * the specified value.
-	 *
-	 * @param o The object to compare.
-	 * @return The comparison integer.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int compareTo(Object o) {
@@ -408,8 +404,7 @@ public class Record implements Comparable<Object> {
 	}
 
 	/**
-	 * Compares for equality. A record is considered to be equal if the primary keys are equal not considering the
-	 * asc/desc flag.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -509,9 +504,7 @@ public class Record implements Comparable<Object> {
 	}
 	
 	/**
-	 * Returns a string representation of this record.
-	 * 
-	 * @return A string representation of this record.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

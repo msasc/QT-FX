@@ -57,9 +57,7 @@ public class CreateTable extends Statement {
 	}
 
 	/**
-	 * Returns this CREATE TABLE statement as a string.
-	 *
-	 * @return The statement.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

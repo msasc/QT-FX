@@ -442,7 +442,7 @@ public class Cursor {
 	}
 
 	/**
-	 * Let the garbage collector close this cursor if not already done.
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected void finalize() {

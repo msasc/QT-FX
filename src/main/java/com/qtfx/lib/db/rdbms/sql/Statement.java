@@ -90,9 +90,7 @@ public abstract class Statement {
 	}
 
 	/**
-	 * Returns this query as a string, eventually with parameters. A default database is used if necessary.
-	 *
-	 * @return The query.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

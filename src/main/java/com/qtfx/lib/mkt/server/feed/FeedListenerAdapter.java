@@ -70,9 +70,7 @@ public class FeedListenerAdapter implements FeedListener {
 	}
 
 	/**
-	 * Returns the list of current instrument data this listener is subscribed on.
-	 * 
-	 * @return The list of current data this listener is subscribed on.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<DataSubscription> getCurrentDataSubscriptions() {
@@ -80,9 +78,7 @@ public class FeedListenerAdapter implements FeedListener {
 	}
 
 	/**
-	 * Returns the list of instrument data this listener is subscribed on.
-	 * 
-	 * @return The list of datas this listener is subscribed on.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<DataSubscription> getDataSubscriptions() {
@@ -90,9 +86,7 @@ public class FeedListenerAdapter implements FeedListener {
 	}
 
 	/**
-	 * Returns the list instrument ticks this listener is subscribed on.
-	 * 
-	 * @return The list instrument ticks this listener is subscribed on.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<TickSubscription> getTickSubscriptions() {
@@ -100,27 +94,21 @@ public class FeedListenerAdapter implements FeedListener {
 	}
 
 	/**
-	 * Notifies the current forming data for the subscribed instruments.
-	 * 
-	 * @param dataEvent The data event.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void onCurrentData(DataEvent dataEvent) {
 	}
 
 	/**
-	 * Notifies the completed data for the subscribed instruments.
-	 * 
-	 * @param dataEvent The data event.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void onData(DataEvent dataEvent) {
 	}
 
 	/**
-	 * Notifies every tick data event for the subscribed instruments.
-	 * 
-	 * @param tickEvent The tick event.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void onTick(TickEvent tickEvent) {

@@ -383,9 +383,7 @@ public class Data {
 	}
 	
 	/**
-	 * Returns a string representation of this data object.
-	 * 
-	 * @return A string representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

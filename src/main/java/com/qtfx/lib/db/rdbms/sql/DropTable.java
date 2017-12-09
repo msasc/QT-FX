@@ -53,10 +53,7 @@ public class DropTable extends Statement {
 	}
 
 	/**
-	 * Returns this <code>DROP TABLE</code> statement as a string.
-	 * <p>
-	 * 
-	 * @return The statement.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

@@ -24,14 +24,20 @@ import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.Relation;
 import com.qtfx.lib.gui.action.ActionLookup;
 import com.qtfx.lib.gui.action.ActionSearchAndRefreshDB;
+import com.qtfx.lib.util.Numbers;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 
 /**
  * A panel that holds a grid form of fields from a record. Fields are laid out in tabs by field group if there are field
@@ -64,6 +70,9 @@ public class FormRecordPane {
 			this.rowIndex = rowIndex;
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public boolean equals(Object o) {
 			if (o instanceof GridItem) {
@@ -85,6 +94,9 @@ public class FormRecordPane {
 			this.fieldGroup = fieldGroup;
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public boolean equals(Object o) {
 			if (o instanceof GroupItem) {
@@ -94,6 +106,9 @@ public class FormRecordPane {
 			return false;
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public int compareTo(GroupItem groupItem) {
 			return fieldGroup.compareTo(groupItem.fieldGroup);
@@ -244,7 +259,7 @@ public class FormRecordPane {
 		// field related description.
 		List<GridPane> groupItemPanes = new ArrayList<>();
 		groupItems.forEach(groupItem -> groupItemPanes.add(getGroupItemPane(groupItem)));
-		
+
 		// Only one pane, add directly to the center, otherwise build a tab pane.
 		if (groupItemPanes.size() == 1) {
 			borderPane.setCenter(groupItemPanes.get(0));
@@ -259,11 +274,54 @@ public class FormRecordPane {
 			borderPane.setCenter(tabPane);
 		}
 
-		// Setup the form record pane to all the controls.
+		// List of all controls laid out.
 		List<Control> controls = FX.getControls(borderPane);
+
+		// Set the same preferred height to all one row controls.
+		setControlHeights(controls);
+
+		// Setup the form record pane to all the controls.
 		controls.forEach(control -> FX.setFormRecordPane(control, this));
 	}
-	
+
+	/**
+	 * Set the same preferred height to all one row controls.
+	 * 
+	 * @param controls The list of controls.
+	 */
+	private void setControlHeights(List<Control> controls) {
+		// All text fields the same font.
+		Font font = null;
+		for (Control control : controls) {
+			if (control instanceof TextField) {
+				TextField textField = (TextField) control;
+				Font fieldFont = textField.getFont();
+				if (font == null) {
+					font = fieldFont;
+				}
+				if (!font.equals(fieldFont)) {
+					return;
+				}
+			}
+		}
+		// Height.
+		double height = Numbers.round(FX.getStringHeight(font) * 1.47, 0);
+		for (Control control : controls) {
+			if (control instanceof TextField) {
+				control.setPrefHeight(height);
+			}
+			if (control instanceof CheckBox) {
+				control.setPrefHeight(height);
+			}
+			if (control instanceof ChoiceBox) {
+				control.setPrefHeight(height);
+			}
+			if (control instanceof ComboBox) {
+				control.setPrefHeight(height);
+			}
+		}
+	}
+
 	/**
 	 * Update field control with the record values.
 	 */
@@ -274,7 +332,7 @@ public class FormRecordPane {
 			fieldControl.setValue(record.getValue(alias));
 		}
 	}
-	
+
 	/**
 	 * Update the record with the field control values.
 	 */
@@ -330,19 +388,21 @@ public class FormRecordPane {
 
 			// Label.
 			gridPane.add(context.getFieldLabel(), 0, row);
-			
+
 			// The main field.
 			int colspan = (span && context.isSpan() ? 2 : 1);
 			int rowspan = 1;
 			gridPane.add(context.getControl(), 1, row, colspan, rowspan);
-			
+
 			// Refresh field if applicable.
 			if (context.isRefresh()) {
 				gridPane.add(context.getRefreshControl(), 2, row);
 			}
 		}
 
-		gridPane.setPadding(new Insets(10,10,10,10));
+		gridPane.setPadding(new Insets(8, 8, 8, 8));
+		gridPane.setVgap(2);
+		gridPane.setHgap(5);
 		return gridPane;
 	}
 

@@ -41,10 +41,7 @@ public class MySQLAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Returns a appropriate data source.
-	 * 
-	 * @param info The data source info.
-	 * @return The data source.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public DataSource getDataSource(DataSourceInfo info) {
@@ -52,9 +49,7 @@ public class MySQLAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Returns the CURRENT DATE function as a string.
-	 *
-	 * @return The CURRENT DATE function as a string.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String getCurrentDate() {
@@ -62,9 +57,7 @@ public class MySQLAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Returns the CURRENT TIME function as a string.
-	 *
-	 * @return The CURRENT TIME function as a string.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String getCurrentTime() {
@@ -72,9 +65,7 @@ public class MySQLAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Returns the CURRENT TIMESTAMP function as a string.
-	 *
-	 * @return The CURRENT TIMESTAMP function as a string.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String getCurrentTimestamp() {
@@ -82,10 +73,7 @@ public class MySQLAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Gets the field definition to use in a <code>CREATE TABLE</code> statement, given a field.
-	 *
-	 * @return The field definition.
-	 * @param field The field.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String getFieldDefinition(Field field) {
@@ -142,9 +130,7 @@ public class MySQLAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Check if the underlying database accepts explicit relations.
-	 *
-	 * @return A boolean.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean isExplicitRelation() {
@@ -152,10 +138,7 @@ public class MySQLAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Return a string representation of the date, valid to be used in an SQL statement.
-	 * 
-	 * @param date The date.
-	 * @return The representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toStringSQL(Date date) {
@@ -163,10 +146,7 @@ public class MySQLAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Return a string representation of the time, valid to be used in an SQL statement.
-	 * 
-	 * @param time The time.
-	 * @return The representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toStringSQL(Time time) {
@@ -174,11 +154,7 @@ public class MySQLAdapter extends DBEngineAdapter {
 	}
 
 	/**
-	 * Return a string representation of the time-stamp, valid to be used in an SQL statement.
-	 * <p>
-	 * 
-	 * @param time-stamp The time-stamp.
-	 * @return The representation.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toStringSQL(Timestamp timestamp) {

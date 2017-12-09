@@ -19,12 +19,8 @@ package com.qtfx.lib.mkt.server;
  * @author Miquel Sas
  */
 public enum AccountType {
-	/**
-	 * Normal live account, supported by all servers (brokers).
-	 */
-	Live,
-	/**
-	 * Normal demo account, also supported by the majority of servers.
-	 */
-	Demo,
+	/** Normal live account, supported by all servers (brokers). */
+	LIVE,
+	/** Normal demo account, also supported by the majority of servers. */
+	DEMO;
 }

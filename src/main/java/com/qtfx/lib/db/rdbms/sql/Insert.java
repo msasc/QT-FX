@@ -99,9 +99,7 @@ public class Insert extends Statement {
 	}
 
 	/**
-	 * Returns the list of values to insert.
-	 *
-	 * @return The list of values.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<Value> getValues() {
@@ -167,9 +165,7 @@ public class Insert extends Statement {
 	}
 
 	/**
-	 * Returns this <code>INSERT</code> query as a string, eventually with parameters.
-	 *
-	 * @return The statement.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toSQL() {

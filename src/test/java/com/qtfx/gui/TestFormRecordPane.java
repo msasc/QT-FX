@@ -1,16 +1,18 @@
 package com.qtfx.gui;
 
+import java.util.List;
 import java.util.Locale;
 
-import com.qtfx.lib.db.FieldGroup;
 import com.qtfx.lib.db.FieldList;
 import com.qtfx.lib.db.Record;
+import com.qtfx.lib.gui.FX;
 import com.qtfx.lib.gui.FormRecordPane;
 import com.qtfx.lib.util.TextServer;
 import com.qtfx.util.Util;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Control;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -46,6 +48,8 @@ public class TestFormRecordPane extends Application {
 		form.addField("QPURCH", 2, 0);
 		form.layoutFields();
 		form.updateFieldControls();
+		
+		List<Control> controls = FX.getControls(form.getNode());
 
 		BorderPane root = new BorderPane();
 		root.setCenter(form.getNode());
