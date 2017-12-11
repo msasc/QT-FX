@@ -11,7 +11,7 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.mkt.server.feed;
+package com.qtfx.lib.mkt.server_bk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,12 @@ import com.qtfx.lib.mkt.data.Data;
 import com.qtfx.lib.mkt.data.Instrument;
 import com.qtfx.lib.mkt.data.Period;
 import com.qtfx.lib.mkt.data.Tick;
-import com.qtfx.lib.mkt.server.OfferSide;
-import com.qtfx.lib.mkt.server.ServerException;
+import com.qtfx.lib.mkt.server_bk.ok.DataEvent;
+import com.qtfx.lib.mkt.server_bk.ok.DataSubscription;
+import com.qtfx.lib.mkt.server_bk.ok.OfferSide;
+import com.qtfx.lib.mkt.server_bk.ok.ServerException;
+import com.qtfx.lib.mkt.server_bk.ok.TickEvent;
+import com.qtfx.lib.mkt.server_bk.ok.TickSubscription;
 
 /**
  * A feed event dispatcher that runs in a separated thread and is aimed to dispatch feed events, like Data or tick
@@ -32,49 +36,23 @@ import com.qtfx.lib.mkt.server.ServerException;
  */
 public class FeedDispatcher implements Runnable {
 
-	/**
-	 * Input buffer for current Data data events.
-	 */
-	private List<DataEvent> inputCurrentDataEvents = new ArrayList<>();
-	/**
-	 * Input lock for current Data data events.
-	 */
-	private Object inputCurrentDataLock = new Object();
-	/**
-	 * Input buffer for completed Data data events.
-	 */
+	/** Input buffer for completed Data data events. */
 	private List<DataEvent> inputDataEvents = new ArrayList<>();
-	/**
-	 * Input lock for completed price data events.
-	 */
+	/** Input lock for completed price data events. */
 	private Object inputDataLock = new Object();
-	/**
-	 * Input buffer for tick data events.
-	 */
+	/** Input buffer for tick data events. */
 	private List<TickEvent> inputTickEvents = new ArrayList<>();
-	/**
-	 * Input lock for tick data events.
-	 */
+	/** Input lock for tick data events. */
 	private Object inputTickLock = new Object();
-	/**
-	 * Output buffer for current price data events.
-	 */
+	/** Output buffer for current price data events. */
 	private List<DataEvent> outputCurrentDataEvents = new ArrayList<>();
-	/**
-	 * Output buffer for completed price data events.
-	 */
+	/** Output buffer for completed price data events. */
 	private List<DataEvent> outputDataEvents = new ArrayList<>();
-	/**
-	 * Output buffer for tick data events.
-	 */
+	/** Output buffer for tick data events. */
 	private List<TickEvent> outputTickEvents = new ArrayList<>();
-	/**
-	 * The list of listeners.
-	 */
+	/** The list of listeners. */
 	private List<FeedListener> listeners = new ArrayList<>();
-	/**
-	 * A boolean that indicates that this running dispatcher has terminated.
-	 */
+	/** A boolean that indicates that this running dispatcher has terminated. */
 	private boolean terminated = false;
 	/**
 	 * A boolean that indicates that this running dispatcher has been explicitly stopped.
@@ -94,8 +72,8 @@ public class FeedDispatcher implements Runnable {
 
 	/**
 	 * Adds a feed listener to the list of feed listeners. Before adding the listener to the dispatcher, the
-	 * <i>FeeddManager</i> would normally have to initialize the listener subscriptions in the backend server. If the
-	 * listerner has o subscriptions, an <i>IllegalArgumentException</i> is thrown.
+	 * <i>FeeddManager</i> would normally have to initialize the listener subscriptions in the back-end server. If the
+	 * listener has o subscriptions, an <i>IllegalArgumentException</i> is thrown.
 	 * 
 	 * @param listener Feed listener.
 	 */
@@ -127,26 +105,12 @@ public class FeedDispatcher implements Runnable {
 	}
 
 	/**
-	 * Adds a current price data event to the input queue.
-	 * 
-	 * @param instrument The instrument.
-	 * @param period The period.
-	 * @param offerSide Offer side.
-	 * @param data The price data.
-	 */
-	public void addCurrentData(Instrument instrument, Period period, OfferSide offerSide, Data data) {
-		synchronized (inputCurrentDataLock) {
-			inputCurrentDataEvents.add(new DataEvent(this, instrument, period, offerSide, data));
-		}
-	}
-
-	/**
 	 * Adds a completed data event to the input queue.
 	 * 
 	 * @param instrument The instrument.
 	 * @param period The period.
-	 * @param offerSide Offer side.
-	 * @param data The price data.
+	 * @param offerSide The offer side.
+	 * @param data The data.
 	 */
 	public void addData(Instrument instrument, Period period, OfferSide offerSide, Data data) {
 		synchronized (inputDataLock) {
@@ -175,13 +139,6 @@ public class FeedDispatcher implements Runnable {
 		synchronized (inputTickLock) {
 			while (!inputTickEvents.isEmpty()) {
 				outputTickEvents.add(inputTickEvents.remove(0));
-			}
-		}
-
-		// Move current data from input to output.
-		synchronized (inputCurrentDataLock) {
-			while (!inputCurrentDataEvents.isEmpty()) {
-				outputCurrentDataEvents.add(inputCurrentDataEvents.remove(0));
 			}
 		}
 
@@ -214,8 +171,7 @@ public class FeedDispatcher implements Runnable {
 				for (DataSubscription subscription : subscriptions) {
 					Instrument instrument = event.getInstrument();
 					Period period = event.getPeriod();
-					OfferSide offerSide = event.getOfferSide();
-					if (subscription.acceptsData(instrument, period, offerSide)) {
+					if (subscription.acceptsData(instrument, period)) {
 						listener.onCurrentData(event);
 					}
 				}
@@ -230,8 +186,7 @@ public class FeedDispatcher implements Runnable {
 				for (DataSubscription subscription : subscriptions) {
 					Instrument instrument = event.getInstrument();
 					Period period = event.getPeriod();
-					OfferSide offerSide = event.getOfferSide();
-					if (subscription.acceptsData(instrument, period, offerSide)) {
+					if (subscription.acceptsData(instrument, period)) {
 						listener.onData(event);
 					}
 				}
@@ -240,7 +195,7 @@ public class FeedDispatcher implements Runnable {
 	}
 
 	/**
-	 * Run the dispacher.
+	 * Run the dispatcher.
 	 */
 	@Override
 	public void run() {
@@ -273,9 +228,9 @@ public class FeedDispatcher implements Runnable {
 	}
 
 	/**
-	 * Check if the dispacher has terminated.
+	 * Check if the dispatcher has terminated.
 	 * 
-	 * @return A boolean that indicates if the dispacher has terminated.
+	 * @return A boolean that indicates if the dispatcher has terminated.
 	 */
 	synchronized public boolean isTerminated() {
 		return terminated;

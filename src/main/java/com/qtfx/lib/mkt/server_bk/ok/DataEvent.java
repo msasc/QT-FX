@@ -11,14 +11,13 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.mkt.server.feed;
+package com.qtfx.lib.mkt.server_bk.ok;
 
 import java.util.EventObject;
 
 import com.qtfx.lib.mkt.data.Data;
 import com.qtfx.lib.mkt.data.Instrument;
 import com.qtfx.lib.mkt.data.Period;
-import com.qtfx.lib.mkt.server.OfferSide;
 
 /**
  * Data price feed event.
@@ -33,7 +32,7 @@ public class DataEvent extends EventObject {
 	private Period period;
 	/** Offer side. */
 	private OfferSide offerSide;
-	/** The price data. */
+	/** Price data. */
 	private Data data;
 
 	/**
@@ -72,7 +71,7 @@ public class DataEvent extends EventObject {
 	}
 
 	/**
-	 * Returns the offer side.
+	 * Return the offer side.
 	 * 
 	 * @return The offer side.
 	 */
@@ -88,7 +87,6 @@ public class DataEvent extends EventObject {
 	public Data getData() {
 		return data;
 	}
-
 	/**
 	 * {@inheritDoc}
 	 */

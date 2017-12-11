@@ -11,7 +11,7 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.mkt.server.feed;
+package com.qtfx.lib.mkt.server_bk.ok;
 
 import java.util.EventObject;
 

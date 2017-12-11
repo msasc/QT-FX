@@ -11,48 +11,45 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.mkt.server.feed;
+package com.qtfx.lib.mkt.server;
 
+import java.util.EventObject;
+
+import com.qtfx.lib.mkt.data.Data;
 import com.qtfx.lib.mkt.data.Instrument;
 import com.qtfx.lib.mkt.data.Period;
-import com.qtfx.lib.mkt.server.OfferSide;
 
 /**
- * Defines a subscription to an instrument price data.
+ * Data price feed event.
  * 
  * @author Miquel Sas
  */
-public class DataSubscription {
+public class DataEvent extends EventObject {
 
-	/**
-	 * Instrument.
-	 */
+	/** Instrument. */
 	private Instrument instrument;
-	/**
-	 * Period.
-	 */
+	/** Period. */
 	private Period period;
-	/**
-	 * Offer side.
-	 */
+	/** Offer side. */
 	private OfferSide offerSide;
-	/**
-	 * A user object.
-	 */
-	private Object object;
+	/** Price data. */
+	private Data data;
 
 	/**
-	 * Constructor.
+	 * Constructor assigning fields.
 	 * 
+	 * @param source Event source.
 	 * @param instrument The instrument.
 	 * @param period The period.
-	 * @param offerSide The offer side.
+	 * @param offerSide Offer side.
+	 * @param data The data.
 	 */
-	public DataSubscription(Instrument instrument, Period period, OfferSide offerSide) {
-		super();
+	public DataEvent(Object source, Instrument instrument, Period period, OfferSide offerSide, Data data) {
+		super(source);
 		this.instrument = instrument;
 		this.period = period;
 		this.offerSide = offerSide;
+		this.data = data;
 	}
 
 	/**
@@ -74,7 +71,7 @@ public class DataSubscription {
 	}
 
 	/**
-	 * Returns the offer side.
+	 * Return the offer side.
 	 * 
 	 * @return The offer side.
 	 */
@@ -83,32 +80,29 @@ public class DataSubscription {
 	}
 
 	/**
-	 * Returns the user object.
+	 * Returns the price data.
 	 * 
-	 * @return The user object.
+	 * @return The price data.
 	 */
-	public Object getObject() {
-		return object;
+	public Data getData() {
+		return data;
+	}
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder b = new StringBuilder();
+		b.append(getSource().getClass().getSimpleName());
+		b.append(", ");
+		b.append(getInstrument().getDescription());
+		b.append(", ");
+		b.append(getPeriod());
+		b.append(", ");
+		b.append(getOfferSide());
+		b.append(", ");
+		b.append(getData());
+		return b.toString();
 	}
 
-	/**
-	 * Sets the user object.
-	 * 
-	 * @param object The user object.
-	 */
-	public void setObject(Object object) {
-		this.object = object;
-	}
-
-	/**
-	 * Check if this subscription should accept the argument data.
-	 * 
-	 * @param instrument The instrument.
-	 * @param period The period.
-	 * @param offerSide The offer side.
-	 * @return A boolean indicating if this subscription should accept the argument data.
-	 */
-	public boolean acceptsData(Instrument instrument, Period period, OfferSide offerSide) {
-		return this.instrument.equals(instrument) && this.period.equals(period) && this.offerSide.equals(offerSide);
-	}
 }

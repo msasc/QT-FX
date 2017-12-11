@@ -11,9 +11,10 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.mkt.server;
+package com.qtfx.lib.mkt.server_bk;
 
 import com.qtfx.lib.mkt.data.Data;
+import com.qtfx.lib.mkt.server_bk.ok.ServerException;
 
 /**
  * Iterator interface aimed to download huge amounts of price data. If the underlying server does not support this

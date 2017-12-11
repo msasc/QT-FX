@@ -11,52 +11,26 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.mkt.server;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.qtfx.lib.mkt.server_bk.ok;
 
 /**
  * Interface responsible to manage connections.
  * 
  * @author Miquel Sas
  */
-public abstract class ConnectionManager {
+public interface ConnectionManager {
 	
-	/** List of connection listeners. */
-	private List<ConnectionListener> listeners = new ArrayList<>();
-	
-	/**
-	 * Default constructor.s
-	 */
-	public ConnectionManager() {
-		super();
-	}
-
 	/**
 	 * Add a connection listener to receive connection events.
 	 * 
 	 * @param listener The connection listener.
 	 */
-	public void addListener(ConnectionListener listener) {
-		listeners.add(listener);
-	}
-	
-	/**
-	 * Notify listeners the connection event.
-	 * 
-	 * @param e The event.
-	 */
-	public void notifyConnectionEvent(ConnectionEvent e) {
-		for (ConnectionListener listener : listeners) {
-			listener.status(e);
-		}
-	}
+	void addListener(ConnectionListener listener);
 
 	/**
 	 * Connect to the server, using the given string and password, for the given connection type.
 	 * <p>
-	 * It is the responsibility of the server implementation to ask for any additional information to connect, like for
+	 * It is the resposibility of the server implementation to ask for any additional information to connect, like for
 	 * instance a PIN code.
 	 * 
 	 * @param username The user name.
@@ -64,33 +38,33 @@ public abstract class ConnectionManager {
 	 * @param connectionType The type of connection.
 	 * @throws ServerException If a server error occurs.
 	 */
-	public abstract void connect(String username, String password, AccountType connectionType) throws ServerException;
+	void connect(String username, String password, AccountType connectionType) throws ServerException;
 
 	/**
 	 * Disconnect from the server.
 	 * 
 	 * @throws ServerException If a server error occurs.
 	 */
-	public abstract void disconnect() throws ServerException;
+	void disconnect() throws ServerException;
 
 	/**
 	 * Returns the connection type of the connection or null if not connected.
 	 * 
 	 * @return The connection type.
 	 */
-	public abstract AccountType getConnectionType();
+	AccountType getConnectionType();
 
 	/**
 	 * Returns a boolean indicating if the client is correctly connected to the server.
 	 * 
 	 * @return A boolean indicating if the client is correctly connected to the server.
 	 */
-	public abstract boolean isConnected();
+	boolean isConnected();
 
 	/**
 	 * Tries to reconnect to the server using the current client information.
 	 * 
 	 * @throws ServerException If a server error occurs.
 	 */
-	public abstract void reconnect() throws ServerException;
+	void reconnect() throws ServerException;
 }

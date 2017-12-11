@@ -11,7 +11,7 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.mkt.server;
+package com.qtfx.lib.mkt.server_bk;
 
 import java.util.List;
 
@@ -20,6 +20,9 @@ import com.qtfx.lib.mkt.data.Filter;
 import com.qtfx.lib.mkt.data.Instrument;
 import com.qtfx.lib.mkt.data.Period;
 import com.qtfx.lib.mkt.data.Tick;
+import com.qtfx.lib.mkt.server_bk.ok.OfferSide;
+import com.qtfx.lib.mkt.server_bk.ok.Order;
+import com.qtfx.lib.mkt.server_bk.ok.ServerException;
 
 /**
  * Interface responsible to provide information about the history of data and orders.
@@ -27,6 +30,43 @@ import com.qtfx.lib.mkt.data.Tick;
  * @author Miquel Sas
  */
 public interface HistoryManager {
+	
+	/////////////////////////////////////////////////
+	// Retrieving time of first tick, data and order.
+
+	/**
+	 * Returns a long indicating the time of the first tick for the given instrument.
+	 * 
+	 * @param instrument The instrument.
+	 * @return A long indicating the time of the first tick for the given instrument.
+	 * @throws ServerException If a server error occurs.
+	 */
+	long getTimeOfFirstTick(Instrument instrument) throws ServerException;
+	
+	
+	///////////////////////////////
+	// Retrieve last data and tick.
+
+	/**
+	 * Returns a long indicating the first of price data available for the given instrument and period.
+	 * 
+	 * @param instrument The instrument.
+	 * @param period The period.
+	 * @return A long indicating the first of data available for the given instrument and period.
+	 * @throws ServerException If a server error occurs.
+	 */
+	long getTimeOfFirstData(Instrument instrument, Period period) throws ServerException;
+
+
+	/**
+	 * Returns a long indicating the time of the first order for the given instrument.
+	 * 
+	 * @param instrument The instrument.
+	 * @return A long indicating the time of the first order for the given instrument.
+	 * @throws ServerException If a server error occurs.
+	 */
+	long getTimeOfFirstOrder(Instrument instrument) throws ServerException;
+
 
 	/**
 	 * Returns the last tick.
@@ -36,6 +76,17 @@ public interface HistoryManager {
 	 * @throws ServerException If a server error occurs.
 	 */
 	Tick getLastTick(Instrument instrument) throws ServerException;
+
+	/**
+	 * Returns the last price data element.
+	 * 
+	 * @param instrument The instrument.
+	 * @param period The period.
+	 * @return The price data element.
+	 * @throws ServerException If a server error occurs.
+	 */
+	Data getLastData(Instrument instrument, Period period) throws ServerException;
+
 
 	/**
 	 * Returns the tick data.
@@ -65,44 +116,6 @@ public interface HistoryManager {
 	List<Tick> getTickData(
 		Instrument instrument, long time, int oneSecondIntervalsBefore, int oneSecondIntervalsAfter)
 		throws ServerException;
-
-	/**
-	 * Returns a long indicating the first of price data available for the given instrument and period.
-	 * 
-	 * @param instrument The instrument.
-	 * @param period The period.
-	 * @return A long indicating the first of data available for the given instrument and period.
-	 * @throws ServerException If a server error occurs.
-	 */
-	long getTimeOfFirstData(Instrument instrument, Period period) throws ServerException;
-
-	/**
-	 * Returns a long indicating the time of the first order for the given instrument.
-	 * 
-	 * @param instrument The instrument.
-	 * @return A long indicating the time of the first order for the given instrument.
-	 * @throws ServerException If a server error occurs.
-	 */
-	long getTimeOfFirstOrder(Instrument instrument) throws ServerException;
-
-	/**
-	 * Returns a long indicating the time of the first tick for the given instrument.
-	 * 
-	 * @param instrument The instrument.
-	 * @return A long indicating the time of the first tick for the given instrument.
-	 * @throws ServerException If a server error occurs.
-	 */
-	long getTimeOfFirstTick(Instrument instrument) throws ServerException;
-	
-	/**
-	 * Returns the last price data element.
-	 * 
-	 * @param instrument The instrument.
-	 * @param period The period.
-	 * @return The price data element.
-	 * @throws ServerException If a server error occurs.
-	 */
-	Data getLastData(Instrument instrument, Period period) throws ServerException;
 
 	/**
 	 * Returns the price data element.

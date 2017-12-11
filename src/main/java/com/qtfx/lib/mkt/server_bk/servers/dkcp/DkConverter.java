@@ -12,24 +12,31 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.mkt.server.servers.dkcp;
+package com.qtfx.lib.mkt.server_bk.servers.dkcp;
 
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.dukascopy.api.IBar;
+import com.dukascopy.api.IContext;
 import com.dukascopy.api.ICurrency;
 import com.dukascopy.api.ITick;
+import com.dukascopy.api.system.IClient;
 import com.qtfx.lib.mkt.data.Data;
 import com.qtfx.lib.mkt.data.Filter;
 import com.qtfx.lib.mkt.data.Instrument;
 import com.qtfx.lib.mkt.data.Period;
 import com.qtfx.lib.mkt.data.Tick;
 import com.qtfx.lib.mkt.data.Unit;
-import com.qtfx.lib.mkt.server.OfferSide;
-import com.qtfx.lib.mkt.server.OrderCommand;
-import com.qtfx.lib.mkt.server.OrderState;
+import com.qtfx.lib.mkt.server_bk.ok.OfferSide;
+import com.qtfx.lib.mkt.server_bk.ok.OrderCommand;
+import com.qtfx.lib.mkt.server_bk.ok.OrderState;
+import com.qtfx.lib.mkt.server_bk.ok.ServerException;
 
 /**
  * Converter of Dukascopy objects to system objects.
@@ -37,6 +44,53 @@ import com.qtfx.lib.mkt.server.OrderState;
  * @author Miquel Sas
  */
 public class DkConverter {
+
+	////////////////////////////////
+	// Instrument utility functions.
+
+	/**
+	 * Return the list of available instruments.
+	 * 
+	 * @param client The <em>IClient</em> reference.
+	 * @return The list of available instruments.
+	 */
+	public static List<Instrument> getAvailableInstruments(IClient client) {
+		Set<com.dukascopy.api.Instrument> dkInstruments = client.getAvailableInstruments();
+		List<Instrument> instruments = new ArrayList<>();
+		for (com.dukascopy.api.Instrument dkInstrument : dkInstruments) {
+			Instrument instrument = fromDkInstrument(dkInstrument);
+			if (instrument.hasCurrency()) {
+				instruments.add(instrument);
+			}
+		}
+		return instruments;
+	}
+
+	/**
+	 * Set the list of instruments as subscribed to the client.
+	 * 
+	 * @param client The <em>IClient</em> reference.
+	 * @param instruments The list of system instruments.
+	 */
+	public static void setSubscribedIntruments(IClient client, Set<Instrument> instruments) {
+		Set<com.dukascopy.api.Instrument> dkInstruments = new HashSet<>();
+		instruments.forEach(instrument -> dkInstruments.add(toDkInstrument(instrument)));
+		client.setSubscribedInstruments(dkInstruments);
+	}
+
+	//////////////////////////
+	// Data utility functions.
+
+	public static Tick getLastTick(IContext context, Instrument instrument) throws ServerException {
+		try {
+			return fromDkTick(context.getHistory().getLastTick(toDkInstrument(instrument)));
+		} catch (Exception cause) {
+			throw new ServerException(cause);
+		}
+	}
+
+	////////////////////////////////////////
+	// From/To Dukascopy/System conversions.
 
 	/** A map with Dukascopy instruments by id (name). */
 	private static Map<String, com.dukascopy.api.Instrument> mapInstruments = null;
@@ -122,7 +176,7 @@ public class DkConverter {
 	 * @param dkOfferSide The Dukascopy offer side.
 	 * @return This system offer side.
 	 */
-	public OfferSide fromDkOfferSide(com.dukascopy.api.OfferSide dkOfferSide) {
+	public static OfferSide fromDkOfferSide(com.dukascopy.api.OfferSide dkOfferSide) {
 		switch (dkOfferSide) {
 		case ASK:
 			return OfferSide.ASK;

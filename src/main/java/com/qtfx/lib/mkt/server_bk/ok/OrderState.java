@@ -11,32 +11,22 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.mkt.server;
+package com.qtfx.lib.mkt.server_bk.ok;
 
 /**
- * Contains the partial order close/fill event when an order has been partially closed/filled.
+ * Enumerates the possible order states.
  * 
  * @author Miquel Sas
  */
-public interface OrderHistory {
-	/**
-	 * Returns the amount of the closed part.
-	 * 
-	 * @return The amount of the closed part.
-	 */
-	double getAmount();
-
-	/**
-	 * Returns the close price.
-	 * 
-	 * @return The close price.
-	 */
-	double getPrice();
-
-	/**
-	 * Returns the time when the order was closed.
-	 * 
-	 * @return The time when the order was closed.
-	 */
-	long getTime();
+public enum OrderState {
+	/** After order was cancelled. */
+	CANCELLED,
+	/** Set after the order was closed. */
+	CLOSED,
+	/** Set right after order submission and before order acceptance by the server. */
+	CREATED,
+	/** Set after order was fully or partially filled. */
+	FILLED,
+	/** Set after order submission for conditional orders. */
+	OPENED;
 }

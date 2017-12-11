@@ -11,9 +11,14 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.mkt.server.feed;
+package com.qtfx.lib.mkt.server_bk;
 
 import java.util.List;
+
+import com.qtfx.lib.mkt.server_bk.ok.DataEvent;
+import com.qtfx.lib.mkt.server_bk.ok.DataSubscription;
+import com.qtfx.lib.mkt.server_bk.ok.TickEvent;
+import com.qtfx.lib.mkt.server_bk.ok.TickSubscription;
 
 /**
  * Listener of feed data subscribed.

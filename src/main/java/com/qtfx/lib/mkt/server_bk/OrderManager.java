@@ -11,11 +11,14 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.mkt.server;
+package com.qtfx.lib.mkt.server_bk;
 
 import java.util.List;
 
 import com.qtfx.lib.mkt.data.Instrument;
+import com.qtfx.lib.mkt.server_bk.ok.Order;
+import com.qtfx.lib.mkt.server_bk.ok.OrderCommand;
+import com.qtfx.lib.mkt.server_bk.ok.ServerException;
 
 /**
  * Interface responsible to manage orders.

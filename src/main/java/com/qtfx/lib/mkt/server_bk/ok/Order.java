@@ -11,7 +11,7 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.mkt.server;
+package com.qtfx.lib.mkt.server_bk.ok;
 
 import java.util.List;
 
@@ -23,61 +23,6 @@ import com.qtfx.lib.mkt.data.Instrument;
  * @author Miquel Sas
  */
 public interface Order {
-
-	/**
-	 * Contains the partial order close/fill event when an order has been partially closed/filled.
-	 */
-	public static class Split {
-		/** Time fill/close. */
-		private long time;
-		/** Price fill/close. */
-		private double price;
-		/** Amount fill/close. */
-		private double amount;
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param time Time.
-		 * @param price Price.
-		 * @param amount Amount.
-		 */
-		public Split(long time, double price, double amount) {
-			super();
-			this.time = time;
-			this.price = price;
-			this.amount = amount;
-		}
-
-		/**
-		 * Returns the time when the order was filled/closed.
-		 * 
-		 * @return The time when the order was filled/closed.
-		 */
-		public long getTime() {
-			return time;
-		}
-
-		/**
-		 * Returns the fill/close price.
-		 * 
-		 * @return The fill/close price.
-		 */
-		public double getPrice() {
-			return price;
-		}
-
-		/**
-		 * Returns the amount of the filled/closed part.
-		 * 
-		 * @return The amount of the filled/closed part.
-		 */
-		public double getAmount() {
-			return amount;
-		}
-
-	}
-
 	/**
 	 * Sends a request to fully close position by market price or cancel entry order. If order has both pending and
 	 * filled parts, both will be closed/canceled.
@@ -125,7 +70,7 @@ public interface Order {
 	 * 
 	 * @return The ordered history of order closing.
 	 */
-	List<Split> getCloseHistory();
+	List<OrderHistory> getCloseHistory();
 
 	/**
 	 * Returns the close price or 0 if the order was not closed or partially closed.
@@ -174,7 +119,7 @@ public interface Order {
 	 * 
 	 * @return The history of order filling.
 	 */
-	List<Split> getFillHistory();
+	List<OrderHistory> getFillHistory();
 
 	/**
 	 * Returns time when the order was filled.
