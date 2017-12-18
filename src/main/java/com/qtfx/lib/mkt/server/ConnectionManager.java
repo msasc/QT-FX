@@ -78,7 +78,7 @@ public abstract class ConnectionManager {
 	 * 
 	 * @return The connection type.
 	 */
-	public abstract AccountType getConnectionType();
+	public abstract AccountType getAccountType();
 
 	/**
 	 * Returns a boolean indicating if the client is correctly connected to the server.

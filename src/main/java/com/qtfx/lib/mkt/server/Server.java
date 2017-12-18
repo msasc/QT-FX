@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.qtfx.lib.mkt.data.Instrument;
+import com.qtfx.lib.mkt.data.Period;
 import com.qtfx.lib.mkt.server.ServerException;
 
 /**
@@ -43,6 +44,16 @@ public abstract class Server {
 
 	/** List of subscribed instruments. */
 	private Set<Instrument> subscribedInstruments = new HashSet<>();
+
+	/////////////////////////
+	// Dispatching of events:
+	// - Bar completions
+	// - Ticks
+	// - Account changes
+	// - Messages
+
+	/** Bar, Tick, Account and Messages dispatcher. */
+	private Dispatcher dispatcher;
 
 	/**
 	 * Default constructor.
@@ -119,9 +130,29 @@ public abstract class Server {
 	 */
 	public abstract ConnectionManager getConnectionManager() throws ServerException;
 
+	//////////////////
+	// Account access.
+
+	/**
+	 * Returns last known state of the account.
+	 * 
+	 * @return The account.
+	 */
+	public abstract Account getAccount();
+
+	//////////////////
+	// History access.
+
+	/**
+	 * Return an instance of a suitable history manager.
+	 * 
+	 * @return The history manager.
+	 */
+	public abstract HistoryManager getHistoryManager();
+
 	//////////////////////////////////////
 	// Instrument subscription management.
-	
+
 	/**
 	 * Returns a list with all available instruments.
 	 * 
@@ -158,5 +189,28 @@ public abstract class Server {
 			subscribedInstruments.add(instrument);
 			subscribeInstruments(subscribedInstruments);
 		}
+	}
+
+	/**
+	 * Subscribe the instrument and period to receive feed data (both offer sides).
+	 * 
+	 * @param instrument The instrument.
+	 * @param period The offer side.
+	 */
+	public abstract void subscribeToFeed(Instrument instrument, Period period);
+
+	/////////////////////////
+	// Dispatching of events:
+
+	/**
+	 * Return the dispatcher.
+	 * 
+	 * @return The dispatcher.
+	 */
+	public Dispatcher getDispatcher() {
+		if (dispatcher == null) {
+			dispatcher = new Dispatcher(this);
+		}
+		return dispatcher;
 	}
 }

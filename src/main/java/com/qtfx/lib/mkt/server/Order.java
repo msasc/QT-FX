@@ -16,6 +16,7 @@ package com.qtfx.lib.mkt.server;
 import java.util.List;
 
 import com.qtfx.lib.mkt.data.Instrument;
+import com.qtfx.lib.mkt.data.OfferSide;
 
 /**
  * Contains order data and allows order management.

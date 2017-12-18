@@ -13,8 +13,10 @@
  */
 package com.qtfx.lib.mkt.data;
 
+import java.sql.Timestamp;
+
 /**
- * Base class of timed data. An arbitrary number of double values with the starting time. It can be an data (open, high,
+ * Base class of timed data. An arbitrary number of double values with the starting time. It can be a data (open, high,
  * low, close, volume) pack or the list of values of an indicator.
  * 
  * @author Miquel Sas
@@ -388,13 +390,10 @@ public class Data {
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();
+		b.append(new Timestamp(time));
 		if (data != null) {
-			boolean comma = false;
 			for (double d : data) {
-				if (comma) {
-					b.append(", ");
-				}
-				comma = true;
+				b.append(", ");
 				b.append(d);
 			}
 		}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Miquel Sas
+ * Copyight (C) 2015 Miquel Sas
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
@@ -25,41 +25,23 @@ import com.qtfx.lib.util.Numbers;
  */
 public class Instrument {
 
-	/**
-	 * Instrument unique identifier or code.
-	 */
+	/** Instrument unique identifier or code. */
 	private String id;
-	/**
-	 * Instrument description.
-	 */
+	/** Instrument description. */
 	private String description;
-	/**
-	 * The value of a pip, e.g. 0.0001 for the currency pair EUR/USD.
-	 */
+	/** The value of a pip, e.g. 0.0001 for the currency pair EUR/USD. */
 	private double pipValue;
-	/**
-	 * The scale of a pip.
-	 */
+	/** The scale of a pip. */
 	private int pipScale;
-	/**
-	 * Tick value, e.g., 0.00001 for the currency pair EUR/USD.
-	 */
+	/** Tick value, e.g., 0.00001 for the currency pair EUR/USD. */
 	private double tickValue;
-	/**
-	 * The tick or minimum value scale.
-	 */
+	/** The tick or minimum value scale. */
 	private int tickScale;
-	/**
-	 * The volume scale.
-	 */
+	/** The volume scale. */
 	private int volumeScale;
-	/**
-	 * Primary currency.
-	 */
+	/** Primary currency. */
 	private Currency primaryCurrency;
-	/**
-	 * Secondary currency.
-	 */
+	/** Secondary currency. */
 	private Currency secondaryCurrency;
 
 	/**

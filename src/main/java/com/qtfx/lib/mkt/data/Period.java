@@ -14,6 +14,7 @@
 package com.qtfx.lib.mkt.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.qtfx.lib.util.Strings;
@@ -25,26 +26,60 @@ import com.qtfx.lib.util.Strings;
  */
 public class Period implements Comparable<Period> {
 
+	/** Map for unique period instances. */
+	private static HashMap<String, Period> periods = new HashMap<>();
+
+	/**
+	 * Return the unique reference to the period.
+	 * 
+	 * @param unit The unit.
+	 * @param size The number of units.
+	 * @return The period.
+	 */
+	public static Period getPeriod(Unit unit, int size) {
+		String id = getId(unit, size);
+		Period period = periods.get(id);
+		if (period == null) {
+			period = new Period(unit, size);
+			periods.put(id, period);
+		}
+		return period;
+	}
+
+	/**
+	 * Return a suitable id for a unit and size.
+	 * 
+	 * @param unit The unit.
+	 * @param size The number of units.
+	 * @return The id.
+	 */
+	private static String getId(Unit unit, int size) {
+		StringBuilder b = new StringBuilder();
+		b.append(unit.getId());
+		b.append(Strings.leftPad(Integer.toString(size), 3, '0'));
+		return b.toString();
+	}
+
 	/** One minute period. */
-	public static final Period ONE_MIN = new Period(Unit.MINUTE, 1);
+	public static final Period ONE_MIN = getPeriod(Unit.MINUTE, 1);
 	/** Three minutes period. */
-	public static final Period THREE_MINS = new Period(Unit.MINUTE, 3);
+	public static final Period THREE_MINS = getPeriod(Unit.MINUTE, 3);
 	/** Five minutes period. */
-	public static final Period FiveMins = new Period(Unit.MINUTE, 5);
+	public static final Period FIVE_MINS = getPeriod(Unit.MINUTE, 5);
 	/** Fifteen minutes period. */
-	public static final Period FIFTEEN_MINS = new Period(Unit.MINUTE, 15);
+	public static final Period FIFTEEN_MINS = getPeriod(Unit.MINUTE, 15);
 	/** Thirty minutes period. */
-	public static final Period THIRTY_MINS = new Period(Unit.MINUTE, 30);
+	public static final Period THIRTY_MINS = getPeriod(Unit.MINUTE, 30);
 	/** One hour period. */
-	public static final Period ONE_HOUR = new Period(Unit.HOUR, 1);
+	public static final Period ONE_HOUR = getPeriod(Unit.HOUR, 1);
 	/** Four hours period. */
-	public static final Period FOUR_HOURS = new Period(Unit.HOUR, 4);
+	public static final Period FOUR_HOURS = getPeriod(Unit.HOUR, 4);
 	/** Daily period. */
-	public static final Period DAILY = new Period(Unit.DAY, 1);
+	public static final Period DAILY = getPeriod(Unit.DAY, 1);
 	/** Weekly period. */
-	public static final Period WEEKLY = new Period(Unit.WEEK, 1);
+	public static final Period WEEKLY = getPeriod(Unit.WEEK, 1);
 	/** Monthly period. */
-	public static final Period MONTHLY = new Period(Unit.MONTH, 1);
+	public static final Period MONTHLY = getPeriod(Unit.MONTH, 1);
 
 	/**
 	 * Returns the list of standard pre-defined periods.
@@ -55,7 +90,7 @@ public class Period implements Comparable<Period> {
 		List<Period> periods = new ArrayList<>();
 		periods.add(ONE_MIN);
 		periods.add(THREE_MINS);
-		periods.add(FiveMins);
+		periods.add(FIVE_MINS);
 		periods.add(FIFTEEN_MINS);
 		periods.add(THIRTY_MINS);
 		periods.add(ONE_HOUR);
@@ -83,7 +118,7 @@ public class Period implements Comparable<Period> {
 		try {
 			Unit unit = Unit.parseId(sunit);
 			int size = Integer.parseInt(ssize);
-			return new Period(unit, size);
+			return getPeriod(unit, size);
 		} catch (Exception exc) {
 			throw new IllegalArgumentException("Invalid period id");
 		}
@@ -99,16 +134,19 @@ public class Period implements Comparable<Period> {
 	private int size = -1;
 
 	/**
-	 * Constructor assigning unit and size.
+	 * Private constructor assigning unit and size.
 	 * 
 	 * @param unit The unit.
 	 * @param size The size or number of units.
 	 */
-	public Period(Unit unit, int size) {
+	private Period(Unit unit, int size) {
 		super();
 		this.unit = unit;
 		this.size = size;
 	}
+
+	/** Id. */
+	private String id;
 
 	/**
 	 * Returns a string id that uniquely identifies this period, by concatenating the unit id and the length padded to 3
@@ -117,10 +155,10 @@ public class Period implements Comparable<Period> {
 	 * @return The period id.
 	 */
 	public String getId() {
-		StringBuilder b = new StringBuilder();
-		b.append(getUnit().getId());
-		b.append(Strings.leftPad(Integer.toString(getSize()), 3, '0'));
-		return b.toString();
+		if (id == null) {
+			id = getId(getUnit(), getSize());
+		}
+		return id;
 	}
 
 	/**
