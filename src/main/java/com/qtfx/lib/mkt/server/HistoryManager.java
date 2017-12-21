@@ -102,6 +102,17 @@ public abstract class HistoryManager {
 	public abstract Tick getTick(Instrument instrument, int shift) throws ServerException;
 
 	/**
+	 * Return the last tick available.
+	 * 
+	 * @param instrument The instrument.
+	 * @return The last tick.
+	 * @throws ServerException
+	 */
+	public Tick getLastTick(Instrument instrument) throws ServerException {
+		return getTick(instrument, 0);
+	}
+
+	/**
 	 * Returns the price data element.
 	 * 
 	 * @param instrument The instrument.
@@ -117,6 +128,50 @@ public abstract class HistoryManager {
 		OfferSide offerSide,
 		int shift)
 		throws ServerException;
+
+	/**
+	 * Return the last data available.
+	 * 
+	 * @param instrument The instrument.
+	 * @param period The period.
+	 * @param offerSide The offer side.
+	 * @param filter The filter.
+	 * @return The last data available for the argument.
+	 * @throws ServerException
+	 */
+	public Data getLastData(
+		Instrument instrument,
+		Period period,
+		OfferSide offerSide,
+		Filter filter)
+		throws ServerException {
+
+		int shift = 0;
+		long maxLoops = getMaxLoops(period);
+		Data data = null;
+		while (--maxLoops >= 0) {
+			data = getData(instrument, period, OfferSide.ASK, shift++);
+			if (data != null && Data.accept(data, filter)) {
+				break;
+			}
+		}
+		return data;
+	}
+
+	/**
+	 * Return the number of loops given the period to ensure to cover two weeks, mostly due skip to flats.
+	 * 
+	 * @param period The period to calculate.
+	 * @return The maximum loops required.
+	 */
+	private long getMaxLoops(Period period) {
+		long millisToCover = (Period.WEEKLY.getTime() * 2);
+		long maxLoops = 0;
+		while (maxLoops < millisToCover) {
+			maxLoops += period.getTime();
+		}
+		return maxLoops;
+	}
 
 	////////////////////////////////////
 	// Retrieve lists of ticks and data.

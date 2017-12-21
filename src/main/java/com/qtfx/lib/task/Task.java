@@ -22,8 +22,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import com.qtfx.lib.util.Formats;
 import com.qtfx.lib.util.Numbers;
 import com.qtfx.lib.util.TextServer;
-import com.qtfx.lib.util.Threads;
 
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -387,7 +387,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 		this.totalWork = totalWorkFinal;
 
 		if (progress.reference.getAndSet(progress) == null) {
-			Threads.runLater(() -> {
+			Platform.runLater(() -> {
 				final Progress p = progress.reference.getAndSet(null);
 				p.workDone.set(workDoneFinal);
 				p.totalWork.set(totalWorkFinal);
@@ -458,7 +458,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 	 */
 	private void updateString(String str, Message update) {
 		if (update.reference.getAndSet(str) == null) {
-			Threads.runLater(() -> {
+			Platform.runLater(() -> {
 				update.property.set(update.reference.getAndSet(null));
 			});
 		}
@@ -654,7 +654,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 	 * @param state The state.
 	 */
 	protected void setState(State state) {
-		Threads.runLater(() -> {
+		Platform.runLater(() -> {
 			this.state.set(state);
 		});
 	}

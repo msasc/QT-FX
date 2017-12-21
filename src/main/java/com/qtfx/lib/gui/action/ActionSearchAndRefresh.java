@@ -42,9 +42,11 @@ public abstract class ActionSearchAndRefresh extends ValueAction {
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param node The reference node.
 	 */
-	public ActionSearchAndRefresh() {
-		super();
+	public ActionSearchAndRefresh(Node node) {
+		super(node);
 	}
 
 	/**

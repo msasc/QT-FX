@@ -26,6 +26,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Window;
 
 /**
@@ -228,8 +229,25 @@ public class LookupRecords {
 		dialog.setCenter(tableRecordPane.getNode());
 		dialog.addPropertySetter(tableRecordPane.getPropertySetter());
 		Button select = Buttons.buttonSelect(tableRecordPane.getLocale());
+		Button cancel = Buttons.buttonCancel(tableRecordPane.getLocale());
 		dialog.getButtonPane().getButtons().add(select);
-		dialog.getButtonPane().getButtons().add(Buttons.buttonCancel(tableRecordPane.getLocale()));
+		dialog.getButtonPane().getButtons().add(cancel);
+		
+		tableRecordPane.getTableView().setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.ENTER) {
+				select.fire();
+			}
+			if (e.getCode() == KeyCode.ESCAPE) {
+				cancel.fire();
+			}
+		});
+		if (selectionMode == SelectionMode.SINGLE) {
+			tableRecordPane.getTableView().setOnMouseClicked(e -> {
+				if (e.getClickCount() == 2) {
+					select.fire();
+				}
+			});
+		}
 
 		tableRecordPane.requestFocus();
 		Button result = dialog.show();

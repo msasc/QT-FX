@@ -22,8 +22,8 @@ import com.qtfx.lib.task.State;
 import com.qtfx.lib.task.Task;
 import com.qtfx.lib.util.Icons;
 import com.qtfx.lib.util.TextServer;
-import com.qtfx.lib.util.Threads;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -154,7 +154,7 @@ public class TaskPane extends Pane {
 
 			// When ready the button action submits the task and changes to cancel.
 			if (!task.stateProperty().get().equals(State.RUNNING)) {
-				Threads.runLater(() -> {
+				Platform.runLater(() -> {
 					progressBar.progressProperty().bind(task.progressProperty());
 					buttonAction.setGraphic(Icons.get(Icons.FLAT_24x24_CANCEL));
 					buttonAction.setTooltip(new Tooltip(TextServer.getString("tooltipCancel")));

@@ -1400,4 +1400,21 @@ public class Field implements Comparable<Object> {
 	public boolean isVirtual() {
 		return (getFunction() != null);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder b = new StringBuilder();
+		b.append("Field: ");
+		b.append(getAlias());
+		b.append(", ");
+		b.append(getType());
+		b.append(", ");
+		b.append(getLength());
+		b.append(", ");
+		b.append(getDecimals());
+		return b.toString();
+	}
 }

@@ -29,13 +29,13 @@ import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.RecordSet;
 import com.qtfx.lib.db.RecordSetCustomizer;
 import com.qtfx.lib.db.Value;
+import com.qtfx.lib.gui.FX;
 import com.qtfx.lib.gui.FieldControl;
 import com.qtfx.lib.gui.FormRecordPane;
 import com.qtfx.lib.gui.LookupRecords;
-import com.qtfx.lib.gui.FX;
+import com.qtfx.lib.gui.action.handlers.ActionEventHandler;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
 
@@ -58,7 +58,7 @@ import javafx.scene.control.Control;
  * 
  * @author Miquel Sas
  */
-public class ActionLookup implements EventHandler<ActionEvent> {
+public class ActionLookup extends ActionEventHandler {
 	
 	/** Logger instance. */
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -99,9 +99,11 @@ public class ActionLookup implements EventHandler<ActionEvent> {
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param node The reference node.
 	 */
-	public ActionLookup() {
-		super();
+	public ActionLookup(Node node) {
+		super(node);
 	}
 
 	/////////////////////////
@@ -296,7 +298,7 @@ public class ActionLookup implements EventHandler<ActionEvent> {
 		lookupAliases.forEach(alias -> lookup.addColumn(alias, true));
 		
 		// Select a record.
-		Record selectedRecord = lookup.lookupRecord(FX.getStage(node));
+		Record selectedRecord = lookup.lookupRecord(getNode().getScene().getWindow());
 		if (selectedRecord == null) {
 			return;
 		}

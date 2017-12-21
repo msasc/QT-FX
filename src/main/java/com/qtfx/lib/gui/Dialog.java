@@ -19,11 +19,11 @@ import java.util.List;
 
 import com.qtfx.lib.gui.action.ActionClose;
 import com.qtfx.lib.gui.action.ActionList;
+import com.qtfx.lib.gui.action.handlers.ActionEventHandler;
 
 import javafx.beans.InvalidationListener;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -54,15 +54,23 @@ public class Dialog {
 	/**
 	 * Action to set the result button.
 	 */
-	private class Result implements EventHandler<ActionEvent> {
+	private class Result extends ActionEventHandler {
+		/**
+		 * Constructor.
+		 * 
+		 * @param node Reference node.
+		 */
+		private Result(Node node) {
+			super(node);
+		}
+
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public void handle(ActionEvent event) {
-			Node node = (Node) event.getTarget();
-			if (node != null && node instanceof Button) {
-				result = (Button) node;
+			if (getNode() instanceof Button) {
+				result = (Button) getNode();
 			}
 		}
 	}
@@ -72,6 +80,9 @@ public class Dialog {
 	 * button action and not the list of actions setup by this dialog to close and set the result.
 	 */
 	private class Actions extends ActionList {
+		private Actions(Node node) {
+			super(node);
+		}
 	}
 
 	/**
@@ -382,11 +393,9 @@ public class Dialog {
 	 * @param button The button to setup.
 	 */
 	private void setupButton(Button button) {
-		// Set the stage.
-		FX.setStage(button, stage);
 		// The list of actions that will be set to the node. Use an instance of the private extension of action-list to
 		// correctly identify and manage the original button action.
-		Actions actions = new Actions();
+		Actions actions = new Actions(button);
 		// If the button has an initial action, save it.
 		if (button.getOnAction() != null && !(button.getOnAction() instanceof Actions)) {
 			FX.setAction(button, button.getOnAction());
@@ -397,10 +406,10 @@ public class Dialog {
 		}
 		// If the button wants to close the stage, add the proper action.
 		if (FX.isClose(button)) {
-			actions.addHandler(new ActionClose());
+			actions.addHandler(new ActionClose(button));
 		}
 		// Add the action to set the result to be the button.
-		actions.addHandler(new Result());
+		actions.addHandler(new Result(button));
 		// Set the action list as the button action.
 		button.setOnAction(actions);
 		// User properties.
@@ -434,7 +443,7 @@ public class Dialog {
 				stage.close();
 			}
 		});
-		
+
 		// Do show.
 		stage.showAndWait();
 

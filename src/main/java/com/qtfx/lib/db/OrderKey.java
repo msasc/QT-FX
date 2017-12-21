@@ -233,6 +233,27 @@ public class OrderKey implements Comparable<Object> {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public int hashCode() {
+		int hash = 1;
+		for (Segment segment : segments) {
+			hash |= segment.hashCode();			
+		}
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof OrderKey) {
+			OrderKey orderKey = (OrderKey) obj;
+			return Lists.equals(segments, orderKey.segments);
+		}
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder(256);
 		for (int i = 0; i < size(); i++) {

@@ -14,25 +14,26 @@
 
 package com.qtfx.lib.gui.action;
 
-import com.qtfx.lib.gui.FX;
+import com.qtfx.lib.gui.action.handlers.ActionEventHandler;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * An action that closes the window.
  *
  * @author Miquel Sas
  */
-public class ActionClose implements EventHandler<ActionEvent> {
+public class ActionClose extends ActionEventHandler {
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param node The reference node.
 	 */
-	public ActionClose() {
-		super();
+	public ActionClose(Node node) {
+		super(node);
 	}
 
 	/**
@@ -40,13 +41,9 @@ public class ActionClose implements EventHandler<ActionEvent> {
 	 */
 	@Override
 	public void handle(ActionEvent event) {
-		Node node = (Node) event.getTarget();
-		if (node != null) {
-			Stage stage = FX.getStage(node);
-			if (stage != null) {
-				stage.close();
-			}
+		Window window = getNode().getScene().getWindow();
+		if (window != null) {
+			window.hide();
 		}
 	}
-
 }

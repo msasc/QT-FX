@@ -27,6 +27,8 @@ import com.qtfx.lib.db.RecordSet;
 import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.FieldControl;
 
+import javafx.scene.Node;
+
 /**
  * Search values in a database.
  *
@@ -43,18 +45,21 @@ public class ActionSearchAndRefreshDB extends ActionSearchAndRefresh {
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param node The reference node.
 	 */
-	public ActionSearchAndRefreshDB() {
-		super();
+	public ActionSearchAndRefreshDB(Node node) {
+		super(node);
 	}
 
 	/**
 	 * Constructor.
 	 * 
+	 * @param node The reference node.
 	 * @param searchRecord The search record.
 	 */
-	public ActionSearchAndRefreshDB(Record searchRecord) {
-		super();
+	public ActionSearchAndRefreshDB(Node node, Record searchRecord) {
+		super(node);
 		this.searchRecord = searchRecord;
 	}
 

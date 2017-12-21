@@ -269,6 +269,7 @@ public class FormRecordPane {
 				FieldGroup fieldGroup = FX.getFieldGroup(pane);
 				Tab tab = new Tab(fieldGroup.getDisplayTitle());
 				tab.setContent(pane);
+				tab.setClosable(false);
 				tabPane.getTabs().add(tab);
 			}
 			borderPane.setCenter(tabPane);
@@ -473,7 +474,7 @@ public class FormRecordPane {
 
 			// Check lookup action with local and foreign key fields and perhaps refresh fields).
 			if (!localKeyFields.isEmpty()) {
-				ActionLookup actionLookup = new ActionLookup();
+				ActionLookup actionLookup = new ActionLookup(borderPane);
 				actionLookup.setMasterRecord(searchRecord);
 				for (int i = 0; i < localKeyFields.size(); i++) {
 					Field local = localKeyFields.get(i);
@@ -485,7 +486,7 @@ public class FormRecordPane {
 
 			// If there are refresh fields, we must build a search and refresh action.
 			if (!foreignRefreshFields.isEmpty()) {
-				ActionSearchAndRefreshDB actionSR = new ActionSearchAndRefreshDB(searchRecord);
+				ActionSearchAndRefreshDB actionSR = new ActionSearchAndRefreshDB(borderPane, searchRecord);
 				context.setActionSearchAndRefresh(actionSR);
 				// Local key fields are all present as edit controls.
 				for (int i = 0; i < localKeyFields.size(); i++) {

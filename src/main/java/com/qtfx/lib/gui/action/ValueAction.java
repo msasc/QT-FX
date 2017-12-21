@@ -1,9 +1,9 @@
 package com.qtfx.lib.gui.action;
 
 import com.qtfx.lib.db.Value;
+import com.qtfx.lib.gui.action.handlers.ActionEventHandler;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.scene.Node;
 
 /**
  * An action launched when the value of the control changes. Simply, a value change listener with a reference to the
@@ -11,7 +11,7 @@ import javafx.event.EventHandler;
  *
  * @author Miquel Sas
  */
-public abstract class ValueAction implements EventHandler<ActionEvent> {
+public abstract class ValueAction extends ActionEventHandler {
 
 	/** Old value. */
 	private Value oldValue;
@@ -21,10 +21,10 @@ public abstract class ValueAction implements EventHandler<ActionEvent> {
 	/**
 	 * Constructor.
 	 * 
-	 * @param control The field control.
+	 * @param node The reference node.
 	 */
-	public ValueAction() {
-		super();
+	public ValueAction(Node node) {
+		super(node);
 	}
 
 	/**

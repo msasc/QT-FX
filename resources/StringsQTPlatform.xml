@@ -3,11 +3,18 @@
 <properties>
 	<comment>QT Platform strings</comment>
 
-	<entry key="menuExit">Exit</entry>
 	<entry key="menuFile">File</entry>
-	<entry key="menuServers">Supported servers</entry>
-	<entry key="menuSyncInstruments">Synchronize instruments</entry>
-	<entry key="menuServersAvInst">Available instruments</entry>
+	<entry key="menuFileExit">Exit</entry>
+	<entry key="menuInstruments">Instruments</entry>
+	<entry key="menuInstrumentsAvailable">Available instruments</entry>
+	<entry key="menuInstrumentsSynchronize">Synchronize instruments</entry>
+	<entry key="menuTickers">Tickers</entry>
+	<entry key="menuTickersDefine">Define &#38; download</entry>
+	<entry key="menuTickersStatistics">Statistics</entry>
+	<entry key="menuWindow">Window</entry>
+	<entry key="menuWindowConsole">Console</entry>
+	
+	<entry key="outputConsole">Output</entry>
 	
 	<entry key="alertExitApp">Exit QT-Platform?</entry>
 	

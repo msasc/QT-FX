@@ -17,24 +17,29 @@ package com.qtfx.lib.gui.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.qtfx.lib.gui.action.handlers.ActionEventHandler;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 
 /**
  * An action event handler that chains a list of action event handlers.
  *
  * @author Miquel Sas
  */
-public class ActionList implements EventHandler<ActionEvent> {
+public class ActionList extends ActionEventHandler {
 
 	/** List of action event handlers. */
 	private List<EventHandler<ActionEvent>> handlers = new ArrayList<>();
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param node The reference node.
 	 */
-	public ActionList() {
-		super();
+	public ActionList(Node node) {
+		super(node);
 	}
 
 	/**

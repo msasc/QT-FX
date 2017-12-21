@@ -14,6 +14,7 @@
 
 package com.qtfx.lib.mkt.servers.dukascopy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -132,8 +133,15 @@ public class DkServer extends Server {
 	 */
 	@Override
 	public List<Instrument> getAvailableInstruments() throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		Set<com.dukascopy.api.Instrument> dukascopyInstruments = core.client.getAvailableInstruments();
+		List<Instrument> instruments = new ArrayList<>();
+		for (com.dukascopy.api.Instrument dukascopyInstrument : dukascopyInstruments) {
+			Instrument instrument = DkCore.fromDkInstrument(dukascopyInstrument);
+			if (instrument.hasCurrency()) {
+				instruments.add(instrument);
+			}
+		}
+		return instruments;
 	}
 
 }

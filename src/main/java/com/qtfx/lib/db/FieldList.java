@@ -203,7 +203,11 @@ public class FieldList implements Iterable<Field> {
 	 * @param alias The field alias.
 	 */
 	public int getFieldIndex(String alias) {
-		return getMap().get(alias);
+		Integer index = getMap().get(alias);
+		if (index != null) {
+			return index;
+		}
+		return -1;
 	}
 
 	/**

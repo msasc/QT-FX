@@ -52,7 +52,6 @@ public class TestTableRecordSet extends Application {
 	public void start(Stage stage) throws Exception {
 
 		TableRecordPane table = new TableRecordPane(new Record(Util.getFieldList()));
-		table.setRecordSet(Util.getRandomRecordSet(50000, Util.getFieldList()));
 
 		table.addColumn("ICHECKED", false);
 		table.addColumn("CARTICLE", true);
@@ -65,6 +64,8 @@ public class TestTableRecordSet extends Application {
 
 		table.setSelectionMode(SelectionMode.MULTIPLE);
 		table.setPadding(new Insets(10, 10, 0, 10));
+		
+		table.setRecordSet(Util.getRandomRecordSet(50000, Util.getFieldList()));
 
 		Dialog dialog = new Dialog(stage);
 		dialog.setTitle("Table RecordSet Sample");

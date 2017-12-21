@@ -7,8 +7,13 @@
 
 	<entry key="buttonAccept">Accept</entry>
 	<entry key="buttonApply">Apply</entry>
+	<entry key="buttonBrowse">Browse</entry>
 	<entry key="buttonCancel">Cancel</entry>
+	<entry key="buttonChart">Chart</entry>
+	<entry key="buttonCreate">Create</entry>
 	<entry key="buttonClose">Close</entry>
+	<entry key="buttonDelete">Delete</entry>
+	<entry key="buttonDownload">Download</entry>
 	<entry key="buttonFinish">Finish</entry>
 	<entry key="buttonIgnore">Ignore</entry>
 	<entry key="buttonNext">Next</entry>
@@ -16,6 +21,7 @@
 	<entry key="buttonOk">Ok</entry>
 	<entry key="buttonOpen">Open</entry>
 	<entry key="buttonPrevious">Previous</entry>
+	<entry key="buttonPurge">Purge</entry>
 	<entry key="buttonRetry">Retry</entry>
 	<entry key="buttonSelect">Select</entry>
 	<entry key="buttonYes">Yes</entry>

@@ -14,8 +14,7 @@
 
 package com.qtfx.lib.gui;
 
-import com.qtfx.lib.util.Threads;
-
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -79,11 +78,11 @@ public class StatusBar {
 	 * @param id The id of the label.
 	 */
 	public void removeLabel(String id) {
-		Node node = FX.getNode(flowPane.getChildren(), id);
-		if (node == null || !(node instanceof Label)) {
-			throw new IllegalArgumentException();
-		}
-		Threads.runLater(() -> {
+		Platform.runLater(() -> {
+			Node node = FX.getNode(flowPane.getChildren(), id);
+			if (node == null || !(node instanceof Label)) {
+				throw new IllegalArgumentException();
+			}
 			flowPane.getChildren().remove(node);
 		});
 	}
@@ -106,27 +105,27 @@ public class StatusBar {
 	 * @param style Optional style.
 	 */
 	public void setLabel(String id, String text, String style) {
-		Node node = FX.getNode(flowPane.getChildren(), id);
-		if (node != null && !(node instanceof Label)) {
-			throw new IllegalArgumentException();
-		}
-		final Label label;
-		final boolean add;
-		if (node == null) {
-			label = new Label();
-			label.setId(id);
-			add = true;
-		} else {
-			label = (Label) node;
-			add = false;
-		}
-		if (style != null) {
-			label.setStyle(style);
-		}
-		if (add) {
-			flowPane.getChildren().add(label);
-		}
-		Threads.runLater(() -> {
+		Platform.runLater(() -> {
+			Node node = FX.getNode(flowPane.getChildren(), id);
+			if (node != null && !(node instanceof Label)) {
+				throw new IllegalArgumentException();
+			}
+			final Label label;
+			final boolean add;
+			if (node == null) {
+				label = new Label();
+				label.setId(id);
+				add = true;
+			} else {
+				label = (Label) node;
+				add = false;
+			}
+			if (style != null) {
+				label.setStyle(style);
+			}
+			if (add) {
+				flowPane.getChildren().add(label);
+			}
 			label.setText(text);
 		});
 	}
@@ -137,11 +136,11 @@ public class StatusBar {
 	 * @param id The id of the progress bar.
 	 */
 	public void removeProgress(String id) {
-		Node node = FX.getNode(flowPane.getChildren(), id);
-		if (node == null || !(node instanceof ProgressBar)) {
-			throw new IllegalArgumentException();
-		}
-		Threads.runLater(() -> {
+		Platform.runLater(() -> {
+			Node node = FX.getNode(flowPane.getChildren(), id);
+			if (node == null || !(node instanceof ProgressBar)) {
+				throw new IllegalArgumentException();
+			}
 			flowPane.getChildren().remove(node);
 		});
 	}
@@ -155,25 +154,25 @@ public class StatusBar {
 	 * @param totalWork
 	 */
 	public void setProgress(String id, double workDone, double totalWork) {
-		Node node = FX.getNode(flowPane.getChildren(), id);
-		if (node != null && !(node instanceof ProgressBar)) {
-			throw new IllegalArgumentException();
-		}
-		final ProgressBar progressBar;
-		final boolean add;
-		if (node == null) {
-			progressBar = new ProgressBar();
-			progressBar.setId(id);
-			progressBar.setPrefWidth(progressWidth);
-			add = true;
-		} else {
-			progressBar = (ProgressBar) node;
-			add = false;
-		}
-		if (add) {
-			flowPane.getChildren().add(progressBar);
-		}
-		Threads.runLater(() -> {
+		Platform.runLater(() -> {
+			Node node = FX.getNode(flowPane.getChildren(), id);
+			if (node != null && !(node instanceof ProgressBar)) {
+				throw new IllegalArgumentException();
+			}
+			final ProgressBar progressBar;
+			final boolean add;
+			if (node == null) {
+				progressBar = new ProgressBar();
+				progressBar.setId(id);
+				progressBar.setPrefWidth(progressWidth);
+				add = true;
+			} else {
+				progressBar = (ProgressBar) node;
+				add = false;
+			}
+			if (add) {
+				flowPane.getChildren().add(progressBar);
+			}
 			progressBar.setProgress(workDone / totalWork);
 		});
 	}

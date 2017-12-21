@@ -15,12 +15,16 @@
 package com.qtfx.lib.gui;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 
 import com.qtfx.lib.db.Field;
+import com.qtfx.lib.db.Order;
+import com.qtfx.lib.db.OrderKey;
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.RecordSet;
 import com.qtfx.lib.db.Value;
+import com.qtfx.lib.gui.observables.ObservableRecordSet;
 import com.qtfx.lib.gui.table.CellFactory;
 import com.qtfx.lib.gui.table.CellValueFactory;
 import com.qtfx.lib.util.Formats;
@@ -231,7 +235,7 @@ public class TableRecordPane {
 	 * @param recordSet The record set.
 	 */
 	public void setRecordSet(RecordSet recordSet) {
-		setRecords(recordSet.getObservableList());
+		setRecords(new ObservableRecordSet(recordSet));
 	}
 
 	/**
@@ -382,6 +386,28 @@ public class TableRecordPane {
 	}
 
 	/**
+	 * Select the record.
+	 * 
+	 * @param record The record.
+	 */
+	public void selectRecord(Record record) {
+		int index = indexOf(record);
+		if (index >= 0) {
+			selectIndices(index, index);
+		}
+	}
+
+	/**
+	 * Return the index of the record.
+	 * 
+	 * @param record The record.
+	 * @return The index.
+	 */
+	public int indexOf(Record record) {
+		return getRecords().indexOf(record);
+	}
+
+	/**
 	 * Scroll to the argument row.
 	 * 
 	 * @param row The row to scroll to.
@@ -415,4 +441,34 @@ public class TableRecordPane {
 		return locale;
 	}
 
+	/**
+	 * Gets the insert index using the order key.
+	 *
+	 * @param record The record.
+	 * @return The insert index.
+	 */
+	public int getInsertIndex(Record record) {
+		return getInsertIndex(record, masterRecord.getFieldList().getPrimaryOrder());
+	}
+
+	/**
+	 * Gets the insert index using the order key.
+	 *
+	 * @param record The record.
+	 * @param order The order.
+	 * @return The insert index.
+	 */
+	public int getInsertIndex(Record record, Order order) {
+		OrderKey key = record.getOrderKey(order);
+		int index;
+		List<Record> records = getRecords();
+		for (index = 0; index < records.size(); index++) {
+			Record scanRecord = records.get(index);
+			OrderKey scanKey = scanRecord.getOrderKey(order);
+			if (key.compareTo(scanKey) <= 0) {
+				break;
+			}
+		}
+		return index;
+	}
 }

@@ -34,7 +34,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
-import javafx.stage.Stage;
 
 /**
  * JavaFX utility functions, including:
@@ -62,8 +61,6 @@ public class FX {
 	private static final String PROPERTY_GROUP = "GROUP";
 	/** Property ORDER. */
 	private static final String PROPERTY_ORDER = "ORDER";
-	/** Property WINDOW. */
-	private static final String PROPERTY_STAGE = "STAGE";
 	/** Property TABLE_RECORD_PANE. */
 	private static final String PROPERTY_TABLE_RECORD_PANE = "TABLE_RECORD_PANE";
 	/** Property FORM_RECORD_PANE. */
@@ -72,6 +69,8 @@ public class FX {
 	private static final String PROPERTY_FIELD_CONTROL = "FIELD_CONTROL";
 	/** Property FIELD_GROUP (group of field of the same group). */
 	private static final String PROPERTY_FIELD_GROUP = "FIELD_GROUP";
+	/** Property CONSOLE. */
+	private static final String PROPERTY_CONSOLE = "CONSOLE";
 
 	//////////////////////////////////
 	// Properties getters and setters.
@@ -155,28 +154,6 @@ public class FX {
 	 */
 	public static void setButtonOrder(Node node, String order) {
 		setString(node, PROPERTY_ORDER, order);
-	}
-
-	/**
-	 * Return the stage property.
-	 * 
-	 * @param node The node.
-	 * @return The stage property.
-	 */
-	public static Stage getStage(Node node) {
-		Object value = getProperty(node, PROPERTY_STAGE).get();
-		checkType(value, PROPERTY_STAGE, Stage.class);
-		return (value == null ? null : (Stage) value);
-	}
-
-	/**
-	 * Set the stage property.
-	 * 
-	 * @param node The node.
-	 * @param stage The stage property.
-	 */
-	public static void setStage(Node node, Stage stage) {
-		setObject(node, PROPERTY_STAGE, stage);
 	}
 
 	/**
@@ -282,6 +259,26 @@ public class FX {
 	}
 
 	/**
+	 * Return the console.
+	 * 
+	 * @param node The node.
+	 * @return The console.
+	 */
+	public static Console getConsole(Node node) {
+		return (Console) getObject(node, PROPERTY_CONSOLE);
+	}
+
+	/**
+	 * Set the console.
+	 * 
+	 * @param node The node.
+	 * @param console The console.
+	 */
+	public static void setConsole(Node node, Console console) {
+		setObject(node, PROPERTY_CONSOLE, console);
+	}
+
+	/**
 	 * Return a boolean property for the given key, with false default value.
 	 * 
 	 * @param node The node.
@@ -349,6 +346,18 @@ public class FX {
 	 */
 	public static void setObject(Node node, Object key, Object value) {
 		getProperty(node, key).set(value);
+	}
+	
+	/**
+	 * Return an object stored at the root.
+	 * @param node The reference node.
+	 * @param key The key.
+	 * @return The object stored at the  root.
+	 */
+	public static Object getRootObject(Node node, Object key) {
+		Scene scene = node.getScene();
+		Node root = scene.getRoot();
+		return getProperty(root, key).get();
 	}
 
 	/**
@@ -425,31 +434,6 @@ public class FX {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * Lookup for the node with the give id exploring the scene graph.
-	 * 
-	 * @param id The required id.
-	 * @param node The start node.
-	 * @return The required node or null.
-	 */
-	public static Node lookup(String id, Node node) {
-		return lookup(id, node.getScene());
-	}
-
-	/**
-	 * Lookup for the node with the give id exploring the scene graph.
-	 * 
-	 * @param id The required id.
-	 * @param scene The scene.
-	 * @return The required node or null.
-	 */
-	public static Node lookup(String id, Scene scene) {
-		if (!id.startsWith("#")) {
-			id = "#" + id;
-		}
-		return scene.lookup(id);
 	}
 
 	/**

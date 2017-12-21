@@ -42,6 +42,16 @@ public class Order {
 		}
 
 		/**
+		 * Copy.
+		 * 
+		 * @param segment The segment.
+		 */
+		public Segment(Segment segment) {
+			this.field = segment.field;
+			this.asc = segment.asc;
+		}
+
+		/**
 		 * Constructor assigning field and asc.
 		 *
 		 * @param field The field
@@ -175,6 +185,18 @@ public class Order {
 	}
 
 	/**
+	 * Copy.
+	 * 
+	 * @param order Source order.
+	 */
+	public Order(Order order) {
+		super();
+		for (Segment segment : order.segments) {
+			segments.add(new Segment(segment));
+		}
+	}
+
+	/**
 	 * Add an ascending segment with the given field.
 	 *
 	 * @param field The field.
@@ -264,7 +286,7 @@ public class Order {
 	public int size() {
 		return segments.size();
 	}
-	
+
 	/**
 	 * Invert the ascending flag for each segment.
 	 */

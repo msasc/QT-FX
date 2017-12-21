@@ -14,6 +14,9 @@
 
 package com.qtfx.lib.util;
 
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 /**
  * String utilities.
  *
@@ -36,7 +39,7 @@ public class Strings extends org.apache.commons.lang3.StringUtils {
 		int index = Random.nextInt(source.length());
 		return source.charAt(index);
 	}
-	
+
 	/**
 	 * Returns the first string not null, or an empty string.
 	 * 
@@ -53,6 +56,7 @@ public class Strings extends org.apache.commons.lang3.StringUtils {
 		}
 		return b.toString();
 	}
+
 	/**
 	 * Check if the string is contained in the list of options.
 	 * 
@@ -86,4 +90,80 @@ public class Strings extends org.apache.commons.lang3.StringUtils {
 		return false;
 	}
 
+	/**
+	 * Parse a string
+	 * 
+	 * @param string The string to parse.
+	 * @param separator The separator.
+	 * @return the array of tokens
+	 */
+	public static String[] parse(String string, String separator) {
+		StringTokenizer tokenizer = new StringTokenizer(string, separator);
+		ArrayList<String> list = new ArrayList<>();
+		while (tokenizer.hasMoreTokens()) {
+			list.add(tokenizer.nextToken().trim());
+		}
+		return list.toArray(new String[list.size()]);
+	}
+
+	/**
+	 * Parse and capitalize.
+	 * 
+	 * @param srcStr Source string.
+	 * @param srcSep Source separator.
+	 * @param dstSep Destination separator.
+	 * @return The capitalized string.
+	 */
+	public static String parseCapitalize(String srcStr, String srcSep, String dstSep) {
+		StringBuilder b = new StringBuilder();
+		String[] words = parse(srcStr, srcSep);
+		for (int i = 0; i < words.length; i++) {
+			if (i > 0) {
+				b.append(dstSep);
+			}
+			b.append(capitalize(words[i]));
+		}
+		return b.toString();
+	}
+
+	/**
+	 * Return the number of lines.
+	 * 
+	 * @param str The string.
+	 * @return The number of lines.
+	 */
+	public static int countLines(String str) {
+		return countMatches(str, '\n');
+	}
+
+	/**
+	 * Return the offset of the end of the given line, not including the line separator character.
+	 * @param str The string.
+	 * @param line The line number.
+	 * @return The offset or -1 if line number is greater that count lines.
+	 */
+	public static int offsetEndLine(String str, int line) {
+		int count = 0;
+		int offset = -1;
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) == '\n') {
+				count++;
+			}
+			if (count == line) {
+				offset = i + 1;
+				break;
+			}
+		}
+		// Last line not ended.
+		if (offset == -1 && count == line - 1) {
+			offset = str.length();
+		}
+		return offset;
+	}
+
+	public static int offsetStartLine(String str, int line) {
+		int offsetEnd = offsetEndLine(str, line);
+		int offsetStart = str.lastIndexOf('\n', offsetEnd);
+		return (offsetStart == -1 ? 0 : offsetStart);
+	}
 }
