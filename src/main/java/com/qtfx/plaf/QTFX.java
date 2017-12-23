@@ -67,9 +67,8 @@ import javafx.stage.Stage;
  */
 public class QTFX extends Application {
 
-	
 	// Keys to public objects.
-	
+
 	private static final String PRIMARY_STAGE = "primary-stage";
 	private static final String TAB_PANE = "tab-pane";
 	private static final String STATUS_BAR = "status-bar";
@@ -145,13 +144,24 @@ public class QTFX extends Application {
 	 * @return A boolean.
 	 */
 	public static boolean isTab(Node node, String text) {
+		return getTab(node, text) != null;
+	}
+
+	/**
+	 * Return the first tab with the given text.
+	 * 
+	 * @param node The reference node.
+	 * @param text The tab text.
+	 * @return The tab or null.
+	 */
+	public static Tab getTab(Node node, String text) {
 		TabPane tabPane = getTabPane(node);
 		for (Tab tab : tabPane.getTabs()) {
 			if (tab.getText().equals(text)) {
-				return true;
+				return tab;
 			}
 		}
-		return false;
+		return null;
 	}
 
 	/** Logger configuration and text server initialization. */
@@ -216,8 +226,8 @@ public class QTFX extends Application {
 
 		// Define console, re-direct, tab pane ans status bar.
 		Console console = new Console();
-		System.setOut(console.getPrintStream());
-		System.setErr(console.getPrintStream());
+		// System.setOut(console.getPrintStream());
+		// System.setErr(console.getPrintStream());
 		TabPane tabPane = new TabPane();
 		root.setCenter(tabPane);
 		StatusBar statusBar = new StatusBar();
@@ -368,7 +378,7 @@ public class QTFX extends Application {
 		DBEngine dbEngine = new DBEngine(adapter, info);
 		Database db = new Database(dbEngine);
 		FX.setObject(root, DATABASE, db);
-		
+
 		// Persistor DDL.
 		PersistorDDL ddl = db.getDDL();
 

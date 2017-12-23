@@ -649,6 +649,15 @@ public abstract class Task extends ForkJoinTask<Void> {
 	}
 
 	/**
+	 * Check if running.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean isRunning() {
+		return stateProperty().get().equals(State.RUNNING);
+	}
+
+	/**
 	 * Set the state.
 	 * 
 	 * @param state The state.

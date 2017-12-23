@@ -105,6 +105,7 @@ public class DkHistoryManager extends HistoryManager {
 	@Override
 	public Tick getTick(Instrument instrument, int shift) throws ServerException {
 		try {
+			server.ensureSubscribed(instrument);
 			return DkCore.fromDkTick(getHistory().getTick(DkCore.toDkInstrument(instrument), shift));
 		} catch (JFException e) {
 			throw new ServerException(e);
@@ -117,6 +118,7 @@ public class DkHistoryManager extends HistoryManager {
 	@Override
 	public Data getData(Instrument instrument, Period period, OfferSide offerSide, int shift) throws ServerException {
 		try {
+			server.ensureSubscribed(instrument);
 			return DkCore.fromDkBar(getHistory().getBar(
 				DkCore.toDkInstrument(instrument), 
 				DkCore.toDkPeriod(period), 
@@ -181,6 +183,7 @@ public class DkHistoryManager extends HistoryManager {
 		long from,
 		long to)
 		throws ServerException {
+		server.ensureSubscribed(instrument);
 		return new DkDataIterator(this, instrument, period, offerSide, filter, from, to);
 	}
 

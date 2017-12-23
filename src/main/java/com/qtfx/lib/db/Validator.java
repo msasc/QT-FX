@@ -20,7 +20,7 @@ package com.qtfx.lib.db;
  * @author Miquel Sas
  * @param <T> The type to validate.
  */
-public class Validator<T> {
+public abstract class Validator<T> {
 
 	/**
 	 * Validates the convenience of the given type for the object.
@@ -39,9 +39,7 @@ public class Validator<T> {
 	 * @param operation The operation to be performed on the type.
 	 * @return A boolean indicating whether the type is valid.
 	 */
-	public boolean validate(T type, Object operation) {
-		return true;
-	}
+	public abstract boolean validate(T type, Object operation);
 
 	/**
 	 * Returns the validation message related to the type validation. Normally a null should be returned when the
@@ -62,7 +60,5 @@ public class Validator<T> {
 	 * @param operation The operation to be performed on the type.
 	 * @return The validation message or null.
 	 */
-	public String getMessage(T type, Object operation) {
-		return null;
-	}
+	public abstract String getMessage(T type, Object operation);
 }

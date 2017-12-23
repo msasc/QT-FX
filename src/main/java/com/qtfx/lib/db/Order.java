@@ -195,7 +195,7 @@ public class Order {
 			segments.add(new Segment(segment));
 		}
 	}
-
+	
 	/**
 	 * Add an ascending segment with the given field.
 	 *

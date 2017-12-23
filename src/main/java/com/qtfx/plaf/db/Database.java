@@ -176,11 +176,13 @@ public class Database {
 	/**
 	 * Returns the filled record for the instrument.
 	 * 
+	 * @param server The server.
 	 * @param instrument The instrument.
 	 * @return The record.
 	 */
-	public Record getRecord_Instrument(Instrument instrument) {
+	public Record getRecord_Instrument(Server server, Instrument instrument) {
 		Record record = getPersistor_Instruments().getDefaultRecord();
+		record.setValue(Fields.SERVER_ID, new Value(server.getId()));
 		record.setValue(Fields.INSTRUMENT_ID, new Value(instrument.getId()));
 		record.setValue(Fields.INSTRUMENT_DESC, new Value(instrument.getDescription()));
 		record.setValue(Fields.INSTRUMENT_PIP_VALUE, new Value(instrument.getPipValue()));
@@ -224,7 +226,7 @@ public class Database {
 		record.setValue(Fields.TABLE_NAME, new Value(getName_Ticker(instrument, period)));
 		return record;
 	}
-
+	
 	///////////////
 	// Record sets.
 

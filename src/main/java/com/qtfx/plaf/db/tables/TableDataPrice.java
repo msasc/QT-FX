@@ -53,6 +53,8 @@ public class TableDataPrice extends Table {
 		addField(new FieldDataInst(instrument, Fields.CLOSE, "Close", "Close"));
 		addField(new FieldVolume(Fields.VOLUME));
 		addField(new FieldTimeFmt(Fields.TIME_FMT, period));
+		
+		getField(Fields.VOLUME).setDisplayDecimals(instrument.getVolumeScale());
 
 		getField(Fields.TIME).setPrimaryKey(true);
 		
@@ -63,5 +65,4 @@ public class TableDataPrice extends Table {
 		
 		setPersistor(new DBPersistor(dbEngine, getComplexView(getPrimaryKey())));
 	}
-
 }

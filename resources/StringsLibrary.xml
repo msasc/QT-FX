@@ -71,6 +71,7 @@
 	<entry key="taskFailed">Failed</entry>
 	<entry key="taskSucceeded">Succeeded</entry>
 	<entry key="taskParallel">Parallel processing...</entry>
+	<entry key="taskRemoveInactive">Remove inactive</entry>
 
 	<!-- Unit descriptions. -->
 
@@ -87,5 +88,14 @@
 	<!-- Default strings and titles. -->
 	
 	<entry key="defaultRecordSelection">Record selection</entry>
-
+	
+	<!-- Field validation. -->
+	
+	<entry key="fieldValidType">Value type {0} is not equal than field type {1}</entry>
+	<entry key="fieldValidMax">Value {0} is greater than {1}</entry>
+	<entry key="fieldValidMin">Value {0} is less than {1}</entry>
+	<entry key="fieldValidPossible">Value {0} is not in the list of possible values</entry>
+	<entry key="fieldValidEmpty">A non empty value is required for this field</entry>
+	<entry key="fieldValidNull">A not null value is required for this field</entry>
+	
 </properties>

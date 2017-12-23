@@ -118,7 +118,12 @@ public class DkDataIterator implements DataIterator {
 			throw new ServerException();
 		}
 		for (Data data : dataList) {
-			lastTime = data.getTime();
+			long time = data.getTime();
+			// Skip last loaded.
+			if (lastTime > from && time == lastTime) {
+				continue;
+			}
+			lastTime = time;
 			if (lastTime <= to) {
 				buffer.add(data);
 			}

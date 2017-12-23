@@ -17,9 +17,6 @@ package com.qtfx.lib.mkt.data;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,26 +61,8 @@ public class DataPersistor implements Persistor {
 	/** Map record data indexes to record field indexes. Key is the field index and value is the data index. */
 	private Map<Integer, Integer> mapRecordIndexes;
 
-	/**
-	 * Timer task to check the size.
-	 */
-	class Refresh extends TimerTask {
-		@Override
-		public void run() {
-			refreshLock.lock();
-			refreshSize = true;
-			refreshLock.unlock();
-		}
-	}
-
-	/** Refresh timer. */
-	private Timer refreshTimer;
-	/** Refresh flag. */
-	private boolean refreshSize = true;
-	/** Refresh lock. */
-	private ReentrantLock refreshLock = new ReentrantLock();
-	/** The calculated size. */
-	private long size = -1;
+	/** Last index. */
+	private long lastIndex = -1;
 
 	/**
 	 * Constructor.
@@ -97,22 +76,67 @@ public class DataPersistor implements Persistor {
 			throw new IllegalArgumentException();
 		}
 		this.persistor = persistor;
-
-		// 10 seconds refresh scheduled.
-		refreshTimer = new Timer("Data persistor");
-		refreshTimer.scheduleAtFixedRate(new Refresh(), 10000, 10000);
 	}
 
 	/////////////////////////////////////
 	// Data persistor particular methods.
 
 	/**
-	 * {@inheritDoc}
+	 * Return the last index.
+	 * 
+	 * @return The last index.
+	 * @throws PersistorException
 	 */
-	@Override
-	protected void finalize() throws Throwable {
-		refreshTimer.cancel();
-		super.finalize();
+	private long getLastIndex() {
+		if (lastIndex == -1) {
+			lastIndex = getIndex(getIndexOrder(false));
+		}
+		return lastIndex;
+	}
+
+	/**
+	 * Returns the first index with the order.
+	 * 
+	 * @param order The search order.
+	 * @return The first index applying the order.
+	 */
+	private long getIndex(Order order) {
+		Long index = Long.valueOf(-1);
+		RecordIterator iter = null;
+		try {
+			iter = persistor.iterator(null, order);
+			if (iter.hasNext()) {
+				Record record = iter.next();
+				index = getIndex(record);
+			}
+		} catch (PersistorException exc) {
+			LOGGER.catching(exc);
+		} finally {
+			close(iter);
+		}
+		return index;
+	}
+
+	/**
+	 * Returns the underlying index in the record.
+	 * 
+	 * @param record The source record.
+	 * @return The index.
+	 */
+	private long getIndex(Record record) {
+		return record.getValue(0).getLong();
+	}
+
+	/**
+	 * Returns the order on the index field.
+	 * 
+	 * @param asc A boolean that indicates ascending/descending order.
+	 * @return The order.
+	 */
+	public Order getIndexOrder(boolean asc) {
+		Order order = new Order();
+		order.add(persistor.getField(0), asc);
+		return order;
 	}
 
 	/**
@@ -189,18 +213,7 @@ public class DataPersistor implements Persistor {
 	 * @return The size.
 	 */
 	public long size() {
-		if (refreshSize) {
-			refreshLock.lock();
-			refreshSize = false;
-			try {
-				size = count(new Criteria());
-			} catch (PersistorException exc) {
-				LOGGER.catching(exc);
-			} finally {
-				refreshLock.unlock();
-			}
-		}
-		return size;
+		return getLastIndex() + 1;
 	}
 
 	/**
@@ -421,8 +434,12 @@ public class DataPersistor implements Persistor {
 	 */
 	@Override
 	public int insert(Record record) throws PersistorException {
+		long last = getLastIndex() + 1;
+		record.setValue(0, new Value(last));
+		lastIndex = last;
 		return persistor.insert(record);
 	}
+
 
 	/**
 	 * {@inheritDoc}

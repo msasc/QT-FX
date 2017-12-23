@@ -53,7 +53,7 @@ public class ActionInstrumentSynchronize extends ActionEventHandler {
 			try {
 				Server server = QTFX.getServer(getNode());
 				statusBar.setStatus(id, "Connecting to server " + server.getName(), 1, 5);
-				ServerConnector.connect(getNode());
+				ServerConnector.connect(server);
 
 				statusBar.setStatus(id, "Retrieving available instruments", 2, 5);
 				List<Instrument> instruments = server.getAvailableInstruments();
@@ -64,12 +64,12 @@ public class ActionInstrumentSynchronize extends ActionEventHandler {
 
 				statusBar.setStatus(id, "Inserting available instruments", 4, 5);
 				for (Instrument instrument : instruments) {
-					Record record = db.getRecord_Instrument(instrument);
+					Record record = db.getRecord_Instrument(server, instrument);
 					db.getPersistor_Instruments().insert(record);
 				}
 
 				statusBar.setStatus(id, "Disconnecting from server " + server.getName(), 5, 5);
-				ServerConnector.disconnect(getNode());
+				ServerConnector.disconnect(server);
 			} catch (Exception exc) {
 				LOGGER.catching(exc);
 			} finally {

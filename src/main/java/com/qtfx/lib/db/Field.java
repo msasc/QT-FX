@@ -18,10 +18,13 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.qtfx.lib.util.Strings;
+import com.qtfx.lib.util.TextServer;
 
 import javafx.scene.control.TextFormatter;
 import javafx.util.StringConverter;
@@ -32,7 +35,7 @@ import javafx.util.StringConverter;
  * @author Miquel Sas
  */
 public class Field implements Comparable<Object> {
-	
+
 	/**
 	 * Returns the list of all relations contained in the list of fields.
 	 * 
@@ -138,6 +141,8 @@ public class Field implements Comparable<Object> {
 	private TextFormatter<Value> textFormatter;
 	/** Optional CSS style. */
 	private String style;
+	/** Optional value validator. */
+	private Validator<Value> validator;
 
 	///////////////////////////////
 	// Database related properties.
@@ -208,6 +213,7 @@ public class Field implements Comparable<Object> {
 		this.stringConverter = field.stringConverter;
 		this.textFormatter = field.textFormatter;
 		this.style = field.style;
+		this.validator = field.validator;
 
 		// Database related properties.
 		this.currentDateTimeOrTimestamp = field.currentDateTimeOrTimestamp;
@@ -829,6 +835,130 @@ public class Field implements Comparable<Object> {
 	 */
 	public void setStyle(String style) {
 		this.style = style;
+	}
+
+	/**
+	 * Return the optional validator.
+	 * 
+	 * @return The validator.
+	 */
+	public Validator<Value> getValidator() {
+		return validator;
+	}
+
+	/**
+	 * Set the optional validator.
+	 * 
+	 * @param validator The validator.
+	 */
+	public void setValidator(Validator<Value> validator) {
+		this.validator = validator;
+	}
+	
+	/**
+	 * Validates the convenience of the argument value.
+	 *
+	 * @param value The value to validate.
+	 * @return A boolean indicating if the value is valid.
+	 */
+	public boolean validate(Value value) {
+
+		// Strict type
+		if (!value.getType().equals(getType())) {
+			return false;
+		}
+
+		// Maximum value
+		if (getMaximumValue() != null) {
+			if (value.compareTo(getMaximumValue()) > 0) {
+				return false;
+			}
+		}
+
+		// Minimum value
+		if (getMinimumValue() != null) {
+			if (value.compareTo(getMinimumValue()) < 0) {
+				return false;
+			}
+		}
+
+		// Possible values
+		if (!getPossibleValues().isEmpty()) {
+			if (!value.in(new ArrayList<>(getPossibleValues()))) {
+				return false;
+			}
+		}
+
+		// Non empty required
+		if (isRequired() && value.isEmpty()) {
+			return false;
+		}
+
+		// Nullable
+		if (!isNullable() && value.isNull()) {
+			return false;
+		}
+		
+		// Validator.
+		if (getValidator() != null) {
+			if (!getValidator().validate(value)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+	/**
+	 * Returns the validation message or null if validation is ok.
+	 *
+	 * @param locale The working locale.
+	 * @param value The value to check for the validation message.
+	 * @return The validation message or null if validation is ok.
+	 */
+	public String getValidationMessage(Locale locale, Value value) {
+
+		// Strict type
+		if (!value.getType().equals(getType())) {
+			return MessageFormat.format(TextServer.getString("fieldValidType", locale), value.getType(), getType());
+		}
+
+		// Maximum value
+		if (getMaximumValue() != null) {
+			if (value.compareTo(getMaximumValue()) > 0) {
+				return MessageFormat.format(TextServer.getString("fieldValidMax", locale), value, getMaximumValue());
+			}
+		}
+
+		// Minimum value
+		if (getMinimumValue() != null) {
+			if (value.compareTo(getMinimumValue()) < 0) {
+				return MessageFormat.format(TextServer.getString("fieldValidMin", locale), value, getMinimumValue());
+			}
+		}
+
+		// Possible values
+		if (!getPossibleValues().isEmpty()) {
+			if (!value.in(new ArrayList<>(getPossibleValues()))) {
+				return MessageFormat.format(TextServer.getString("fieldValidPossible", locale), value);
+			}
+		}
+
+		// Non empty required
+		if (isRequired() && value.isEmpty()) {
+			return TextServer.getString("fieldValidEmpy", locale);
+		}
+
+		// Nullable
+		if (!isNullable() && value.isNull()) {
+			return TextServer.getString("fieldValidEmpy", locale);
+		}
+
+		// Validator
+		if (getValidator() != null) {
+			return getValidator().getMessage(value);
+		}
+
+		return null;
 	}
 
 	///////////////////////////////

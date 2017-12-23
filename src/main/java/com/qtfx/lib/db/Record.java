@@ -81,7 +81,6 @@ public class Record implements Comparable<Object> {
 	public static void copy(Record source, Record destination) {
 		destination.persistor = source.persistor;
 		destination.properties = source.properties;
-		destination.validator = source.validator;
 		move(source, destination);
 	}
 
@@ -96,9 +95,6 @@ public class Record implements Comparable<Object> {
 	private Properties properties;
 	/** The persistor. */
 	private Persistor persistor;
-	/** The validator. */
-	private Validator<Record> validator;
-
 	/**
 	 * Constructor assigning the list of fields.
 	 * 
@@ -425,24 +421,6 @@ public class Record implements Comparable<Object> {
 			properties = new Properties();
 		}
 		return properties;
-	}
-
-	/**
-	 * Returns this record validator.
-	 * 
-	 * @return The validator.
-	 */
-	public Validator<Record> getValidator() {
-		return validator;
-	}
-
-	/**
-	 * Sets this record validator.
-	 * 
-	 * @param validator The validator.
-	 */
-	public void setValidator(Validator<Record> validator) {
-		this.validator = validator;
 	}
 
 	/**

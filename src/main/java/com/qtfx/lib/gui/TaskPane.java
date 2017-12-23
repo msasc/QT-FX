@@ -1,21 +1,9 @@
-/*
- * Copyright (C) 2015 Miquel Sas
- * 
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
- * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
- * version.
- * 
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with this program. If not, see
- * <http://www.gnu.org/licenses/>.
- */
-
 package com.qtfx.lib.gui;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.qtfx.lib.task.JoinPool;
 import com.qtfx.lib.task.State;
@@ -29,49 +17,149 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 /**
- * A pane to show the progress of a task
- * 
+ * A task pane to execute several tasks.
+ *
  * @author Miquel Sas
  */
-public class TaskPane extends Pane {
+public class TaskPane {
 
-	/** The task. */
-	private Task task;
+	/**
+	 * Return the task pane given the node (border pane of the task pane.)
+	 * 
+	 * @param node The node.
+	 * @return The task pane.
+	 */
+	public static TaskPane getTaskPane(Node node) {
+		return (TaskPane) FX.getObject(node, "task-pane");
+	}
+
+	/** Border pane. */
+	private BorderPane borderPane;
+	/** Buttons pane. */
+	private ButtonPane buttonPane;
+	/** Master vertical box. */
+	private VBox vbox;
 	/** Execution pool. */
 	private JoinPool pool;
 
 	/**
-	 * Constructor assigning the task.
+	 * Constructor.
+	 */
+	public TaskPane() {
+		super();
+		borderPane = new BorderPane();
+		FX.setObject(borderPane, "task-pane", this);
+		
+		vbox = new VBox(10);
+		ScrollPane scrollPane = new ScrollPane(vbox);
+		borderPane.setCenter(scrollPane);
+		
+		scrollPane.prefWidthProperty().bind(Bindings.selectDouble(scrollPane.parentProperty(), "width"));
+//		vbox.prefWidthProperty().bind(Bindings.selectDouble(vbox.parentProperty(), "width"));
+		vbox.prefWidthProperty().bind(scrollPane.prefWidthProperty().subtract(20));
+		
+		buttonPane = new ButtonPane();
+		buttonPane.setPadding(new Insets(10));
+		borderPane.setBottom(buttonPane.getNode());
+
+		Button remove = new Button(TextServer.getString("taskRemoveInactive"));
+		remove.setOnAction(e -> {
+			List<Task> tasks = getTasks();
+			for (Task task : tasks) {
+				if (!task.stateProperty().get().equals(State.RUNNING)) {
+					removeTask(task);
+				}
+			}
+		});
+		buttonPane.getButtons().add(remove);
+		
+		buttonPane.layoutButtons();
+
+		pool = new JoinPool();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void finalize() throws Throwable {
+		pool.shutdown();
+		super.finalize();
+	}
+
+	/**
+	 * Return the node to install on the scene.
+	 * 
+	 * @return The node.
+	 */
+	public Node getNode() {
+		return borderPane;
+	}
+
+	/**
+	 * Add a task to be executed.
 	 * 
 	 * @param task The task.
 	 */
-	public TaskPane(Task task) {
-		super();
-		this.task = task;
-		layoutComponents();
+	public void addTask(Task task) {
+		vbox.getChildren().add(getTaskPane(task));
 	}
 
-	private void layoutComponents() {
-
-		// Remove any component.
-		while (!getChildren().isEmpty()) {
-			getChildren().remove(0);
+	/**
+	 * Return a list with all first level tasks.
+	 * 
+	 * @return The list of tasks.
+	 */
+	public List<Task> getTasks() {
+		List<Task> tasks = new ArrayList<>();
+		for (int i = 0; i < vbox.getChildren().size(); i++) {
+			Node node = vbox.getChildren().get(i);
+			Task task = (Task) FX.getObject(node, "task");
+			tasks.add(task);
 		}
+		return tasks;
+	}
+
+	/**
+	 * Remove the task.
+	 * 
+	 * @param task The task.
+	 */
+	public void removeTask(Task task) {
+		for (int i = 0; i < vbox.getChildren().size(); i++) {
+			Node node = vbox.getChildren().get(i);
+			Task scan = (Task) FX.getObject(node, "task");
+			if (scan.equals(task)) {
+				vbox.getChildren().remove(i);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Return the grid pane that shows the task progress.
+	 * 
+	 * @param task The task.
+	 * @return The pane.
+	 */
+	private GridPane getTaskPane(Task task) {
 
 		// The grid pane that will hold all the component.
 		GridPane grid = new GridPane();
@@ -161,7 +249,6 @@ public class TaskPane extends Pane {
 				});
 
 				task.reinitialize();
-				pool = new JoinPool();
 				pool.submit(task);
 			}
 
@@ -174,7 +261,7 @@ public class TaskPane extends Pane {
 
 		// Setup button info listener.
 		buttonInfo.setOnAction((EventHandler<ActionEvent>) e -> {
-			showException();
+			showException(task);
 		});
 
 		// Setup task state listener.
@@ -182,9 +269,6 @@ public class TaskPane extends Pane {
 
 			// Leaving the running state.
 			if (oldValue.equals(State.RUNNING)) {
-
-				// Shutdown the pool.
-				pool.shutdown();
 
 				// If the task is indeterminate, unbind the progress bar to set the value to zero and stop flowing.
 				if (task.isIndeterminate()) {
@@ -205,26 +289,25 @@ public class TaskPane extends Pane {
 
 		});
 
-		// Add the grid to this pane and bind its width and height.
-		getChildren().add(grid);
-		grid.prefWidthProperty().bind(Bindings.selectDouble(grid.parentProperty(), "width"));
-		grid.prefHeightProperty().bind(Bindings.selectDouble(grid.parentProperty(), "height"));
-
-		// Preferred pane width.
-		setPrefWidth(800);
+		FX.setObject(grid, "task", task);
+		return grid;
 	}
+
+	///////////
+	// Helpers.
 
 	/**
 	 * Show the exception if any.
 	 */
-	private void showException() {
+	private void showException(Task task) {
 
 		Throwable exc = task.getException();
 		if (exc == null) {
 			return;
 		}
 
-		Dialog dialog = new Dialog(getScene().getWindow());
+		Scene scene = vbox.getScene();
+		Dialog dialog = new Dialog(scene != null ? scene.getWindow() : null);
 		dialog.setButtonsBottom();
 		dialog.setTitle(TextServer.getString("taskException"));
 		dialog.getButtonPane().setPadding(new Insets(0, 10, 10, 10));
