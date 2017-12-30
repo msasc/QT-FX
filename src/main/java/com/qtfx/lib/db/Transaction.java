@@ -44,7 +44,7 @@ public interface Transaction {
 	void rollback() throws PersistorException;
 
 	/**
-	 * Delete a record.
+	 * ActionDelete a record.
 	 * 
 	 * @param persistor The underlying persistor.
 	 * @param record The record to delete.

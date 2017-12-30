@@ -121,7 +121,7 @@ public interface Persistor {
 	int delete(Criteria criteria) throws PersistorException;
 
 	/**
-	 * Delete a record.
+	 * ActionDelete a record.
 	 * 
 	 * @param record The record to delete.
 	 * @return The number deleted records (one or zero).

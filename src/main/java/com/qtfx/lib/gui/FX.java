@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.qtfx.lib.db.FieldGroup;
+import com.qtfx.lib.util.Numbers;
 
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -29,6 +30,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
 import javafx.scene.text.Font;
@@ -347,12 +349,13 @@ public class FX {
 	public static void setObject(Node node, Object key, Object value) {
 		getProperty(node, key).set(value);
 	}
-	
+
 	/**
 	 * Return an object stored at the root.
+	 * 
 	 * @param node The reference node.
 	 * @param key The key.
-	 * @return The object stored at the  root.
+	 * @return The object stored at the root.
 	 */
 	public static Object getRootObject(Node node, Object key) {
 		Scene scene = node.getScene();
@@ -588,5 +591,59 @@ public class FX {
 		}
 		text.setBoundsType(TextBoundsType.LOGICAL_VERTICAL_CENTER);
 		return text.getLayoutBounds();
+	}
+
+	//////////////////////////////
+	// Graphics context utilities.
+
+	/**
+	 * Move to.
+	 * 
+	 * @param gc The graphics context.
+	 * @param x The x coordinate.
+	 * @param y The y coordinate.
+	 */
+	public static void moveTo(GraphicsContext gc, double x, double y) {
+		double w = gc.getLineWidth();
+		gc.moveTo(coord(w, x), coord(w, y));
+	}
+
+	/**
+	 * Line to.
+	 * 
+	 * @param gc The graphics context.
+	 * @param x The x coordinate.
+	 * @param y The y coordinate.
+	 */
+	public static void lineTo(GraphicsContext gc, double x, double y) {
+		double w = gc.getLineWidth();
+		gc.lineTo(coord(w, x), coord(w, y));
+	}
+	
+	/**
+	 * Stroke a line.
+	 * @param gc The graphics context.
+	 * @param x1 The x1 coordinate.
+	 * @param y1 The y1 coordinate.
+	 * @param x2 The x2 coordinate.
+	 * @param y2 The y2 coordinate.
+	 */
+	public static void strokeLine(GraphicsContext gc, double x1, double y1, double x2, double y2) {
+		double w = gc.getLineWidth();
+		gc.strokeLine(coord(w, x1), coord(w,  y1), coord(w, x2), coord(w, y2));
+	}
+
+	/**
+	 * Returns the proper coordinate to correctly stroke.
+	 * 
+	 * @param w The stroke width.
+	 * @param d The coordinate value.
+	 * @return The proper coordinate.
+	 */
+	public static double coord(double w, double d) {
+		if (!Numbers.isEven(w)) {
+			return Numbers.round(d, 0) + 0.5;
+		}
+		return Numbers.round(d, 0);
 	}
 }

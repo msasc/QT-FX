@@ -1,209 +1,98 @@
-2017-12-22 10:32:07 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 10:32:09 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 10:52:38 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 10:52:40 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 11:02:16 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 11:02:19 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 13:01:17 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 13:01:20 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 13:13:53 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 13:13:56 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 14:53:42 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 14:53:44 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 15:33:02 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 15:33:08 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 15:33:08 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 15:37:26 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 15:37:29 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 15:55:48 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 15:55:50 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 15:58:28 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 15:58:32 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 17:17:19 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:17:22 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:35 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:35 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:35 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:35 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:35 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:35 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:35 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:35 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:35 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:35 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:35 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:35 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:42 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:45 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:48 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:48 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:48 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:48 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:49 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:49 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:18:49 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:18:49 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:04 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:04 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:04 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:04 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:04 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:04 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:04 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:04 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:04 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:04 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:04 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:04 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:13 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:19:16 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:19:57 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:20:09 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:36 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:43 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:43 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:43 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:43 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:43 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:43 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:43 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:43 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:46 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:46 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:46 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:46 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:54 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:55 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:55 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:55 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:55 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:58 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:58 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:59 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:59 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:59 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:59 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:59 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:59 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:59 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:59 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:21:59 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:21:59 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:22:06 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:22:08 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:22:08 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:22:08 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:22:08 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:22:08 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:22:08 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:22:08 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:22:08 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:22:08 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:22:08 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:22:08 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: en_GB
-2017-12-22 17:22:08 ERROR com.qtfx.lib.util.TextServer - Can't load the resource: resources/StringsLibrary.xml locale: 
-2017-12-22 17:48:56 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 17:48:58 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 17:57:21 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 17:57:23 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 18:08:33 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 18:08:35 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 18:15:20 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 18:15:23 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
-2017-12-22 18:21:16 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-22 18:21:18 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
+2017-12-29 15:43:55 ERROR com.qtfx.plaf.action.ActionInstrumentTickers - Catching
+java.lang.NullPointerException: null
+	at com.qtfx.lib.mkt.data.IndicatorUtils.getSimpleMovingAverage(IndicatorUtils.java:79) ~[classes/:?]
+	at com.qtfx.plaf.action.ActionInstrumentTickers$ActionChart.handle(ActionInstrumentTickers.java:350) ~[classes/:?]
+	at com.qtfx.plaf.action.ActionInstrumentTickers.lambda$3(ActionInstrumentTickers.java:447) ~[classes/:?]
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49) ~[jfxrt.jar:?]
+	at javafx.event.Event.fireEvent(Event.java:198) ~[jfxrt.jar:?]
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462) ~[jfxrt.jar:?]
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405) ~[jfxrt.jar:?]
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54) ~[jfxrt.jar:?]
+	at javafx.event.Event.fireEvent(Event.java:198) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485) ~[jfxrt.jar:?]
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:381) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:295) ~[jfxrt.jar:?]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_144]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:417) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:416) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.View.notifyMouse(View.java:937) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191) ~[jfxrt.jar:?]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_144]
+2017-12-29 15:45:46 ERROR com.qtfx.plaf.action.ActionInstrumentTickers - Catching
+java.lang.NullPointerException: null
+	at com.qtfx.lib.mkt.data.IndicatorUtils.getSimpleMovingAverage(IndicatorUtils.java:79) ~[classes/:?]
+	at com.qtfx.plaf.action.ActionInstrumentTickers$ActionChart.handle(ActionInstrumentTickers.java:350) ~[classes/:?]
+	at com.qtfx.plaf.action.ActionInstrumentTickers.lambda$3(ActionInstrumentTickers.java:447) ~[classes/:?]
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49) ~[jfxrt.jar:?]
+	at javafx.event.Event.fireEvent(Event.java:198) ~[jfxrt.jar:?]
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462) ~[jfxrt.jar:?]
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405) ~[jfxrt.jar:?]
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54) ~[jfxrt.jar:?]
+	at javafx.event.Event.fireEvent(Event.java:198) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485) ~[jfxrt.jar:?]
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:381) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:295) ~[jfxrt.jar:?]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_144]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:417) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:416) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.View.notifyMouse(View.java:937) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191) ~[jfxrt.jar:?]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_144]
+2017-12-29 17:34:32 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
+2017-12-29 17:34:35 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
+2017-12-29 17:45:14 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
+2017-12-29 17:45:17 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.

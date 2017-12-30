@@ -229,7 +229,7 @@ public class Dispatcher {
 	 */
 	private void dispatchAccountUpdates() {
 
-		// Create a private list of account updates.
+		// ActionCreate a private list of account updates.
 		List<Account> accountUpdates = new ArrayList<>();
 		accountLock.lock();
 		accountUpdates.addAll(this.accountUpdates);
@@ -287,7 +287,7 @@ public class Dispatcher {
 	 */
 	private void dispatchOrderUpdates() {
 
-		// Create a private list of order updates.
+		// ActionCreate a private list of order updates.
 		List<OrderMessage> orderMessages = new ArrayList<>();
 		orderLock.lock();
 		orderMessages.addAll(this.orderMessages);
@@ -384,7 +384,7 @@ public class Dispatcher {
 	 */
 	private void dispatchTicks(Instrument instrument) {
 
-		// Create a private list of ticks of the instrument.
+		// ActionCreate a private list of ticks of the instrument.
 		List<TickEvent> instrumentTicks = new ArrayList<>();
 		tickLock.lock();
 		Iterator<TickEvent> i = tickEvents.iterator();

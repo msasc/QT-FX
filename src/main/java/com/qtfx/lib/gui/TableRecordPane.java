@@ -40,7 +40,9 @@ import javafx.scene.Node;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 
 /**
  * Table view on record set functionality.
@@ -186,6 +188,9 @@ public class TableRecordPane {
 		return new NodePropertySetter();
 	}
 
+	/////////////////////
+	// Column management.
+
 	/**
 	 * Add a column.
 	 * 
@@ -202,7 +207,7 @@ public class TableRecordPane {
 	 * @param sortable A boolean.
 	 */
 	public void addColumn(Field field, boolean sortable) {
-		TableColumn<Record, Value> column = new TableColumn<>(field.getHeader());
+		TableColumn<Record, Value> column = new TableColumn<>(field.getDisplayHeader());
 		column.setCellValueFactory(new CellValueFactory(field));
 		column.setCellFactory(new CellFactory(field));
 		column.setSortable(sortable);
@@ -227,6 +232,58 @@ public class TableRecordPane {
 	 */
 	public void addColumn(String alias, boolean sortable) {
 		addColumn(masterRecord.getFieldList().getField(alias), sortable);
+	}
+
+	/**
+	 * Return the column index of the field.
+	 * 
+	 * @param alias The alias.
+	 * @return The column index or -1.
+	 */
+	public int getColumnIndex(String alias) {
+		Field field = masterRecord.getField(alias);
+		if (field != null) {
+			return getColumnIndex(field);
+		}
+		return -1;
+	}
+
+	/**
+	 * Return the column index of the field.
+	 * 
+	 * @param field The field.
+	 * @return The column index or -1.
+	 */
+	public int getColumnIndex(Field field) {
+		for (int i = 0; i < getTableView().getColumns().size(); i++) {
+			if (getTableView().getColumns().get(i).getText().equals(field.getDisplayHeader())) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Set the column preferred width.
+	 * 
+	 * @param column The column.
+	 * @param width The width.
+	 */
+	public void setColumnPrefWidth(int column, double width) {
+		getTableView().getColumns().get(column).setPrefWidth(width);
+	}
+
+	/**
+	 * Return the default width for the given text.
+	 * 
+	 * @param text The text.
+	 * @return The default width.
+	 */
+	public double getDefaultColumnWidth(String text) {
+		TextFieldTableCell<Record, Value> cell = new TextFieldTableCell<>();
+		Font font = cell.getFont();
+		double width = FX.getStringWidth(text, font);
+		return width;
 	}
 
 	/**
@@ -471,4 +528,5 @@ public class TableRecordPane {
 		}
 		return index;
 	}
+
 }

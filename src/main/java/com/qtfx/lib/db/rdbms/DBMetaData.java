@@ -183,7 +183,7 @@ public class DBMetaData {
 		fieldList.addField(createField("PRECISION", "Precision", Types.LONG, 0, 0, false));
 		fieldList.addField(createField("LITERAL_PREFIX", "Literal prefix", Types.STRING, 5, 0, false));
 		fieldList.addField(createField("LITERAL_SUFFIX", "Literal suffix", Types.STRING, 5, 0, false));
-		fieldList.addField(createField("CREATE_PARAMS", "Create params", Types.STRING, 20, 0, false));
+		fieldList.addField(createField("CREATE_PARAMS", "ActionCreate params", Types.STRING, 20, 0, false));
 		fieldList.addField(createField("NULLABLE", "Nullable", Types.INTEGER, 0, 0, false));
 		fieldList.addField(createField("CASE_SENSITIVE", "Case sensitive", Types.BOOLEAN, 0, 0, false));
 		fieldList.addField(createField("SEARCHABLE", "Searcheable", Types.INTEGER, 0, 0, false));
@@ -218,7 +218,7 @@ public class DBMetaData {
 		fieldList.addField(createField("FKCOLUMN_NAME", "FK Column name", Types.STRING, 20, 0, false));
 		fieldList.addField(createField("KEY_SEQ", "Key sequence", Types.INTEGER, 2, 0, false));
 		fieldList.addField(createField("UPDATE_RULE", "Update rule", Types.INTEGER, 2, 0, false));
-		fieldList.addField(createField("DELETE_RULE", "Delete rule", Types.INTEGER, 2, 0, false));
+		fieldList.addField(createField("DELETE_RULE", "ActionDelete rule", Types.INTEGER, 2, 0, false));
 		fieldList.addField(createField("FK_NAME", "FK Name", Types.STRING, 20, 0, false));
 		fieldList.addField(createField("PK_NAME", "PK Name", Types.STRING, 20, 0, false));
 		fieldList.addField(createField("DEFERRABILITY", "Deferrability", Types.INTEGER, 20, 0, false));

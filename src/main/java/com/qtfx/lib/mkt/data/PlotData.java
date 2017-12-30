@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.qtfx.lib.mkt.chart.plotter.data.DataPlotter;
 import com.qtfx.lib.util.Numbers;
 
 /**
@@ -27,7 +28,7 @@ import com.qtfx.lib.util.Numbers;
 public class PlotData implements Iterable<DataList> {
 
 	/** The number of bars to show at start when start and end indexes are not defined. */
-	private int startNumberOfBars = 2000;
+	private int startNumberOfBars = 200;
 
 	/** A list of data lists. */
 	private List<DataList> dataLists = new ArrayList<>();
@@ -137,6 +138,15 @@ public class PlotData implements Iterable<DataList> {
 			}
 		}
 		return fromScratch;
+	}
+
+	/**
+	 * Returns all the data lists.
+	 * 
+	 * @return All the data lists.
+	 */
+	public List<DataList> getDataLists() {
+		return dataLists;
 	}
 
 	/**
@@ -254,7 +264,7 @@ public class PlotData implements Iterable<DataList> {
 	/**
 	 * Removes the data list at the given index.
 	 * 
-	 * @param index The idex.
+	 * @param index The index.
 	 * @return The removed data list.
 	 */
 	public DataList remove(int index) {
@@ -297,7 +307,7 @@ public class PlotData implements Iterable<DataList> {
 	 * 
 	 * @param periods The number of periods to show.
 	 */
-	public void setInitialStartAndEndIndexes(int periods) {
+	public void setIndexes(int periods) {
 		if (!isEmpty()) {
 			int size = get(0).size();
 			int endIndex = size - 1;
@@ -315,7 +325,7 @@ public class PlotData implements Iterable<DataList> {
 	 * 
 	 * @param plotData The source plot data.
 	 */
-	public void setStartAndEndIndexesFrom(PlotData plotData) {
+	public void setIndexes(PlotData plotData) {
 		setStartIndex(plotData.getStartIndex());
 		setEndIndex(plotData.getEndIndex());
 	}
@@ -613,16 +623,17 @@ public class PlotData implements Iterable<DataList> {
 	 * </ul>
 	 * 
 	 * @param periods The number of periods to scroll.
+	 * @return A boolean indicating whether scroll has been performed.
 	 */
-	public void scroll(int periods) {
+	public boolean scroll(int periods) {
 		if (isEmpty()) {
-			return;
+			return false;
 		}
 		if (periods == 0) {
-			return;
+			return false;
 		}
 		if (get(0).isEmpty()) {
-			return;
+			return false;
 		}
 		int dataSize = get(0).size();
 		int periodsToScroll;
@@ -633,6 +644,7 @@ public class PlotData implements Iterable<DataList> {
 		}
 		startIndex += periodsToScroll;
 		endIndex += periodsToScroll;
+		return true;
 	}
 
 	/**
@@ -649,17 +661,18 @@ public class PlotData implements Iterable<DataList> {
 	 * <li>If zoom out and both indexes are out of range, do not zoom.</li>
 	 * </ul>
 	 * 
-	 * @param periods Thenumber of periods or bars to zoom.
+	 * @param periods The number of periods or bars to zoom.
+	 * @return A boolean indicating whether the zoom was performed.
 	 */
-	public void zoom(int periods) {
+	public boolean zoom(int periods) {
 		if (isEmpty()) {
-			return;
+			return false;
 		}
 		if (periods == 0) {
-			return;
+			return false;
 		}
 		if (get(0).isEmpty()) {
-			return;
+			return false;
 		}
 		int dataSize = get(0).size();
 		boolean zoomOut = (periods < 0);
@@ -671,35 +684,39 @@ public class PlotData implements Iterable<DataList> {
 
 			// If both indexes are out of range, do not zoom.
 			if (startIndex < 0 && endIndex >= dataSize) {
-				return;
+				return false;
 			}
 
 			// If both indexes are in the range of data, decrease the start index and increase the end index.
 			if (startIndex >= 0 && endIndex < dataSize) {
 				startIndex -= periods;
 				endIndex += periods;
-				return;
+				return true;
 			}
 
 			// If only startIndex is in the range...
 			if (startIndex >= 0 && endIndex >= dataSize) {
 				startIndex -= periods;
-				return;
+				return true;
 			}
 
 			// If only endIndex is in the range...
 			if (startIndex < 0 && endIndex < dataSize) {
 				endIndex += periods;
-				return;
+				return true;
 			}
 		}
 
 		// Zoom in: always zoom, with the limit that indexes do not overlap and leaving at least one visible bar.
 		if (zoomIn) {
 
+			if (endIndex - startIndex + 1 <= 20) {
+//				return false;
+			}
+
 			// If start and end indexes are the same, do nothing.
 			if (startIndex == endIndex - 1) {
-				return;
+				return false;
 			}
 
 			// If both indexes are out of range will zoom in the same way as if only the end index is out of range, that
@@ -717,7 +734,7 @@ public class PlotData implements Iterable<DataList> {
 				endIndex = dataSize + endBlankPeriods;
 				startIndex = endIndex - (int) endPeriods + 1;
 				checkIndexes();
-				return;
+				return true;
 			}
 
 			// If both indexes are in the range zoom both sides
@@ -725,7 +742,7 @@ public class PlotData implements Iterable<DataList> {
 				startIndex += periods;
 				endIndex -= periods;
 				checkIndexes();
-				return;
+				return true;
 			}
 
 			// If only endIndex is in the range, zoom the right of the chart maintaining as possible the left blank
@@ -743,9 +760,11 @@ public class PlotData implements Iterable<DataList> {
 				startIndex = -endBlankPeriods;
 				endIndex = startIndex + (int) endPeriods - 1;
 				checkIndexes();
-				return;
+				return true;
 			}
 		}
+
+		return false;
 	}
 
 	/**

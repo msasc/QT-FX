@@ -16,6 +16,11 @@ package com.qtfx.lib.mkt.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.qtfx.lib.mkt.chart.plotter.PlotterContext;
+import com.qtfx.lib.mkt.chart.plotter.data.BarPlotter;
+import com.qtfx.lib.mkt.chart.plotter.data.CandlestickPlotter;
+import com.qtfx.lib.mkt.chart.plotter.data.DataPlotter;
+import com.qtfx.lib.mkt.chart.plotter.data.LinePlotter;
 import com.qtfx.lib.mkt.data.info.DataInfo;
 import com.qtfx.lib.util.Calendar;
 import com.qtfx.lib.util.Numbers;
@@ -151,15 +156,16 @@ public abstract class DataList {
 		super();
 		this.dataInfo = dataInfo;
 	}
-	
+
 	/**
-	 * Add a user data plotter for the list.
+	 * Add the data plotter.
 	 * 
-	 * @param dataPlotter The data plotter.
+	 * @param plotter The plotter.
 	 */
-	public void addDataPlotter(DataPlotter dataPlotter) {
-		dataPlotters.add(dataPlotter);
+	public void addPlotter(DataPlotter plotter) {
+		dataPlotters.add(plotter);
 	}
+
 	/**
 	 * Returns the list of data plotters.
 	 * 
@@ -167,25 +173,21 @@ public abstract class DataList {
 	 */
 	public List<DataPlotter> getDataPlotters() {
 		if (dataPlotters.isEmpty()) {
-			DataPlotter dataPlotter;
 			switch (getPlotType()) {
 			case BAR:
-				dataPlotter = null;
+				dataPlotters.add(new BarPlotter());
 				break;
 			case CANDLESTICK:
-				dataPlotter = null;
+				dataPlotters.add(new CandlestickPlotter());
 				break;
 			case HISTOGRAM:
-				dataPlotter = null;
 				break;
 			case LINE:
-				dataPlotter = null;
+				dataPlotters.add(new LinePlotter());
 				break;
 			default:
-				dataPlotter = null;
 				break;
 			}
-			dataPlotters.add(dataPlotter);
 		}
 		return dataPlotters;
 	}
@@ -198,7 +200,7 @@ public abstract class DataList {
 	public boolean isPlot() {
 		return plot;
 	}
-	
+
 	/**
 	 * Check if a data list has to be plotted from scratch, mainly because it plots lines with dashes.
 	 * 
@@ -299,6 +301,15 @@ public abstract class DataList {
 	 */
 	public void setPlotType(PlotType plotType) {
 		this.plotType = plotType;
+	}
+
+	/**
+	 * Set the plotter context to data plotters.
+	 * 
+	 * @param context The plotter context.
+	 */
+	public void setPlotterContext(PlotterContext context) {
+		getDataPlotters().forEach(plotter -> plotter.setContext(context));
 	}
 
 	/**

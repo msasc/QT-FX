@@ -269,7 +269,7 @@ public class Period implements Comparable<Period> {
 		StringBuilder b = new StringBuilder();
 		b.append(getSize());
 		b.append(" ");
-		b.append(Strings.capitalize(getUnit().name().toLowerCase()));
+		b.append(getUnit().getShortName());
 		if (getSize() > 1) {
 			b.append("s");
 		}

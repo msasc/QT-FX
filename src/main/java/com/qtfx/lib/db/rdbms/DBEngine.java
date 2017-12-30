@@ -338,7 +338,7 @@ public class DBEngine {
 	public int executeBuildTable(Table table) throws SQLException {
 		int updated = 0;
 
-		// Create the table.
+		// ActionCreate the table.
 		updated += executeCreateTable(table);
 
 		// Add the primary key.

@@ -79,6 +79,26 @@ public class Numbers extends org.apache.commons.lang3.math.NumberUtils {
 	}
 
 	/**
+	 * Check if the number is even.
+	 * 
+	 * @param l The number.
+	 * @return A boolean.
+	 */
+	public static boolean isEven(double d) {
+		return (d % 2 == 0);
+	}
+
+	/**
+	 * Check if the number is odd.
+	 * 
+	 * @param l The number.
+	 * @return A boolean.
+	 */
+	public static boolean isOdd(double d) {
+		return !isEven(d);
+	}
+
+	/**
 	 * Parse a two char byte hex string.
 	 * 
 	 * @param hex The hex string.

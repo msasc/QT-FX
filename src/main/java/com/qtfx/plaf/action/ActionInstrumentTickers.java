@@ -14,9 +14,12 @@
 
 package com.qtfx.plaf.action;
 
+import java.util.Locale;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qtfx.lib.db.Criteria;
 import com.qtfx.lib.db.Persistor;
 import com.qtfx.lib.db.PersistorException;
 import com.qtfx.lib.db.Record;
@@ -26,12 +29,21 @@ import com.qtfx.lib.gui.Alert;
 import com.qtfx.lib.gui.TableRecordPane;
 import com.qtfx.lib.gui.TaskPane;
 import com.qtfx.lib.gui.action.handlers.ActionEventHandler;
+import com.qtfx.lib.mkt.chart.Chart;
+import com.qtfx.lib.mkt.data.Data;
+import com.qtfx.lib.mkt.data.DataListPersistor;
 import com.qtfx.lib.mkt.data.DataPersistor;
 import com.qtfx.lib.mkt.data.DataRecordSet;
 import com.qtfx.lib.mkt.data.Filter;
+import com.qtfx.lib.mkt.data.IndicatorDataList;
+import com.qtfx.lib.mkt.data.IndicatorUtils;
 import com.qtfx.lib.mkt.data.Instrument;
 import com.qtfx.lib.mkt.data.OfferSide;
 import com.qtfx.lib.mkt.data.Period;
+import com.qtfx.lib.mkt.data.PlotData;
+import com.qtfx.lib.mkt.data.PlotType;
+import com.qtfx.lib.mkt.data.info.DataInfo;
+import com.qtfx.lib.mkt.data.info.PriceInfo;
 import com.qtfx.lib.mkt.server.Server;
 import com.qtfx.lib.util.TextServer;
 import com.qtfx.plaf.QTFX;
@@ -48,6 +60,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -63,9 +76,9 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 	/**
 	 * Create a ticker.
 	 */
-	class Create extends ActionEventHandler {
+	class ActionCreate extends ActionEventHandler {
 
-		public Create(Node node) {
+		public ActionCreate(Node node) {
 			super(node);
 		}
 
@@ -95,13 +108,13 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 					return;
 				}
 
-				// Create the table.
+				// ActionCreate the table.
 				Table tableDataPrice = db.getTable_DataPrice(server, instrument, period);
 				if (!db.getDDL().existsTable(tableDataPrice)) {
 					db.getDDL().buildTable(tableDataPrice);
 				}
 
-				// Create the record.
+				// ActionCreate the record.
 				persistor.insert(rcTicker);
 				persistor.refresh(rcTicker);
 
@@ -118,9 +131,9 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 	/**
 	 * Delete a ticker.
 	 */
-	class Delete extends ActionEventHandler {
+	class ActionDelete extends ActionEventHandler {
 
-		public Delete(Node node) {
+		public ActionDelete(Node node) {
 			super(node);
 		}
 
@@ -146,7 +159,7 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 				Persistor persistor = db.getPersistor_Tickers();
 				persistor.delete(selected);
 
-				// Delete the table.
+				// ActionDelete the table.
 				Table tableDataPrice = db.getTable_DataPrice(server, instrument, period);
 				db.getDDL().dropTable(tableDataPrice);
 
@@ -162,9 +175,9 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 	/**
 	 * Browse a ticker.
 	 */
-	class Browse extends ActionEventHandler {
+	class ActionBrowse extends ActionEventHandler {
 
-		public Browse(Node node) {
+		public ActionBrowse(Node node) {
 			super(node);
 		}
 
@@ -181,13 +194,12 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 				Instrument instrument = db.fromRecordToInstrument(db.getRecord_Instrument(server, instrumentId));
 				String periodId = selected.getValue(Fields.PERIOD_ID).getString();
 				Period period = Period.parseId(periodId);
-				
+
 				Persistor persistor = db.getPersistor_DataPrice(server, instrument, period);
 				DataPersistor dataPersistor = new DataPersistor(persistor);
-				
+
 				TableRecordPane tableData = new TableRecordPane(dataPersistor.getDefaultRecord());
 				tableData.addColumn(Fields.INDEX);
-//				tableData.addColumn(Fields.TIME);
 				tableData.addColumn(Fields.TIME_FMT);
 				tableData.addColumn(Fields.OPEN);
 				tableData.addColumn(Fields.HIGH);
@@ -195,6 +207,10 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 				tableData.addColumn(Fields.CLOSE);
 				tableData.addColumn(Fields.VOLUME);
 				tableData.setRecordSet(new DataRecordSet(dataPersistor));
+
+				// Set a proper width of the index column.
+				double width = tableData.getDefaultColumnWidth("999.999.999");
+				tableData.setColumnPrefWidth(0, width);
 
 				Tab tab = new Tab();
 				tab.setText(
@@ -204,7 +220,44 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 				TabPane tabPane = QTFX.getTabPane(getNode());
 				tabPane.getTabs().add(tab);
 				tabPane.getSelectionModel().select(tab);
-				
+
+			} catch (Exception exc) {
+				LOGGER.catching(exc);
+			}
+		}
+	}
+
+	/**
+	 * Purge a ticker.
+	 */
+	class ActionPurge extends ActionEventHandler {
+
+		public ActionPurge(Node node) {
+			super(node);
+		}
+
+		@Override
+		public void handle(ActionEvent event) {
+			try {
+				if (table.getSelectedRecords().isEmpty()) {
+					return;
+				}
+				Server server = QTFX.getServer(getNode());
+				Database db = QTFX.getDatabase(getNode());
+				Record selected = table.getSelectedRecords().get(0);
+				if (Alert.confirm(
+					TextServer.getString("alertConfirmPurgeTitle"),
+					TextServer.getString("alertConfirmPurgeText")).equals(Alert.CANCEL)) {
+					return;
+				}
+				String instrumentId = selected.getValue(Fields.INSTRUMENT_ID).getString();
+				Instrument instrument = db.fromRecordToInstrument(db.getRecord_Instrument(server, instrumentId));
+				String periodId = selected.getValue(Fields.PERIOD_ID).getString();
+				Period period = Period.parseId(periodId);
+
+				Persistor persistor = db.getPersistor_DataPrice(server, instrument, period);
+				persistor.delete(new Criteria());
+
 			} catch (Exception exc) {
 				LOGGER.catching(exc);
 			}
@@ -214,9 +267,9 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 	/**
 	 * Download a ticker.
 	 */
-	class Download extends ActionEventHandler {
+	class ActionDownload extends ActionEventHandler {
 
-		public Download(Node node) {
+		public ActionDownload(Node node) {
 			super(node);
 		}
 
@@ -234,12 +287,11 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 				TaskDownloadTicker task = new TaskDownloadTicker(db, server, instrument, period, OfferSide.ASK,
 					Filter.ALL_FLATS);
 
-				
 				String tabText = TextServer.getString("tabDownload");
 				if (!QTFX.isTab(getNode(), tabText)) {
 					TaskPane taskPane = new TaskPane();
 					taskPane.addTask(task);
-					
+
 					Tab tab = new Tab();
 					tab.setText(tabText);
 					tab.setContent(taskPane.getNode());
@@ -256,6 +308,64 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 					tabPane.getSelectionModel().select(tab);
 				}
 
+			} catch (Exception exc) {
+				LOGGER.catching(exc);
+			}
+		}
+	}
+	
+	/**
+	 * Chart a ticker.
+	 */
+	class ActionChart extends ActionEventHandler {
+
+		public ActionChart(Node node) {
+			super(node);
+		}
+
+		@Override
+		public void handle(ActionEvent event) {
+			try {
+				if (table.getSelectedRecords().isEmpty()) {
+					return;
+				}
+				Locale locale = QTFX.getLocale(getNode());
+				Server server = QTFX.getServer(getNode());
+				Database db = QTFX.getDatabase(getNode());
+				Record selected = table.getSelectedRecords().get(0);
+				String instrumentId = selected.getValue(Fields.INSTRUMENT_ID).getString();
+				Instrument instrument = db.fromRecordToInstrument(db.getRecord_Instrument(server, instrumentId));
+				String periodId = selected.getValue(Fields.PERIOD_ID).getString();
+				Period period = Period.parseId(periodId);
+				Persistor persistor = db.getPersistor_DataPrice(server, instrument, period);
+				
+				// Build the plot data.
+				DataInfo infoPrice = new PriceInfo(locale, instrument, period);
+				DataListPersistor price = new DataListPersistor(infoPrice, persistor);
+				price.setPlotType(PlotType.CANDLESTICK);
+				PlotData plotData = new PlotData();
+				plotData.add(price);
+
+				// By default in this view add two SMA of 50 and 200 periods.
+				IndicatorDataList sma50 = 
+					IndicatorUtils.getSmoothedWeightedMovingAverage(price, Data.CLOSE, Color.BLUE, 10, 5, 3, 3);
+				IndicatorDataList sma200 = 
+					IndicatorUtils.getSmoothedSimpleMovingAverage(price, Data.CLOSE, Color.BLACK, 200, 10, 5, 5);
+				plotData.add(sma50);
+				plotData.add(sma200);
+				
+				Chart chart = new Chart(locale);
+				chart.addPlotData(plotData);
+				
+				Tab tab = new Tab();
+				tab.setText(
+					TextServer.getString("tabChart") + " " + instrument.getDescription() + ", " + period.toString());
+				tab.setContent(chart.getPane());
+				
+				TabPane tabPane = QTFX.getTabPane(getNode());
+				tabPane.getTabs().add(tab);
+				tabPane.getSelectionModel().select(tab);
+				
 			} catch (Exception exc) {
 				LOGGER.catching(exc);
 			}
@@ -326,21 +436,27 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 		ContextMenu menu = new ContextMenu();
 		MenuItem create = new MenuItem(TextServer.getString("buttonCreate"));
 		create.setOnAction(e -> {
-			new Create(getNode()).handle(e);
+			new ActionCreate(getNode()).handle(e);
 		});
 		MenuItem delete = new MenuItem(TextServer.getString("buttonDelete"));
 		delete.setOnAction(e -> {
-			new Delete(getNode()).handle(e);
+			new ActionDelete(getNode()).handle(e);
 		});
 		MenuItem browse = new MenuItem(TextServer.getString("buttonBrowse"));
 		browse.setOnAction(e -> {
-			new Browse(getNode()).handle(e);
+			new ActionBrowse(getNode()).handle(e);
 		});
 		MenuItem chart = new MenuItem(TextServer.getString("buttonChart"));
+		chart.setOnAction(e -> {
+			new ActionChart(getNode()).handle(e);
+		});
 		MenuItem purge = new MenuItem(TextServer.getString("buttonPurge"));
+		purge.setOnAction(e -> {
+			new ActionPurge(getNode()).handle(e);
+		});
 		MenuItem download = new MenuItem(TextServer.getString("buttonDownload"));
 		download.setOnAction(e -> {
-			new Download(getNode()).handle(e);
+			new ActionDownload(getNode()).handle(e);
 		});
 		menu.getItems().add(create);
 		menu.getItems().add(delete);

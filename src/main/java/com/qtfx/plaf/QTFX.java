@@ -75,6 +75,7 @@ public class QTFX extends Application {
 	private static final String SERVER = "server";
 	private static final String CONSOLE = "console";
 	private static final String DATABASE = "database";
+	private static final String LOCALE = "locale";
 
 	/**
 	 * Access to the primary stage.
@@ -134,6 +135,16 @@ public class QTFX extends Application {
 	 */
 	public static Database getDatabase(Node node) {
 		return (Database) FX.getRootObject(node, DATABASE);
+	}
+
+	/**
+	 * Access to the application locale.
+	 * 
+	 * @param node The reference node.
+	 * @return The locale.
+	 */
+	public static Locale getLocale(Node node) {
+		return (Locale) FX.getRootObject(node, LOCALE);
 	}
 
 	/**
@@ -239,6 +250,7 @@ public class QTFX extends Application {
 		FX.setObject(root, STATUS_BAR, statusBar);
 		FX.setObject(root, SERVER, server);
 		FX.setObject(root, CONSOLE, console);
+		FX.setObject(root, LOCALE, Locale.getDefault());
 
 		// Set menu and add console.
 		root.setTop(getMenu());

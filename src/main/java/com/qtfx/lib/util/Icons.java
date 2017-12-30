@@ -52,18 +52,35 @@ public interface Icons {
 		}
 	}
 
-	/** Common application icons 32x32 */
+	/////////////////////////////////
+	// Common application icons 32x32
 
 	String APP_32x32_DIALOG_ERROR = "resources/images/app/32x32/dialog-error.png";
 	String APP_32x32_DIALOG_INFORMATION = "resources/images/app/32x32/dialog-information.png";
 	String APP_32x32_DIALOG_CONFIRMATION = "resources/images/app/32x32/dialog-confirm.png";
 	String APP_32x32_DIALOG_WARNING = "resources/images/app/32x32/dialog-warning.png";
 
-	/** Very flat and simple icons 24x24 */
+	///////////////////////////////////
+	// Very flat and simple icons 24x24
 	
 	String FLAT_24x24_CANCEL = "resources/images/flat/24x24/cancel.png";
 	String FLAT_24x24_CLOSE = "resources/images/flat/24x24/close.png";
 	String FLAT_24x24_INFO = "resources/images/flat/24x24/info.png";
 	String FLAT_24x24_PAUSE = "resources/images/flat/24x24/pause.png";
 	String FLAT_24x24_EXECUTE = "resources/images/flat/24x24/resume.png";
+	
+	///////////////////////////////////
+	// Very flat and simple icons 16x16
+	
+	String FLAT_16x16_CANCEL = "resources/images/flat/16x16/cancel.png";
+	String FLAT_16x16_CLOSE = "resources/images/flat/16x16/close.png";
+	String FLAT_16x16_INFO = "resources/images/flat/16x16/info.png";
+	String FLAT_16x16_PAUSE = "resources/images/flat/16x16/pause.png";
+	String FLAT_16x16_EXECUTE = "resources/images/flat/16x16/resume.png";
+	
+	///////////////
+	// Chart icons.
+	
+	String CHART_16x16_TITLEBAR_CLOSE = "resources/images/chart/16x16/titlebar_close.png";
+	
 }

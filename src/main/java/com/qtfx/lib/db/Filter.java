@@ -166,7 +166,7 @@ public class Filter extends ArrayList<Filter.Segment> {
 	}
 
 	/**
-	 * Create a filter from an origin criteria.
+	 * ActionCreate a filter from an origin criteria.
 	 * 
 	 * @param criteria The high level criteria.
 	 */

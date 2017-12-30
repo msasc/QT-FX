@@ -19,9 +19,12 @@
 	<entry key="alertExitApp">Exit QT-Platform?</entry>
 	<entry key="alertConfirmDeleteTitle">Confirm delete</entry>
 	<entry key="alertConfirmDeleteText">Delete the selected ticker</entry>
+	<entry key="alertConfirmPurgeTitle">Confirm purge</entry>
+	<entry key="alertConfirmPurgeText">Purge the selected ticker</entry>
 	<entry key="alertTickerExists">Ticker already exists</entry>
 	
 	<entry key="tabList">List</entry>
 	<entry key="tabDownload">Download</entry>
+	<entry key="tabChart">Chart</entry>
 	
 </properties>

@@ -74,7 +74,7 @@ public enum Unit {
 	 * 
 	 * @return The short description.
 	 */
-	public String getShortDescription() {
+	public String getShortName() {
 		switch (this) {
 		case MILLISECOND:
 			return TextServer.getString("unitMillisecond", Locale.UK);
