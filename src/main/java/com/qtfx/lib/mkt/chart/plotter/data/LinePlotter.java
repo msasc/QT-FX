@@ -32,6 +32,8 @@ public class LinePlotter extends DataPlotter {
 
 	/** Line width. */
 	private double lineWidth = 1.0;
+	/** Line dashes. */
+	private double[] lineDashes = new double[0];
 
 	/**
 	 * Constructor.
@@ -41,12 +43,35 @@ public class LinePlotter extends DataPlotter {
 	}
 
 	/**
+	 * Set the line width.
+	 * 
+	 * @param lineWidth The line width.
+	 */
+	public void setLineWidth(double lineWidth) {
+		this.lineWidth = lineWidth;
+	}
+
+	/**
+	 * Set the line dashes.
+	 * 
+	 * @param lineDashes The line dashes.
+	 */
+	public void setLineDashes(double... lineDashes) {
+		this.lineDashes = lineDashes;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void plot(GraphicsContext gc, DataList dataList, int startIndex, int endIndex) {
+
 		PlotterContext context = getContext();
+
+		gc.save();
 		gc.setLineWidth(lineWidth);
+		gc.setLineDashes(lineDashes);
+
 		gc.beginPath();
 
 		double lastX = Numbers.MIN_DOUBLE;
@@ -101,5 +126,7 @@ public class LinePlotter extends DataPlotter {
 		}
 		gc.setStroke(lastColor);
 		gc.stroke();
+
+		gc.restore();
 	}
 }

@@ -98,6 +98,7 @@ public class ChartContainer {
 
 			if (e.getEventType() == MouseEvent.MOUSE_MOVED) {
 				setChartInfo(e.getX(), e.getY());
+				chartVerticalAxis.plot(e.getY());
 			}
 		}
 	}
@@ -136,6 +137,9 @@ public class ChartContainer {
 	private ChartPlotter chartPlotter;
 	/** Chart info. */
 	private ChartInfo chartInfo;
+	/** Chart vertical axis. */
+	private ChartVerticalAxis chartVerticalAxis;
+	
 	/** Plot data. */
 	private PlotData plotData;
 	/** Effective border pane. */
@@ -180,6 +184,10 @@ public class ChartContainer {
 		// Chart info.
 		chartInfo = new ChartInfo(this);
 		pane.setTop(chartInfo.getPane());
+		
+		// Chart vertical axis.
+		chartVerticalAxis = new ChartVerticalAxis(this);
+		pane.setRight(chartVerticalAxis.getPane());
 		
 		// Listeners.
 		sizeListener = new SizeListener();
@@ -245,8 +253,12 @@ public class ChartContainer {
 		// Calculate frame.
 		plotData.calculateFrame();
 		
+		// Vertical axis sizes.
+		chartVerticalAxis.setMaximumMinimumAndPreferredWidths();
+		chartVerticalAxis.plot(lastY);
+		
 		// Defer data plot.
-		chartPlotter.plot(plotData);
+		chartPlotter.plot();
 
 		// Info.
 		setChartInfo(lastX, lastY);
@@ -292,12 +304,12 @@ public class ChartContainer {
 
 		setCursor(x, y);
 
-		PlotterContext context = new PlotterContext(chartPlotter.getSize(), chartPlotter.getPlotInsets(), plotData);
+		PlotterContext context = chartPlotter.getContext();
 		int index = context.getDataIndex(x);
 		boolean outOfRange = (index < 0 || index >= plotData.get(0).size());
 
 		chartInfo.startInfo();
-		chartInfo.addInfo(getInfoInstrument(), "-fx-fill: black; -fx-font-weight: bold");
+		chartInfo.addInfo(getInfoInstrument(), "-fx-fill: black; -fx-font-weight: bold;");
 		chartInfo.addInfo(getInfoPeriod(), "-fx-fill: blue;");
 
 		// Iterate data lists.

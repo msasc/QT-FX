@@ -120,6 +120,7 @@ public class CandlestickPlotter extends DataPlotter {
 		gc.beginPath();
 		if (candleWidth <= 1) {
 			// The vertical line only.
+			gc.setStroke(color);
 			FX.moveTo(gc, verticalLineX, highY);
 			FX.lineTo(gc, verticalLineX, lowY);
 		} else {

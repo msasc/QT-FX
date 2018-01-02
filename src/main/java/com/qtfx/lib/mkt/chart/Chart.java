@@ -47,6 +47,8 @@ public class Chart {
 	private BorderPane pane;
 	/** List of containers. */
 	private List<ChartContainer> containers = new ArrayList<>();
+	/** Chart horizontal axis. */
+	private ChartHorizontalAxis horizontalAxis;
 
 	/**
 	 * Constructor.
@@ -59,6 +61,10 @@ public class Chart {
 
 		// Configure the pane.
 		pane = new BorderPane();
+		
+		// Horizontal axis.
+		horizontalAxis = new ChartHorizontalAxis(this);
+		pane.setBottom(horizontalAxis.getPane());
 	}
 
 	/**
@@ -77,6 +83,14 @@ public class Chart {
 	 */
 	public BorderPane getPane() {
 		return pane;
+	}
+
+	/**
+	 * Return a non modifiable list of containers.
+	 * @return The list of containers.
+	 */
+	public List<ChartContainer> getContainers() {
+		return new ArrayList<>(containers);
 	}
 
 	/**
@@ -112,6 +126,7 @@ public class Chart {
 		Platform.runLater(() -> {
 			containers.forEach(container -> container.getPlotData().setIndexes(plotData));
 			containers.forEach(container -> container.plot());
+			horizontalAxis.plot();
 		});
 	}
 }

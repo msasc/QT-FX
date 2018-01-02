@@ -70,6 +70,15 @@ public class PlotterContext {
 	}
 
 	/**
+	 * Return the plot data.
+	 * 
+	 * @return The plot data.
+	 */
+	public PlotData getPlotData() {
+		return plotData;
+	}
+
+	/**
 	 * Returns the X coordinate where starts the area to plot the data of index, given the index of the data, the start
 	 * index, the end index, the left inset and the plot area width.
 	 * 

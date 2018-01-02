@@ -241,12 +241,12 @@ public class IndicatorUtils {
 			smoothedWma.getIndicatorInfo().getParameter(indexPeriod).setValue(new Value(smooth));
 			source = new IndicatorSource(lst, indexSma);
 			lst = new IndicatorDataList(smoothedWma, Lists.asList(source));
-			plotter = new LinePlotter();
-			plotter.setColorBullishEven(color);
-			plotter.setColorBearishEven(color);
-			plotter.setColorBullishOdd(color);
-			plotter.setColorBearishOdd(color);
-			plotter.setIndex(0);
+//			plotter = new LinePlotter();
+//			plotter.setColorBullishEven(color);
+//			plotter.setColorBearishEven(color);
+//			plotter.setColorBullishOdd(color);
+//			plotter.setColorBearishOdd(color);
+//			plotter.setIndex(0);
 			lst.addPlotter(plotter);
 		}
 

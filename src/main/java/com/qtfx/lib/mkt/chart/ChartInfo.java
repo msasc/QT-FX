@@ -63,6 +63,8 @@ public class ChartInfo {
 		c0.setMaxWidth(Double.MAX_VALUE);
 		pane.getColumnConstraints().add(c0);
 		pane.add(textFlow, 0, 0);
+		pane.setStyle("-fx-border-width: 0 0 1 0; -fx-border-color: black;");
+		pane.setPadding(new Insets(3,3,3,3));
 
 		// Node 1, 0: buttons in an HBox.
 		HBox hbox = new HBox(2);
@@ -105,7 +107,7 @@ public class ChartInfo {
 	 */
 	public void addInfo(String info, String style) {
 		Text text = new Text();
-		text.setStyle(style);
+		text.setStyle("-fx-font-size: 14; " + style);
 		text.setText(info);
 		if (!texts.isEmpty()) {
 			texts.add(new Text(" - "));

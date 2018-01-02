@@ -33,6 +33,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
@@ -569,7 +570,7 @@ public class FX {
 	 * 
 	 * @param string The string.
 	 * @param font The font.
-	 * @return The average cgaracter width.
+	 * @return The average character width.
 	 */
 	public static double getAverageCharWidth(String string, Font font) {
 		double width = getStringWidth(string, font);
@@ -604,8 +605,8 @@ public class FX {
 	 * @param y The y coordinate.
 	 */
 	public static void moveTo(GraphicsContext gc, double x, double y) {
-		double w = gc.getLineWidth();
-		gc.moveTo(coord(w, x), coord(w, y));
+		double lw = gc.getLineWidth();
+		gc.moveTo(coord(lw, x), coord(lw, y));
 	}
 
 	/**
@@ -616,12 +617,13 @@ public class FX {
 	 * @param y The y coordinate.
 	 */
 	public static void lineTo(GraphicsContext gc, double x, double y) {
-		double w = gc.getLineWidth();
-		gc.lineTo(coord(w, x), coord(w, y));
+		double lw = gc.getLineWidth();
+		gc.lineTo(coord(lw, x), coord(lw, y));
 	}
-	
+
 	/**
 	 * Stroke a line.
+	 * 
 	 * @param gc The graphics context.
 	 * @param x1 The x1 coordinate.
 	 * @param y1 The y1 coordinate.
@@ -629,8 +631,67 @@ public class FX {
 	 * @param y2 The y2 coordinate.
 	 */
 	public static void strokeLine(GraphicsContext gc, double x1, double y1, double x2, double y2) {
-		double w = gc.getLineWidth();
-		gc.strokeLine(coord(w, x1), coord(w,  y1), coord(w, x2), coord(w, y2));
+		double lw = gc.getLineWidth();
+		gc.strokeLine(coord(lw, x1), coord(lw, y1), coord(lw, x2), coord(lw, y2));
+	}
+
+	/**
+	 * Stroke a rectangle.
+	 * 
+	 * @param gc The graphics context.
+	 * @param x Coordinate x.
+	 * @param y Coordinate y.
+	 * @param w Width.
+	 * @param h Height.
+	 */
+	public static void strokeRect(GraphicsContext gc, double x, double y, double w, double h) {
+		double lw = gc.getLineWidth();
+		gc.strokeRect(coord(lw, x), coord(lw, y), coord(lw, w), coord(lw, h));
+	}
+
+	/**
+	 * Fill a rectangle.
+	 * 
+	 * @param gc The graphics context.
+	 * @param x Coordinate x.
+	 * @param y Coordinate y.
+	 * @param w Width.
+	 * @param h Height.
+	 */
+	public static void fillRect(GraphicsContext gc, double x, double y, double w, double h) {
+		double lw = gc.getLineWidth();
+		gc.fillRect(coord(lw, x), coord(lw, y), coord(lw, w), coord(lw, h));
+	}
+
+	/**
+	 * Fill text.
+	 * 
+	 * @param gc The graphics context.
+	 * @param text The text.
+	 * @param x Coordinate x.
+	 * @param y Coordinate y.
+	 */
+	public static void fillText(GraphicsContext gc, String text, double x, double y) {
+		double lw = gc.getLineWidth();
+		gc.fillText(text, coord(lw, x), coord(lw, y));
+	}
+
+	/**
+	 * Return the line with proper parameters.
+	 * @param line
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return
+	 */
+	public static Line getLine(Line line, double x1, double y1, double x2, double y2) {
+		double lw = line.getStrokeWidth();
+		line.setStartX(coord(lw, x1));
+		line.setStartY(coord(lw, y1));
+		line.setEndX(coord(lw, x2));
+		line.setEndY(coord(lw, y2));
+		return line;
 	}
 
 	/**

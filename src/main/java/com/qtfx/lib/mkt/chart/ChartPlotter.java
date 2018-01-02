@@ -107,18 +107,16 @@ public class ChartPlotter {
 
 	/**
 	 * Do the plot.
-	 * 
-	 * @param plotData The plot data.
 	 */
-	public void plot(PlotData plotData) {
+	public void plot() {
 
 		Dimension2D size = getSize();
-		Insets insets = getPlotInsets();
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		
-		PlotterContext context = new PlotterContext(size, insets, plotData);
+
+		PlotterContext context = getContext();
+		PlotData plotData = container.getPlotData();
 		plotData.getDataLists().forEach(dataList -> dataList.setPlotterContext(context));
-		
+
 		gc.clearRect(0, 0, size.getWidth(), size.getHeight());
 		int startIndex = plotData.getStartIndex();
 		int endIndex = plotData.getEndIndex();
@@ -129,5 +127,17 @@ public class ChartPlotter {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Return a suitable context.
+	 * 
+	 * @return The context.
+	 */
+	public PlotterContext getContext() {
+		Dimension2D size = getSize();
+		Insets insets = getPlotInsets();
+		PlotData plotData = container.getPlotData();
+		return new PlotterContext(size, insets, plotData);
 	}
 }

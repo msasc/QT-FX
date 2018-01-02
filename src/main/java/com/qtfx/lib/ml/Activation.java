@@ -12,7 +12,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ai;
+package com.qtfx.lib.ml;
 
 /**
  * An activation function, ReLU, Sigmoid, TANH...
@@ -33,8 +33,8 @@ public interface Activation {
 	 * Returns the first derivative of the function, given the signals and the outputs. Some activations require the
 	 * output and some the signal to calculate the derivative.
 	 * 
-	 * @param signal The signal applied to {@link com.qtfx.lib.ai.Activation#getOutput(double)}.
-	 * @param output The output obtained applying the signal to {@link com.qtfx.lib.ai.Activation#getOutput(double)}.
+	 * @param signal The signal applied to {@link com.qtfx.lib.ml.Activation#getOutput(double)}.
+	 * @param output The output obtained applying the signal to {@link com.qtfx.lib.ml.Activation#getOutput(double)}.
 	 * @return The first derivative.
 	 */
 	double getDerivative(double signal, double output);

@@ -20,6 +20,7 @@ import com.qtfx.lib.mkt.data.Data;
 import com.qtfx.lib.mkt.data.DataList;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 /**
  * Plotter of bars.
@@ -68,6 +69,7 @@ public class BarPlotter extends DataPlotter {
 		double high = Data.getHigh(data);
 		double low = Data.getLow(data);
 		double close = Data.getClose(data);
+		boolean bullish = Data.isBullish(data);
 
 		// Context.
 		PlotterContext context = getContext();
@@ -87,22 +89,32 @@ public class BarPlotter extends DataPlotter {
 
 		// Do plot.
 		gc.setLineWidth(lineWidth);
-		gc.beginPath();
+
+		// The color to fill.
+		Color color = null;
+		if (dataList.isOdd(index)) {
+			if (bullish) {
+				color = getColorBullishOdd();
+			} else {
+				color = getColorBearishOdd();
+			}
+		} else {
+			if (bullish) {
+				color = getColorBullishEven();
+			} else {
+				color = getColorBearishEven();
+			}
+		}
+		gc.setStroke(color);
 
 		// The vertical bar line.
-		FX.moveTo(gc, verticalLineX, highY);
-		FX.lineTo(gc, verticalLineX, lowY);
+		FX.strokeLine(gc, verticalLineX, highY, verticalLineX, lowY);
 		// Open and close horizontal lines if the bar width is greater than 1.
 		if (barWidth > 1) {
 			// Open horizontal line.
-			FX.moveTo(gc, x, openY);
-			FX.lineTo(gc, verticalLineX - lineWidth, openY);
+			FX.strokeLine(gc, x, openY, verticalLineX - lineWidth, openY);
 			// Close horizontal line
-			FX.moveTo(gc, verticalLineX + lineWidth, closeY);
-			FX.lineTo(gc, x + barWidth - lineWidth, closeY);
+			FX.strokeLine(gc, verticalLineX + lineWidth, closeY, x + barWidth - lineWidth, closeY);
 		}
-		gc.closePath();
-		gc.fill();
-		gc.stroke();
 	}
 }
