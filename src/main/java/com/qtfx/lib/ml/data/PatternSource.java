@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Miquel Sas
+ * Copyright (C) 2015 Miquel Sas
  * 
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
@@ -12,13 +12,34 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml;
+package com.qtfx.lib.ml.data;
 
 /**
- * A generic memory (neuron) cell. It can be a PTRON, a RNN or LSTM cell.
+ * A source of patterns for learning or performance check.
  *
  * @author Miquel Sas
  */
-public abstract class Cell {
+public interface PatternSource {
 
+	/**
+	 * Returns the pattern at the given index.
+	 * 
+	 * @param index The index.
+	 * @return The pattern.
+	 */
+	Pattern get(int index);
+
+	/**
+	 * Returns the size or number of patterns in the source.
+	 * 
+	 * @return The size.
+	 */
+	int size();
+
+	/**
+	 * Check if the source is empty.
+	 * 
+	 * @return A boolean.
+	 */
+	boolean isEmpty();
 }

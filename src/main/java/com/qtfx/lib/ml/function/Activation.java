@@ -12,30 +12,32 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml;
+package com.qtfx.lib.ml.function;
 
 /**
- * An activation function, ReLU, Sigmoid, TANH...
+ * Activation functions interface.
  *
  * @author Miquel Sas
  */
 public interface Activation {
 
 	/**
-	 * Returns the output value of the function given the signal (trigger) value.
+	 * Returns the output values of the function given the trigger values.
 	 * 
-	 * @param trigger The signal, sometimes a weighted sum plus a bias.
-	 * @return The output value.
+	 * @param triggers The trigger (weighted sum plus bias) values.
+	 * @param outputs The outputs to set.
+	 * @return The output values.
 	 */
-	double getOutput(double signal);
+	void activations(double[] triggers, double[] outputs);
 
 	/**
-	 * Returns the first derivative of the function, given the signals and the outputs. Some activations require the
-	 * output and some the signal to calculate the derivative.
+	 * Returns the first derivatives of the function, given the triggers and the outputs. Some activations require the
+	 * output and some the trigger.
 	 * 
-	 * @param signal The signal applied to {@link com.qtfx.lib.ml.Activation#getOutput(double)}.
-	 * @param output The output obtained applying the signal to {@link com.qtfx.lib.ml.Activation#getOutput(double)}.
-	 * @return The first derivative.
+	 * @param triggers The triggers applied to <i>activations</i>.
+	 * @param outputs The outputs obtained applying the triggers to <i>activations</i>.
+	 * @param derivatives The derivatives to set.
+	 * @return The first derivatives.
 	 */
-	double getDerivative(double signal, double output);
+	void derivatives(double[] triggers, double[] outputs, double[] derivatives);
 }

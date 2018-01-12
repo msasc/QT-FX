@@ -137,11 +137,11 @@ public class Matrix {
 	}
 
 	/**
-	 * Return the Eucliden distance between two vectors.
+	 * Return the Euclidean distance between two vectors.
 	 * 
 	 * @param a Vector a.
 	 * @param b Vector b.
-	 * @return The Eucliden distance.
+	 * @return The Euclidean distance.
 	 */
 	public static double distanceEuclidean(double[] a, double[] b) {
 		if (a.length != b.length) {
@@ -154,6 +154,24 @@ public class Matrix {
 		}
 		distance = Math.pow(distance, 0.5);
 		return distance;
+	}
+
+	/**
+	 * Calculate the Hadamard product of matrices a and b.
+	 * 
+	 * @param a Matrix a.
+	 * @param b Matrix b.
+	 */
+	public static double[][] hadamard(double[][] a, double[][] b) {
+		int rows = rows(a);
+		int cols = columns(a);
+		double[][] h = new double[rows][cols];
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				h[r][c] = a[r][c] * b[r][c];
+			}
+		}
+		return h;
 	}
 
 	/**

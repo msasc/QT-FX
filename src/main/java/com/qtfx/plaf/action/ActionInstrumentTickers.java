@@ -348,7 +348,7 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 
 				// By default in this view add two SMA of 50 and 200 periods.
 				IndicatorDataList sma50 = 
-					IndicatorUtils.getSmoothedWeightedMovingAverage(price, Data.CLOSE, Color.BLUE, 10, 5, 3, 3);
+					IndicatorUtils.getSmoothedWeightedMovingAverage(price, Data.CLOSE, Color.BLUE, 50, 5, 3, 3);
 				IndicatorDataList sma200 = 
 					IndicatorUtils.getSmoothedSimpleMovingAverage(price, Data.CLOSE, Color.BLACK, 200, 10, 5, 5);
 				plotData.add(sma50);

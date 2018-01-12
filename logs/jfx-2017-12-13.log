@@ -1,3 +1,0 @@
-2017-12-13 10:10:28 ERROR com.qtfx.mkt.TestDukascopy - Failed to connect Dukascopy servers
-2017-12-13 16:22:20 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2017-12-13 16:22:23 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
