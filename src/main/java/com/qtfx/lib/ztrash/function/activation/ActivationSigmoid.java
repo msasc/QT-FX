@@ -1,62 +1,52 @@
 /*
  * Copyright (C) 2015 Miquel Sas
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+package com.qtfx.lib.ztrash.function.activation;
 
-package com.qtfx.lib.ml.data;
-
-import java.util.List;
+import com.qtfx.lib.ztrash.function.Activation;
 
 /**
- * A list pattern source.
- *
+ * A Sigmoid activation function.
+ * 
  * @author Miquel Sas
  */
-public class ListPatternSource implements PatternSource {
-
-	/** The underlying pattern list. */
-	private List<Pattern> patterns;
+public class ActivationSigmoid implements Activation {
 
 	/**
-	 * Constructor.
-	 * 
-	 * @param patterns The list of patterns.
+	 * Default constructor.
 	 */
-	public ListPatternSource(List<Pattern> patterns) {
-		super();
-		this.patterns = patterns;
+	public ActivationSigmoid() {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Pattern get(int index) {
-		return patterns.get(index);
+	public void activations(double[] triggers, double[] outputs) {
+		int length = triggers.length;
+		for (int i = 0; i < length; i++) {
+			outputs[i] = 1 / (1 + Math.exp(-triggers[i]));
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int size() {
-		return patterns.size();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean isEmpty() {
-		return patterns.isEmpty();
+	public void derivatives(double[] triggers, double[] outputs, double[] derivatives) {
+		int length = triggers.length;
+		for (int i = 0; i < length; i++) {
+			derivatives[i] = outputs[i] * (1 - outputs[i]);
+		}
 	}
 }

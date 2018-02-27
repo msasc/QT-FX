@@ -11,21 +11,21 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.ml.function.activation;
+package com.qtfx.lib.ztrash.function.activation;
 
-import com.qtfx.lib.ml.function.Activation;
+import com.qtfx.lib.ztrash.function.Activation;
 
 /**
- * A Sigmoid activation function.
+ * A Bipolar sigmoid activation function.
  * 
  * @author Miquel Sas
  */
-public class ActivationSigmoid implements Activation {
+public class ActivationBipolarSigmoid implements Activation {
 
 	/**
 	 * Default constructor.
 	 */
-	public ActivationSigmoid() {
+	public ActivationBipolarSigmoid() {
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class ActivationSigmoid implements Activation {
 	public void activations(double[] triggers, double[] outputs) {
 		int length = triggers.length;
 		for (int i = 0; i < length; i++) {
-			outputs[i] = 1 / (1 + Math.exp(-triggers[i]));
+			outputs[i] = (2 / (1 + Math.exp(-triggers[i]))) - 1;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class ActivationSigmoid implements Activation {
 	public void derivatives(double[] triggers, double[] outputs, double[] derivatives) {
 		int length = triggers.length;
 		for (int i = 0; i < length; i++) {
-			derivatives[i] = outputs[i] * (1 - outputs[i]);
+			derivatives[i] = (1 - (outputs[i] * outputs[i])) / 2;
 		}
 	}
 }

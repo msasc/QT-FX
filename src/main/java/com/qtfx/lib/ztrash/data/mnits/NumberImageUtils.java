@@ -12,7 +12,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.data.mnist;
+package com.qtfx.lib.ztrash.data.mnits;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.qtfx.lib.ml.data.ListPatternSource;
-import com.qtfx.lib.ml.data.Pattern;
-import com.qtfx.lib.ml.data.PatternSource;
 import com.qtfx.lib.util.Files;
+import com.qtfx.lib.ztrash.data.ListPatternSource;
+import com.qtfx.lib.ztrash.data.Pattern;
+import com.qtfx.lib.ztrash.data.PatternSource;
 
 /**
  * Utilities to manage MNIST number images.

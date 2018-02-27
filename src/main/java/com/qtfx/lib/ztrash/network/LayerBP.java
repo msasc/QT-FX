@@ -12,15 +12,14 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.network;
+package com.qtfx.lib.ztrash.network;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Random;
 
-import com.qtfx.lib.ml.function.Activation;
 import com.qtfx.lib.util.Matrix;
+import com.qtfx.lib.util.io.IOMap;
+import com.qtfx.lib.ztrash.function.Activation;
 
 /**
  * Back propagation layer without momentum.
@@ -60,12 +59,13 @@ public class LayerBP extends Layer {
 	/**
 	 * Constructor.
 	 * 
+
 	 * @param inputSize Input size.
 	 * @param outputSize Output size.
 	 * @param activation The activation function.
 	 */
-	public LayerBP(int inputSize, int outputSize, Activation activation) {
-		super(inputSize, outputSize);
+	public LayerBP(int index, int inputSize, int outputSize, Activation activation) {
+		super(index, inputSize, outputSize);
 		this.activation = activation;
 	}
 
@@ -173,14 +173,14 @@ public class LayerBP extends Layer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void save(OutputStream os) throws IOException {
+	public void save(IOMap map) throws IOException {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void restore(InputStream is)throws IOException {
+	public void restore(IOMap map)throws IOException {
 	}
 
 }

@@ -12,7 +12,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.function;
+package com.qtfx.lib.ztrash.function;
 
 /**
  * Basic normalizer.

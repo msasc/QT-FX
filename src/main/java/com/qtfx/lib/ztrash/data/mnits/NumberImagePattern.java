@@ -12,10 +12,10 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.data.mnist;
+package com.qtfx.lib.ztrash.data.mnits;
 
-import com.qtfx.lib.ml.data.Pattern;
-import com.qtfx.lib.ml.function.Normalizer;
+import com.qtfx.lib.ztrash.data.Pattern;
+import com.qtfx.lib.ztrash.function.Normalizer;
 
 /**
  * A MNIST number image pattern.

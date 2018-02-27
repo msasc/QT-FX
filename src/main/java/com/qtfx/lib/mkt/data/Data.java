@@ -33,13 +33,6 @@ public class Data {
 	public static final int CLOSE = 3;
 	/** Volume index. */
 	public static final int VOLUME = 4;
-	/** Median price: (High + Low) / 2 */
-	public static final int MEDIAN_PRICE = -1;
-	/** Typical price: (High + Low + Close) / 3 */
-	public static final int TYPICAL_PRICE = -2;
-	/** Weighted close price: (High + Low + 2*Close) / 4 */
-	public static final int WEIGHTED_CLOSE_PRICE = -3;
-
 	/** Data price (OHLCV) size. */
 	public static final int DATA_PRICE_SIZE = 5;
 	

@@ -12,9 +12,9 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.function.activation;
+package com.qtfx.lib.ztrash.function.activation;
 
-import com.qtfx.lib.ml.function.Activation;
+import com.qtfx.lib.ztrash.function.Activation;
 
 /**
  * Rectified linear unit (ReLU) activation.
@@ -44,6 +44,42 @@ public class ActivationReLU implements Activation {
 	public ActivationReLU(double threshold, double low) {
 		super();
 		this.threshold = threshold;
+		this.low = low;
+	}
+
+	/**
+	 * Return the threshold.
+	 * 
+	 * @return The threshold.
+	 */
+	public double getThreshold() {
+		return threshold;
+	}
+
+	/**
+	 * Set the threshold.
+	 * 
+	 * @param threshold The threshold.
+	 */
+	public void setThreshold(double threshold) {
+		this.threshold = threshold;
+	}
+
+	/**
+	 * Return the low.
+	 * 
+	 * @return The low.
+	 */
+	public double getLow() {
+		return low;
+	}
+
+	/**
+	 * Set the low.
+	 * 
+	 * @param low The low.
+	 */
+	public void setLow(double low) {
 		this.low = low;
 	}
 

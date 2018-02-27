@@ -12,11 +12,13 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.network;
+package com.qtfx.lib.ztrash.network;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import com.qtfx.lib.util.io.IOMap;
 
 /**
  * Root of network layers.
@@ -24,7 +26,9 @@ import java.io.OutputStream;
  * @author Miquel Sas
  */
 public abstract class Layer {
-
+	
+	/** Layer index. */
+	private int index;
 	/** Number of input values. */
 	private int inputSize = -1;
 	/** Number of output values. */
@@ -33,14 +37,23 @@ public abstract class Layer {
 	/**
 	 * Constructor.
 	 * 
+	 * @param index The layer index.
 	 * @param inputSize The input size.
 	 * @param outputSize
 	 */
-	public Layer(int inputSize, int outputSize) {
+	public Layer(int index, int inputSize, int outputSize) {
 		super();
 		this.inputSize = inputSize;
 		this.outputSize = outputSize;
 		initialize();
+	}
+
+	/**
+	 * Return the index.
+	 * @return The unique index of the layer, useful to use at keys.
+	 */
+	public int getIndex() {
+		return index;
 	}
 
 	/**
@@ -66,18 +79,18 @@ public abstract class Layer {
 	public abstract double[] backward(double[] errors);
 	
 	/**
-	 * Save this layer to an output stream.
+	 * Save this layer to an IOMap.
 	 * 
-	 * @param os The output stream.
+	 * @param map The IOMap.
 	 */
-	public abstract void save(OutputStream os) throws IOException;
+	public abstract void save(IOMap map) throws IOException;
 
 	/**
-	 * Save the layer from an input stream.
+	 * Save the layer from an IOMap.
 	 * 
-	 * @param is The input stream.
+	 * @param map The IOMap.
 	 */
-	public abstract void restore(InputStream is) throws IOException;
+	public abstract void restore(IOMap map) throws IOException;
 
 	/**
 	 * Return the input size.

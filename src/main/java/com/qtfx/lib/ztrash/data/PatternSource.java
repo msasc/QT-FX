@@ -12,7 +12,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.data;
+package com.qtfx.lib.ztrash.data;
 
 /**
  * A source of patterns for learning or performance check.

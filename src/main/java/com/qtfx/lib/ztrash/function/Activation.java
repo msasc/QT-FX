@@ -12,7 +12,10 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.function;
+package com.qtfx.lib.ztrash.function;
+
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Activation functions interface.
@@ -20,7 +23,7 @@ package com.qtfx.lib.ml.function;
  * @author Miquel Sas
  */
 public interface Activation {
-
+	
 	/**
 	 * Returns the output values of the function given the trigger values.
 	 * 

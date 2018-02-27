@@ -11,9 +11,9 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.ml.function.activation;
+package com.qtfx.lib.ztrash.function.activation;
 
-import com.qtfx.lib.ml.function.Activation;
+import com.qtfx.lib.ztrash.function.Activation;
 
 /**
  * The hyperbolic tangent activation function takes the curved shape of the hyperbolic tangent. This activation function

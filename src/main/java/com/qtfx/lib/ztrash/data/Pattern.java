@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Miquel Sas
+ * Copyright (C) 2015 Miquel Sas
  * 
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
@@ -12,41 +12,33 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.network;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.qtfx.lib.ztrash.data;
 
 /**
- * A neural network.
+ * A pattern, with inputs and optional expected label and outputs.
  *
  * @author Miquel Sas
  */
-public class Network {
-
-	/** List of layers. */
-	private List<Layer> layers = new ArrayList<>();
+public interface Pattern {
 
 	/**
-	 * Constructor.
-	 */
-	public Network() {
-		super();
-	}
-
-	/**
-	 * Add a layer.
+	 * Return the pattern inputs.
 	 * 
-	 * @param layer The layer to add.
+	 * @return The pattern inputs.
 	 */
-	public void addLayer(Layer layer) {
-		if (!layers.isEmpty()) {
-			Layer previous = layers.get(layers.size() - 1);
-			if (previous.getOutputSize() == layer.getInputSize()) {
-				throw new IllegalArgumentException("Invalid previous and current output vs input sizes.");
-			}
-		}
-		layers.add(layer);
-	}
+	double[] getInputs();
 
+	/**
+	 * Return the optional pattern outputs.
+	 * 
+	 * @return The pattern outputs.
+	 */
+	double[] getOutputs();
+
+	/**
+	 * Return the optional label.
+	 * 
+	 * @return The label.
+	 */
+	String getLabel();
 }

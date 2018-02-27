@@ -11,7 +11,7 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.ml.data.mnist;
+package com.qtfx.lib.ztrash.data.mnits;
 
 /**
  * MINIST sample image data: a 28*28 byte image matrix and its number (0 to 9)
