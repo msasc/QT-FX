@@ -11,7 +11,7 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.ztrash.data.mnits;
+package com.qtfx.lib.ztrash.data.mnist;
 
 import java.awt.Color;
 import java.awt.Dimension;

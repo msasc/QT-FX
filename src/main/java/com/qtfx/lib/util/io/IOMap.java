@@ -28,6 +28,18 @@ import java.util.Map;
  */
 public class IOMap {
 
+	/////////////////////////////
+	// Internal type identifiers.
+
+	private static final byte TYPE_INTEGER = 1;
+	private static final byte TYPE_DOUBLE = 2;
+	private static final byte TYPE_DOUBLE1A = 3;
+	private static final byte TYPE_DOUBLE2A = 4;
+	private static final byte TYPE_STRING = 5;
+	
+	///////////////////////////
+	// Internal data container.
+
 	/**
 	 * Data container.
 	 */
@@ -37,6 +49,7 @@ public class IOMap {
 
 		Data(byte type, Object data) {
 			this.type = type;
+			this.data = data;
 			switch (type) {
 			case TYPE_INTEGER:
 				this.data = (Integer) data;
@@ -48,15 +61,6 @@ public class IOMap {
 			}
 		}
 	}
-
-	/////////////////////////////
-	// Internal type identifiers.
-
-	private static final byte TYPE_INTEGER = 1;
-	private static final byte TYPE_DOUBLE = 2;
-	private static final byte TYPE_DOUBLE1A = 3;
-	private static final byte TYPE_DOUBLE2A = 4;
-	private static final byte TYPE_STRING = 5;
 
 	/** Underlying map. */
 	private Map<String, Data> map = new HashMap<>();

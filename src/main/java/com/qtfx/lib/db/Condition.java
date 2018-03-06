@@ -30,7 +30,7 @@ public class Condition {
 	 */
 	public static enum Operator {
 
-		/** Starts with, in SQL <code>FIELD LIKE '....&#37;'</code>	 */
+		/** Starts with, in SQL <code>FIELD LIKE '....&#37;'</code> */
 		LIKE_LEFT(1),
 		/** Contains, in SQL <code>FIELD LIKE '&#37;....&#37;'</code> */
 		LIKE_MID(1),
@@ -474,7 +474,7 @@ public class Condition {
 	 * @return The condition.
 	 */
 	public static Condition inList(Field field, Value... values) {
-		return new Condition(field, Operator.IN_LIST, values);
+		return new Condition(field, Operator.IN_LIST, Lists.asList(values));
 	}
 
 	/**
@@ -496,7 +496,7 @@ public class Condition {
 	 * @return The condition.
 	 */
 	public static Condition notInList(Field field, Value... values) {
-		return new Condition(field, Operator.NOT_IN_LIST, values);
+		return new Condition(field, Operator.NOT_IN_LIST, Lists.asList(values));
 	}
 
 	/**
@@ -518,7 +518,7 @@ public class Condition {
 	 * @return The condition.
 	 */
 	public static Condition inListNoCase(Field field, Value... values) {
-		return new Condition(field, Operator.IN_LIST_NOCASE, values);
+		return new Condition(field, Operator.IN_LIST_NOCASE, Lists.asList(values));
 	}
 
 	/**
@@ -540,7 +540,7 @@ public class Condition {
 	 * @return The condition.
 	 */
 	public static Condition notInListNoCase(Field field, Value... values) {
-		return new Condition(field, Operator.NOT_IN_LIST_NOCASE, values);
+		return new Condition(field, Operator.NOT_IN_LIST_NOCASE, Lists.asList(values));
 	}
 
 	/**
@@ -583,7 +583,7 @@ public class Condition {
 	 * @return The condition.
 	 */
 	public static Condition between(Field field, Value value1, Value value2) {
-		return new Condition(field, Operator.BETWEEN, new Value[] { value1, value2 });
+		return new Condition(field, Operator.BETWEEN, value1, value2);
 	}
 
 	/**
@@ -595,7 +595,7 @@ public class Condition {
 	 * @return The condition.
 	 */
 	public static Condition notBetween(Field field, Value value1, Value value2) {
-		return new Condition(field, Operator.NOT_BETWEEN, new Value[] { value1, value2 });
+		return new Condition(field, Operator.NOT_BETWEEN, value1, value2);
 	}
 
 	/**
@@ -607,7 +607,7 @@ public class Condition {
 	 * @return The condition.
 	 */
 	public static Condition betweenNoCase(Field field, Value value1, Value value2) {
-		return new Condition(field, Operator.BETWEEN_NOCASE, new Value[] { value1, value2 });
+		return new Condition(field, Operator.BETWEEN_NOCASE, value1, value2);
 	}
 
 	/**
@@ -619,15 +619,28 @@ public class Condition {
 	 * @return The condition.
 	 */
 	public static Condition notBetweenNoCase(Field field, Value value1, Value value2) {
-		return new Condition(field, Operator.NOT_BETWEEN_NOCASE, new Value[] { value1, value2 });
+		return new Condition(field, Operator.NOT_BETWEEN_NOCASE, value1, value2);
+	}
+
+	/**
+	 * Creates a literal condition that is responsibility of the developer to be correct. This condition can not be
+	 * checked on the fly, only the RDBMS can check it when sent.
+	 * 
+	 * @param condition The expression condition.
+	 * @return The condition.
+	 */
+	public static Condition literal(String condition) {
+		return new Condition(condition);
 	}
 
 	/** The field to compare is the left operand. */
-	private Field field = null;
+	private Field field;
 	/** The operator to apply. */
-	private Operator operator = null;
+	private Operator operator;
 	/** The right operand is a list of one or more values. */
-	private final List<Value> values = new ArrayList<>();
+	private List<Value> values;
+	/** A string condition that is the developer responsibility to be well formed. */
+	private String condition;
 
 	/**
 	 * Generic constructor.
@@ -639,8 +652,26 @@ public class Condition {
 	public Condition(Field field, Operator operator, Value value) {
 		this.field = field;
 		this.operator = operator;
+		this.values = new ArrayList<>();
 		this.values.add(value);
-		validate(field, operator, values);
+		validate(field, operator, this.values);
+	}
+
+	/**
+	 * Constructor for the between condition.
+	 *
+	 * @param field The field or left operand
+	 * @param operator The operator
+	 * @param value1 The first value.
+	 * @param value2 The second value.
+	 */
+	public Condition(Field field, Operator operator, Value value1, Value value2) {
+		this.field = field;
+		this.operator = operator;
+		this.values = new ArrayList<>();
+		this.values.add(value1);
+		this.values.add(value2);
+		validate(field, operator, this.values);
 	}
 
 	/**
@@ -653,22 +684,21 @@ public class Condition {
 	public Condition(Field field, Operator operator, List<Value> values) {
 		this.field = field;
 		this.operator = operator;
+		this.values = new ArrayList<>();
 		this.values.addAll(values);
-		validate(field, operator, values);
+		validate(field, operator, this.values);
 	}
 
 	/**
-	 * Generic constructor.
-	 *
-	 * @param field The field or left operand
-	 * @param operator The operator
-	 * @param values The value or values that are the right operand.
+	 * Constructor with a string condition that is the responsibility of the developer to be correct.
+	 * 
+	 * @param condition The condition.
 	 */
-	public Condition(Field field, Operator operator, Value... values) {
-		this.field = field;
-		this.operator = operator;
-		this.values.addAll(Lists.asList(values));
-		validate(field, operator, this.values);
+	public Condition(String condition) {
+		if (condition == null) {
+			throw new NullPointerException();
+		}
+		this.condition = condition;
 	}
 
 	/**
@@ -696,6 +726,19 @@ public class Condition {
 	 */
 	public List<Value> getValues() {
 		return values;
+	}
+
+	/**
+	 * Return the expression condition.
+	 * 
+	 * @return The condition.
+	 */
+	public String getCondition() {
+		return condition;
+	}
+	
+	public boolean isLiteral() {
+		return condition != null;
 	}
 
 	/**
@@ -763,13 +806,16 @@ public class Condition {
 			return false;
 		}
 		final Condition cmp = (Condition) o;
-		if (!field.equals(cmp.field)) {
+		if (field != null && !field.equals(cmp.field)) {
 			return false;
 		}
-		if (!operator.equals(cmp.operator)) {
+		if (operator != null && !operator.equals(cmp.operator)) {
 			return false;
 		}
-		if (!values.equals(cmp.values)) {
+		if (values != null && !values.equals(cmp.values)) {
+			return false;
+		}
+		if (condition != null && !condition.equals(cmp.condition)) {
 			return false;
 		}
 		return true;
@@ -781,45 +827,19 @@ public class Condition {
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		hash ^= field.hashCode();
-		hash ^= operator.hashCode();
-		hash ^= values.hashCode();
-		return hash;
-	}
-
-	/**
-	 * Check if this is a string condition, that is, if it requires a string value.
-	 * 
-	 * @return A boolean indicating if this is a string condition, that is, if it requires a string value.
-	 */
-	public boolean isStringCondition() {
-		switch (getOperator()) {
-		case LIKE_LEFT:
-		case LIKE_LEFT_NOCASE:
-		case NOT_LIKE_LEFT:
-		case NOT_LIKE_LEFT_NOCASE:
-		case LIKE_MID:
-		case LIKE_MID_NOCASE:
-		case NOT_LIKE_MID:
-		case NOT_LIKE_MID_NOCASE:
-		case LIKE_RIGHT:
-		case LIKE_RIGHT_NOCASE:
-		case NOT_LIKE_RIGHT:
-		case NOT_LIKE_RIGHT_NOCASE:
-		case FIELD_EQ_NOCASE:
-		case FIELD_GT_NOCASE:
-		case FIELD_GE_NOCASE:
-		case FIELD_LT_NOCASE:
-		case FIELD_LE_NOCASE:
-		case FIELD_NE_NOCASE:
-		case IN_LIST_NOCASE:
-		case NOT_IN_LIST_NOCASE:
-		case BETWEEN_NOCASE:
-		case NOT_BETWEEN_NOCASE:
-			return true;
-		default:
-			return false;
+		if (field != null) {
+			hash ^= field.hashCode();
 		}
+		if (operator != null) {
+			hash ^= operator.hashCode();
+		}
+		if (values != null) {
+			hash ^= values.hashCode();
+		}
+		if (condition != null) {
+			hash ^= condition.hashCode();
+		}
+		return hash;
 	}
 
 	/**
@@ -1056,8 +1076,8 @@ public class Condition {
 		String sChk = vChk.getString().toUpperCase();
 		Value vMin = values.get(0);
 		Value vMax = values.get(1);
-		return sChk.compareTo(vMin.getString().toUpperCase()) >= 0
-			&& sChk.compareTo(vMax.getString().toUpperCase()) <= 0;
+		return sChk.compareTo(vMin.getString().toUpperCase()) >= 0 && sChk.compareTo(
+			vMax.getString().toUpperCase()) <= 0;
 	}
 
 	/**
@@ -1067,6 +1087,9 @@ public class Condition {
 	 * @return A boolean indicating if the record meets the condition.
 	 */
 	public boolean check(Record record) {
+		if (isLiteral()) {
+			throw new IllegalStateException();
+		}
 		int index = record.getFieldList().getFieldIndex(field);
 		if (index < 0) {
 			return false;
@@ -1082,6 +1105,9 @@ public class Condition {
 	 * @return A boolean indicating if the value meets the condition.
 	 */
 	public boolean check(Value value) {
+		if (isLiteral()) {
+			throw new IllegalStateException();
+		}
 		switch (getOperator()) {
 		case LIKE_LEFT:
 			return checkLikeLeft(value);
@@ -1161,6 +1187,9 @@ public class Condition {
 	 */
 	@Override
 	public String toString() {
+		if (isLiteral()) {
+			return condition;
+		}
 		StringBuilder b = new StringBuilder();
 		if (isNoCase()) {
 			b.append("UPPER(");

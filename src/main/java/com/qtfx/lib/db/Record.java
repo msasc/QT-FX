@@ -31,7 +31,7 @@ public class Record implements Comparable<Object> {
 	public static final String TOTAL = "Total";
 
 	/**
-	 * Move values fron a source record to a destination record, by coincident alias and type.
+	 * Move values from a source record to a destination record, by coincident alias and type.
 	 * 
 	 * @param source The source record.
 	 * @param destination The destination record.

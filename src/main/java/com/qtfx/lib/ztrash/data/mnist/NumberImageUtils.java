@@ -12,7 +12,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ztrash.data.mnits;
+package com.qtfx.lib.ztrash.data.mnist;
 
 import java.io.File;
 import java.io.IOException;

@@ -231,109 +231,80 @@ public class Filter extends ArrayList<Filter.Segment> {
 	 * @param condition The condition.
 	 */
 	private void setFilterCondition(Condition condition) {
+		if (condition.isLiteral()) {
+			condString(condition.getCondition());
+			return;
+		}
 		Field field = condition.getField();
 		List<Value> values = condition.getValues();
 		Condition.Operator operator = condition.getOperator();
 		if (operator == Condition.Operator.BETWEEN) {
 			condBetween(field, values.get(0), values.get(1));
-		}
-		if (operator == Condition.Operator.BETWEEN_NOCASE) {
-			condBetweenNoCase(field, values.get(0), values.get(0));
-		}
-		if (operator == Condition.Operator.NOT_BETWEEN) {
-			condNotBetween(field, values.get(0), values.get(0));
-		}
-		if (operator == Condition.Operator.NOT_BETWEEN_NOCASE) {
-			condNotBetweenNoCase(field, values.get(0), values.get(0));
-		}
-		if (operator == Condition.Operator.FIELD_EQ) {
+		} else if (operator == Condition.Operator.BETWEEN_NOCASE) {
+			condBetweenNoCase(field, values.get(0), values.get(1));
+		} else if (operator == Condition.Operator.NOT_BETWEEN) {
+			condNotBetween(field, values.get(0), values.get(1));
+		} else if (operator == Condition.Operator.NOT_BETWEEN_NOCASE) {
+			condNotBetweenNoCase(field, values.get(0), values.get(1));
+		} else if (operator == Condition.Operator.FIELD_EQ) {
 			condSimple(field, "EQ", values.get(0));
-		}
-		if (operator == Condition.Operator.FIELD_EQ_NOCASE) {
+		} else if (operator == Condition.Operator.FIELD_EQ_NOCASE) {
 			condSimpleNoCase(field, "EQ", values.get(0));
-		}
-		if (operator == Condition.Operator.FIELD_GE) {
+		} else if (operator == Condition.Operator.FIELD_GE) {
 			condSimple(field, "GE", values.get(0));
-		}
-		if (operator == Condition.Operator.FIELD_GE_NOCASE) {
+		} else if (operator == Condition.Operator.FIELD_GE_NOCASE) {
 			condSimpleNoCase(field, "GE", values.get(0));
-		}
-		if (operator == Condition.Operator.FIELD_GT) {
+		} else if (operator == Condition.Operator.FIELD_GT) {
 			condSimple(field, "GT", values.get(0));
-		}
-		if (operator == Condition.Operator.FIELD_GT_NOCASE) {
+		} else if (operator == Condition.Operator.FIELD_GT_NOCASE) {
 			condSimpleNoCase(field, "GT", values.get(0));
-		}
-		if (operator == Condition.Operator.FIELD_LE) {
+		} else if (operator == Condition.Operator.FIELD_LE) {
 			condSimple(field, "LE", values.get(0));
-		}
-		if (operator == Condition.Operator.FIELD_LE_NOCASE) {
+		} else if (operator == Condition.Operator.FIELD_LE_NOCASE) {
 			condSimpleNoCase(field, "LE", values.get(0));
-		}
-		if (operator == Condition.Operator.FIELD_LT) {
+		} else if (operator == Condition.Operator.FIELD_LT) {
 			condSimple(field, "LT", values.get(0));
-		}
-		if (operator == Condition.Operator.FIELD_LT_NOCASE) {
+		} else if (operator == Condition.Operator.FIELD_LT_NOCASE) {
 			condSimpleNoCase(field, "LT", values.get(0));
-		}
-		if (operator == Condition.Operator.FIELD_NE) {
+		} else if (operator == Condition.Operator.FIELD_NE) {
 			condSimple(field, "NE", values.get(0));
-		}
-		if (operator == Condition.Operator.FIELD_NE_NOCASE) {
+		} else if (operator == Condition.Operator.FIELD_NE_NOCASE) {
 			condSimpleNoCase(field, "NE", values.get(0));
-		}
-		if (operator == Condition.Operator.IN_LIST) {
+		} else if (operator == Condition.Operator.IN_LIST) {
 			condIsMember(field, values);
-		}
-		if (operator == Condition.Operator.IN_LIST_NOCASE) {
+		} else if (operator == Condition.Operator.IN_LIST_NOCASE) {
 			condIsMemberNoCase(field, values);
-		}
-		if (operator == Condition.Operator.NOT_IN_LIST) {
+		} else if (operator == Condition.Operator.NOT_IN_LIST) {
 			condIsNotMember(field, values);
-		}
-		if (operator == Condition.Operator.NOT_IN_LIST_NOCASE) {
+		} else if (operator == Condition.Operator.NOT_IN_LIST_NOCASE) {
 			condIsNotMemberNoCase(field, values);
-		}
-		if (operator == Condition.Operator.IS_NULL) {
+		} else if (operator == Condition.Operator.IS_NULL) {
 			condIsNull(field);
-		}
-		if (operator == Condition.Operator.NOT_IS_NULL) {
+		} else if (operator == Condition.Operator.NOT_IS_NULL) {
 			condIsNotNull(field);
-		}
-		if (operator == Condition.Operator.LIKE_LEFT) {
+		} else if (operator == Condition.Operator.LIKE_LEFT) {
 			condLikeLeft(field, values.get(0));
-		}
-		if (operator == Condition.Operator.LIKE_LEFT_NOCASE) {
+		} else if (operator == Condition.Operator.LIKE_LEFT_NOCASE) {
 			condLikeLeftNoCase(field, values.get(0));
-		}
-		if (operator == Condition.Operator.NOT_LIKE_LEFT) {
+		} else if (operator == Condition.Operator.NOT_LIKE_LEFT) {
 			condNotLikeLeft(field, values.get(0));
-		}
-		if (operator == Condition.Operator.NOT_LIKE_LEFT_NOCASE) {
+		} else if (operator == Condition.Operator.NOT_LIKE_LEFT_NOCASE) {
 			condNotLikeLeftNoCase(field, values.get(0));
-		}
-		if (operator == Condition.Operator.LIKE_MID) {
+		} else if (operator == Condition.Operator.LIKE_MID) {
 			condLikeMid(field, values.get(0));
-		}
-		if (operator == Condition.Operator.LIKE_MID_NOCASE) {
+		} else if (operator == Condition.Operator.LIKE_MID_NOCASE) {
 			condLikeMidNoCase(field, values.get(0));
-		}
-		if (operator == Condition.Operator.NOT_LIKE_MID) {
+		} else if (operator == Condition.Operator.NOT_LIKE_MID) {
 			condNotLikeMid(field, values.get(0));
-		}
-		if (operator == Condition.Operator.NOT_LIKE_MID_NOCASE) {
+		} else if (operator == Condition.Operator.NOT_LIKE_MID_NOCASE) {
 			condNotLikeMidNoCase(field, values.get(0));
-		}
-		if (operator == Condition.Operator.LIKE_RIGHT) {
+		} else if (operator == Condition.Operator.LIKE_RIGHT) {
 			condLikeRight(field, values.get(0));
-		}
-		if (operator == Condition.Operator.LIKE_RIGHT_NOCASE) {
+		} else if (operator == Condition.Operator.LIKE_RIGHT_NOCASE) {
 			condLikeRightNoCase(field, values.get(0));
-		}
-		if (operator == Condition.Operator.NOT_LIKE_RIGHT) {
+		} else if (operator == Condition.Operator.NOT_LIKE_RIGHT) {
 			condNotLikeRight(field, values.get(0));
-		}
-		if (operator == Condition.Operator.NOT_LIKE_RIGHT_NOCASE) {
+		} else if (operator == Condition.Operator.NOT_LIKE_RIGHT_NOCASE) {
 			condNotLikeRightNoCase(field, values.get(0));
 		}
 	}
