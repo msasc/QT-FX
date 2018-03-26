@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -120,6 +121,7 @@ public class TaskPane {
 	 */
 	public void addTask(Task task) {
 		vbox.getChildren().add(getTaskPane(task));
+		vbox.getChildren().add(new Separator());
 	}
 
 	/**
@@ -131,6 +133,9 @@ public class TaskPane {
 		List<Task> tasks = new ArrayList<>();
 		for (int i = 0; i < vbox.getChildren().size(); i++) {
 			Node node = vbox.getChildren().get(i);
+			if (node instanceof Separator) {
+				continue;
+			}
 			Task task = (Task) FX.getObject(node, "task");
 			tasks.add(task);
 		}
@@ -145,11 +150,19 @@ public class TaskPane {
 	public void removeTask(Task task) {
 		for (int i = 0; i < vbox.getChildren().size(); i++) {
 			Node node = vbox.getChildren().get(i);
+			if (node instanceof Separator) {
+				continue;
+			}
 			Task scan = (Task) FX.getObject(node, "task");
 			if (scan.equals(task)) {
 				vbox.getChildren().remove(i);
 				break;
 			}
+		}
+		List<Task> tasks = getTasks();
+		vbox.getChildren().clear();
+		for (Task t : tasks) {
+			addTask(t);
 		}
 	}
 
@@ -189,7 +202,7 @@ public class TaskPane {
 		buttonAction.setCancelButton(false);
 		buttonAction.setGraphic(Icons.get(Icons.FLAT_24x24_EXECUTE));
 		buttonAction.setPadding(new Insets(0, 0, 0, 0));
-		buttonAction.setTooltip(new Tooltip(TextServer.getString("tooltipStart")));
+		buttonAction.setTooltip(new Tooltip(TextServer.getString("tooltipStartTask")));
 		buttonAction.setStyle("-fx-content-display: graphic-only;");
 		hboxButtons.getChildren().add(buttonAction);
 
@@ -199,10 +212,21 @@ public class TaskPane {
 		buttonInfo.setCancelButton(false);
 		buttonInfo.setGraphic(Icons.get(Icons.FLAT_24x24_INFO));
 		buttonInfo.setPadding(new Insets(0, 0, 0, 0));
-		buttonInfo.setTooltip(new Tooltip(TextServer.getString("tooltipErrorInfo")));
+		buttonInfo.setTooltip(new Tooltip(TextServer.getString("tooltipErrorInfoTask")));
 		buttonInfo.setStyle("-fx-content-display: graphic-only;");
 		buttonInfo.setDisable(true);
 		hboxButtons.getChildren().add(buttonInfo);
+
+		// Info button.
+		Button buttonClose = new Button();
+		buttonClose.setDefaultButton(false);
+		buttonClose.setCancelButton(false);
+		buttonClose.setGraphic(Icons.get(Icons.FLAT_24x24_CLOSE));
+		buttonClose.setPadding(new Insets(0, 0, 0, 0));
+		buttonClose.setTooltip(new Tooltip(TextServer.getString("tooltipCloseTask")));
+		buttonClose.setStyle("-fx-content-display: graphic-only;");
+		buttonClose.setDisable(false);
+		hboxButtons.getChildren().add(buttonClose);
 
 		// Add the buttons box.
 		grid.add(hboxButtons, 1, row++);
@@ -264,8 +288,21 @@ public class TaskPane {
 			showException(task);
 		});
 
+		// Setup button close.
+		buttonClose.setOnAction((EventHandler<ActionEvent>) e -> {
+			if (task.stateProperty().get().equals(State.RUNNING)) {
+				return;
+			}
+			removeTask(task);
+		});
+
 		// Setup task state listener.
 		task.stateProperty().addListener((observable, oldValue, newValue) -> {
+			
+			// Entering the running state.
+			if (newValue.equals(State.RUNNING)) {
+				buttonClose.setDisable(true);
+			}
 
 			// Leaving the running state.
 			if (oldValue.equals(State.RUNNING)) {
@@ -284,7 +321,8 @@ public class TaskPane {
 				// Set the action button to restart.
 				buttonAction.setGraphic(Icons.get(Icons.FLAT_24x24_EXECUTE));
 				buttonAction.setTooltip(new Tooltip(TextServer.getString("tooltipStart")));
-
+				
+				buttonClose.setDisable(false);
 			}
 
 		});

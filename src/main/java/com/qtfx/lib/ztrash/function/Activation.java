@@ -14,9 +14,6 @@
 
 package com.qtfx.lib.ztrash.function;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
 /**
  * Activation functions interface.
  *

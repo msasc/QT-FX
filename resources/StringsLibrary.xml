@@ -60,9 +60,10 @@
 	
 	<!-- Several widely used tool tips. -->
 	
-	<entry key="tooltipStart">Start the current task</entry>
-	<entry key="tooltipCancel">Cancel (stop) the current task</entry>
-	<entry key="tooltipErrorInfo">View detailed error information</entry>
+	<entry key="tooltipStartTask">Start the current task</entry>
+	<entry key="tooltipCancelTask">Cancel (stop) the current task</entry>
+	<entry key="tooltipCloseTask">Close and remove the current task</entry>
+	<entry key="tooltipErrorInfoTask">View detailed error information</entry>
 	<entry key="tooltipRemoveChart">Remove chart</entry>
 	
 	<!-- Task messages. -->
