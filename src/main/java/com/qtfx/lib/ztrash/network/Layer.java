@@ -15,8 +15,6 @@
 package com.qtfx.lib.ztrash.network;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import com.qtfx.lib.util.io.IOMap;
 

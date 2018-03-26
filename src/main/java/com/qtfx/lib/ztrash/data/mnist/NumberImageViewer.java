@@ -33,6 +33,9 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.qtfx.lib.ml.data.mnist.NumberImage;
+import com.qtfx.lib.ml.data.mnist.NumberImageReader;
+
 /**
  * A simple number image viewer.
  * 

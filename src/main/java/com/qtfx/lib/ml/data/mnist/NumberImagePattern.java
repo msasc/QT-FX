@@ -12,9 +12,9 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ztrash.data.mnist;
+package com.qtfx.lib.ml.data.mnist;
 
-import com.qtfx.lib.ztrash.data.Pattern;
+import com.qtfx.lib.ml.data.Pattern;
 import com.qtfx.lib.ztrash.function.Normalizer;
 
 /**

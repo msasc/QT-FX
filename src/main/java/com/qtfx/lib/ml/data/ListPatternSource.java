@@ -12,33 +12,51 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ztrash.data;
+package com.qtfx.lib.ml.data;
+
+import java.util.List;
 
 /**
- * A pattern, with inputs and optional expected label and outputs.
+ * A list pattern source.
  *
  * @author Miquel Sas
  */
-public interface Pattern {
+public class ListPatternSource implements PatternSource {
+
+	/** The underlying pattern list. */
+	private List<Pattern> patterns;
 
 	/**
-	 * Return the pattern inputs.
+	 * Constructor.
 	 * 
-	 * @return The pattern inputs.
+	 * @param patterns The list of patterns.
 	 */
-	double[] getInputs();
+	public ListPatternSource(List<Pattern> patterns) {
+		super();
+		this.patterns = patterns;
+	}
 
 	/**
-	 * Return the optional pattern outputs.
-	 * 
-	 * @return The pattern outputs.
+	 * {@inheritDoc}
 	 */
-	double[] getOutputs();
+	@Override
+	public Pattern get(int index) {
+		return patterns.get(index);
+	}
 
 	/**
-	 * Return the optional label.
-	 * 
-	 * @return The label.
+	 * {@inheritDoc}
 	 */
-	String getLabel();
+	@Override
+	public int size() {
+		return patterns.size();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isEmpty() {
+		return patterns.isEmpty();
+	}
 }

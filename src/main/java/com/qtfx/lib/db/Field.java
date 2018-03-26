@@ -544,7 +544,8 @@ public class Field implements Comparable<Object> {
 	 * @return A not null description.
 	 */
 	public String getDisplayDescription() {
-		return Strings.getFirstNotNull(getDescription(), getTitle(), getLabel(), getHeader());
+		return Strings.getFirstNotNull(getDescription(), getTitle(), getLabel(),
+			getHeader());
 	}
 
 	/**
@@ -553,7 +554,8 @@ public class Field implements Comparable<Object> {
 	 * @return A not null header.
 	 */
 	public String getDisplayLabel() {
-		return Strings.getFirstNotNull(getLabel(), getHeader(), getTitle(), getDescription());
+		return Strings.getFirstNotNull(getLabel(), getHeader(), getTitle(),
+			getDescription());
 	}
 
 	/**
@@ -562,7 +564,8 @@ public class Field implements Comparable<Object> {
 	 * @return A not null header.
 	 */
 	public String getDisplayHeader() {
-		return Strings.getFirstNotNull(getHeader(), getLabel(), getTitle(), getDescription());
+		return Strings.getFirstNotNull(getHeader(), getLabel(), getTitle(),
+			getDescription());
 	}
 
 	/**
@@ -571,7 +574,8 @@ public class Field implements Comparable<Object> {
 	 * @return A not null title.
 	 */
 	public String getDisplayTitle() {
-		return Strings.getFirstNotNull(getTitle(), getLabel(), getHeader(), getDescription());
+		return Strings.getFirstNotNull(getTitle(), getLabel(), getHeader(),
+			getDescription());
 	}
 
 	////////////////////////////////////////
@@ -854,7 +858,7 @@ public class Field implements Comparable<Object> {
 	public void setValidator(Validator<Value> validator) {
 		this.validator = validator;
 	}
-	
+
 	/**
 	 * Validates the convenience of the argument value.
 	 *
@@ -898,7 +902,7 @@ public class Field implements Comparable<Object> {
 		if (!isNullable() && value.isNull()) {
 			return false;
 		}
-		
+
 		// Validator.
 		if (getValidator() != null) {
 			if (!getValidator().validate(value)) {
@@ -908,6 +912,7 @@ public class Field implements Comparable<Object> {
 
 		return true;
 	}
+
 	/**
 	 * Returns the validation message or null if validation is ok.
 	 *
@@ -919,27 +924,31 @@ public class Field implements Comparable<Object> {
 
 		// Strict type
 		if (!value.getType().equals(getType())) {
-			return MessageFormat.format(TextServer.getString("fieldValidType", locale), value.getType(), getType());
+			return MessageFormat.format(TextServer.getString("fieldValidType",
+				locale), value.getType(), getType());
 		}
 
 		// Maximum value
 		if (getMaximumValue() != null) {
 			if (value.compareTo(getMaximumValue()) > 0) {
-				return MessageFormat.format(TextServer.getString("fieldValidMax", locale), value, getMaximumValue());
+				return MessageFormat.format(TextServer.getString(
+					"fieldValidMax", locale), value, getMaximumValue());
 			}
 		}
 
 		// Minimum value
 		if (getMinimumValue() != null) {
 			if (value.compareTo(getMinimumValue()) < 0) {
-				return MessageFormat.format(TextServer.getString("fieldValidMin", locale), value, getMinimumValue());
+				return MessageFormat.format(TextServer.getString(
+					"fieldValidMin", locale), value, getMinimumValue());
 			}
 		}
 
 		// Possible values
 		if (!getPossibleValues().isEmpty()) {
 			if (!value.in(new ArrayList<>(getPossibleValues()))) {
-				return MessageFormat.format(TextServer.getString("fieldValidPossible", locale), value);
+				return MessageFormat.format(TextServer.getString(
+					"fieldValidPossible", locale), value);
 			}
 		}
 
@@ -1005,7 +1014,8 @@ public class Field implements Comparable<Object> {
 	 * 
 	 * @param currentDateTimeOrTimestamp A boolean.
 	 */
-	public void setCurrentDateTimeOrTimestamp(boolean currentDateTimeOrTimestamp) {
+	public void setCurrentDateTimeOrTimestamp(
+		boolean currentDateTimeOrTimestamp) {
 		this.currentDateTimeOrTimestamp = currentDateTimeOrTimestamp;
 	}
 
@@ -1408,7 +1418,8 @@ public class Field implements Comparable<Object> {
 			return new Value((Date) null);
 		}
 		if (isDecimal()) {
-			return new Value(new BigDecimal(0).setScale(getDecimals(), BigDecimal.ROUND_HALF_UP));
+			return new Value(new BigDecimal(0).setScale(getDecimals(),
+				BigDecimal.ROUND_HALF_UP));
 		}
 		if (isDouble()) {
 			return new Value((double) 0);
@@ -1452,7 +1463,8 @@ public class Field implements Comparable<Object> {
 		try {
 			field = (Field) o;
 		} catch (ClassCastException exc) {
-			throw new UnsupportedOperationException("Not comparable type: " + o.getClass().getName());
+			throw new UnsupportedOperationException(
+				"Not comparable type: " + o.getClass().getName());
 		}
 		if (getAlias().equals(field.getAlias())) {
 			if (getType().equals(field.getType())) {
