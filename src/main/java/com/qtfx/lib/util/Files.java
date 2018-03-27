@@ -143,6 +143,25 @@ public class Files {
 		String destinationName = sourceFile.getAbsolutePath().substring(sourceDirectory.getAbsolutePath().length());
 		return new File(destinationDirectory, destinationName);
 	}
+	
+	/**
+	 * Returns the size label in the form of 25,6 KB, for example. The most approximated label with the argument number
+	 * of decimals.
+	 * 
+	 * @param size The size in bytes to label.
+	 * @param decimals Number of decimal places.
+	 * @param locale The locale.
+	 * @return The size label of a file size.
+	 */
+	public static String getSizeLabel(long size, int decimals, Locale locale) {
+		for (Size value : Size.values()) {
+			double v = size / value.getSize();
+			if (v < 1024) {
+				return Formats.formattedFromDouble(v, decimals, locale) + " " + value.getLabel();
+			}
+		}
+		throw new IllegalArgumentException();
+	}
 
 	/**
 	 * Returns the source file in a mirror copy task, given the destination directory that is the starting partial path

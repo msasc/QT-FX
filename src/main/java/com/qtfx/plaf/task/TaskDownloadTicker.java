@@ -102,7 +102,7 @@ public class TaskDownloadTicker extends Task {
 		return -1;
 	}
 	
-	private void deleteFromn(long timeFrom) throws PersistorException {
+	private void deleteFrom(long timeFrom) throws PersistorException {
 		Field fTIME = persistor.getField(Fields.TIME);
 		Value vTIME = new Value(timeFrom);
 		Criteria criteria = new Criteria();
@@ -125,7 +125,7 @@ public class TaskDownloadTicker extends Task {
 		}
 		long timeTo = server.getHistoryManager().getTimeOfLastData(instrument, period, filter);
 		long steps = timeTo - timeFrom;
-		deleteFromn(timeFrom);
+		deleteFrom(timeFrom);
 		
 		DataIterator i = 
 			server.getHistoryManager().getDataIterator(instrument, period, offerSide, filter, timeFrom, timeTo);

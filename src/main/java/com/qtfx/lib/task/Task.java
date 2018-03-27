@@ -15,6 +15,8 @@
 package com.qtfx.lib.task;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.atomic.AtomicReference;
@@ -92,6 +94,9 @@ public abstract class Task extends ForkJoinTask<Void> {
 	private Message progressMessage = new Message(this, "progressMessage", "");
 	/** Time message string property. */
 	private Message timeMessage = new Message(this, "timeMessage", "");
+
+	/** List of additional message properties. */
+	private List<Message> messages = new ArrayList<>();
 
 	/** Progress properties. */
 	private Progress progress = new Progress(this);
@@ -209,6 +214,57 @@ public abstract class Task extends ForkJoinTask<Void> {
 	 */
 	public ReadOnlyDoubleProperty progressProperty() {
 		return progress.progress;
+	}
+
+	/**
+	 * Add an additional message property.
+	 * 
+	 * @param name The name of the message.
+	 */
+	public void addMessage(String name) {
+		messages.add(new Message(this, name, ""));
+	}
+
+	/**
+	 * Publish the additional message property.
+	 * 
+	 * @param name The message name.
+	 * @return The message property.
+	 */
+	public ReadOnlyStringProperty messageProperty(String name) {
+		Message message = getMessage(name);
+		if (message != null) {
+			return message.property;
+		}
+		return null;
+	}
+
+	/**
+	 * Return the list of additional message properties.
+	 * 
+	 * @return The list of additional message properties.
+	 */
+	public List<ReadOnlyStringProperty> messageProperties() {
+		List<ReadOnlyStringProperty> properties = new ArrayList<>();
+		for (Message message : messages) {
+			properties.add(message.property);
+		}
+		return properties;
+	}
+
+	/**
+	 * Return the message with the given name.
+	 * 
+	 * @param name The message name.
+	 * @return The message or null.
+	 */
+	private Message getMessage(String name) {
+		for (Message message : messages) {
+			if (message.property.getName().equals(name)) {
+				return message;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -416,6 +472,18 @@ public abstract class Task extends ForkJoinTask<Void> {
 	 */
 	protected void updateMessage(String message) {
 		updateString(message, this.message);
+	}
+
+	/**
+	 * Update the message property.
+	 * 
+	 * @param message The message string.
+	 */
+	protected void updateMessage(String name, String message) {
+		Message namedMessage = getMessage(name);
+		if (namedMessage != null) {
+			updateString(message, namedMessage);
+		}
 	}
 
 	/**

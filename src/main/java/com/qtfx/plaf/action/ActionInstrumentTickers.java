@@ -295,6 +295,11 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 					Tab tab = new Tab();
 					tab.setText(tabText);
 					tab.setContent(taskPane.getNode());
+					tab.setOnCloseRequest(e -> {
+						if (!taskPane.canClose()) {
+							e.consume();
+						}
+					});
 
 					TabPane tabPane = QTFX.getTabPane(getNode());
 					tabPane.getTabs().add(tab);

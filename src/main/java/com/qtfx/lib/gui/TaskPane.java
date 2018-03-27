@@ -13,6 +13,7 @@ import com.qtfx.lib.util.TextServer;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -67,17 +68,17 @@ public class TaskPane {
 		super();
 		borderPane = new BorderPane();
 		FX.setObject(borderPane, "task-pane", this);
-		
+
 		vbox = new VBox(10);
 		ScrollPane scrollPane = new ScrollPane(vbox);
 		borderPane.setCenter(scrollPane);
-		
+
 		scrollPane.prefWidthProperty().bind(Bindings.selectDouble(scrollPane.parentProperty(), "width"));
-//		vbox.prefWidthProperty().bind(Bindings.selectDouble(vbox.parentProperty(), "width"));
+		// vbox.prefWidthProperty().bind(Bindings.selectDouble(vbox.parentProperty(), "width"));
 		vbox.prefWidthProperty().bind(scrollPane.prefWidthProperty().subtract(20));
-		
+
 		buttonPane = new ButtonPane();
-		buttonPane.setPadding(new Insets(10));
+		buttonPane.setPadding(new Insets(10, 20, 10, 10));
 		borderPane.setBottom(buttonPane.getNode());
 
 		Button remove = new Button(TextServer.getString("taskRemoveInactive"));
@@ -90,7 +91,7 @@ public class TaskPane {
 			}
 		});
 		buttonPane.getButtons().add(remove);
-		
+
 		buttonPane.layoutButtons();
 
 		pool = new JoinPool();
@@ -121,7 +122,9 @@ public class TaskPane {
 	 */
 	public void addTask(Task task) {
 		vbox.getChildren().add(getTaskPane(task));
-		vbox.getChildren().add(new Separator());
+		Separator sep = new Separator();
+		sep.setPadding(new Insets(0, 0, 0, 10));
+		vbox.getChildren().add(sep);
 	}
 
 	/**
@@ -167,6 +170,24 @@ public class TaskPane {
 	}
 
 	/**
+	 * Check if this task pane can be closed because no action is running.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean canClose() {
+		List<Task> tasks = getTasks();
+		for (Task task : tasks) {
+			if (task.isRunning()) {
+				String title = TextServer.getString("taskCanCloseTitle");
+				String message = TextServer.getString("taskCanCloseMessage");
+				Alert.warning(title, message);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Return the grid pane that shows the task progress.
 	 * 
 	 * @param task The task.
@@ -176,7 +197,7 @@ public class TaskPane {
 
 		// The grid pane that will hold all the component.
 		GridPane grid = new GridPane();
-		grid.setPadding(new Insets(10, 10, 10, 10));
+		grid.setPadding(new Insets(10, 0, 10, 10));
 
 		// Column 0 will expand.
 		ColumnConstraints c0 = new ColumnConstraints();
@@ -260,6 +281,15 @@ public class TaskPane {
 		progressBar.setMaxWidth(Double.MAX_VALUE);
 		progressBar.setProgress(0);
 		grid.add(progressBar, 0, row++, 2, 1);
+		
+		// Additional message properties.
+		List<ReadOnlyStringProperty> messages = task.messageProperties();
+		for (ReadOnlyStringProperty message : messages) {
+			Label label = new Label();
+			label.setMaxWidth(Double.MAX_VALUE);
+			label.textProperty().bind(message);
+			grid.add(label, 0, row++, 2, 1);
+		}
 
 		// Setup button action listener.
 		buttonAction.setOnAction((EventHandler<ActionEvent>) e -> {
@@ -298,7 +328,7 @@ public class TaskPane {
 
 		// Setup task state listener.
 		task.stateProperty().addListener((observable, oldValue, newValue) -> {
-			
+
 			// Entering the running state.
 			if (newValue.equals(State.RUNNING)) {
 				buttonClose.setDisable(true);
@@ -316,12 +346,14 @@ public class TaskPane {
 				// Failed throwing an exception, enable the info button.
 				if (newValue.equals(State.FAILED)) {
 					buttonInfo.setDisable(false);
+					progressBar.progressProperty().unbind();
+					progressBar.setProgress(0);
 				}
 
 				// Set the action button to restart.
 				buttonAction.setGraphic(Icons.get(Icons.FLAT_24x24_EXECUTE));
 				buttonAction.setTooltip(new Tooltip(TextServer.getString("tooltipStart")));
-				
+
 				buttonClose.setDisable(false);
 			}
 
