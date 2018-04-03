@@ -23,6 +23,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.qtfx.lib.gui.Alert;
+import com.qtfx.lib.gui.TaskPane;
 import com.qtfx.lib.gui.launch.Argument;
 import com.qtfx.lib.gui.launch.ArgumentManager;
 import com.qtfx.lib.task.Task;
@@ -31,6 +32,9 @@ import com.qtfx.lib.util.Lists;
 import com.qtfx.lib.util.TextServer;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -88,7 +92,40 @@ public class CMAUpdate extends Application {
 			System.exit(0);
 			return;
 		}
+		
+		// List of tasks and task pane.
+		List<Task> tasks = getTaskList(argMngr);
+		TaskPane taskPane = new TaskPane(20);
+		for (Task task : tasks) {
+			taskPane.addTask(task);
+		}
+		
+		// Border pane as root.
+		BorderPane root = new BorderPane();
+		root.setCenter(taskPane.getNode());
+		
+		// Scene.
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("CMA Updater");
 
+		// Factor dimensions
+		primaryStage.setWidth(Screen.getPrimary().getBounds().getWidth() * 0.8);
+		primaryStage.setHeight(Screen.getPrimary().getBounds().getHeight() * 0.8);
+		primaryStage.centerOnScreen();
+
+		// On request to close.
+		primaryStage.setOnCloseRequest(e -> {
+			for (Task task : tasks) {
+				if (task.isRunning()) {
+					Alert.warning("Task check", "There are tasks still running");
+					e.consume();
+					return;
+				}
+			}
+		});
+		
+		primaryStage.show();
 	}
 
 	/**
@@ -151,11 +188,12 @@ public class CMAUpdate extends Application {
 	private static String getDescription(ArgumentManager argMngr, String module) {
 		StringBuilder b = new StringBuilder();
 		b.append("Copy task");
-		b.append(" environment:");
+		b.append(" [environment: ");
 		b.append(argMngr.getValue("environment"));
-		b.append(" target:");
+		b.append("] [target: ");
 		b.append(argMngr.getValue("target"));
-		b.append(" module:" + module);
+		b.append("] [module: " + module);
+		b.append("]");
 		return b.toString();
 	}
 
@@ -240,7 +278,7 @@ public class CMAUpdate extends Application {
 	 */
 	private static void addModuleBudgetDictionary(FileCopy fc, ArgumentManager argMngr, String module) {
 		String srcParent = "XVR COM Module Budget Dictionary";
-		String dstParent = "CMA_Central\\mads\\module_budget_dictionary";
+		String dstParent = module + "\\mads\\module_budget_dictionary";
 		// bin
 		addLocalDirs(fc, argMngr, srcParent, dstParent, "bin");
 		// res

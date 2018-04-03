@@ -17,9 +17,9 @@ package com.qtfx.lib.ztrash.network;
 import java.io.IOException;
 import java.util.Random;
 
-import com.qtfx.lib.util.Matrix;
+import com.qtfx.lib.math.Vector;
+import com.qtfx.lib.ml.function.Activation;
 import com.qtfx.lib.util.io.IOMap;
-import com.qtfx.lib.ztrash.function.Activation;
 
 /**
  * Back propagation layer without momentum.
@@ -121,7 +121,7 @@ public class LayerBP extends Layer {
 	 */
 	@Override
 	public double[] forward(double[] inputs) {
-		Matrix.copy(inputs, this.inputs);
+		Vector.copy(inputs, this.inputs);
 		int inputSize = getInputSize();
 		int outputSize = getOutputSize();
 		for (int out = 0; out < outputSize; out++) {

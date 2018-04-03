@@ -43,6 +43,9 @@ public interface Icons {
 	static ImageView get(String resource) {
 		try {
 			File file = new File(resource);
+			if (!file.exists()) {
+				file = Files.getFileFromClassPathEntries(resource);
+			}
 			FileInputStream fi = new FileInputStream(file);
 			Image image = new Image(fi);
 			return new ImageView(image);

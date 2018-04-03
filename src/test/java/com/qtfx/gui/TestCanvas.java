@@ -1,7 +1,6 @@
 package com.qtfx.gui;
 
 import com.qtfx.lib.gui.FX;
-import com.qtfx.lib.util.Numbers;
 
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
@@ -14,8 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.Stage;
 
 public class TestCanvas extends Application {

@@ -20,6 +20,7 @@ import java.util.Locale;
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Types;
 import com.qtfx.lib.db.Value;
+import com.qtfx.lib.math.Vector;
 import com.qtfx.lib.mkt.data.Data;
 import com.qtfx.lib.mkt.data.DataList;
 import com.qtfx.lib.mkt.data.DataType;
@@ -31,7 +32,6 @@ import com.qtfx.lib.mkt.data.info.IndicatorInfo;
 import com.qtfx.lib.mkt.data.info.InputInfo;
 import com.qtfx.lib.mkt.data.info.ParameterInfo;
 import com.qtfx.lib.mkt.data.info.validators.IntegerValidator;
-import com.qtfx.lib.util.Matrix;
 import com.qtfx.lib.util.Numbers;
 
 /**
@@ -178,7 +178,7 @@ public abstract class PeriodIndicator extends Indicator {
 						}
 					}
 
-					double[] averages = Matrix.add(addAvgs, Matrix.subtract(currAvgs, delAvgs));
+					double[] averages = Vector.add(addAvgs, Vector.subtract(currAvgs, delAvgs));
 					Data data = new Data();
 					data.setData(averages);
 					data.setTime(indicatorSources.get(0).getDataList().get(index).getTime());

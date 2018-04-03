@@ -22,8 +22,11 @@
 	<entry key="buttonOpen">Open</entry>
 	<entry key="buttonPrevious">Previous</entry>
 	<entry key="buttonPurge">Purge</entry>
+	<entry key="buttonRemove">Remove</entry>
+	<entry key="buttonReset">Reset</entry>
 	<entry key="buttonRetry">Retry</entry>
 	<entry key="buttonSelect">Select</entry>
+	<entry key="buttonStart">Start</entry>
 	<entry key="buttonYes">Yes</entry>
 	
 	<entry key="alertTitleError">Error</entry>
@@ -66,15 +69,18 @@
 	<entry key="taskCancelled">Cancelled</entry>
 	<entry key="taskException">Task exception</entry>
 	<entry key="taskFailed">Failed</entry>
-	<entry key="taskSucceeded">Succeeded</entry>
 	<entry key="taskParallel">Parallel processing...</entry>
-	<entry key="taskRemoveInactive">Remove inactive</entry>
+	<entry key="taskSucceeded">Succeeded</entry>
 
-	<entry key="tooltipStartTask">Start the current task</entry>
 	<entry key="tooltipCancelTask">Cancel (stop) the current task</entry>
 	<entry key="tooltipCloseTask">Close and remove the current task</entry>
 	<entry key="tooltipErrorInfoTask">View detailed error information</entry>
 	<entry key="tooltipRemoveChart">Remove chart</entry>
+	<entry key="tooltipRemoveInactive">Remove all inactive tasks</entry>
+	<entry key="tooltipStartNotRunning">Start all tasks not in running state</entry>
+	<entry key="tooltipStartTask">Start the current task</entry>
+	<entry key="tooltipCancelAllRunning">Cancel all running tasks</entry>
+	<entry key="tooltipResetTasks">Reset source tasks</entry>
 	
 	<entry key="taskCanCloseTitle">Task running check</entry>
 	<entry key="taskCanCloseMessage">There are tasks still running, stop them or wait terminated.</entry>

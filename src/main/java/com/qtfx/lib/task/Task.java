@@ -119,7 +119,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 
 	/** The locale to use to build messages. */
 	private Locale locale;
-
+	
 	/**
 	 * Default constructor.
 	 */
@@ -553,10 +553,10 @@ public abstract class Task extends ForkJoinTask<Void> {
 		} else {
 			b.append(TextServer.getString("tokenProcessed", locale));
 			b.append(" ");
-			double percentage = (workDone <= 0 ? 0.0 : (workDone / totalWork) * 100.0);
+			double percentage = (workDone <= 0 ? 0.0 : ((workDone+1) / totalWork) * 100.0);
 			b.append(Numbers.getBigDecimal(percentage, progressDecimals));
 			b.append("% (");
-			b.append(Formats.formattedFromLong(Double.valueOf(workDone).longValue(), locale));
+			b.append(Formats.formattedFromLong(Double.valueOf(workDone+1).longValue(), locale));
 			b.append(" ");
 			b.append(TextServer.getString("tokenOf"));
 			b.append(" ");

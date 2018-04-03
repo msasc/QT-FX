@@ -24,7 +24,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.ComboBox;
 
 /**
- * A combo box that launches an <{@link com.qtfx.lib.gui.action.ActionLookup }.
+ * A combo box that launches an {@link com.qtfx.lib.gui.action.ActionLookup }.
  * 
  *
  * @author Miquel Sas

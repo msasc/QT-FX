@@ -116,12 +116,7 @@ public class Numbers extends org.apache.commons.lang3.math.NumberUtils {
 	 * @return The rounded value.
 	 */
 	public static double round(double value, int decimals) {
-		double p = java.lang.Math.pow(10, decimals);
-		double v = value * p;
-		long l = java.lang.Math.round(v);
-		double r = l / p;
-		// Ensure exact decimals because sometimes floating point operations yield numbers like 0.49999999999 for 0.5
-		return new BigDecimal(r).setScale(decimals, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return new BigDecimal(value).setScale(decimals, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
 	/**

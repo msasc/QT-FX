@@ -15,7 +15,7 @@
 package com.qtfx.lib.ml.data.mnist;
 
 import com.qtfx.lib.ml.data.Pattern;
-import com.qtfx.lib.ztrash.function.Normalizer;
+import com.qtfx.lib.ml.function.Normalizer;
 
 /**
  * A MNIST number image pattern.

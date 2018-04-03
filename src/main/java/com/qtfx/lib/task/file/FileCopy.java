@@ -256,6 +256,10 @@ public class FileCopy extends Task {
 	 * Counter for bytes processed.
 	 */
 	private long bytesProcessed;
+	/**
+	 * Current running scanner.
+	 */
+	private FileScanner scanner;
 
 	/**
 	 * Constructor.
@@ -451,14 +455,17 @@ public class FileCopy extends Task {
 	 * @throws Exception
 	 */
 	private boolean calculateTotalWork() throws Exception {
-		// Number of steps.
+		
+		// Number of steps and bytes to process.
 		long count = 0;
+		bytesToProcess = 0;
 
+		
 		// If should countForPurge, count to analyze countForPurge.
 		if (isPurgeDestination()) {
 
 			// The scanner to count the destination.
-			FileScanner scanner = getScannerForPurge();
+			scanner = getScannerForPurge();
 
 			// The counter listener.
 			CountListener counterListener = new CountListener(true);
@@ -478,7 +485,7 @@ public class FileCopy extends Task {
 		clearMessages();
 
 		// The scanner to count the source.
-		FileScanner scanner = getScanner();
+		scanner = getScanner();
 
 		// The counter listener.
 		CountListener counterListener = new CountListener(false);
@@ -487,6 +494,7 @@ public class FileCopy extends Task {
 		// Do scan.
 		scanner.compute();
 		if (scanner.isCancelled()) {
+			clearMessages();
 			return false;
 		}
 
@@ -516,6 +524,9 @@ public class FileCopy extends Task {
 	@Override
 	protected void compute() throws Exception {
 		
+		// Reset bytes processed.
+		bytesProcessed = 0;
+		
 		// Count.
 		updateCounting();
 		if (!calculateTotalWork()) {
@@ -528,7 +539,7 @@ public class FileCopy extends Task {
 			clearMessages();
 
 			// Scanner to purge.
-			FileScanner scanner = getScannerForPurge();
+			scanner = getScannerForPurge();
 			scanner.addListener(new PurgeListener());
 			
 			// Do work.
@@ -544,7 +555,7 @@ public class FileCopy extends Task {
 		clearMessages();
 		
 		// Scanner to copy.
-		FileScanner scanner = getScanner();
+		scanner = getScanner();
 		scanner.addListener(new CopyListener());
 		
 		// Do work.
@@ -562,6 +573,17 @@ public class FileCopy extends Task {
 	@Override
 	public boolean isIndeterminate() {
 		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean cancel(boolean mayInterruptIfRunning) {
+		if (scanner != null) {
+			scanner.cancel(mayInterruptIfRunning);
+		}
+		return super.cancel(mayInterruptIfRunning);
 	}
 
 }
