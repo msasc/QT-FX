@@ -774,6 +774,22 @@ public class PlotData implements Iterable<DataList> {
 	}
 
 	/**
+	 * Returns a suitable number of bars to scroll or zoom depending on the number of bars visible.
+	 * 
+	 * @return The number of bars to scroll or zoom.
+	 */
+	public int getBarsToScrollOrZoom() {
+		int startIndex = getStartIndex();
+		int endIndex = getEndIndex();
+		int barsVisible = endIndex - startIndex + 1;
+		int barsToScrollOrZoom = (int) (barsVisible * 0.1);
+		if (barsToScrollOrZoom < 1) {
+			barsToScrollOrZoom = 1;
+		}
+		return barsToScrollOrZoom;
+	}
+
+	/**
 	 * Check that indexes do not overlap and ensure that at least there are
 	 */
 	private void checkIndexes() {

@@ -77,6 +77,8 @@ public interface Icons {
 	String FLAT_24x24_SCROLL_FRONT = "resources/images/flat/24x24/scroll-front.png";
 	String FLAT_24x24_SCROLL_START = "resources/images/flat/24x24/scroll-start.png";
 	String FLAT_24x24_SCROLL_END = "resources/images/flat/24x24/scroll-end.png";
+	String FLAT_24x24_ZOOM_IN = "resources/images/flat/24x24/zoom-in.png";
+	String FLAT_24x24_ZOOM_OUT = "resources/images/flat/24x24/zoom-out.png";
 	
 	///////////////////////////////////
 	// Very flat and simple icons 16x16

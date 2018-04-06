@@ -115,13 +115,7 @@ public class ChartContainer {
 
 		// Handle scroll.
 		chartPlotter.getPane().setOnScroll(e -> {
-			int startIndex = plotData.getStartIndex();
-			int endIndex = plotData.getEndIndex();
-			int barsVisible = endIndex - startIndex + 1;
-			int barsToScrollOrZoom = (int) (barsVisible * 0.1);
-			if (barsToScrollOrZoom < 1) {
-				barsToScrollOrZoom = 1;
-			}
+			int barsToScrollOrZoom = plotData.getBarsToScrollOrZoom();
 			barsToScrollOrZoom *= (e.getDeltaY() > 0 ? 1 : -1);
 
 			// If control, zoom.
