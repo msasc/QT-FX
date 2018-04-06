@@ -94,10 +94,10 @@ public class CMAUpdate extends Application {
 		}
 		
 		// List of tasks and task pane.
-		List<Task> tasks = getTaskList(argMngr);
+		List<Task> taskTests = getTaskList(argMngr);
 		TaskPane taskPane = new TaskPane(20);
-		for (Task task : tasks) {
-			taskPane.addTask(task);
+		for (Task taskTest : taskTests) {
+			taskPane.addTask(taskTest);
 		}
 		
 		// Border pane as root.
@@ -116,8 +116,8 @@ public class CMAUpdate extends Application {
 
 		// On request to close.
 		primaryStage.setOnCloseRequest(e -> {
-			for (Task task : tasks) {
-				if (task.isRunning()) {
+			for (Task taskTest : taskTests) {
+				if (taskTest.isRunning()) {
 					Alert.warning("Task check", "There are tasks still running");
 					e.consume();
 					return;
@@ -602,7 +602,7 @@ public class CMAUpdate extends Application {
 	 */
 	private static List<Task> getTaskList(ArgumentManager argMngr) {
 		// A task per central/dictionary/local.
-		List<Task> tasks = new ArrayList<>();
+		List<Task> taskTests = new ArrayList<>();
 
 		// Environment and target.
 		boolean purge = argMngr.isPassed("purge");
@@ -629,7 +629,7 @@ public class CMAUpdate extends Application {
 				addModuleWorkingCapitalCentral(fc, argMngr, "CMA_Central");
 				addModuleWorkingCapitalLocal(fc, argMngr, "CMA_Central");
 				addModuleSecurity(fc, argMngr, "CMA_Central");
-				tasks.add(fc);
+				taskTests.add(fc);
 			}
 
 			// Dictionary
@@ -644,7 +644,7 @@ public class CMAUpdate extends Application {
 				addModuleMarginsLibrary(fc, argMngr, "CMA_Dictionary");
 				addModuleMarginsLocal(fc, argMngr, "CMA_Dictionary");
 				addModuleSecurity(fc, argMngr, "CMA_Dictionary");
-				tasks.add(fc);
+				taskTests.add(fc);
 			}
 
 			// Local.
@@ -663,7 +663,7 @@ public class CMAUpdate extends Application {
 				addModuleWorkingCapitalCentral(fc, argMngr, "CMA_Local");
 				addModuleWorkingCapitalLocal(fc, argMngr, "CMA_Local");
 				addModuleSecurity(fc, argMngr, "CMA_Local");
-				tasks.add(fc);
+				taskTests.add(fc);
 			}
 		}
 
@@ -699,7 +699,7 @@ public class CMAUpdate extends Application {
 					addRemoteFiles(fc, argMngr, "CMA_Central", "CMA_Central.cmd", drive);
 					addRemoteFiles(fc, argMngr, "CMA_Central", "JLoad.cmd", drive);
 					addRemoteFiles(fc, argMngr, "CMA_Central", "JLoad_res.cmd", drive);
-					tasks.add(fc);
+					taskTests.add(fc);
 				}
 			}
 
@@ -719,7 +719,7 @@ public class CMAUpdate extends Application {
 					addRemoteFiles(fc, argMngr, "CMA_Dictionary", "CMA_Dictionary.cmd", drive);
 					addRemoteFiles(fc, argMngr, "CMA_Dictionary", "JLoad.cmd", drive);
 					addRemoteFiles(fc, argMngr, "CMA_Central", "JLoad_res.cmd", drive);
-					tasks.add(fc);
+					taskTests.add(fc);
 				}
 			}
 
@@ -743,12 +743,12 @@ public class CMAUpdate extends Application {
 					addRemoteFiles(fc, argMngr, "CMA_Local", "CMA_Local.cmd", drive);
 					addRemoteFiles(fc, argMngr, "CMA_Local", "JLoad.cmd", drive);
 					addRemoteFiles(fc, argMngr, "CMA_Central", "JLoad_res.cmd", drive);
-					tasks.add(fc);
+					taskTests.add(fc);
 				}
 			}
 		}
 
-		return tasks;
+		return taskTests;
 	}
 
 }

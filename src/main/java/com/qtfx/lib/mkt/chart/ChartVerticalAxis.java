@@ -171,7 +171,13 @@ public class ChartVerticalAxis {
 	 * @param y The y coordinate.
 	 */
 	private void plotCursorValue(double y) {
+		if (Double.isInfinite(y) || Double.isNaN(y)) {
+			return;
+		}
 		double value = getContext().getDataValue(y);
+		if (Double.isInfinite(value) || Double.isNaN(value)) {
+			return;
+		}
 		int scale = getContext().getPlotData().getTickScale();
 		plotValue(y, value, scale, surroundFillColor);
 	}

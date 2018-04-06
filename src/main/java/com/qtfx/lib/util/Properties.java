@@ -14,16 +14,17 @@
 
 package com.qtfx.lib.util;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A usefull and quite generic properties table with typed accessors for most used objects. Using a map to store the
+ * A useful and quite generic properties table with typed accessors for most used objects. Using a map to store the
  * properties of an object has several advantages, like for instance a natural copy mechanism.
  * 
  * @author Miquel Sas
  */
-public class Properties {
+public class Properties implements Serializable {
 
 	/**
 	 * The properties map.

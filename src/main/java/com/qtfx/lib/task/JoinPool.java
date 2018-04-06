@@ -27,17 +27,22 @@ public class JoinPool extends ForkJoinPool {
 	/**
 	 * Runner.
 	 */
-	public static class Runner extends TaskAdapter {
-		Collection<? extends Task> tasks;
+	public static class Runner extends Task {
+		Collection<? extends Task> taskTests;
 
-		public Runner(Collection<? extends Task> tasks) {
+		public Runner(Collection<? extends Task> taskTests) {
 			super();
-			this.tasks = tasks;
+			this.taskTests = taskTests;
 		}
 
 		@Override
 		protected void compute() {
-			invokeAll(tasks);
+			invokeAll(taskTests);
+		}
+
+		@Override
+		public boolean isIndeterminate() {
+			return true;
 		}
 	}
 
@@ -60,9 +65,9 @@ public class JoinPool extends ForkJoinPool {
 	/**
 	 * Invoke a collection of tasks.
 	 * 
-	 * @param tasks The collection of tasks.
+	 * @param taskTests The collection of tasks.
 	 */
-	public void invokeTasks(Collection<? extends Task> tasks) {
-		invoke(new Runner(tasks));
+	public void invokeTasks(Collection<? extends Task> taskTests) {
+		invoke(new Runner(taskTests));
 	}
 }

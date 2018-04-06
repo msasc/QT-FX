@@ -14,7 +14,7 @@
 
 package com.qtfx.lib.task.sample;
 
-import com.qtfx.lib.task.TaskAdapter;
+import com.qtfx.lib.task.Task;
 import com.qtfx.lib.util.Random;
 
 /**
@@ -22,7 +22,7 @@ import com.qtfx.lib.util.Random;
  *
  * @author Miquel Sas
  */
-public class SampleTask extends TaskAdapter {
+public class SampleTask extends Task {
 
 	/** Total number of iterations. */
 	private long iterations;

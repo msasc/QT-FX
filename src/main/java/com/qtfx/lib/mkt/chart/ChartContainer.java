@@ -21,14 +21,18 @@ import com.qtfx.lib.mkt.chart.plotter.PlotterContext;
 import com.qtfx.lib.mkt.data.Data;
 import com.qtfx.lib.mkt.data.Period;
 import com.qtfx.lib.mkt.data.PlotData;
+import com.qtfx.lib.mkt.data.Unit;
 import com.qtfx.lib.mkt.data.info.DataInfo;
+import com.qtfx.lib.util.Calendar;
 import com.qtfx.lib.util.Formats;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Line;
 
@@ -39,7 +43,7 @@ import javafx.scene.shape.Line;
  * @author Miquel Sas
  */
 public class ChartContainer {
-	
+
 	/**
 	 * Width and height change listener to respond to size events.
 	 */
@@ -47,87 +51,6 @@ public class ChartContainer {
 		@Override
 		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 			chart.plot(plotData);
-		}
-	}
-	/**
-	 * Mouse event handler.
-	 */
-	class MouseListener implements EventHandler<MouseEvent> {
-		@Override
-		public void handle(MouseEvent e) {
-
-			if (e.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				if (e.isPrimaryButtonDown()) {
-					if (!mouseDragging) {
-						mouseDragging = true;
-						mouseDraggingX = e.getX();
-					}
-					if (mouseDragging) {
-						if (!e.isAltDown() && !e.isControlDown() && !e.isShiftDown()) {
-							double x = e.getX();
-							if (x >= 0 && x <= chartPlotter.getSize().getWidth()) {
-								// The absolute width factor.
-								double widthFactor = Math.abs((x - mouseDraggingX) / chartPlotter.getSize().getWidth());
-								// Convert the width factor into index length.
-								int startIndex = plotData.getStartIndex();
-								int endIndex = plotData.getEndIndex();
-								int indexScroll = Math.abs((int) ((endIndex - startIndex) * widthFactor));
-								if (indexScroll < 1) {
-									indexScroll = 1;
-								}
-								if (x < mouseDraggingX) {
-									plotData.scroll(indexScroll);
-								} else {
-									plotData.scroll(-indexScroll);
-								}
-								mouseDraggingX = x;
-								chart.plot(plotData);
-								setChartInfo(e.getX(), e.getY());
-							}
-						}
-					}
-				}
-			}
-
-			if (e.getEventType() == MouseEvent.MOUSE_RELEASED) {
-				if (mouseDragging && e.isPrimaryButtonDown()) {
-					mouseDragging = false;
-					mouseDraggingX = -1;
-				}
-			}
-
-			if (e.getEventType() == MouseEvent.MOUSE_MOVED) {
-				setChartInfo(e.getX(), e.getY());
-				chartVerticalAxis.plot(e.getY());
-			}
-		}
-	}
-
-	/**
-	 * Scroll event handler.
-	 */
-	class ScrollListener implements EventHandler<ScrollEvent> {
-		@Override
-		public void handle(ScrollEvent e) {
-			int startIndex = plotData.getStartIndex();
-			int endIndex = plotData.getEndIndex();
-			int barsVisible = endIndex - startIndex + 1;
-			int barsToScrollOrZoom = (int) (barsVisible * 0.1);
-			if (barsToScrollOrZoom < 1) {
-				barsToScrollOrZoom = 1;
-			}
-			barsToScrollOrZoom *= (e.getDeltaY() > 0 ? 1 : -1);
-
-			// If control, zoom.
-			if (e.isControlDown()) {
-				if (plotData.zoom(barsToScrollOrZoom)) {
-					chart.plot(plotData);
-				}
-			} else {
-				if (plotData.scroll(barsToScrollOrZoom)) {
-					chart.plot(plotData);
-				}
-			}
 		}
 	}
 
@@ -139,32 +62,27 @@ public class ChartContainer {
 	private ChartInfo chartInfo;
 	/** Chart vertical axis. */
 	private ChartVerticalAxis chartVerticalAxis;
-	
+
 	/** Plot data. */
 	private PlotData plotData;
 	/** Effective border pane. */
 	private BorderPane pane = new BorderPane();
-	
+
 	/** Size listener. */
 	private SizeListener sizeListener;
-	/** Mouse listener. */
-	private MouseListener mouseListener;
-	/** Scroll listener. */
-	private ScrollListener scrollListener;
-	
+
 	/** Last mouse x. */
 	private transient double lastX;
 	/** Last mouse y. */
 	private transient double lastY;
-	/** Mouse dragging control (left button) to scroll the chart. */
-	private transient boolean mouseDragging = false;
-	/** The previous X coordinate when mouse dragging (always in the chart/component area). */
-	private transient double mouseDraggingX = 0;
 
 	/** Cursor horizontal line. */
 	private Line cursorHorizontal;
 	/** Cursor vertical line. */
 	private Line cursorVertical;
+
+	/** Drag index. */
+	private int dragIndex = -1;
 
 	/**
 	 * Constructor.
@@ -184,21 +102,78 @@ public class ChartContainer {
 		// Chart info.
 		chartInfo = new ChartInfo(this);
 		pane.setTop(chartInfo.getPane());
-		
+
 		// Chart vertical axis.
 		chartVerticalAxis = new ChartVerticalAxis(this);
 		pane.setRight(chartVerticalAxis.getPane());
-		
+
 		// Listeners.
 		sizeListener = new SizeListener();
-		mouseListener = new MouseListener();
-		scrollListener = new ScrollListener();
 
 		chartPlotter.getPane().widthProperty().addListener(sizeListener);
 		chartPlotter.getPane().heightProperty().addListener(sizeListener);
-		chartPlotter.getPane().addEventHandler(MouseEvent.ANY, mouseListener);
-		chartPlotter.getPane().addEventHandler(ScrollEvent.ANY, scrollListener);
-		
+
+		// Handle scroll.
+		chartPlotter.getPane().setOnScroll(e -> {
+			int startIndex = plotData.getStartIndex();
+			int endIndex = plotData.getEndIndex();
+			int barsVisible = endIndex - startIndex + 1;
+			int barsToScrollOrZoom = (int) (barsVisible * 0.1);
+			if (barsToScrollOrZoom < 1) {
+				barsToScrollOrZoom = 1;
+			}
+			barsToScrollOrZoom *= (e.getDeltaY() > 0 ? 1 : -1);
+
+			// If control, zoom.
+			if (e.isControlDown()) {
+				if (plotData.zoom(barsToScrollOrZoom)) {
+					chart.plot(plotData);
+				}
+			} else {
+				if (plotData.scroll(barsToScrollOrZoom)) {
+					chart.plot(plotData);
+				}
+			}
+		});
+
+		// Mouse move.
+		chartPlotter.getPane().setOnMouseMoved(e -> {
+			setChartInfo(e.getX(), e.getY());
+		});
+
+		// Handle drag detected.
+		chartPlotter.getPane().setOnDragDetected(e -> {
+
+			// Register the index of the data to drag.
+			PlotterContext context = chartPlotter.getContext();
+			dragIndex = context.getDataIndex(e.getX());
+
+			// Must have a Dragboard with a ClipboardContent to continue dragging.
+			ClipboardContent content = new ClipboardContent();
+			content.put(DataFormat.PLAIN_TEXT, "");
+			Dragboard db = chartPlotter.getPane().startDragAndDrop(TransferMode.ANY);
+			db.setContent(content);
+		});
+
+		// Handle drag over.
+		chartPlotter.getPane().setOnDragOver(e -> {
+
+			// Get current index
+			PlotterContext context = chartPlotter.getContext();
+
+			int currentIndex = context.getDataIndex(e.getX());
+			boolean scroll = plotData.scroll(dragIndex - currentIndex);
+
+			// Do plot
+			if (scroll) {
+				Platform.runLater(() -> {
+					chart.plot(plotData);
+					setChartInfo(e.getX(), e.getY());
+				});
+			}
+
+		});
+
 		// Cursor.
 		cursorHorizontal = new Line();
 		cursorHorizontal.setStrokeWidth(1.0);
@@ -244,19 +219,19 @@ public class ChartContainer {
 	public PlotData getPlotData() {
 		return plotData;
 	}
-	
+
 	/**
 	 * Do plot.
 	 */
-	public void plot() {
-		
+	void plot() {
+
 		// Calculate frame.
 		plotData.calculateFrame();
-		
+
 		// Vertical axis sizes.
 		chartVerticalAxis.setMaximumMinimumAndPreferredWidths();
 		chartVerticalAxis.plot(lastY);
-		
+
 		// Defer data plot.
 		chartPlotter.plot();
 
@@ -271,7 +246,7 @@ public class ChartContainer {
 	 * @param mouseY The cursor y coordinate.
 	 */
 	private void setCursor(double mouseX, double mouseY) {
-		
+
 		double lineWidth = cursorHorizontal.getStrokeWidth();
 		double x = FX.coord(lineWidth, mouseX);
 		double y = FX.coord(lineWidth, mouseY);
@@ -295,18 +270,17 @@ public class ChartContainer {
 	 * @param x The mouse x.
 	 * @param y The mouse y.
 	 */
-	private void setChartInfo(double x, double y) {
+	void setChartInfo(double x, double y) {
 		if (chartPlotter == null || plotData == null || plotData.isEmpty()) {
 			return;
 		}
+		setCursor(x, y);
 		lastX = x;
 		lastY = y;
 
-		setCursor(x, y);
-
 		PlotterContext context = chartPlotter.getContext();
 		int index = context.getDataIndex(x);
-		boolean outOfRange = (index < 0 || index >= plotData.get(0).size());
+		boolean outOfRange = (index < 0 || index >= plotData.getDataSize());
 
 		chartInfo.startInfo();
 		chartInfo.addInfo(getInfoInstrument(), "-fx-fill: black; -fx-font-weight: bold;");
@@ -314,12 +288,12 @@ public class ChartContainer {
 
 		// Iterate data lists.
 		if (!outOfRange) {
-			chartInfo.addInfo(getInfoTime(index), "-fx-fill: black;");
+			chartInfo.addInfo(getInfoTimeFromIndex(index), "-fx-fill: black;");
 			boolean black = false;
 			for (int i = 0; i < plotData.size(); i++) {
 				String color = (black ? "black" : "blue");
 				black = !black;
-				DataInfo info = plotData.get(i).getDataInfo();
+				DataInfo info = plotData.getDataInfo(i);
 				String text = "";
 				if (index >= 0 && index < plotData.get(i).size()) {
 					Data data = plotData.get(i).get(index);
@@ -331,13 +305,20 @@ public class ChartContainer {
 					chartInfo.addInfo(text, "-fx-fill: " + color + ";");
 				}
 			}
+		} else {
+			chartInfo.addInfo(getInfoTimeFromXCoord(x), "-fx-fill: black;");
 		}
 
 		// The cursor value.
 		if (y >= 0) {
 			chartInfo.addInfo(getInfoValue(context.getDataValue(y)), "-fx-fill: red;");
-			chartInfo.addInfo("(" + x + ", " + y + ")", "-fx-fill: black;");
 		}
+
+		// Number of visible bars.
+		int minIndex = plotData.getMinimumIndex();
+		int maxIndex = plotData.getMaximumIndex();
+		int numBars = maxIndex - minIndex + 1;
+		chartInfo.addInfo(" Bars " + numBars, "-fx-fill: blue;");
 
 		// Number of visible periods.
 		int startIndex = plotData.getStartIndex();
@@ -356,7 +337,7 @@ public class ChartContainer {
 	 */
 	private String getInfoInstrument() {
 		StringBuilder b = new StringBuilder();
-		b.append(plotData.get(0).getDataInfo().getInstrument().getId());
+		b.append(plotData.getDataInfo(0).getInstrument().getId());
 		return b.toString();
 	}
 
@@ -379,15 +360,93 @@ public class ChartContainer {
 	}
 
 	/**
-	 * Returns the time information given an idex.
+	 * Returns the time information given an index.
 	 * 
 	 * @param index The index.
 	 * @return The time information.
 	 */
-	private String getInfoTime(int index) {
-		StringBuilder b = new StringBuilder();
+	private String getInfoTimeFromIndex(int index) {
 		Data data = plotData.getData(0, index);
 		long time = data.getTime();
+		return getInfoTime(time);
+	}
+
+	/**
+	 * Returns the time information when the x coordinate is out of range.
+	 * 
+	 * @param x The mouse x coordinate.
+	 * @return The time information.
+	 */
+	private String getInfoTimeFromXCoord(double x) {
+		int index = chartPlotter.getContext().getDataIndex(x);
+		Period period = plotData.getPeriod();
+		Unit unit = period.getUnit();
+		int periods = period.getSize();
+		int firstIndex = 0;
+		int lastIndex = plotData.getDataSize() - 1;
+		long time = 0;
+		if (index < firstIndex) {
+			Data data = plotData.getData(0, firstIndex);
+			Calendar calendar = new Calendar(data.getTime());
+			while (index++ < firstIndex) {
+				addToCalendar(calendar, unit, -periods);
+			}
+			time = calendar.getTimeInMillis();
+		} else if (index > lastIndex) {
+			Data data = plotData.getData(0, lastIndex);
+			Calendar calendar = new Calendar(data.getTime());
+			while (index-- > lastIndex) {
+				addToCalendar(calendar, unit, periods);
+			}
+			time = calendar.getTimeInMillis();
+		}
+		return getInfoTime(time);
+	}
+
+	/**
+	 * Add the proper units to the calendar.
+	 * 
+	 * @param calendar The calendar.
+	 * @param unit The unit.
+	 * @param periods The number of units.
+	 */
+	private void addToCalendar(Calendar calendar, Unit unit, int periods) {
+		switch (unit) {
+		case MILLISECOND:
+			calendar.addMillis(periods);
+			break;
+		case SECOND:
+			calendar.addSeconds(periods);
+			break;
+		case MINUTE:
+			calendar.addMinutes(periods);
+			break;
+		case HOUR:
+			calendar.addHours(periods);
+			break;
+		case DAY:
+			calendar.addDays(periods);
+			break;
+		case WEEK:
+			calendar.addWeeks(periods);
+			break;
+		case MONTH:
+			calendar.addMonths(periods);
+			break;
+		case YEAR:
+			calendar.addYears(periods);
+			break;
+		}
+	}
+
+	/**
+	 * Returns the time information given the long timestamp.
+	 * 
+	 * @param time The timestamp.
+	 * @return The time information.
+	 */
+	private String getInfoTime(long time) {
+		StringBuilder b = new StringBuilder();
 		Timestamp timestamp = new Timestamp(time);
 		boolean year = true;
 		boolean month = true;

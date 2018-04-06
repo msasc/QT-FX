@@ -81,6 +81,10 @@
 	<entry key="tooltipStartTask">Start the current task</entry>
 	<entry key="tooltipCancelAllRunning">Cancel all running tasks</entry>
 	<entry key="tooltipResetTasks">Reset source tasks</entry>
+	<entry key="tooltipScrollBack">Scroll back</entry>
+	<entry key="tooltipScrollFront">Scroll front</entry>
+	<entry key="tooltipScrollEnd">Scroll to the end</entry>
+	<entry key="tooltipScrollStart">Scroll to the begining</entry>
 	
 	<entry key="taskCanCloseTitle">Task running check</entry>
 	<entry key="taskCanCloseMessage">There are tasks still running, stop them or wait terminated.</entry>

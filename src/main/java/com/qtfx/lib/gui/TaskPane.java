@@ -132,10 +132,10 @@ public class TaskPane {
 		Button button = new Button(TextServer.getString("buttonRemove"));
 		button.setTooltip(new Tooltip(TextServer.getString("tooltipRemoveInactive")));
 		button.setOnAction(e -> {
-			List<Task> tasks = getTasks();
-			for (Task task : tasks) {
-				if (!task.stateProperty().get().equals(State.RUNNING)) {
-					removeTask(task);
+			List<Task> taskTests = getTasks();
+			for (Task taskTest : taskTests) {
+				if (!taskTest.stateProperty().get().equals(State.RUNNING)) {
+					removeTask(taskTest);
 				}
 			}
 		});
@@ -151,10 +151,10 @@ public class TaskPane {
 		Button button = new Button(TextServer.getString("buttonStart"));
 		button.setTooltip(new Tooltip(TextServer.getString("tooltipStartNotRunning")));
 		button.setOnAction(e -> {
-			List<Task> tasks = getTasks();
-			for (Task task : tasks) {
-				if (!task.isRunning()) {
-					Bttn bttn = buttonsMap.get(task);
+			List<Task> taskTests = getTasks();
+			for (Task taskTest : taskTests) {
+				if (!taskTest.isRunning()) {
+					Bttn bttn = buttonsMap.get(taskTest);
 					if (bttn != null) {
 						bttn.execute.fire();
 					}
@@ -173,10 +173,10 @@ public class TaskPane {
 		Button button = new Button(TextServer.getString("buttonCancel"));
 		button.setTooltip(new Tooltip(TextServer.getString("tooltipCancelAllRunning")));
 		button.setOnAction(e -> {
-			List<Task> tasks = getTasks();
-			for (Task task : tasks) {
-				if (task.isRunning()) {
-					Bttn bttn = buttonsMap.get(task);
+			List<Task> taskTests = getTasks();
+			for (Task taskTest : taskTests) {
+				if (taskTest.isRunning()) {
+					Bttn bttn = buttonsMap.get(taskTest);
 					if (bttn != null) {
 						bttn.cancel.fire();
 					}
@@ -207,13 +207,13 @@ public class TaskPane {
 	/**
 	 * Add a task to be executed.
 	 * 
-	 * @param task The task.
+	 * @param taskTest The task.
 	 */
-	public void addTask(Task task) {
-		vbox.getChildren().add(getTaskPane(task));
+	public void addTask(Task taskTest) {
+		vbox.getChildren().add(getTaskPane(taskTest));
 		addSeparator();
-		if (!sourceTasks.contains(task)) {
-			sourceTasks.add(task);
+		if (!sourceTasks.contains(taskTest)) {
+			sourceTasks.add(taskTest);
 		}
 	}
 
@@ -232,33 +232,33 @@ public class TaskPane {
 	 * @return The list of tasks.
 	 */
 	public List<Task> getTasks() {
-		List<Task> tasks = new ArrayList<>();
+		List<Task> taskTests = new ArrayList<>();
 		for (int i = 0; i < vbox.getChildren().size(); i++) {
 			Node node = vbox.getChildren().get(i);
 			if (node instanceof Separator) {
 				continue;
 			}
-			Task task = (Task) FX.getObject(node, "task");
-			tasks.add(task);
+			Task taskTest = (Task) FX.getObject(node, "task");
+			taskTests.add(taskTest);
 		}
-		return tasks;
+		return taskTests;
 	}
 
 	/**
 	 * Remove the task.
 	 * 
-	 * @param task The task.
+	 * @param taskTest The task.
 	 */
-	public void removeTask(Task task) {
+	public void removeTask(Task taskTest) {
 		for (int i = 0; i < vbox.getChildren().size(); i++) {
 			Node node = vbox.getChildren().get(i);
 			if (node instanceof Separator) {
 				continue;
 			}
 			Task scan = (Task) FX.getObject(node, "task");
-			if (scan.equals(task)) {
+			if (scan.equals(taskTest)) {
 				vbox.getChildren().remove(i);
-				buttonsMap.remove(task);
+				buttonsMap.remove(taskTest);
 				break;
 			}
 		}
@@ -291,9 +291,9 @@ public class TaskPane {
 	 * @return A boolean.
 	 */
 	public boolean canClose() {
-		List<Task> tasks = getTasks();
-		for (Task task : tasks) {
-			if (task.isRunning()) {
+		List<Task> taskTests = getTasks();
+		for (Task taskTest : taskTests) {
+			if (taskTest.isRunning()) {
 				String title = TextServer.getString("taskCanCloseTitle");
 				String message = TextServer.getString("taskCanCloseMessage");
 				Alert.warning(title, message);
@@ -306,10 +306,10 @@ public class TaskPane {
 	/**
 	 * Return the grid pane that shows the task progress.
 	 * 
-	 * @param task The task.
+	 * @param taskTest The task.
 	 * @return The pane.
 	 */
-	private GridPane getTaskPane(Task task) {
+	private GridPane getTaskPane(Task taskTest) {
 
 		// The grid pane that will hold all the component.
 		GridPane grid = new GridPane();
@@ -327,7 +327,7 @@ public class TaskPane {
 		// Title label.
 		Label labelTitle = new Label();
 		labelTitle.setStyle("-fx-font-weight: bold;");
-		labelTitle.textProperty().bind(task.titleProperty());
+		labelTitle.textProperty().bind(taskTest.titleProperty());
 		grid.add(labelTitle, 0, row);
 
 		// Node 1, 0: buttons in an HBox.
@@ -382,25 +382,25 @@ public class TaskPane {
 		// Task message.
 		Label labelMessage = new Label();
 		labelMessage.setMaxWidth(Double.MAX_VALUE);
-		labelMessage.textProperty().bind(task.messageProperty());
+		labelMessage.textProperty().bind(taskTest.messageProperty());
 		grid.add(labelMessage, 0, row++, 2, 1);
 
 		// Progress message.
 		Label labelMessageProgress = new Label("Hello message progress");
 		labelMessageProgress.setMaxWidth(Double.MAX_VALUE);
-		labelMessageProgress.textProperty().bind(task.progressMessageProperty());
+		labelMessageProgress.textProperty().bind(taskTest.progressMessageProperty());
 		grid.add(labelMessageProgress, 0, row++, 2, 1);
 
 		// Time message.
 		Label labelMessageTime = new Label();
 		labelMessageTime.setMaxWidth(Double.MAX_VALUE);
-		labelMessageTime.textProperty().bind(task.timeMessageProperty());
+		labelMessageTime.textProperty().bind(taskTest.timeMessageProperty());
 		grid.add(labelMessageTime, 0, row++, 2, 1);
 
 		// State message.
 		Label labelState = new Label();
 		labelState.setMaxWidth(Double.MAX_VALUE);
-		labelState.textProperty().bind(new SimpleStringProperty("State: ").concat(task.stateProperty().asString()));
+		labelState.textProperty().bind(new SimpleStringProperty("State: ").concat(taskTest.stateProperty().asString()));
 		grid.add(labelState, 0, row++, 2, 1);
 
 		// Fifth line is for the progress bar.
@@ -410,7 +410,7 @@ public class TaskPane {
 		grid.add(progressBar, 0, row++, 2, 1);
 
 		// Additional message properties.
-		List<ReadOnlyStringProperty> messages = task.messageProperties();
+		List<ReadOnlyStringProperty> messages = taskTest.messageProperties();
 		for (ReadOnlyStringProperty message : messages) {
 			Label label = new Label();
 			label.setMaxWidth(Double.MAX_VALUE);
@@ -421,39 +421,39 @@ public class TaskPane {
 		// Setup button execute listener.
 		buttonExecute.setOnAction((EventHandler<ActionEvent>) e -> {
 			// When ready the button action submits the task.
-			if (!task.stateProperty().get().equals(State.RUNNING)) {
+			if (!taskTest.stateProperty().get().equals(State.RUNNING)) {
 				Platform.runLater(() -> {
-					progressBar.progressProperty().bind(task.progressProperty());
+					progressBar.progressProperty().bind(taskTest.progressProperty());
 				});
 
-				task.reinitialize();
-				pool.submit(task);
+				taskTest.reinitialize();
+				pool.submit(taskTest);
 			}
 		});
 
 		// Setup button cancel listener.
 		buttonCancel.setOnAction((EventHandler<ActionEvent>) e -> {
 			// When running, the button action cancels the current task.
-			if (task.stateProperty().get().equals(State.RUNNING)) {
-				task.cancel();
+			if (taskTest.stateProperty().get().equals(State.RUNNING)) {
+				taskTest.cancel();
 			}
 		});
 
 		// Setup button info listener.
 		buttonInfo.setOnAction((EventHandler<ActionEvent>) e -> {
-			showException(task);
+			showException(taskTest);
 		});
 
 		// Setup button close.
 		buttonClose.setOnAction((EventHandler<ActionEvent>) e -> {
-			if (task.stateProperty().get().equals(State.RUNNING)) {
+			if (taskTest.stateProperty().get().equals(State.RUNNING)) {
 				return;
 			}
-			removeTask(task);
+			removeTask(taskTest);
 		});
 
 		// Setup task state listener.
-		task.stateProperty().addListener((observable, oldValue, newValue) -> {
+		taskTest.stateProperty().addListener((observable, oldValue, newValue) -> {
 
 			// Entering the running state.
 			if (newValue.equals(State.RUNNING)) {
@@ -466,7 +466,7 @@ public class TaskPane {
 			if (oldValue.equals(State.RUNNING)) {
 
 				// If the task is indeterminate, unbind the progress bar to set the value to zero and stop flowing.
-				if (task.totalWorkProperty().get() < 0) {
+				if (taskTest.totalWorkProperty().get() < 0) {
 					progressBar.progressProperty().unbind();
 					progressBar.setProgress(0);
 				}
@@ -486,9 +486,9 @@ public class TaskPane {
 		});
 
 		// Map buttons.
-		buttonsMap.put(task, new Bttn(buttonExecute, buttonCancel, buttonInfo, buttonClose));
+		buttonsMap.put(taskTest, new Bttn(buttonExecute, buttonCancel, buttonInfo, buttonClose));
 
-		FX.setObject(grid, "task", task);
+		FX.setObject(grid, "task", taskTest);
 		return grid;
 	}
 
@@ -498,9 +498,9 @@ public class TaskPane {
 	/**
 	 * Show the exception if any.
 	 */
-	private void showException(Task task) {
+	private void showException(Task taskTest) {
 
-		Throwable exc = task.getException();
+		Throwable exc = taskTest.getException();
 		if (exc == null) {
 			return;
 		}

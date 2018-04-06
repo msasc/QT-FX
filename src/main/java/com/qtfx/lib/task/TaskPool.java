@@ -32,7 +32,7 @@ public class TaskPool extends Task {
 	/**
 	 * Counter task.
 	 */
-	class Counter extends TaskAdapter {
+	class Counter extends Task {
 		TaskRun task;
 
 		Counter(TaskRun task) {
@@ -50,6 +50,11 @@ public class TaskPool extends Task {
 			} finally {
 				getLock().unlock();
 			}
+		}
+
+		@Override
+		public boolean isIndeterminate() {
+			return false;
 		}
 	}
 
@@ -163,8 +168,8 @@ public class TaskPool extends Task {
 	public boolean isIndeterminate() {
 		if (indeterminate == null) {
 			indeterminate = false;
-			for (Task task : tasks) {
-				if (task.isIndeterminate()) {
+			for (Task taskTest : tasks) {
+				if (taskTest.isIndeterminate()) {
 					indeterminate = true;
 					break;
 				}

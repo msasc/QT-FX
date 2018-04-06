@@ -68,9 +68,15 @@ public interface Icons {
 	
 	String FLAT_24x24_CANCEL = "resources/images/flat/24x24/cancel.png";
 	String FLAT_24x24_CLOSE = "resources/images/flat/24x24/close.png";
+	String FLAT_24x24_END = "resources/images/flat/24x24/end.png";
 	String FLAT_24x24_INFO = "resources/images/flat/24x24/info.png";
 	String FLAT_24x24_PAUSE = "resources/images/flat/24x24/pause.png";
 	String FLAT_24x24_EXECUTE = "resources/images/flat/24x24/resume.png";
+	
+	String FLAT_24x24_SCROLL_BACK = "resources/images/flat/24x24/scroll-back.png";
+	String FLAT_24x24_SCROLL_FRONT = "resources/images/flat/24x24/scroll-front.png";
+	String FLAT_24x24_SCROLL_START = "resources/images/flat/24x24/scroll-start.png";
+	String FLAT_24x24_SCROLL_END = "resources/images/flat/24x24/scroll-end.png";
 	
 	///////////////////////////////////
 	// Very flat and simple icons 16x16

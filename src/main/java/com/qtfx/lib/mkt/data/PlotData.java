@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.qtfx.lib.mkt.chart.plotter.data.DataPlotter;
+import com.qtfx.lib.mkt.data.info.DataInfo;
 import com.qtfx.lib.util.Numbers;
 
 /**
@@ -41,39 +42,24 @@ public class PlotData implements Iterable<DataList> {
 	private double maximumValue = Numbers.MIN_DOUBLE;
 	/** The minimum value to plot (retrieving dataBag from start index to end index). */
 	private double minimumValue = Numbers.MAX_DOUBLE;
+	/** The maximum data index. */
+	private int maximumIndex = Numbers.MIN_INTEGER;
+	/** The minimum data index. */
+	private int minimumIndex = Numbers.MAX_INTEGER;
 
 	/** The scale to plot the data. */
 	private PlotScale plotScale = PlotScale.LINEAR;
 
-	/** Optional name of this plot data. */
-	private String name;
+	/**
+	 * Minimum number of visible bars to ensure that scrolls, zooms and other movements always leave them visible.
+	 */
+	private int minimumVisibleData = 5;
 
 	/**
 	 * Default constructor.
 	 */
 	public PlotData() {
 		super();
-	}
-
-	/**
-	 * Returns the name.
-	 * 
-	 * @return The name.
-	 */
-	public String getName() {
-		if (name == null) {
-			return toString();
-		}
-		return name;
-	}
-
-	/**
-	 * Set the name.
-	 * 
-	 * @param name The name.
-	 */
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	/**
@@ -125,22 +111,6 @@ public class PlotData implements Iterable<DataList> {
 	}
 
 	/**
-	 * Returns the list of first level indicator data lists to plot from scratch.
-	 * 
-	 * @return The list of first level indicator data lists to plot from scratch.
-	 */
-	public List<DataList> getDataListsIndicatorToPlotFromScratch() {
-		List<DataList> fromScratch = new ArrayList<>();
-		List<IndicatorDataList> firstLevel = DataList.getIndicatorDataLists(dataLists);
-		for (IndicatorDataList dataList : firstLevel) {
-			if (dataList.isPlotFromScratch()) {
-				fromScratch.add(dataList);
-			}
-		}
-		return fromScratch;
-	}
-
-	/**
 	 * Returns all the data lists.
 	 * 
 	 * @return All the data lists.
@@ -150,35 +120,22 @@ public class PlotData implements Iterable<DataList> {
 	}
 
 	/**
-	 * Returns the list of first level indicator data lists to plot the clip area.
+	 * Return the data size or size of the first data list.
 	 * 
-	 * @return The list of first level indicator data lists to plot the clip area.
+	 * @return The data size.
 	 */
-	public List<DataList> getDataListsIndicatorToPlotClip() {
-		List<DataList> fromScratch = new ArrayList<>();
-		List<IndicatorDataList> firstLevel = DataList.getIndicatorDataLists(dataLists);
-		for (IndicatorDataList dataList : firstLevel) {
-			if (!dataList.isPlotFromScratch()) {
-				fromScratch.add(dataList);
-			}
-		}
-		return fromScratch;
+	public int getDataSize() {
+		return dataLists.get(0).size();
 	}
 
 	/**
-	 * Return the data lists that are not indicator data lists.
+	 * Return the data info of the list.
 	 * 
-	 * @return The data lists.
+	 * @param dataList The data list.
+	 * @return The data info.
 	 */
-	public List<DataList> getDataListsNonIndicator() {
-		List<DataList> nonIndicatorDataLists = new ArrayList<>();
-		for (int i = 0; i < size(); i++) {
-			DataList dataList = get(i);
-			if (!(dataList instanceof IndicatorDataList)) {
-				nonIndicatorDataLists.add(dataList);
-			}
-		}
-		return nonIndicatorDataLists;
+	public DataInfo getDataInfo(int dataList) {
+		return get(dataList).getDataInfo();
 	}
 
 	/**
@@ -219,14 +176,6 @@ public class PlotData implements Iterable<DataList> {
 			endIndex = size - 1;
 			startIndex = 0;
 		}
-	}
-
-	/**
-	 * Clear this plot data.
-	 */
-	public void clear() {
-		dataLists.clear();
-		setStartAndEndIndexes();
 	}
 
 	/**
@@ -281,7 +230,7 @@ public class PlotData implements Iterable<DataList> {
 		if (isEmpty()) {
 			return null;
 		}
-		return get(0).getDataInfo().getPeriod();
+		return getDataInfo(0).getPeriod();
 	}
 
 	/**
@@ -309,7 +258,7 @@ public class PlotData implements Iterable<DataList> {
 	 */
 	public void setIndexes(int periods) {
 		if (!isEmpty()) {
-			int size = get(0).size();
+			int size = getDataSize();
 			int endIndex = size - 1;
 			int startIndex = endIndex - periods + 1;
 			if (startIndex < 0) {
@@ -340,9 +289,9 @@ public class PlotData implements Iterable<DataList> {
 	}
 
 	/**
-	 * Sets the start index to plot.
+	 * Sets the start index to plot.Drag
 	 * 
-	 * @param startIndex The start index t plot.
+	 * @param startIndex The start index t plot.Drag
 	 */
 	private void setStartIndex(int startIndex) {
 		this.startIndex = startIndex;
@@ -376,15 +325,6 @@ public class PlotData implements Iterable<DataList> {
 	}
 
 	/**
-	 * Sets the maximum value to plot.
-	 * 
-	 * @param maximumValue The maximum value.
-	 */
-	public void setMaximumValue(double maximumValue) {
-		this.maximumValue = maximumValue;
-	}
-
-	/**
 	 * Returns the minimum value to plot.
 	 * 
 	 * @return The minimum value.
@@ -394,12 +334,21 @@ public class PlotData implements Iterable<DataList> {
 	}
 
 	/**
-	 * Sets the minimum value to plot.
+	 * Returns the maximum index to plot.
 	 * 
-	 * @param minimumValue The minimum value.
+	 * @return The maximum index.
 	 */
-	public void setMinimumValue(double minimumValue) {
-		this.minimumValue = minimumValue;
+	public int getMaximumIndex() {
+		return maximumIndex;
+	}
+
+	/**
+	 * Returns the minimum index plot.
+	 * 
+	 * @return The minimum index.
+	 */
+	public int getMinimumIndex() {
+		return minimumIndex;
 	}
 
 	/**
@@ -512,9 +461,11 @@ public class PlotData implements Iterable<DataList> {
 		// Ensure that indicators are calculated up to the start index minus one.
 		ensureIndicatorsCalculated();
 
-		int dataSize = get(0).size();
+		int dataSize = getDataSize();
 		double maxValue = Numbers.MIN_DOUBLE;
 		double minValue = Numbers.MAX_DOUBLE;
+		int maxIndex = Numbers.MIN_INTEGER;
+		int minIndex = Numbers.MAX_INTEGER;
 		for (int i = startIndex; i < endIndex; i++) {
 			if (i < 0 || i >= dataSize) {
 				continue;
@@ -523,6 +474,12 @@ public class PlotData implements Iterable<DataList> {
 				Data data = dataList.get(i);
 				if (data == null || !data.isValid()) {
 					continue;
+				}
+				if (i > maxIndex) {
+					maxIndex = i;
+				}
+				if (i < minIndex) {
+					minIndex = i;
 				}
 				List<DataPlotter> dataPlotters = dataList.getDataPlotters();
 				for (DataPlotter dataPlotter : dataPlotters) {
@@ -539,9 +496,11 @@ public class PlotData implements Iterable<DataList> {
 			}
 		}
 
-		// Assign calculated min and max values.
+		// Assign calculated minimum and maximum values and indexes.
 		minimumValue = minValue;
 		maximumValue = maxValue;
+		minimumIndex = minIndex;
+		maximumIndex = maxIndex;
 	}
 
 	/**
@@ -551,7 +510,7 @@ public class PlotData implements Iterable<DataList> {
 	 */
 	public void move(int index) {
 		int minIndex = 0;
-		int maxIndex = get(0).size() - 1;
+		int maxIndex = getDataSize() - 1;
 		if (index < minIndex || index > maxIndex) {
 			return;
 		}
@@ -576,7 +535,7 @@ public class PlotData implements Iterable<DataList> {
 
 		// Min/max indexes.
 		int minIndex = 0;
-		int maxIndex = get(0).size() - 1;
+		int maxIndex = getDataSize() - 1;
 
 		// Current start and end indexes.
 		int startIndex = this.startIndex;
@@ -617,9 +576,7 @@ public class PlotData implements Iterable<DataList> {
 	 * <li>If the number of periods to scroll is negative, the <i>startIndex</i> and <i>endIndex</i> decrease, moving
 	 * the plot to the right.</li>
 	 * <li>If the number is positive, reverse the policy.</li>
-	 * <li>The limit to scroll is to leave at least one visible bar. If <i>periods</i> is negative, <i>endIndex</i> has
-	 * to be greater or equal to zero.</li>
-	 * <li>If <i>periods</i> is positive, <i>startIndex</i> has to less than the data size.</li>
+	 * <li>The limit to scroll is to leave at least the minimum number of visible bars.</li>
 	 * </ul>
 	 * 
 	 * @param periods The number of periods to scroll.
@@ -632,18 +589,67 @@ public class PlotData implements Iterable<DataList> {
 		if (periods == 0) {
 			return false;
 		}
-		if (get(0).isEmpty()) {
+		int dataSize = getDataSize();
+		if (dataSize == 0) {
 			return false;
 		}
-		int dataSize = get(0).size();
-		int periodsToScroll;
-		if (periods < 0) {
-			periodsToScroll = (-1) * Math.min(endIndex, Math.abs(periods));
-		} else {
-			periodsToScroll = Math.min(periods, dataSize - startIndex - 1);
+
+		// Ensure at least the minimum number of visible bars on the left or on the right.
+		// Check bars on the left and scroll left.
+		if (maximumIndex == getDataSize() - 1 && periods > 0) {
+			int currentVisible = maximumIndex - minimumIndex + 1;
+			if (currentVisible - periods < minimumVisibleData) {
+				periods = currentVisible - minimumVisibleData;
+			}
 		}
-		startIndex += periodsToScroll;
-		endIndex += periodsToScroll;
+		// Check bars on the right and scroll right.
+		if (minimumIndex == 0 && periods < 0) {
+			int currentVisible = maximumIndex - minimumIndex + 1;
+			if (currentVisible + periods < minimumVisibleData) {
+				periods = -(currentVisible - minimumVisibleData);
+			}
+		}
+
+		startIndex += periods;
+		endIndex += periods;
+		return true;
+	}
+
+	/**
+	 * Scroll to the end of data leaving a minimum visible data margin.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean scrollEnd() {
+		if (isEmpty()) {
+			return false;
+		}
+		int dataSize = getDataSize();
+		if (dataSize == 0) {
+			return false;
+		}
+		int currentVisible = endIndex - startIndex + 1;
+		endIndex = dataSize - 1 + minimumVisibleData;
+		startIndex = endIndex - currentVisible + 1;
+		return true;
+	}
+
+	/**
+	 * Scroll to the start of data leaving a minimum visible data margin.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean scrollStart() {
+		if (isEmpty()) {
+			return false;
+		}
+		int dataSize = getDataSize();
+		if (dataSize == 0) {
+			return false;
+		}
+		int currentVisible = endIndex - startIndex + 1;
+		startIndex = 0 - minimumVisibleData + 1;
+		endIndex = startIndex + currentVisible - 1;
 		return true;
 	}
 
@@ -674,7 +680,7 @@ public class PlotData implements Iterable<DataList> {
 		if (get(0).isEmpty()) {
 			return false;
 		}
-		int dataSize = get(0).size();
+		int dataSize = getDataSize();
 		boolean zoomOut = (periods < 0);
 		boolean zoomIn = !zoomOut;
 		periods = Math.abs(periods);
@@ -710,8 +716,8 @@ public class PlotData implements Iterable<DataList> {
 		// Zoom in: always zoom, with the limit that indexes do not overlap and leaving at least one visible bar.
 		if (zoomIn) {
 
-			if (endIndex - startIndex + 1 <= 20) {
-//				return false;
+			if (endIndex - startIndex + 1 <= minimumVisibleData) {
+				return false;
 			}
 
 			// If start and end indexes are the same, do nothing.
@@ -768,10 +774,10 @@ public class PlotData implements Iterable<DataList> {
 	}
 
 	/**
-	 * Check that indexes do not overlap.
+	 * Check that indexes do not overlap and ensure that at least there are
 	 */
 	private void checkIndexes() {
-		int dataSize = get(0).size();
+		int dataSize = getDataSize();
 		if (endIndex < startIndex) {
 			endIndex = startIndex;
 		}

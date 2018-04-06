@@ -1,2 +1,2 @@
-2018-02-27 17:10:40 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
-2018-02-27 17:10:42 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.
+2018-04-05 17:14:11 ERROR com.dukascopy.api.instrument.InstrumentParser - Received pip value is different than embedded for instrument [USD/CZK]
+2018-04-05 17:14:14 ERROR com.dukascopy.dds2.greed.market.LiveCurrencyMarketProcessor - Cannot create the LiveCurrencyMarketProcessor, the properties is null.

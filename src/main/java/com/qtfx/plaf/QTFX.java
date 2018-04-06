@@ -271,8 +271,8 @@ public class QTFX extends Application {
 		primaryStage.setScene(scene);
 
 		// Factor dimensions
-		primaryStage.setWidth(Screen.getPrimary().getBounds().getWidth() * 0.6);
-		primaryStage.setHeight(Screen.getPrimary().getBounds().getHeight() * 0.6);
+		primaryStage.setWidth(Screen.getPrimary().getBounds().getWidth() * 0.9);
+		primaryStage.setHeight(Screen.getPrimary().getBounds().getHeight() * 0.9);
 		primaryStage.centerOnScreen();
 
 		// Full screen mode -> Ctrl-F11.

@@ -69,17 +69,19 @@ public class ChartInfo {
 		// Node 1, 0: buttons in an HBox.
 		HBox hbox = new HBox(2);
 		pane.add(hbox, 1, 0);
+		
 		// Close button.
 		Button buttonClose = new Button();
 		buttonClose.setDefaultButton(false);
 		buttonClose.setCancelButton(false);
-		buttonClose.setGraphic(Icons.get(Icons.FLAT_16x16_CLOSE));
+		buttonClose.setGraphic(Icons.get(Icons.FLAT_24x24_CLOSE));
 		buttonClose.setPadding(new Insets(0, 0, 0, 0));
 		buttonClose.setTooltip(new Tooltip(TextServer.getString("tooltipRemoveChart")));
 		buttonClose.setStyle("-fx-content-display: graphic-only;");
 		buttonClose.setOnAction(e -> {
 			this.container.getChart().removeContainer(this.container);
 		});
+		
 		hbox.getChildren().add(buttonClose);
 	}
 

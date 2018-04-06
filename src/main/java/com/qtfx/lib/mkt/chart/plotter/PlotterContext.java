@@ -199,7 +199,7 @@ public class PlotterContext {
 		// The y coordinate relative to the plot area.
 		double yRelative = y - chartInsets.getTop();
 
-		// Minimum and maximum values.
+		// Minimum andDrag maximum values.
 		double minimumValue = plotData.getMinimumValue();
 		double maximumValue = plotData.getMaximumValue();
 
@@ -217,6 +217,9 @@ public class PlotterContext {
 		// Apply the inverse scale if necessary.
 		if (plotData.getPlotScale().equals(PlotScale.LOGARITHMIC)) {
 			value = Math.pow(Math.E, value);
+		}
+		if (Double.isInfinite(value) || Double.isNaN(value)) {
+			return value;
 		}
 
 		int tickScale = plotData.getTickScale();
@@ -238,4 +241,49 @@ public class PlotterContext {
 		return x;
 	}
 
+	/**
+	 * Returns the dimension of the plotter that generated this context.
+	 * 
+	 * @return The dimension.
+	 */
+	public Dimension2D getSize() {
+		double width = chartInsets.getLeft() + chartWidth + chartInsets.getRight();
+		double height = chartInsets.getTop() + chartWidth + chartInsets.getBottom();
+		return new Dimension2D(width, height);
+	}
+
+	/**
+	 * Returns the maximum X value on the pane once retrieved the insets.
+	 * 
+	 * @return The maximum X.
+	 */
+	public double getMaxX() {
+		return getSize().getWidth() - chartInsets.getRight();
+	}
+	/**
+	 * Returns the maximum Y value on the pane once retrieved the insets.
+	 * 
+	 * @return The maximum Y.
+	 */
+	public double getMaxY() {
+		return getSize().getHeight() - chartInsets.getBottom();
+	}
+
+	/**
+	 * Returns the minimum X value on the pane once retrieved the insets.
+	 * 
+	 * @return The minimum X.
+	 */
+	public double getMinX() {
+		return chartInsets.getLeft();
+	}
+
+	/**
+	 * Returns the minimum Y value on the pane once retrieved the insets.
+	 * 
+	 * @return The minimum Y.
+	 */
+	public double getMinY() {
+		return chartInsets.getTop();
+	}
 }
