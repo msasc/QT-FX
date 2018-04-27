@@ -16,10 +16,10 @@ package com.qtfx.gui;
 
 import java.util.List;
 
+import com.qtfx.lib.app.TextServer;
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.gui.LookupRecords;
 import com.qtfx.lib.util.Random;
-import com.qtfx.lib.util.TextServer;
 import com.qtfx.util.Util;
 
 import javafx.application.Application;

@@ -14,6 +14,9 @@
 
 package com.qtfx.plaf.task;
 
+import java.util.Locale;
+
+import com.qtfx.lib.app.TextServer;
 import com.qtfx.lib.db.Condition;
 import com.qtfx.lib.db.Criteria;
 import com.qtfx.lib.db.Field;
@@ -31,7 +34,6 @@ import com.qtfx.lib.mkt.data.Period;
 import com.qtfx.lib.mkt.server.DataIterator;
 import com.qtfx.lib.mkt.server.Server;
 import com.qtfx.lib.task.Task;
-import com.qtfx.lib.util.TextServer;
 import com.qtfx.plaf.ServerConnector;
 import com.qtfx.plaf.db.Database;
 import com.qtfx.plaf.db.Fields;
@@ -74,19 +76,20 @@ public class TaskDownloadTicker extends Task {
 		Period period,
 		OfferSide offerSide,
 		Filter filter) {
-		super();
+		super(Locale.getDefault());
 		this.database = database;
 		this.server = server;
 		this.instrument = instrument;
 		this.period = period;
 		this.offerSide = offerSide;
 		this.filter = filter;
-		
+
 		StringBuilder title = new StringBuilder();
-		title.append(TextServer.getString("buttonDownload") + " " + instrument.getId() + " " + period.toString());
+		String sdownload = TextServer.getString("buttonDownload");
+		title.append(sdownload + " " + instrument.getId() + " " + period.toString());
 		setTitle(title.toString());
 	}
-	
+
 	private long getTimeOfLastDowloaded() throws PersistorException {
 		Order order = new Order();
 		order.add(persistor.getField(Fields.TIME), false);
@@ -101,7 +104,7 @@ public class TaskDownloadTicker extends Task {
 		}
 		return -1;
 	}
-	
+
 	private void deleteFrom(long timeFrom) throws PersistorException {
 		Field fTIME = persistor.getField(Fields.TIME);
 		Value vTIME = new Value(timeFrom);
@@ -109,7 +112,7 @@ public class TaskDownloadTicker extends Task {
 		criteria.add(Condition.fieldGE(fTIME, vTIME));
 		persistor.delete(criteria);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -118,7 +121,7 @@ public class TaskDownloadTicker extends Task {
 		updateCounting();
 		persistor = new DataPersistor(database.getPersistor_DataPrice(server, instrument, period));
 		ServerConnector.connect(server);
-		
+
 		long timeFrom = getTimeOfLastDowloaded();
 		if (timeFrom < 0) {
 			timeFrom = server.getHistoryManager().getTimeOfFirstData(instrument, period);
@@ -126,9 +129,9 @@ public class TaskDownloadTicker extends Task {
 		long timeTo = server.getHistoryManager().getTimeOfLastData(instrument, period, filter);
 		long steps = timeTo - timeFrom;
 		deleteFrom(timeFrom);
-		
-		DataIterator i = 
-			server.getHistoryManager().getDataIterator(instrument, period, offerSide, filter, timeFrom, timeTo);
+
+		DataIterator i = server.getHistoryManager().getDataIterator(instrument, period, offerSide, filter, timeFrom,
+			timeTo);
 		while (i.hasNext()) {
 			if (isCancelled()) {
 				break;

@@ -14,12 +14,10 @@
 
 package com.qtfx.lib.gui;
 
-import java.util.Locale;
-
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.RecordSet;
-import com.qtfx.lib.util.TextServer;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,20 +47,20 @@ public class LookupRecords {
 	 * Constructor.
 	 * 
 	 * @param masterRecord The master record.
+	 * @param locale The locale.
 	 */
 	public LookupRecords(Record masterRecord) {
-		this(masterRecord, Locale.getDefault());
+		super();
+		this.tableRecordPane = new TableRecordPane(masterRecord);
 	}
 
 	/**
-	 * Constructor.
+	 * Return the working session.
 	 * 
-	 * @param masterRecord The master record.
-	 * @param locale The locale.
+	 * @return The session.
 	 */
-	public LookupRecords(Record masterRecord, Locale locale) {
-		super();
-		this.tableRecordPane = new TableRecordPane(masterRecord, locale);
+	public Session getSession() {
+		return tableRecordPane.getSession();
 	}
 
 	/**
@@ -129,7 +127,7 @@ public class LookupRecords {
 	public void setRecordSet(RecordSet recordSet) {
 		tableRecordPane.setRecordSet(recordSet);
 	}
-	
+
 	/**
 	 * Clear selected indices.
 	 */
@@ -206,7 +204,8 @@ public class LookupRecords {
 	 * @param selectionMode The selection mode.
 	 * @return The list of selected records, can be empty.
 	 */
-	private ObservableList<Record>
+	private
+		ObservableList<Record>
 		lookupRecords(Window owner, SelectionMode selectionMode) {
 
 		// Set records and selection mode.
@@ -219,20 +218,20 @@ public class LookupRecords {
 		}
 		tableRecordPane.setPadding(new Insets(10, 10, 0, 10));
 
-		Dialog dialog = new Dialog(owner);
+		Dialog dialog = new Dialog(getSession(), owner);
 		if (title != null) {
 			dialog.setTitle(title);
 		} else {
-			dialog.setTitle(TextServer.getString("defaultRecordSelection", tableRecordPane.getLocale()));
+			dialog.setTitle(getSession().getString("defaultRecordSelection"));
 		}
 		dialog.getButtonPane().setPadding(new Insets(5, 10, 10, 10));
 		dialog.setCenter(tableRecordPane.getNode());
 		dialog.addPropertySetter(tableRecordPane.getPropertySetter());
-		Button select = Buttons.buttonSelect(tableRecordPane.getLocale());
-		Button cancel = Buttons.buttonCancel(tableRecordPane.getLocale());
+		Button select = Buttons.SELECT(getSession());
+		Button cancel = Buttons.CANCEL(getSession());
 		dialog.getButtonPane().getButtons().add(select);
 		dialog.getButtonPane().getButtons().add(cancel);
-		
+
 		tableRecordPane.getTableView().setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER) {
 				select.fire();

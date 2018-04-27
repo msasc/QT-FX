@@ -17,6 +17,7 @@ package com.qtfx.plaf.action;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qtfx.lib.app.TextServer;
 import com.qtfx.lib.db.Persistor;
 import com.qtfx.lib.db.PersistorException;
 import com.qtfx.lib.db.Record;
@@ -24,7 +25,6 @@ import com.qtfx.lib.db.RecordSet;
 import com.qtfx.lib.gui.TableRecordPane;
 import com.qtfx.lib.gui.action.handlers.ActionEventHandler;
 import com.qtfx.lib.mkt.server.Server;
-import com.qtfx.lib.util.TextServer;
 import com.qtfx.plaf.QTFX;
 import com.qtfx.plaf.db.Fields;
 

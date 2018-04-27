@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.task.JoinPool;
 import com.qtfx.lib.task.State;
 import com.qtfx.lib.task.Task;
 import com.qtfx.lib.util.Icons;
-import com.qtfx.lib.util.TextServer;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -82,24 +82,32 @@ public class TaskPane {
 
 	/** Task-buttons maps. */
 	private Map<Task, Bttn> buttonsMap = new HashMap<>();
-	
+
 	/** List of original tasks. */
 	private List<Task> sourceTasks = new ArrayList<>();
-	
+
+	/** Working session. */
+	private Session session;
+
 	/**
 	 * Constructor.
+	 * 
+	 * @param session The session.
 	 */
-	public TaskPane() {
-		this(Runtime.getRuntime().availableProcessors());
+	public TaskPane(Session session) {
+		this(session, Runtime.getRuntime().availableProcessors());
 	}
 
 	/**
 	 * Constructor.
 	 * 
+	 * @param session The session.
 	 * @param concurrency Concurrency factor.
 	 */
-	public TaskPane(int concurrency) {
+	public TaskPane(Session session, int concurrency) {
 		super();
+		this.session = session;
+
 		borderPane = new BorderPane();
 		FX.setObject(borderPane, "task-pane", this);
 
@@ -124,13 +132,22 @@ public class TaskPane {
 	}
 
 	/**
+	 * Return the session.
+	 * 
+	 * @return The session.
+	 */
+	public Session getSession() {
+		return session;
+	}
+
+	/**
 	 * Return the button to remove inactive tasks.
 	 * 
 	 * @return The button.
 	 */
 	public Button getButtonRemove() {
-		Button button = new Button(TextServer.getString("buttonRemove"));
-		button.setTooltip(new Tooltip(TextServer.getString("tooltipRemoveInactive")));
+		Button button = new Button(getSession().getString("buttonRemove"));
+		button.setTooltip(new Tooltip(getSession().getString("tooltipRemoveInactive")));
 		button.setOnAction(e -> {
 			List<Task> taskTests = getTasks();
 			for (Task taskTest : taskTests) {
@@ -148,8 +165,8 @@ public class TaskPane {
 	 * @return The button.
 	 */
 	public Button getButtonStart() {
-		Button button = new Button(TextServer.getString("buttonStart"));
-		button.setTooltip(new Tooltip(TextServer.getString("tooltipStartNotRunning")));
+		Button button = new Button(getSession().getString("buttonStart"));
+		button.setTooltip(new Tooltip(getSession().getString("tooltipStartNotRunning")));
 		button.setOnAction(e -> {
 			List<Task> taskTests = getTasks();
 			for (Task taskTest : taskTests) {
@@ -170,8 +187,8 @@ public class TaskPane {
 	 * @return The button.
 	 */
 	public Button getButtonCancel() {
-		Button button = new Button(TextServer.getString("buttonCancel"));
-		button.setTooltip(new Tooltip(TextServer.getString("tooltipCancelAllRunning")));
+		Button button = new Button(getSession().getString("buttonCancel"));
+		button.setTooltip(new Tooltip(getSession().getString("tooltipCancelAllRunning")));
 		button.setOnAction(e -> {
 			List<Task> taskTests = getTasks();
 			for (Task taskTest : taskTests) {
@@ -294,9 +311,9 @@ public class TaskPane {
 		List<Task> taskTests = getTasks();
 		for (Task taskTest : taskTests) {
 			if (taskTest.isRunning()) {
-				String title = TextServer.getString("taskCanCloseTitle");
-				String message = TextServer.getString("taskCanCloseMessage");
-				Alert.warning(title, message);
+				String title = getSession().getString("taskCanCloseTitle");
+				String message = getSession().getString("taskCanCloseMessage");
+				Alert.warning(getSession(), title, message);
 				return false;
 			}
 		}
@@ -339,7 +356,7 @@ public class TaskPane {
 		buttonExecute.setCancelButton(false);
 		buttonExecute.setGraphic(Icons.get(Icons.FLAT_24x24_EXECUTE));
 		buttonExecute.setPadding(new Insets(0, 0, 0, 0));
-		buttonExecute.setTooltip(new Tooltip(TextServer.getString("tooltipStartTask")));
+		buttonExecute.setTooltip(new Tooltip(getSession().getString("tooltipStartTask")));
 		buttonExecute.setStyle("-fx-content-display: graphic-only;");
 		hboxButtons.getChildren().add(buttonExecute);
 
@@ -349,7 +366,7 @@ public class TaskPane {
 		buttonCancel.setCancelButton(false);
 		buttonCancel.setGraphic(Icons.get(Icons.FLAT_24x24_CANCEL));
 		buttonCancel.setPadding(new Insets(0, 0, 0, 0));
-		buttonCancel.setTooltip(new Tooltip(TextServer.getString("tooltipCancelTask")));
+		buttonCancel.setTooltip(new Tooltip(getSession().getString("tooltipCancelTask")));
 		buttonCancel.setStyle("-fx-content-display: graphic-only;");
 		buttonCancel.setDisable(true);
 		hboxButtons.getChildren().add(buttonCancel);
@@ -360,7 +377,7 @@ public class TaskPane {
 		buttonInfo.setCancelButton(false);
 		buttonInfo.setGraphic(Icons.get(Icons.FLAT_24x24_INFO));
 		buttonInfo.setPadding(new Insets(0, 0, 0, 0));
-		buttonInfo.setTooltip(new Tooltip(TextServer.getString("tooltipErrorInfoTask")));
+		buttonInfo.setTooltip(new Tooltip(getSession().getString("tooltipErrorInfoTask")));
 		buttonInfo.setStyle("-fx-content-display: graphic-only;");
 		buttonInfo.setDisable(true);
 		hboxButtons.getChildren().add(buttonInfo);
@@ -371,7 +388,7 @@ public class TaskPane {
 		buttonClose.setCancelButton(false);
 		buttonClose.setGraphic(Icons.get(Icons.FLAT_24x24_CLOSE));
 		buttonClose.setPadding(new Insets(0, 0, 0, 0));
-		buttonClose.setTooltip(new Tooltip(TextServer.getString("tooltipCloseTask")));
+		buttonClose.setTooltip(new Tooltip(getSession().getString("tooltipCloseTask")));
 		buttonClose.setStyle("-fx-content-display: graphic-only;");
 		buttonClose.setDisable(false);
 		hboxButtons.getChildren().add(buttonClose);
@@ -506,11 +523,11 @@ public class TaskPane {
 		}
 
 		Scene scene = vbox.getScene();
-		Dialog dialog = new Dialog(scene != null ? scene.getWindow() : null);
+		Dialog dialog = new Dialog(getSession(), scene != null ? scene.getWindow() : null);
 		dialog.setButtonsBottom();
-		dialog.setTitle(TextServer.getString("taskException"));
+		dialog.setTitle(getSession().getString("taskException"));
 		dialog.getButtonPane().setPadding(new Insets(0, 10, 10, 10));
-		dialog.getButtonPane().getButtons().add(Buttons.buttonOk());
+		dialog.getButtonPane().getButtons().add(Buttons.OK(getSession()));
 
 		VBox vbox = new VBox(10);
 		vbox.setPadding(new Insets(10, 10, 10, 10));

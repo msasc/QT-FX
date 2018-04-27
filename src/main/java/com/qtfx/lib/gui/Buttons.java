@@ -14,9 +14,7 @@
 
 package com.qtfx.lib.gui;
 
-import java.util.Locale;
-
-import com.qtfx.lib.util.TextServer;
+import com.qtfx.lib.app.Session;
 
 import javafx.scene.control.Button;
 
@@ -28,46 +26,144 @@ import javafx.scene.control.Button;
  */
 public class Buttons {
 
-	/** Id for the ACCEPT button. */
-	public static final String ID_ACCEPT = "ACCEPT";
-	/** Id for the APPLY button. */
-	public static final String ID_APPLY = "APPLY";
-	/** Id for the CANCEL button. */
-	public static final String ID_CANCEL = "CANCEL";
-	/** Id for the CLOSE button. */
-	public static final String ID_CLOSE = "CLOSE";
-	/** Id for the FINISH button. */
-	public static final String ID_FINISH = "FINISH";
-	/** Id for the IGNORE button. */
-	public static final String ID_IGNORE = "IGNORE";
-	/** Id for the NEXT button. */
-	public static final String ID_NEXT = "NEXT";
-	/** Id for the NO button. */
-	public static final String ID_NO = "NO";
-	/** Id for the OK button. */
-	public static final String ID_OK = "OK";
-	/** Id for the OPEN button. */
-	public static final String ID_OPEN = "OPEN";
-	/** Id for the PREVIOUS button. */
-	public static final String ID_PREVIOUS = "PREVIOUS";
-	/** Id for the RETRY button. */
-	public static final String ID_RETRY = "RETRY";
-	/** Id for the SELECT button. */
-	public static final String ID_SELECT = "SELECT";
-	/** Id for the YES button. */
-	public static final String ID_YES = "YES";
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new ACCEPT button, true, false.
+	 */
+	public static Button ACCEPT(Session session) {
+		return _button(session, "ACCEPT", session.getString("buttonAccept"), true, false, true);
+	}
 
 	/**
-	 * Return the button.
+	 * Returns a default accept button.
 	 * 
-	 * @param id The button id.
-	 * @param text The text.
-	 * @param defaultButton A boolean.
-	 * @param cancelButton A boolean.
-	 * @return The button.
+	 * @param session The working session.
+	 * @return A new APPLY button, false, false.
 	 */
-	public static Button button(String id, String text, boolean defaultButton, boolean cancelButton) {
-		return button(id, text, defaultButton, cancelButton, true);
+	public static Button APPLY(Session session) {
+		return _button(session, "APPLY", session.getString("buttonApply"), false, false, true);
+	}
+
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new CANCEL button, false, true.
+	 */
+	public static Button CANCEL(Session session) {
+		return _button(session, "CANCEL", session.getString("buttonCancel"), false, true, true);
+	}
+
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new CLOSE button, false, false.
+	 */
+	public static Button CLOSE(Session session) {
+		return _button(session, "CLOSE", session.getString("buttonClose"), false, false, true);
+	}
+
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new FINISH button, false, false.
+	 */
+	public static Button FINISH(Session session) {
+		return _button(session, "FINISH", session.getString("buttonFinish"), false, false, true);
+	}
+
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new IGNORE button, false, false.
+	 */
+	public static Button IGNORE(Session session) {
+		return _button(session, "IGNORE", session.getString("buttonIgnore"), false, false, true);
+	}
+
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new NEXT button, false, false.
+	 */
+	public static Button NEXT(Session session) {
+		return _button(session, "NEXT", session.getString("buttonNext"), false, false, false);
+	}
+
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new NO button, false, true.
+	 */
+	public static Button NO(Session session) {
+		return _button(session, "NO", session.getString("buttonNo"), false, true, true);
+	}
+
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new OK button, true, false.
+	 */
+	public static Button OK(Session session) {
+		return _button(session, "OK", session.getString("buttonOk"), true, false, true);
+	}
+
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new OPEN button, false, false.
+	 */
+	public static Button OPEN(Session session) {
+		return _button(session, "OPEN", session.getString("buttonOpen"), true, false, true);
+	}
+
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new PREVIOUS button, false, false.
+	 */
+	public static Button PREVIOUS(Session session) {
+		return _button(session, "PREVIOUS", session.getString("buttonPrevious"), false, false, false);
+	}
+
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new RETRY button, false, false.
+	 */
+	public static Button RETRY(Session session) {
+		return _button(session, "RETRY", session.getString("buttonRetry"), false, false, true);
+	}
+
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new SELECT button, false, false.
+	 */
+	public static Button SELECT(Session session) {
+		return _button(session, "SELECT", session.getString("buttonSelect"), true, false, true);
+	}
+
+	/**
+	 * Returns a default accept button.
+	 * 
+	 * @param session The working session.
+	 * @return A new YES button, true, false.
+	 */
+	public static Button YES(Session session) {
+		return _button(session, "YES", session.getString("buttonYes"), true, false, true);
 	}
 
 	/**
@@ -80,208 +176,13 @@ public class Buttons {
 	 * @param close A boolean to force close the window.
 	 * @return The button.
 	 */
-	public static Button button(String id, String text, boolean defaultButton, boolean cancelButton, boolean close) {
+	public static Button _button(Session session, String id, String text, boolean defaultButton, boolean cancelButton, boolean close) {
 		Button button = new Button(text);
 		button.setId(id);
 		button.setDefaultButton(defaultButton);
 		button.setCancelButton(cancelButton);
 		FX.setClose(button, close);
+		FX.setSession(button, session);
 		return button;
-	}
-
-	/**
-	 * @return A new ACCEPT button, true, false.
-	 */
-	public static Button buttonAccept() {
-		return button(ID_ACCEPT, TextServer.getString("buttonAccept"), true, false);
-	}
-
-	/**
-	 * @return A new ACCEPT button, true, false.
-	 */
-	public static Button buttonAccept(Locale locale) {
-		return button(ID_ACCEPT, TextServer.getString("buttonAccept", locale), true, false);
-	}
-
-	/**
-	 * @return A new APPLY button, false, false.
-	 */
-	public static Button buttonApply() {
-		return button(ID_APPLY, TextServer.getString("buttonApply"), false, false);
-	}
-
-	/**
-	 * @return A new APPLY button, false, false.
-	 */
-	public static Button buttonApply(Locale locale) {
-		return button(ID_APPLY, TextServer.getString("buttonApply", locale), false, false);
-	}
-
-	/**
-	 * @return A new CANCEL button, false, true.
-	 */
-	public static Button buttonCancel() {
-		return button(ID_CANCEL, TextServer.getString("buttonCancel"), false, true);
-	}
-
-	/**
-	 * @return A new CANCEL button, false, true.
-	 */
-	public static Button buttonCancel(Locale locale) {
-		return button(ID_CANCEL, TextServer.getString("buttonCancel", locale), false, true);
-	}
-
-	/**
-	 * @return A new CLOSE button, false, false.
-	 */
-	public static Button buttonClose() {
-		return button(ID_CLOSE, TextServer.getString("buttonClose"), false, false);
-	}
-
-	/**
-	 * @return A new CLOSE button, false, false.
-	 */
-	public static Button buttonClose(Locale locale) {
-		return button(ID_CLOSE, TextServer.getString("buttonClose", locale), false, false);
-	}
-
-	/**
-	 * @return A new FINISH button, false, false.
-	 */
-	public static Button buttonFinish() {
-		return button(ID_FINISH, TextServer.getString("buttonFinish"), false, false);
-	}
-
-	/**
-	 * @return A new FINISH button, false, false.
-	 */
-	public static Button buttonFinish(Locale locale) {
-		return button(ID_FINISH, TextServer.getString("buttonFinish", locale), false, false);
-	}
-
-	/**
-	 * @return A new IGNORE button, false, false.
-	 */
-	public static Button buttonIgnore() {
-		return button(ID_IGNORE, TextServer.getString("buttonIgnore"), false, false);
-	}
-
-	/**
-	 * @return A new IGNORE button, false, false.
-	 */
-	public static Button buttonIgnore(Locale locale) {
-		return button(ID_IGNORE, TextServer.getString("buttonIgnore", locale), false, false);
-	}
-
-	/**
-	 * @return A new NEXT button, false, false.
-	 */
-	public static Button buttonNext() {
-		return button(ID_NEXT, TextServer.getString("buttonNext"), false, false);
-	}
-
-	/**
-	 * @return A new NEXT button, false, false.
-	 */
-	public static Button buttonNext(Locale locale) {
-		return button(ID_NEXT, TextServer.getString("buttonNext", locale), false, false);
-	}
-
-	/**
-	 * @return A new NO button, false, true.
-	 */
-	public static Button buttonNo() {
-		return button(ID_NO, TextServer.getString("buttonNo"), false, true);
-	}
-
-	/**
-	 * @return A new NO button, false, true.
-	 */
-	public static Button buttonNo(Locale locale) {
-		return button(ID_NO, TextServer.getString("buttonNo", locale), false, true);
-	}
-
-	/**
-	 * @return A new OK button, true, false.
-	 */
-	public static Button buttonOk() {
-		return button(ID_OK, TextServer.getString("buttonOk"), true, false);
-	}
-
-	/**
-	 * @return A new OK button, true, false.
-	 */
-	public static Button buttonOk(Locale locale) {
-		return button(ID_OK, TextServer.getString("buttonOk", locale), true, false);
-	}
-
-	/**
-	 * @return A new OPEN button, false, false.
-	 */
-	public static Button buttonOpen() {
-		return button(ID_OPEN, TextServer.getString("buttonOpen"), true, false);
-	}
-
-	/**
-	 * @return A new OPEN button, false, false.
-	 */
-	public static Button buttonOpen(Locale locale) {
-		return button(ID_OPEN, TextServer.getString("buttonOpen", locale), true, false);
-	}
-
-	/**
-	 * @return A new PREVIOUS button, false, false.
-	 */
-	public static Button buttonPrevious() {
-		return button(ID_PREVIOUS, TextServer.getString("buttonPrevious"), false, false);
-	}
-
-	/**
-	 * @return A new PREVIOUS button, false, false.
-	 */
-	public static Button buttonPrevious(Locale locale) {
-		return button(ID_PREVIOUS, TextServer.getString("buttonPrevious", locale), false, false);
-	}
-
-	/**
-	 * @return A new RETRY button, false, false.
-	 */
-	public static Button buttonRetry() {
-		return button(ID_RETRY, TextServer.getString("buttonRetry"), false, false);
-	}
-
-	/**
-	 * @return A new RETRY button, false, false.
-	 */
-	public static Button buttonRetry(Locale locale) {
-		return button(ID_RETRY, TextServer.getString("buttonRetry", locale), false, false);
-	}
-
-	/**
-	 * @return A new SELECT button, false, false.
-	 */
-	public static Button buttonSelect() {
-		return button(ID_SELECT, TextServer.getString("buttonSelect"), true, false, true);
-	}
-
-	/**
-	 * @return A new SELECT button, false, false.
-	 */
-	public static Button buttonSelect(Locale locale) {
-		return button(ID_RETRY, TextServer.getString("buttonSelect", locale), true, false, true);
-	}
-
-	/**
-	 * @return A new YES button, true, false.
-	 */
-	public static Button buttonYes() {
-		return button(ID_YES, TextServer.getString("buttonYes"), true, false);
-	}
-
-	/**
-	 * @return A new YES button, true, false.
-	 */
-	public static Button buttonYes(Locale locale) {
-		return button(ID_YES, TextServer.getString("buttonYes", locale), true, false);
 	}
 }

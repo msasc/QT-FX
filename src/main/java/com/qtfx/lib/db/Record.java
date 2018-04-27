@@ -16,6 +16,7 @@ package com.qtfx.lib.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.util.Properties;
 
 /**
@@ -95,6 +96,7 @@ public class Record implements Comparable<Object> {
 	private Properties properties;
 	/** The persistor. */
 	private Persistor persistor;
+
 	/**
 	 * Constructor assigning the list of fields.
 	 * 
@@ -152,6 +154,15 @@ public class Record implements Comparable<Object> {
 		for (int i = 0; i < size(); i++) {
 			values[i] = getField(i).getDefaultValue();
 		}
+	}
+
+	/**
+	 * Return the working session.
+	 * 
+	 * @return The session.
+	 */
+	public Session getSession() {
+		return getField(0).getSession();
 	}
 
 	/**
@@ -480,7 +491,7 @@ public class Record implements Comparable<Object> {
 		}
 		return lookupFields;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

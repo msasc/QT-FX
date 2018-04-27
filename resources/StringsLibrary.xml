@@ -116,6 +116,20 @@
 	<entry key="fieldValidEmpty">A non empty value is required for this field</entry>
 	<entry key="fieldValidNull">A not null value is required for this field</entry>
 	
+	<!-- Field properties. -->
+
+	<entry key="fieldIndex">Index</entry>
+	<entry key="fieldGroup">Group</entry>
+	<entry key="fieldGroupIndex">Group index</entry>
+	<entry key="fieldName">Name</entry>
+	<entry key="fieldAlias">Alias</entry>
+	<entry key="fieldHeader">Header</entry>
+	<entry key="fieldTitle">Title</entry>
+	<entry key="fieldType">Type</entry>
+	<entry key="fieldLength">Length</entry>
+	<entry key="fieldDecimals">Decimals</entry>
+	<entry key="fieldAsc">Asc/Desc</entry>
+	
 	<!-- General security messages. -->
 	
 	<entry key="securityAccessToFileDenied">Access to file denied.</entry>

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.qtfx.lib.util.TextServer;
+import com.qtfx.lib.app.TextServer;
 
 /**
  * A task that executes other tasks in a concurrent pool. If one of the tasks of the pool is indeterminate, then all are
@@ -36,6 +36,7 @@ public class TaskPool extends Task {
 		TaskRun task;
 
 		Counter(TaskRun task) {
+			super(task.getLocale());
 			this.task = task;
 		}
 
@@ -68,14 +69,6 @@ public class TaskPool extends Task {
 	private JoinPool pool;
 	/** Indeterminate flag. */
 	private Boolean indeterminate = null;
-
-	/**
-	 * Default constructor.
-	 */
-	public TaskPool() {
-		super();
-		setStateChangeListener();
-	}
 
 	/**
 	 * Constructor assigning the locale for messages.

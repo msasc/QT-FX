@@ -15,7 +15,7 @@ package com.qtfx.lib.mkt.data;
 
 import java.util.Locale;
 
-import com.qtfx.lib.util.TextServer;
+import com.qtfx.lib.app.TextServer;
 
 /**
  * Units used to define periods of aggregate incoming quotes.

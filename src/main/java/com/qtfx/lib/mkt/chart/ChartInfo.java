@@ -17,8 +17,8 @@ package com.qtfx.lib.mkt.chart;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.qtfx.lib.app.TextServer;
 import com.qtfx.lib.util.Icons;
-import com.qtfx.lib.util.TextServer;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -47,7 +47,7 @@ public class ChartInfo {
 
 	/** Temporary list of texts. */
 	private List<Text> texts = new ArrayList<>();
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -64,24 +64,26 @@ public class ChartInfo {
 		pane.getColumnConstraints().add(c0);
 		pane.add(textFlow, 0, 0);
 		pane.setStyle("-fx-border-width: 0 0 1 0; -fx-border-color: black;");
-		pane.setPadding(new Insets(3,3,3,3));
+		pane.setPadding(new Insets(3, 3, 3, 3));
 
 		// Node 1, 0: buttons in an HBox.
 		HBox hbox = new HBox(2);
 		pane.add(hbox, 1, 0);
-		
+
 		// Close button.
 		Button buttonClose = new Button();
 		buttonClose.setDefaultButton(false);
 		buttonClose.setCancelButton(false);
 		buttonClose.setGraphic(Icons.get(Icons.FLAT_24x24_CLOSE));
 		buttonClose.setPadding(new Insets(0, 0, 0, 0));
-		buttonClose.setTooltip(new Tooltip(TextServer.getString("tooltipRemoveChart")));
+
+		buttonClose.setTooltip(new Tooltip(TextServer.getString("tooltipRemoveChart",
+			container.getChart().getLocale())));
 		buttonClose.setStyle("-fx-content-display: graphic-only;");
 		buttonClose.setOnAction(e -> {
 			this.container.getChart().removeContainer(this.container);
 		});
-		
+
 		hbox.getChildren().add(buttonClose);
 	}
 
@@ -93,7 +95,7 @@ public class ChartInfo {
 	public GridPane getPane() {
 		return pane;
 	}
-	
+
 	/**
 	 * Start info process.
 	 */
@@ -116,7 +118,7 @@ public class ChartInfo {
 		}
 		texts.add(text);
 	}
-	
+
 	/**
 	 * End info process and show.
 	 */

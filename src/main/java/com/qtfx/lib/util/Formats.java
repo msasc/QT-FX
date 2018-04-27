@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import com.qtfx.lib.app.TextServer;
+
 /**
  * General formatting utilities.
  * 

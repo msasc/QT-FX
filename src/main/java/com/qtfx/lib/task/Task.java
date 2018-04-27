@@ -21,9 +21,9 @@ import java.util.Locale;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.qtfx.lib.app.TextServer;
 import com.qtfx.lib.util.Formats;
 import com.qtfx.lib.util.Numbers;
-import com.qtfx.lib.util.TextServer;
 
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
@@ -120,13 +120,6 @@ public abstract class Task extends ForkJoinTask<Void> {
 	/** The locale to use to build messages. */
 	private Locale locale;
 	
-	/**
-	 * Default constructor.
-	 */
-	public Task() {
-		this(Locale.getDefault());
-	}
-
 	/**
 	 * Constructor passing the locale for messages.
 	 * 
@@ -558,7 +551,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 			b.append("% (");
 			b.append(Formats.formattedFromLong(Double.valueOf(workDone+1).longValue(), locale));
 			b.append(" ");
-			b.append(TextServer.getString("tokenOf"));
+			b.append(TextServer.getString("tokenOf", locale));
 			b.append(" ");
 			b.append(Formats.formattedFromLong(Double.valueOf(totalWork).longValue(), locale));
 			b.append(")");
@@ -594,9 +587,9 @@ public abstract class Task extends ForkJoinTask<Void> {
 			b.append(" ");
 			b.append(getTimeString(timeRemaining));
 			b.append(", ");
-			b.append(TextServer.getString("tokenTime").toLowerCase());
+			b.append(TextServer.getString("tokenTime", locale).toLowerCase());
 			b.append(" ");
-			b.append(TextServer.getString("tokenStarted").toLowerCase());
+			b.append(TextServer.getString("tokenStarted", locale).toLowerCase());
 			b.append(" ");
 			b.append(getTimestampString(timeStart));
 			b.append(", ");

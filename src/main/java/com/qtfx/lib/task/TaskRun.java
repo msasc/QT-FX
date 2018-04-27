@@ -14,6 +14,8 @@
 
 package com.qtfx.lib.task;
 
+import java.util.Locale;
+
 /**
  * A task that runs in a task pool.
  * 
@@ -32,9 +34,11 @@ public abstract class TaskRun extends Task {
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param locale The locale for literals.
 	 */
-	public TaskRun() {
-		super();
+	public TaskRun(Locale locale) {
+		super(locale);
 	}
 
 	/**

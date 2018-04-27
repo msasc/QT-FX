@@ -14,8 +14,8 @@
 
 package com.qtfx.gui;
 
+import com.qtfx.lib.app.TextServer;
 import com.qtfx.lib.gui.Alert;
-import com.qtfx.lib.util.TextServer;
 
 import javafx.application.Application;
 import javafx.scene.control.Button;

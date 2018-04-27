@@ -14,6 +14,7 @@
 
 package com.qtfx.gui;
 
+import com.qtfx.lib.app.TextServer;
 import com.qtfx.lib.db.Order;
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.RecordComparator;
@@ -22,7 +23,6 @@ import com.qtfx.lib.gui.Dialog;
 import com.qtfx.lib.gui.FX;
 import com.qtfx.lib.gui.TableRecordPane;
 import com.qtfx.lib.util.Random;
-import com.qtfx.lib.util.TextServer;
 import com.qtfx.util.Util;
 
 import javafx.application.Application;

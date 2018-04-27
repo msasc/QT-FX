@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.qtfx.lib.app.TextServer;
 import com.qtfx.lib.mkt.data.PlotData;
 import com.qtfx.lib.util.Icons;
-import com.qtfx.lib.util.TextServer;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -54,18 +54,18 @@ public class Chart {
 	/**
 	 * Enum toolbar button actions.
 	 */
-	enum ButtonAction {
+	enum Action {
 		SCROLL_BACK, SCROLL_FRONT, SCROLL_START, SCROLL_END, ZOOM_IN, ZOOM_OUT;
 	}
 
 	/**
 	 * Mouse pressed-released event handler for toolbar button actions.
 	 */
-	class ButtonHandler implements EventHandler<MouseEvent> {
+	class Handler implements EventHandler<MouseEvent> {
 		private Button button;
-		private ButtonAction action;
+		private Action action;
 
-		public ButtonHandler(Button button, ButtonAction action) {
+		public Handler(Button button, Action action) {
 			super();
 			this.button = button;
 			this.action = action;
@@ -75,15 +75,19 @@ public class Chart {
 		public void handle(MouseEvent e) {
 			if (e.getEventType() == MouseEvent.MOUSE_PRESSED) {
 				pressedButton = button;
-				if (action == ButtonAction.SCROLL_FRONT) {
+				if (action == Action.SCROLL_FRONT) {
 					new Thread(new Scroll(button, -1, e.getX(), e.getY())).start();
 					return;
 				}
-				if (action == ButtonAction.SCROLL_BACK) {
+				if (action == Action.SCROLL_FRONT) {
+					new Thread(new Scroll(button, -1, e.getX(), e.getY())).start();
+					return;
+				}
+				if (action == Action.SCROLL_BACK) {
 					new Thread(new Scroll(button, 1, e.getX(), e.getY())).start();
 					return;
 				}
-				if (action == ButtonAction.SCROLL_END) {
+				if (action == Action.SCROLL_END) {
 					Platform.runLater(() -> {
 						PlotData plotData = containers.get(0).getPlotData();
 						if (plotData.scrollEnd()) {
@@ -92,7 +96,7 @@ public class Chart {
 					});
 					return;
 				}
-				if (action == ButtonAction.SCROLL_START) {
+				if (action == Action.SCROLL_START) {
 					Platform.runLater(() -> {
 						PlotData plotData = containers.get(0).getPlotData();
 						if (plotData.scrollStart()) {
@@ -100,17 +104,18 @@ public class Chart {
 						}
 					});
 				}
-				if (action == ButtonAction.ZOOM_IN) {
-					new Thread(new Zoom(button, ButtonAction.ZOOM_IN, e.getX(), e.getY())).start();
+				if (action == Action.ZOOM_IN) {
+					new Thread(new Zoom(button, Action.ZOOM_IN, e.getX(), e.getY())).start();
 					return;
 				}
-				if (action == ButtonAction.ZOOM_OUT) {
-					new Thread(new Zoom(button, ButtonAction.ZOOM_OUT, e.getX(), e.getY())).start();
+				if (action == Action.ZOOM_OUT) {
+					new Thread(new Zoom(button, Action.ZOOM_OUT, e.getX(), e.getY())).start();
 					return;
 				}
 			}
 			if (e.getEventType() == MouseEvent.MOUSE_RELEASED) {
 				pressedButton = null;
+				getPane().requestFocus();
 			}
 		}
 	}
@@ -120,12 +125,12 @@ public class Chart {
 	 */
 	class Zoom implements Runnable {
 		private Button button;
-		private ButtonAction action;
+		private Action action;
 		private double x;
 		private double y;
 		private int zoom;
 
-		public Zoom(Button button, ButtonAction action, double x, double y) {
+		public Zoom(Button button, Action action, double x, double y) {
 			super();
 			this.button = button;
 			this.action = action;
@@ -138,10 +143,10 @@ public class Chart {
 			int sleep = 500;
 			while (button == pressedButton) {
 				PlotData plotData = containers.get(0).getPlotData();
-				if (action == ButtonAction.ZOOM_IN) {
+				if (action == Action.ZOOM_IN) {
 					zoom = plotData.getBarsToScrollOrZoom() * 1;
 				}
-				if (action == ButtonAction.ZOOM_OUT) {
+				if (action == Action.ZOOM_OUT) {
 					zoom = plotData.getBarsToScrollOrZoom() * (-1);
 				}
 				Platform.runLater(() -> {
@@ -225,12 +230,12 @@ public class Chart {
 		// Set the tool bar.
 		pane.setTop(toolBar);
 
-		Button btFront = getButton(Icons.FLAT_24x24_SCROLL_FRONT, "tooltipScrollFront", ButtonAction.SCROLL_FRONT);
-		Button btEnd = getButton(Icons.FLAT_24x24_SCROLL_END, "tooltipScrollEnd", ButtonAction.SCROLL_END);
-		Button btBack = getButton(Icons.FLAT_24x24_SCROLL_BACK, "tooltipScrollBack", ButtonAction.SCROLL_BACK);
-		Button btStart = getButton(Icons.FLAT_24x24_SCROLL_START, "tooltipScrollStart", ButtonAction.SCROLL_START);
-		Button btZoomIn = getButton(Icons.FLAT_24x24_ZOOM_IN, "tooltipZoomIn", ButtonAction.ZOOM_IN);
-		Button btZoomOut = getButton(Icons.FLAT_24x24_ZOOM_OUT, "tooltipZoomOut", ButtonAction.ZOOM_OUT);
+		Button btFront = getButton(Icons.FLAT_24x24_SCROLL_FRONT, "tooltipScrollFront", Action.SCROLL_FRONT);
+		Button btEnd = getButton(Icons.FLAT_24x24_SCROLL_END, "tooltipScrollEnd", Action.SCROLL_END);
+		Button btBack = getButton(Icons.FLAT_24x24_SCROLL_BACK, "tooltipScrollBack", Action.SCROLL_BACK);
+		Button btStart = getButton(Icons.FLAT_24x24_SCROLL_START, "tooltipScrollStart", Action.SCROLL_START);
+		Button btZoomIn = getButton(Icons.FLAT_24x24_ZOOM_IN, "tooltipZoomIn", Action.ZOOM_IN);
+		Button btZoomOut = getButton(Icons.FLAT_24x24_ZOOM_OUT, "tooltipZoomOut", Action.ZOOM_OUT);
 
 		toolBar.getItems().add(btFront);
 		toolBar.getItems().add(btEnd);
@@ -266,15 +271,15 @@ public class Chart {
 	 * @param action The button action.
 	 * @return The button.
 	 */
-	private Button getButton(String icon, String tooltip, ButtonAction action) {
+	private Button getButton(String icon, String tooltip, Action action) {
 		Button button = new Button();
 		button.setDefaultButton(false);
 		button.setCancelButton(false);
 		button.setGraphic(Icons.get(icon));
 		button.setPadding(new Insets(0, 0, 0, 0));
-		button.setTooltip(new Tooltip(TextServer.getString(tooltip)));
+		button.setTooltip(new Tooltip(TextServer.getString(tooltip, getLocale())));
 		button.setStyle("-fx-content-display: graphic-only;");
-		button.addEventHandler(MouseEvent.ANY, new ButtonHandler(button, action));
+		button.addEventHandler(MouseEvent.ANY, new Handler(button, action));
 		return button;
 	}
 

@@ -25,10 +25,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import com.qtfx.lib.app.TextServer;
 import com.qtfx.lib.task.State;
 import com.qtfx.lib.task.Task;
 import com.qtfx.lib.util.Files;
-import com.qtfx.lib.util.TextServer;
 
 /**
  * Utility class to copy files from a list of source directories to a list of destination directories.
@@ -114,9 +114,9 @@ public class FileCopy extends Task {
 			long totalWork = (long) getTotalWork();
 
 			StringBuilder msgProc = new StringBuilder();
-			msgProc.append(Files.getSizeLabel(bytesProcessed + file.length(), 1, Locale.getDefault()));
+			msgProc.append(Files.getSizeLabel(bytesProcessed + file.length(), 1, getLocale()));
 			msgProc.append(" / ");
-			msgProc.append(Files.getSizeLabel(bytesToProcess, 1, Locale.getDefault()));
+			msgProc.append(Files.getSizeLabel(bytesToProcess, 1, getLocale()));
 			update(msgProc.toString(), workDone, totalWork);
 
 			// Copy the source file.
@@ -132,8 +132,8 @@ public class FileCopy extends Task {
 					destinationFile = Files.getDestinationFile(sourceDirectory, file, destinationDirectory);
 				}
 
-				String from = TextServer.getString("tokenFrom") + ": " + file.getAbsolutePath();
-				String to = TextServer.getString("tokenTo") + ": " + destinationFile.getAbsolutePath();
+				String from = TextServer.getString("tokenFrom", getLocale()) + ": " + file.getAbsolutePath();
+				String to = TextServer.getString("tokenTo", getLocale()) + ": " + destinationFile.getAbsolutePath();
 				updateMessage(LABEL_FROM, from);
 				updateMessage(LABEL_TO, to);
 
@@ -143,7 +143,7 @@ public class FileCopy extends Task {
 					if (!destinationFile.canWrite()) {
 						if (!destinationFile.delete()) {
 							StringBuilder msgExc = new StringBuilder();
-							msgExc.append(TextServer.getString("securityAccessToFileDenied"));
+							msgExc.append(TextServer.getString("securityAccessToFileDenied", getLocale()));
 							msgExc.append(" -> ");
 							msgExc.append(file);
 							throw new IOException(msgExc.toString());
@@ -194,7 +194,7 @@ public class FileCopy extends Task {
 
 			// If it is a file, try countForPurge.
 			if (file.isFile()) {
-				String purge = TextServer.getString("tokenPurge") + ": " + file.getAbsolutePath();
+				String purge = TextServer.getString("tokenPurge", getLocale()) + ": " + file.getAbsolutePath();
 				updateMessage(LABEL_FROM, purge);
 				purge(destinationDirectory, file);
 			}
@@ -203,7 +203,7 @@ public class FileCopy extends Task {
 			while (!deque.isEmpty()) {
 				if (Files.isEmpty(deque.getLast())) {
 					File last = deque.removeLast();
-					String purge = TextServer.getString("tokenPurge") + ": " + last.getAbsolutePath();
+					String purge = TextServer.getString("tokenPurge", getLocale()) + ": " + last.getAbsolutePath();
 					updateMessage(LABEL_FROM, purge);
 					last.delete();
 				} else {
@@ -263,9 +263,11 @@ public class FileCopy extends Task {
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param locale The locale for literals.
 	 */
-	public FileCopy() {
-		super();
+	public FileCopy(Locale locale) {
+		super(locale);
 		addMessage(LABEL_FROM);
 		addMessage(LABEL_TO);
 	}
@@ -417,7 +419,7 @@ public class FileCopy extends Task {
 	 * @return The scanner.
 	 */
 	private FileScanner getScanner() {
-		FileScanner scanner = new FileScanner();
+		FileScanner scanner = new FileScanner(getLocale());
 		scanner.setScanSubDirectories(isProcessSubDirectories());
 		Iterator<File> keysDirectories = mapDirectories.keySet().iterator();
 		while (keysDirectories.hasNext()) {
@@ -438,7 +440,7 @@ public class FileCopy extends Task {
 	 * @return The scanner for purge.
 	 */
 	private FileScanner getScannerForPurge() {
-		FileScanner scanner = new FileScanner();
+		FileScanner scanner = new FileScanner(getLocale());
 		scanner.setScanSubDirectories(isProcessSubDirectories());
 		Iterator<File> keys = mapDirectories.keySet().iterator();
 		while (keys.hasNext()) {

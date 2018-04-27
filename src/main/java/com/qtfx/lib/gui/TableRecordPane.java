@@ -16,8 +16,8 @@ package com.qtfx.lib.gui;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Order;
 import com.qtfx.lib.db.OrderKey;
@@ -29,7 +29,6 @@ import com.qtfx.lib.gui.table.CellFactory;
 import com.qtfx.lib.gui.table.CellValueFactory;
 import com.qtfx.lib.util.Formats;
 import com.qtfx.lib.util.Numbers;
-import com.qtfx.lib.util.TextServer;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -106,9 +105,6 @@ public class TableRecordPane {
 	private TableView<Record> tableView;
 	/** Status bar. */
 	private StatusBar statusBar;
-	/** The user locale. */
-	private Locale locale;
-
 	/** Lines percent scale. */
 	private transient int linesPercentScale = -1;
 
@@ -121,16 +117,6 @@ public class TableRecordPane {
 	 * @param masterRecord The master record.
 	 */
 	public TableRecordPane(Record masterRecord) {
-		this(masterRecord, Locale.getDefault());
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param masterRecord The master record.
-	 * @param locale The required locale.
-	 */
-	public TableRecordPane(Record masterRecord, Locale locale) {
 		super();
 
 		if (masterRecord == null) {
@@ -138,7 +124,6 @@ public class TableRecordPane {
 		}
 
 		this.masterRecord = masterRecord;
-		this.locale = locale;
 
 		borderPane = new BorderPane();
 		tableView = new TableView<>();
@@ -150,6 +135,15 @@ public class TableRecordPane {
 		setLineOfLines(-1);
 
 		tableView.getSelectionModel().selectedIndexProperty().addListener(new SelectedIndexListener());
+	}
+
+	/**
+	 * Return the session.
+	 * 
+	 * @return The session.
+	 */
+	public Session getSession() {
+		return getMasterRecord().getSession();
 	}
 
 	/**
@@ -341,29 +335,29 @@ public class TableRecordPane {
 	 */
 	private void setLineOfLines(int line) {
 		StringBuilder b = new StringBuilder();
-		b.append(TextServer.getString("tokenLine"));
+		b.append(getSession().getString("tokenLine"));
 		b.append(" ");
 		if (line > 0) {
-			b.append(Formats.getNumberFormat(0, locale).format(line));
+			b.append(Formats.getNumberFormat(0, getSession().getLocale()).format(line));
 		} else {
 			b.append("#");
 		}
 		b.append(" ");
-		b.append(TextServer.getString("tokenOf"));
+		b.append(getSession().getString("tokenOf"));
 		b.append(" ");
 		int lines = -1;
 		if (getTableView().getItems() != null) {
 			lines = getTableView().getItems().size();
 		}
 		if (lines > 0) {
-			b.append(Formats.getNumberFormat(0, locale).format(lines));
+			b.append(Formats.getNumberFormat(0, getSession().getLocale()).format(lines));
 		} else {
 			b.append("#");
 		}
 		if (line > 0 && lines > 0) {
 			double percent = 100d * Double.valueOf(line).doubleValue() / Double.valueOf(lines).doubleValue();
 			b.append(" (");
-			b.append(Formats.formattedFromDouble(percent, linesPercentScale, locale));
+			b.append(Formats.formattedFromDouble(percent, linesPercentScale, getSession().getLocale()));
 			b.append(" %)");
 		}
 		statusBar.setLabel(LINE_OF_LINES, b.toString(), "-fx-font-size: 12; -fx-font-style: italic;");
@@ -487,15 +481,6 @@ public class TableRecordPane {
 	 */
 	public void sort(Comparator<? super Record> c) {
 		getRecords().sort(c);
-	}
-
-	/**
-	 * Return the used locale.
-	 * 
-	 * @return The locale.
-	 */
-	public Locale getLocale() {
-		return locale;
 	}
 
 	/**

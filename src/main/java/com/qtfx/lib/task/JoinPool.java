@@ -15,6 +15,7 @@
 package com.qtfx.lib.task;
 
 import java.util.Collection;
+import java.util.Locale;
 import java.util.concurrent.ForkJoinPool;
 
 /**
@@ -27,17 +28,17 @@ public class JoinPool extends ForkJoinPool {
 	/**
 	 * Runner.
 	 */
-	public static class Runner extends Task {
-		Collection<? extends Task> taskTests;
+	class Runner extends Task {
+		Collection<? extends Task> tasks;
 
-		public Runner(Collection<? extends Task> taskTests) {
-			super();
-			this.taskTests = taskTests;
+		public Runner(Collection<? extends Task> tasks) {
+			super(locale);
+			this.tasks = tasks;
 		}
 
 		@Override
 		protected void compute() {
-			invokeAll(taskTests);
+			invokeAll(tasks);
 		}
 
 		@Override
@@ -45,12 +46,18 @@ public class JoinPool extends ForkJoinPool {
 			return true;
 		}
 	}
+	
+	/** Locale for literals. */
+	private Locale locale;
 
 	/**
 	 * Default constructor.
+	 * 
+	 * @param locale Locale for literals.
 	 */
-	public JoinPool() {
+	public JoinPool(Locale locale) {
 		super();
+		this.locale = locale;
 	}
 
 	/**

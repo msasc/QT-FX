@@ -14,6 +14,8 @@
 
 package com.qtfx.lib.task.sample;
 
+import java.util.Locale;
+
 import com.qtfx.lib.task.TaskRun;
 import com.qtfx.lib.util.Random;
 
@@ -43,7 +45,7 @@ public class SampleTaskRun extends TaskRun {
 	 * Constructor.
 	 */
 	public SampleTaskRun() {
-		super();
+		super(Locale.getDefault());
 	}
 
 	/**

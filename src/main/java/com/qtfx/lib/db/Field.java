@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.util.Strings;
-import com.qtfx.lib.util.TextServer;
 
 import javafx.scene.control.TextFormatter;
 import javafx.util.StringConverter;
@@ -165,11 +165,17 @@ public class Field implements Comparable<Object> {
 	/** Optional parent view. */
 	private View view;
 
+	/** Working session. */
+	private Session session;
+
 	/**
 	 * Default constructor.
+	 * 
+	 * @param session The working session.
 	 */
-	public Field() {
+	public Field(Session session) {
 		super();
+		this.session = session;
 	}
 
 	/**
@@ -181,6 +187,7 @@ public class Field implements Comparable<Object> {
 		super();
 
 		// Main properties.
+		this.session = field.session;
 		this.name = field.name;
 		this.alias = field.alias;
 		this.length = field.length;
@@ -223,6 +230,18 @@ public class Field implements Comparable<Object> {
 		this.function = field.function;
 		this.table = field.table;
 		this.view = field.view;
+	}
+
+	/////////////////////////////////
+	// Access to the working session.
+
+	/**
+	 * Return the working session.
+	 * 
+	 * @return The session.
+	 */
+	public Session getSession() {
+		return session;
 	}
 
 	///////////////////
@@ -924,42 +943,38 @@ public class Field implements Comparable<Object> {
 
 		// Strict type
 		if (!value.getType().equals(getType())) {
-			return MessageFormat.format(TextServer.getString("fieldValidType",
-				locale), value.getType(), getType());
+			return MessageFormat.format(getSession().getString("fieldValidType"), value.getType(), getType());
 		}
 
 		// Maximum value
 		if (getMaximumValue() != null) {
 			if (value.compareTo(getMaximumValue()) > 0) {
-				return MessageFormat.format(TextServer.getString(
-					"fieldValidMax", locale), value, getMaximumValue());
+				return MessageFormat.format(getSession().getString("fieldValidMax"), value, getMaximumValue());
 			}
 		}
 
 		// Minimum value
 		if (getMinimumValue() != null) {
 			if (value.compareTo(getMinimumValue()) < 0) {
-				return MessageFormat.format(TextServer.getString(
-					"fieldValidMin", locale), value, getMinimumValue());
+				return MessageFormat.format(getSession().getString("fieldValidMin"), value, getMinimumValue());
 			}
 		}
 
 		// Possible values
 		if (!getPossibleValues().isEmpty()) {
 			if (!value.in(new ArrayList<>(getPossibleValues()))) {
-				return MessageFormat.format(TextServer.getString(
-					"fieldValidPossible", locale), value);
+				return MessageFormat.format(getSession().getString("fieldValidPossible"), value);
 			}
 		}
 
 		// Non empty required
 		if (isRequired() && value.isEmpty()) {
-			return TextServer.getString("fieldValidEmpy", locale);
+			return getSession().getString("fieldValidEmpy");
 		}
 
 		// Nullable
 		if (!isNullable() && value.isNull()) {
-			return TextServer.getString("fieldValidEmpy", locale);
+			return getSession().getString("fieldValidEmpy");
 		}
 
 		// Validator

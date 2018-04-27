@@ -44,11 +44,11 @@ public class Network {
 	 */
 	public void addLayer(Layer layer) {
 		if (layers.isEmpty()) {
-			layer.inputSize = inputSize;
+			layer.setInputSize(inputSize);
 		} else {
-			layer.inputSize = layers.get(layers.size() - 1).getOutputSize();
+			layer.setInputSize(layers.get(layers.size() - 1).getOutputSize());
 		}
-		layer.network = this;
+		layer.setNetwork(this);
 		layers.add(layer);
 	}
 

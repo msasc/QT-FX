@@ -14,7 +14,7 @@
 
 package com.qtfx.lib.db;
 
-import com.qtfx.lib.util.TextServer;
+import com.qtfx.lib.app.Session;
 
 /**
  * Provides field metadata as fields of the fields properties.
@@ -46,16 +46,28 @@ public class FieldProperties {
 	/** Property alias: ASC. */
 	public static final String ASCENDING = "ASC";
 
-	/**
-	 * The properties field list.
-	 */
+	/** The properties field list. */
 	private FieldList fieldList;
+	/** The working session. */
+	private Session session;
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param session The working session.
 	 */
-	public FieldProperties() {
+	public FieldProperties(Session session) {
 		super();
+		this.session = session;
+	}
+
+	/**
+	 * Return the working session.
+	 * 
+	 * @return The session.
+	 */
+	public Session getSession() {
+		return session;
 	}
 
 	/**
@@ -96,12 +108,12 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldGroupIndex() {
-		Field field = new Field();
+		Field field = new Field(getFieldAlias());
 		field.setName(GROUP_INDEX);
 		field.setAlias(GROUP_INDEX);
-		field.setTitle(TextServer.getString("fieldGroupIndex"));
-		field.setLabel(TextServer.getString("fieldGroupIndex"));
-		field.setHeader(TextServer.getString("fieldGroupIndex"));
+		field.setTitle(getSession().getString("fieldGroupIndex"));
+		field.setLabel(getSession().getString("fieldGroupIndex"));
+		field.setHeader(getSession().getString("fieldGroupIndex"));
 		field.setType(Types.INTEGER);
 		field.setPrimaryKey(true);
 		return field;
@@ -113,12 +125,12 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldIndex() {
-		Field field = new Field();
+		Field field = new Field(getSession());
 		field.setName(INDEX);
 		field.setAlias(INDEX);
-		field.setTitle(TextServer.getString("fieldIndex"));
-		field.setLabel(TextServer.getString("fieldIndex"));
-		field.setHeader(TextServer.getString("fieldIndex"));
+		field.setTitle(getSession().getString("fieldIndex"));
+		field.setLabel(getSession().getString("fieldIndex"));
+		field.setHeader(getSession().getString("fieldIndex"));
 		field.setType(Types.INTEGER);
 		field.setPrimaryKey(true);
 		return field;
@@ -130,12 +142,12 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldGroup() {
-		Field field = new Field();
+		Field field = new Field(getSession());
 		field.setName(GROUP);
 		field.setAlias(GROUP);
-		field.setTitle(TextServer.getString("fieldGroup"));
-		field.setLabel(TextServer.getString("fieldGroup"));
-		field.setHeader(TextServer.getString("fieldGroup"));
+		field.setTitle(getSession().getString("fieldGroup"));
+		field.setLabel(getSession().getString("fieldGroup"));
+		field.setHeader(getSession().getString("fieldGroup"));
 		field.setType(Types.STRING);
 		field.setLength(60);
 		return field;
@@ -147,12 +159,12 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldName() {
-		Field field = new Field();
+		Field field = new Field(getSession());
 		field.setName(NAME);
 		field.setAlias(NAME);
-		field.setTitle(TextServer.getString("fieldName"));
-		field.setLabel(TextServer.getString("fieldName"));
-		field.setHeader(TextServer.getString("fieldName"));
+		field.setTitle(getSession().getString("fieldName"));
+		field.setLabel(getSession().getString("fieldName"));
+		field.setHeader(getSession().getString("fieldName"));
 		field.setType(Types.STRING);
 		field.setLength(30);
 		return field;
@@ -164,12 +176,12 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldAlias() {
-		Field field = new Field();
+		Field field = new Field(getSession());
 		field.setName(ALIAS);
 		field.setAlias(ALIAS);
-		field.setTitle(TextServer.getString("fieldAlias"));
-		field.setLabel(TextServer.getString("fieldAlias"));
-		field.setHeader(TextServer.getString("fieldAlias"));
+		field.setTitle(getSession().getString("fieldAlias"));
+		field.setLabel(getSession().getString("fieldAlias"));
+		field.setHeader(getSession().getString("fieldAlias"));
 		field.setType(Types.STRING);
 		field.setLength(30);
 		return field;
@@ -181,12 +193,12 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldHeader() {
-		Field field = new Field();
+		Field field = new Field(getSession());
 		field.setName(HEADER);
 		field.setAlias(HEADER);
-		field.setTitle(TextServer.getString("fieldHeader"));
-		field.setLabel(TextServer.getString("fieldHeader"));
-		field.setHeader(TextServer.getString("fieldHeader"));
+		field.setTitle(getSession().getString("fieldHeader"));
+		field.setLabel(getSession().getString("fieldHeader"));
+		field.setHeader(getSession().getString("fieldHeader"));
 		field.setType(Types.STRING);
 		field.setLength(60);
 		return field;
@@ -198,12 +210,12 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldTitle() {
-		Field field = new Field();
+		Field field = new Field(getSession());
 		field.setName(TITLE);
 		field.setAlias(TITLE);
-		field.setTitle(TextServer.getString("fieldTitle"));
-		field.setLabel(TextServer.getString("fieldTitle"));
-		field.setHeader(TextServer.getString("fieldTitle"));
+		field.setTitle(getSession().getString("fieldTitle"));
+		field.setLabel(getSession().getString("fieldTitle"));
+		field.setHeader(getSession().getString("fieldTitle"));
 		field.setType(Types.STRING);
 		field.setLength(60);
 		return field;
@@ -215,12 +227,12 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldType() {
-		Field field = new Field();
+		Field field = new Field(getSession());
 		field.setName(TYPE);
 		field.setAlias(TYPE);
-		field.setTitle(TextServer.getString("fieldType"));
-		field.setLabel(TextServer.getString("fieldType"));
-		field.setHeader(TextServer.getString("fieldType"));
+		field.setTitle(getSession().getString("fieldType"));
+		field.setLabel(getSession().getString("fieldType"));
+		field.setHeader(getSession().getString("fieldType"));
 		field.setType(Types.STRING);
 		field.setLength(20);
 		return field;
@@ -232,12 +244,12 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldLength() {
-		Field field = new Field();
+		Field field = new Field(getSession());
 		field.setName(LENGTH);
 		field.setAlias(LENGTH);
-		field.setTitle(TextServer.getString("fieldLength"));
-		field.setLabel(TextServer.getString("fieldLength"));
-		field.setHeader(TextServer.getString("fieldLength"));
+		field.setTitle(getSession().getString("fieldLength"));
+		field.setLabel(getSession().getString("fieldLength"));
+		field.setHeader(getSession().getString("fieldLength"));
 		field.setType(Types.INTEGER);
 		return field;
 	}
@@ -248,12 +260,12 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldDecimals() {
-		Field field = new Field();
+		Field field = new Field(getSession());
 		field.setName(DECIMALS);
 		field.setAlias(DECIMALS);
-		field.setTitle(TextServer.getString("fieldDecimals"));
-		field.setLabel(TextServer.getString("fieldDecimals"));
-		field.setHeader(TextServer.getString("fieldDecimals"));
+		field.setTitle(getSession().getString("fieldDecimals"));
+		field.setLabel(getSession().getString("fieldDecimals"));
+		field.setHeader(getSession().getString("fieldDecimals"));
 		field.setType(Types.INTEGER);
 		return field;
 	}
@@ -264,15 +276,15 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldAscending() {
-		Field field = new Field();
+		Field field = new Field(getSession());
 		field.setName(ASCENDING);
 		field.setAlias(ASCENDING);
-		field.setTitle(TextServer.getString("fieldAsc"));
-		field.setLabel(TextServer.getString("fieldAsc"));
-		field.setHeader(TextServer.getString("fieldAsc"));
+		field.setTitle(getSession().getString("fieldAsc"));
+		field.setLabel(getSession().getString("fieldAsc"));
+		field.setHeader(getSession().getString("fieldAsc"));
 		field.setType(Types.STRING);
-		field.addPossibleValue(new Value(TextServer.getString("tokenAsc")));
-		field.addPossibleValue(new Value(TextServer.getString("tokenDesc")));
+		field.addPossibleValue(new Value(getSession().getString("tokenAsc")));
+		field.addPossibleValue(new Value(getSession().getString("tokenDesc")));
 		return field;
 	}
 
@@ -297,7 +309,7 @@ public class FieldProperties {
 		properties.setValue(LENGTH, new Value(field.getLength()));
 		properties.setValue(DECIMALS, new Value(field.getDecimals()));
 		// Special property
-		String strAscending = TextServer.getString(ascending ? "tokenAsc" : "tokenDesc");
+		String strAscending = getSession().getString(ascending ? "tokenAsc" : "tokenDesc");
 		properties.setValue(ASCENDING, new Value(strAscending));
 		// Set the source field that gave values to this properties.
 		properties.getProperties().setObject("Source", field);
@@ -423,7 +435,7 @@ public class FieldProperties {
 	 * @return The property value.
 	 */
 	public boolean getPropertyAscending(Record properties) {
-		return properties.getValue(ASCENDING).equals(TextServer.getString("tokenAsc"));
+		return properties.getValue(ASCENDING).equals(getSession().getString("tokenAsc"));
 	}
 
 	/**

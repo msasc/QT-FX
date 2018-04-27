@@ -11,7 +11,7 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package com.qtfx.lib.util;
+package com.qtfx.lib.app;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -28,6 +28,9 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.log4j.Logger;
 
+import com.qtfx.lib.util.Files;
+import com.qtfx.lib.util.SystemUtils;
+
 /**
  * A <code>TextServer</code> services text resources. Text resources can be located in property files under a common
  * directory root, in property files directly passed to the server, or in compressed files available through the class
@@ -35,7 +38,7 @@ import org.apache.log4j.Logger;
  * 
  * @author Miquel Sas
  */
-public class TextServer {
+class TextServer {
 
 	/** List of base resources loaded. */
 	private static ArrayList<String> baseResources = new ArrayList<>();
@@ -54,16 +57,6 @@ public class TextServer {
 		return "[" + key + "]";
 	}
 	
-	/**
-	 * Returns a string for the default locale.
-	 * 
-	 * @param key The key to search the string.
-	 * @return the String.
-	 */
-	public static String getString(String key) {
-		return getString(key, Locale.getDefault());
-	}
-
 	/**
 	 * Returns a string for a given locale.
 	 * 

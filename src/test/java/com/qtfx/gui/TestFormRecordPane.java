@@ -3,11 +3,11 @@ package com.qtfx.gui;
 import java.util.List;
 import java.util.Locale;
 
+import com.qtfx.lib.app.TextServer;
 import com.qtfx.lib.db.FieldList;
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.gui.FX;
 import com.qtfx.lib.gui.FormRecordPane;
-import com.qtfx.lib.util.TextServer;
 import com.qtfx.util.Util;
 
 import javafx.application.Application;

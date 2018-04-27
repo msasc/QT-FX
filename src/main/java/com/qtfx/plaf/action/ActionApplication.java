@@ -14,15 +14,17 @@
 
 package com.qtfx.plaf.action;
 
+import java.util.Locale;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qtfx.lib.app.TextServer;
 import com.qtfx.lib.gui.Alert;
 import com.qtfx.lib.gui.StatusBar;
 import com.qtfx.lib.gui.action.handlers.ActionEventHandler;
 import com.qtfx.lib.gui.action.handlers.WindowEventHandler;
 import com.qtfx.lib.mkt.server.Server;
-import com.qtfx.lib.util.TextServer;
 import com.qtfx.plaf.QTFX;
 
 import javafx.event.ActionEvent;
@@ -130,7 +132,7 @@ public class ActionApplication {
 	}
 
 	/**
-	 * Not instantiable.
+	 * Not instantiate.
 	 */
 	private ActionApplication() {
 	}

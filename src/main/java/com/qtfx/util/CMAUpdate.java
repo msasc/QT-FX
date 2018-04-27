@@ -22,6 +22,7 @@ import java.util.Locale;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qtfx.lib.app.TextServer;
 import com.qtfx.lib.gui.Alert;
 import com.qtfx.lib.gui.TaskPane;
 import com.qtfx.lib.gui.launch.Argument;
@@ -29,7 +30,6 @@ import com.qtfx.lib.gui.launch.ArgumentManager;
 import com.qtfx.lib.task.Task;
 import com.qtfx.lib.task.file.FileCopy;
 import com.qtfx.lib.util.Lists;
-import com.qtfx.lib.util.TextServer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -614,7 +614,7 @@ public class CMAUpdate extends Application {
 
 			// Central.
 			if (argMngr.getValues("modules").contains("central")) {
-				FileCopy fc = new FileCopy();
+				FileCopy fc = new FileCopy(Locale.getDefault());
 				fc.setTitle(getDescription(argMngr, "central"));
 				fc.setPurgeDestination(purge);
 				addLibrary(fc, argMngr, "CMA_Central");
@@ -634,7 +634,7 @@ public class CMAUpdate extends Application {
 
 			// Dictionary
 			if (argMngr.getValues("modules").contains("dictionary")) {
-				FileCopy fc = new FileCopy();
+				FileCopy fc = new FileCopy(Locale.getDefault());
 				fc.setTitle(getDescription(argMngr, "dictionary"));
 				fc.setPurgeDestination(purge);
 				addLibrary(fc, argMngr, "CMA_Dictionary");
@@ -649,7 +649,7 @@ public class CMAUpdate extends Application {
 
 			// Local.
 			if (argMngr.getValues("modules").contains("local")) {
-				FileCopy fc = new FileCopy();
+				FileCopy fc = new FileCopy(Locale.getDefault());
 				fc.setTitle(getDescription(argMngr, "local"));
 				fc.setPurgeDestination(purge);
 				addLibrary(fc, argMngr, "CMA_Local");
@@ -681,7 +681,7 @@ public class CMAUpdate extends Application {
 			// Central.
 			if (argMngr.getValues("modules").contains("central")) {
 				for (String drive : drives) {
-					FileCopy fc = new FileCopy();
+					FileCopy fc = new FileCopy(Locale.getDefault());
 					fc.setTitle(getDescription(argMngr, "central") + " (" + drive + ")");
 					fc.setPurgeDestination(purge);
 					addRemoteDirs(fc, argMngr, "CMA_Central\\mads", "library", drive);
@@ -706,7 +706,7 @@ public class CMAUpdate extends Application {
 			// Dictionary.
 			if (argMngr.getValues("modules").contains("dictionary")) {
 				for (String drive : drives) {
-					FileCopy fc = new FileCopy();
+					FileCopy fc = new FileCopy(Locale.getDefault());
 					fc.setTitle(getDescription(argMngr, "dictionary") + " (" + drive + ")");
 					fc.setPurgeDestination(purge);
 					addRemoteDirs(fc, argMngr, "CMA_Dictionary\\mads", "library", drive);
@@ -726,7 +726,7 @@ public class CMAUpdate extends Application {
 			// Local.
 			if (argMngr.getValues("modules").contains("local")) {
 				for (String drive : drives) {
-					FileCopy fc = new FileCopy();
+					FileCopy fc = new FileCopy(Locale.getDefault());
 					fc.setTitle(getDescription(argMngr, "local") + " (" + drive + ")");
 					fc.setPurgeDestination(purge);
 					addRemoteDirs(fc, argMngr, "CMA_Local\\mads", "library", drive);

@@ -20,7 +20,7 @@ package com.qtfx.lib.ml.function;
  * @author Miquel Sas
  */
 public interface Activation {
-	
+
 	/**
 	 * Returns the output values of the function given the trigger values.
 	 * 
@@ -31,8 +31,8 @@ public interface Activation {
 	void activations(double[] triggers, double[] outputs);
 
 	/**
-	 * Returns the first derivatives of the function, given the triggers and the outputs. Some activations require the
-	 * output and some the trigger.
+	 * Returns the first derivatives of the function, given the triggers and/or the outputs. Some activations require
+	 * the outputs and some the triggers.
 	 * 
 	 * @param triggers The triggers applied to <i>activations</i>.
 	 * @param outputs The outputs obtained applying the triggers to <i>activations</i>.

@@ -1,25 +1,15 @@
 package com.qtfx.lib.ml.network;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 /**
- * A layer of a network. A layer makes no assumptions on how is managed internal data.
+ * A layer of a network.
  * <p>
- * The layer is enforced to store the input and the output. The input is set via the call to <em>setInput()</em> and the
- * output is retrieved via the call to <em>getOutput()</em>.
+ * The layer is enforced to store the input and the output and any internal necessary data for the forward process, like
+ * weights, and for the error backward process, like gradients.
  * <p>
- * So, a forward calculations will look like this.
- * <ul>
- * <li><em>layer.setInput(double[] input)</em></li>
- * <li><em>layer.forward()</em></li>
- * <li><em>double[] output = layer.getOutput()</em></li>
- * </ul>
- * The general contract to process an error and allow processing different lists of the same pattern in a batch mode, is
- * to pass the output error, apply and store any gradients and internal data, and the update this internal data to
- * produce the input error.
- * <ul>
- * <li><em>layer.setOutputError(double[] error)</em></li>
- * <li><em>layer.updateGradients()</em></li>
- * <li><em>double[] inputError = layer.getInputError()</em></li>
- * </ul>
  * Note that with this structure, a layer can be at the same time input and output layer.
  *
  * @author Miquel Sas
@@ -27,9 +17,9 @@ package com.qtfx.lib.ml.network;
 public abstract class Layer {
 
 	/** Parent network. */
-	Network network;
+	private Network network;
 	/** Input size. */
-	int inputSize;
+	private int inputSize;
 	/** Output size. */
 	private int outputSize;
 
@@ -38,9 +28,27 @@ public abstract class Layer {
 	 * 
 	 * @param outputSize Output size.
 	 */
-	public Layer(int inputSize, int outputSize) {
+	public Layer(int outputSize) {
 		super();
 		this.outputSize = outputSize;
+	}
+
+	/**
+	 * Set the input size (the network sets it).
+	 * 
+	 * @param inputSize The input size.
+	 */
+	void setInputSize(int inputSize) {
+		this.inputSize = inputSize;
+	}
+
+	/**
+	 * Set the parent network.
+	 * 
+	 * @param network The network.
+	 */
+	void setNetwork(Network network) {
+		this.network = network;
 	}
 
 	/**
@@ -60,7 +68,7 @@ public abstract class Layer {
 	public int getOutputSize() {
 		return outputSize;
 	}
-	
+
 	/**
 	 * Check if this layer is the input layer.
 	 * 
@@ -75,7 +83,7 @@ public abstract class Layer {
 	 * 
 	 * @return A boolean.
 	 */
-	boolean isOutputLayer(Layer layer) {
+	public boolean isOutputLayer(Layer layer) {
 		return network.isOutputLayer(this);
 	}
 
@@ -85,7 +93,7 @@ public abstract class Layer {
 	 * @param layer The layer.
 	 * @return A boolean.
 	 */
-	boolean isHiddenLayer(Layer layer) {
+	public boolean isHiddenLayer(Layer layer) {
 		return network.isHiddenLayer(this);
 	}
 
@@ -93,4 +101,45 @@ public abstract class Layer {
 	 * Create and initialize this layer internal data.
 	 */
 	public abstract void initialize();
+
+	/////////////////////
+	// Forward processing
+
+	/**
+	 * Forward process of the input data (input size) producing the output data.
+	 * 
+	 * @param inputs Input data.
+	 * @return Output data.
+	 */
+	public abstract double[] forward(double[] inputs);
+
+	//////////////////////
+	// Backward processing
+
+	/**
+	 * Optional backward learning process of an output error producing an input error.
+	 * 
+	 * @param errors The output error.
+	 * @return The input error.
+	 */
+	public abstract double[] backward(double[] errors);
+
+	///////////////
+	// Save/restore
+
+	/**
+	 * Save all the layer internal data to an output stream.
+	 * 
+	 * @param os The output stream.
+	 * @throws IOException
+	 */
+	public abstract void save(OutputStream os) throws IOException;
+
+	/**
+	 * Restore all the layer internal data from an oinput stream.
+	 * 
+	 * @param is The input stream.
+	 * @throws IOException
+	 */
+	public abstract void restore(InputStream is) throws IOException;
 }
