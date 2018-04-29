@@ -14,12 +14,10 @@
 
 package com.qtfx.plaf.action;
 
-import java.util.Locale;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.Criteria;
 import com.qtfx.lib.db.Persistor;
 import com.qtfx.lib.db.PersistorException;
@@ -27,6 +25,7 @@ import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.RecordSet;
 import com.qtfx.lib.db.Table;
 import com.qtfx.lib.gui.Alert;
+import com.qtfx.lib.gui.Buttons;
 import com.qtfx.lib.gui.TableRecordPane;
 import com.qtfx.lib.gui.TaskPane;
 import com.qtfx.lib.gui.action.handlers.ActionEventHandler;
@@ -55,6 +54,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
@@ -104,7 +104,7 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 				Persistor persistor = db.getPersistor_Tickers();
 				Record rcTicker = db.getRecord_Ticker(server, instrument, period);
 				if (persistor.exists(rcTicker)) {
-					Alert.warning(stage, null, TextServer.getString("alertTickerExists"));
+					Alert.warning(stage, null, Session.getSession().getString("alertTickerExists"));
 					return;
 				}
 
@@ -146,9 +146,10 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 				Server server = QTFX.getServer(getNode());
 				Database db = QTFX.getDatabase(getNode());
 				Record selected = table.getSelectedRecords().get(0);
-				if (Alert.confirm(
-					TextServer.getString("alertConfirmDeleteTitle"),
-					TextServer.getString("alertConfirmDeleteText")).equals(Alert.CANCEL)) {
+				Button button = Alert.confirm(
+					Session.getSession().getString("alertConfirmDeleteTitle"),
+					Session.getSession().getString("alertConfirmDeleteText"));
+				if (Buttons.isCancel(button)) {
 					return;
 				}
 				String instrumentId = selected.getValue(Fields.INSTRUMENT_ID).getString();
@@ -214,7 +215,8 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 
 				Tab tab = new Tab();
 				tab.setText(
-					TextServer.getString("tabList") + " " + instrument.getDescription() + ", " + period.toString());
+					Session.getSession().getString(
+						"tabList") + " " + instrument.getDescription() + ", " + period.toString());
 				tab.setContent(tableData.getNode());
 
 				TabPane tabPane = QTFX.getTabPane(getNode());
@@ -245,9 +247,10 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 				Server server = QTFX.getServer(getNode());
 				Database db = QTFX.getDatabase(getNode());
 				Record selected = table.getSelectedRecords().get(0);
-				if (Alert.confirm(
-					TextServer.getString("alertConfirmPurgeTitle"),
-					TextServer.getString("alertConfirmPurgeText")).equals(Alert.CANCEL)) {
+				String title = Session.getSession().getString("alertConfirmPurgeTitle");
+				String text = Session.getSession().getString("alertConfirmPurgeText");
+				Button button = Alert.confirm(title, text);
+				if (Buttons.isCancel(button)) {
 					return;
 				}
 				String instrumentId = selected.getValue(Fields.INSTRUMENT_ID).getString();
@@ -287,7 +290,7 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 				TaskDownloadTicker task = new TaskDownloadTicker(db, server, instrument, period, OfferSide.ASK,
 					Filter.ALL_FLATS);
 
-				String tabText = TextServer.getString("tabDownload");
+				String tabText = Session.getSession().getString("tabDownload");
 				if (!QTFX.isTab(getNode(), tabText)) {
 					TaskPane taskPane = new TaskPane();
 					taskPane.addTask(task);
@@ -318,7 +321,7 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 			}
 		}
 	}
-	
+
 	/**
 	 * Chart a ticker.
 	 */
@@ -334,7 +337,6 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 				if (table.getSelectedRecords().isEmpty()) {
 					return;
 				}
-				Locale locale = QTFX.getLocale(getNode());
 				Server server = QTFX.getServer(getNode());
 				Database db = QTFX.getDatabase(getNode());
 				Record selected = table.getSelectedRecords().get(0);
@@ -343,34 +345,35 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 				String periodId = selected.getValue(Fields.PERIOD_ID).getString();
 				Period period = Period.parseId(periodId);
 				Persistor persistor = db.getPersistor_DataPrice(server, instrument, period);
-				
+
 				// Build the plot data.
-				DataInfo infoPrice = new PriceInfo(locale, instrument, period);
+				DataInfo infoPrice = new PriceInfo(instrument, period);
 				DataListPersistor price = new DataListPersistor(infoPrice, persistor);
 				price.setPlotType(PlotType.CANDLESTICK);
 				PlotData plotData = new PlotData();
 				plotData.add(price);
 
 				// By default in this view add two SMA of 50 and 200 periods.
-				IndicatorDataList sma50 = 
-					IndicatorUtils.getSmoothedWeightedMovingAverage(price, Data.CLOSE, Color.BLUE, 50, 5, 3, 3);
-				IndicatorDataList sma200 = 
-					IndicatorUtils.getSmoothedSimpleMovingAverage(price, Data.CLOSE, Color.BLACK, 200, 10, 5, 5);
+				IndicatorDataList sma50 = IndicatorUtils.getSmoothedWeightedMovingAverage(price, Data.CLOSE, Color.BLUE,
+					50, 5, 3, 3);
+				IndicatorDataList sma200 = IndicatorUtils.getSmoothedSimpleMovingAverage(price, Data.CLOSE, Color.BLACK,
+					200, 10, 5, 5);
 				plotData.add(sma50);
 				plotData.add(sma200);
-				
-				Chart chart = new Chart(locale);
+
+				Chart chart = new Chart();
 				chart.addPlotData(plotData);
-				
+
 				Tab tab = new Tab();
 				tab.setText(
-					TextServer.getString("tabChart") + " " + instrument.getDescription() + ", " + period.toString());
+					Session.getSession().getString(
+						"tabChart") + " " + instrument.getDescription() + ", " + period.toString());
 				tab.setContent(chart.getPane());
-				
+
 				TabPane tabPane = QTFX.getTabPane(getNode());
 				tabPane.getTabs().add(tab);
 				tabPane.getSelectionModel().select(tab);
-				
+
 			} catch (Exception exc) {
 				LOGGER.catching(exc);
 			}
@@ -399,7 +402,7 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 					table.getTableView().setContextMenu(getMenu());
 
 					Tab tab = new Tab();
-					tab.setText(TextServer.getString("menuTickersDefine"));
+					tab.setText(Session.getSession().getString("menuTickersDefine"));
 					tab.setContent(table.getNode());
 
 					TabPane tabPane = QTFX.getTabPane(getNode());
@@ -439,27 +442,27 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 	 */
 	private ContextMenu getMenu() {
 		ContextMenu menu = new ContextMenu();
-		MenuItem create = new MenuItem(TextServer.getString("buttonCreate"));
+		MenuItem create = new MenuItem(Session.getSession().getString("buttonCreate"));
 		create.setOnAction(e -> {
 			new ActionCreate(getNode()).handle(e);
 		});
-		MenuItem delete = new MenuItem(TextServer.getString("buttonDelete"));
+		MenuItem delete = new MenuItem(Session.getSession().getString("buttonDelete"));
 		delete.setOnAction(e -> {
 			new ActionDelete(getNode()).handle(e);
 		});
-		MenuItem browse = new MenuItem(TextServer.getString("buttonBrowse"));
+		MenuItem browse = new MenuItem(Session.getSession().getString("buttonBrowse"));
 		browse.setOnAction(e -> {
 			new ActionBrowse(getNode()).handle(e);
 		});
-		MenuItem chart = new MenuItem(TextServer.getString("buttonChart"));
+		MenuItem chart = new MenuItem(Session.getSession().getString("buttonChart"));
 		chart.setOnAction(e -> {
 			new ActionChart(getNode()).handle(e);
 		});
-		MenuItem purge = new MenuItem(TextServer.getString("buttonPurge"));
+		MenuItem purge = new MenuItem(Session.getSession().getString("buttonPurge"));
 		purge.setOnAction(e -> {
 			new ActionPurge(getNode()).handle(e);
 		});
-		MenuItem download = new MenuItem(TextServer.getString("buttonDownload"));
+		MenuItem download = new MenuItem(Session.getSession().getString("buttonDownload"));
 		download.setOnAction(e -> {
 			new ActionDownload(getNode()).handle(e);
 		});

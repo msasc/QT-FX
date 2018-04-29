@@ -14,13 +14,12 @@
 
 package com.qtfx.plaf.action;
 
-import java.util.Locale;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.gui.Alert;
+import com.qtfx.lib.gui.Buttons;
 import com.qtfx.lib.gui.StatusBar;
 import com.qtfx.lib.gui.action.handlers.ActionEventHandler;
 import com.qtfx.lib.gui.action.handlers.WindowEventHandler;
@@ -29,6 +28,7 @@ import com.qtfx.plaf.QTFX;
 
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 
@@ -123,9 +123,10 @@ public class ActionApplication {
 	 */
 	private static boolean queryExit(Node node) {
 		Window window = node.getScene().getWindow();
-		String title = TextServer.getString("tokenExit");
-		String message = TextServer.getString("alertExitApp");
-		if (Alert.confirm(window, title, message) == Alert.CANCEL) {
+		String title = Session.getSession().getString("tokenExit");
+		String message = Session.getSession().getString("alertExitApp");
+		Button button = Alert.confirm(window, title, message);
+		if (Buttons.isCancel(button)) {
 			return false;
 		}
 		return true;

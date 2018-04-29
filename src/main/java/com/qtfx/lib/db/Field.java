@@ -18,12 +18,9 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import com.qtfx.lib.app.Session;
 import com.qtfx.lib.util.Strings;
 
 import javafx.scene.control.TextFormatter;
@@ -141,8 +138,8 @@ public class Field implements Comparable<Object> {
 	private TextFormatter<Value> textFormatter;
 	/** Optional CSS style. */
 	private String style;
-	/** Optional value validator. */
-	private Validator<Value> validator;
+	/** List of validators. */
+	private List<Validator<Value>> validators;
 
 	///////////////////////////////
 	// Database related properties.
@@ -165,17 +162,11 @@ public class Field implements Comparable<Object> {
 	/** Optional parent view. */
 	private View view;
 
-	/** Working session. */
-	private Session session;
-
 	/**
 	 * Default constructor.
-	 * 
-	 * @param session The working session.
 	 */
-	public Field(Session session) {
+	public Field() {
 		super();
-		this.session = session;
 	}
 
 	/**
@@ -187,7 +178,6 @@ public class Field implements Comparable<Object> {
 		super();
 
 		// Main properties.
-		this.session = field.session;
 		this.name = field.name;
 		this.alias = field.alias;
 		this.length = field.length;
@@ -220,7 +210,10 @@ public class Field implements Comparable<Object> {
 		this.stringConverter = field.stringConverter;
 		this.textFormatter = field.textFormatter;
 		this.style = field.style;
-		this.validator = field.validator;
+		if (field.validators != null) {
+			this.validators = new ArrayList<>();
+			this.validators.addAll(field.validators);
+		}
 
 		// Database related properties.
 		this.currentDateTimeOrTimestamp = field.currentDateTimeOrTimestamp;
@@ -235,14 +228,7 @@ public class Field implements Comparable<Object> {
 	/////////////////////////////////
 	// Access to the working session.
 
-	/**
-	 * Return the working session.
-	 * 
-	 * @return The session.
-	 */
-	public Session getSession() {
-		return session;
-	}
+	
 
 	///////////////////
 	// Main properties.
@@ -861,21 +847,27 @@ public class Field implements Comparable<Object> {
 	}
 
 	/**
-	 * Return the optional validator.
+	 * Return the list of validators.
 	 * 
-	 * @return The validator.
+	 * @return The list of validators.
 	 */
-	public Validator<Value> getValidator() {
-		return validator;
+	public List<Validator<Value>> getValidators() {
+		if (validators == null) {
+			return new ArrayList<>();
+		}
+		return validators;
 	}
 
 	/**
-	 * Set the optional validator.
+	 * Add a validator to the list of default validators.
 	 * 
 	 * @param validator The validator.
 	 */
-	public void setValidator(Validator<Value> validator) {
-		this.validator = validator;
+	public void addValidator(Validator<Value> validator) {
+		if (validators == null) {
+			validators = new ArrayList<>();
+		}
+		validators.add(validator);
 	}
 
 	/**
@@ -885,103 +877,31 @@ public class Field implements Comparable<Object> {
 	 * @return A boolean indicating if the value is valid.
 	 */
 	public boolean validate(Value value) {
-
-		// Strict type
-		if (!value.getType().equals(getType())) {
-			return false;
-		}
-
-		// Maximum value
-		if (getMaximumValue() != null) {
-			if (value.compareTo(getMaximumValue()) > 0) {
-				return false;
+		if (validators != null) {
+			for (Validator<Value> validator : validators) {
+				if (!validator.validate(value)) {
+					return false;
+				}
 			}
 		}
-
-		// Minimum value
-		if (getMinimumValue() != null) {
-			if (value.compareTo(getMinimumValue()) < 0) {
-				return false;
-			}
-		}
-
-		// Possible values
-		if (!getPossibleValues().isEmpty()) {
-			if (!value.in(new ArrayList<>(getPossibleValues()))) {
-				return false;
-			}
-		}
-
-		// Non empty required
-		if (isRequired() && value.isEmpty()) {
-			return false;
-		}
-
-		// Nullable
-		if (!isNullable() && value.isNull()) {
-			return false;
-		}
-
-		// Validator.
-		if (getValidator() != null) {
-			if (!getValidator().validate(value)) {
-				return false;
-			}
-		}
-
 		return true;
 	}
 
 	/**
 	 * Returns the validation message or null if validation is ok.
 	 *
-	 * @param locale The working locale.
 	 * @param value The value to check for the validation message.
 	 * @return The validation message or null if validation is ok.
 	 */
-	public String getValidationMessage(Locale locale, Value value) {
-
-		// Strict type
-		if (!value.getType().equals(getType())) {
-			return MessageFormat.format(getSession().getString("fieldValidType"), value.getType(), getType());
-		}
-
-		// Maximum value
-		if (getMaximumValue() != null) {
-			if (value.compareTo(getMaximumValue()) > 0) {
-				return MessageFormat.format(getSession().getString("fieldValidMax"), value, getMaximumValue());
+	public String getValidationMessage(Value value) {
+		if (validators != null) {
+			for (Validator<Value> validator : validators) {
+				String message = validator.getMessage(value);
+				if (message != null && !message.isEmpty()) {
+					return message;
+				}
 			}
 		}
-
-		// Minimum value
-		if (getMinimumValue() != null) {
-			if (value.compareTo(getMinimumValue()) < 0) {
-				return MessageFormat.format(getSession().getString("fieldValidMin"), value, getMinimumValue());
-			}
-		}
-
-		// Possible values
-		if (!getPossibleValues().isEmpty()) {
-			if (!value.in(new ArrayList<>(getPossibleValues()))) {
-				return MessageFormat.format(getSession().getString("fieldValidPossible"), value);
-			}
-		}
-
-		// Non empty required
-		if (isRequired() && value.isEmpty()) {
-			return getSession().getString("fieldValidEmpy");
-		}
-
-		// Nullable
-		if (!isNullable() && value.isNull()) {
-			return getSession().getString("fieldValidEmpy");
-		}
-
-		// Validator
-		if (getValidator() != null) {
-			return getValidator().getMessage(value);
-		}
-
 		return null;
 	}
 

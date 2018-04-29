@@ -53,6 +53,13 @@ public class FieldProperties {
 
 	/**
 	 * Constructor.
+	 */
+	public FieldProperties() {
+		this(Session.getSession());
+	}
+
+	/**
+	 * Constructor.
 	 * 
 	 * @param session The working session.
 	 */
@@ -61,6 +68,9 @@ public class FieldProperties {
 		this.session = session;
 	}
 
+	
+	
+	
 	/**
 	 * Return the working session.
 	 * 
@@ -125,7 +135,7 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldIndex() {
-		Field field = new Field(getSession());
+		Field field = new Field();
 		field.setName(INDEX);
 		field.setAlias(INDEX);
 		field.setTitle(getSession().getString("fieldIndex"));
@@ -142,7 +152,7 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldGroup() {
-		Field field = new Field(getSession());
+		Field field = new Field();
 		field.setName(GROUP);
 		field.setAlias(GROUP);
 		field.setTitle(getSession().getString("fieldGroup"));
@@ -159,7 +169,7 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldName() {
-		Field field = new Field(getSession());
+		Field field = new Field();
 		field.setName(NAME);
 		field.setAlias(NAME);
 		field.setTitle(getSession().getString("fieldName"));
@@ -176,7 +186,7 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldAlias() {
-		Field field = new Field(getSession());
+		Field field = new Field();
 		field.setName(ALIAS);
 		field.setAlias(ALIAS);
 		field.setTitle(getSession().getString("fieldAlias"));
@@ -193,7 +203,7 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldHeader() {
-		Field field = new Field(getSession());
+		Field field = new Field();
 		field.setName(HEADER);
 		field.setAlias(HEADER);
 		field.setTitle(getSession().getString("fieldHeader"));
@@ -210,7 +220,7 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldTitle() {
-		Field field = new Field(getSession());
+		Field field = new Field();
 		field.setName(TITLE);
 		field.setAlias(TITLE);
 		field.setTitle(getSession().getString("fieldTitle"));
@@ -227,7 +237,7 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldType() {
-		Field field = new Field(getSession());
+		Field field = new Field();
 		field.setName(TYPE);
 		field.setAlias(TYPE);
 		field.setTitle(getSession().getString("fieldType"));
@@ -244,7 +254,7 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldLength() {
-		Field field = new Field(getSession());
+		Field field = new Field();
 		field.setName(LENGTH);
 		field.setAlias(LENGTH);
 		field.setTitle(getSession().getString("fieldLength"));
@@ -260,7 +270,7 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldDecimals() {
-		Field field = new Field(getSession());
+		Field field = new Field();
 		field.setName(DECIMALS);
 		field.setAlias(DECIMALS);
 		field.setTitle(getSession().getString("fieldDecimals"));
@@ -276,7 +286,7 @@ public class FieldProperties {
 	 * @return The field.
 	 */
 	public Field getFieldAscending() {
-		Field field = new Field(getSession());
+		Field field = new Field();
 		field.setName(ASCENDING);
 		field.setAlias(ASCENDING);
 		field.setTitle(getSession().getString("fieldAsc"));

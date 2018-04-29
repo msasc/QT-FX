@@ -18,8 +18,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.task.TaskRun;
 import com.qtfx.lib.util.Lists;
 
@@ -60,10 +60,10 @@ public class FileScanner extends TaskRun {
 	/**
 	 * Constructor.
 	 * 
-	 * @param locale the locale for literals.
+	 * @param session The working session.
 	 */
-	public FileScanner(Locale locale) {
-		super(locale);
+	public FileScanner(Session session) {
+		super(session);
 	}
 
 	/**

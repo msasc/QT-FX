@@ -17,7 +17,6 @@ package com.qtfx.lib.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.FieldGroup;
 import com.qtfx.lib.util.Numbers;
 
@@ -75,8 +74,6 @@ public class FX {
 	private static final String PROPERTY_FIELD_GROUP = "FIELD_GROUP";
 	/** Property CONSOLE. */
 	private static final String PROPERTY_CONSOLE = "CONSOLE";
-	/** Working session. */
-	private static final String PROPERTY_SESSION = "SESSION";
 
 	//////////////////////////////////
 	// Properties getters and setters.
@@ -162,25 +159,6 @@ public class FX {
 		setString(node, PROPERTY_ORDER, order);
 	}
 	
-	/**
-	 * Return the working session.
-	 * @param node The node.
-	 * @return The session.
-	 */
-	public static Session getSession(Node node) {
-		return (Session) getObject(node, PROPERTY_SESSION);
-	}
-	
-	/**
-	 * Set the session property.
-	 * 
-	 * @param node The node.
-	 * @param session
-	 */
-	public static void setSession(Node node, Session session) {
-		setObject(node, PROPERTY_SESSION, session);
-	}
-
 	/**
 	 * Return the table record pane with the default empty id.
 	 * 

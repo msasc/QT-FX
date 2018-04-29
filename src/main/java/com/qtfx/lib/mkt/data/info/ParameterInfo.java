@@ -15,7 +15,6 @@ package com.qtfx.lib.mkt.data.info;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Value;
@@ -33,17 +32,12 @@ public class ParameterInfo {
 	private List<Value> values = new ArrayList<>();
 	/** The maximum number of accepted values, less equal zero for a variable list. */
 	private int maximumValues = 1;
-	/** Working locale. */
-	private Locale locale;
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param session The working session.
 	 */
-	public ParameterInfo(Locale locale) {
+	public ParameterInfo() {
 		super();
-		this.locale = locale;
 	}
 
 	/**
@@ -193,7 +187,7 @@ public class ParameterInfo {
 			throw new IllegalArgumentException("The field must be set.");
 		}
 		if (!field.validate(value)) {
-			throw new IllegalArgumentException(field.getValidationMessage(locale, value));
+			throw new IllegalArgumentException(field.getValidationMessage(value));
 		}
 	}
 

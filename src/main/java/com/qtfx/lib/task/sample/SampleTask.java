@@ -14,8 +14,7 @@
 
 package com.qtfx.lib.task.sample;
 
-import java.util.Locale;
-
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.task.Task;
 import com.qtfx.lib.util.Random;
 
@@ -47,7 +46,7 @@ public class SampleTask extends Task {
 	 * Constructor.
 	 */
 	public SampleTask() {
-		super(Locale.getDefault());
+		super(Session.US);
 	}
 
 	/**

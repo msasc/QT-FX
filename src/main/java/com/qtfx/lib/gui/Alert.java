@@ -14,7 +14,6 @@
 
 package com.qtfx.lib.gui;
 
-import com.qtfx.lib.app.Session;
 import com.qtfx.lib.util.Icons;
 
 import javafx.geometry.Insets;
@@ -53,28 +52,26 @@ public class Alert {
 	/**
 	 * Simple predefined alert by type.
 	 * 
-	 * @param session The working session.
 	 * @param title The title.
 	 * @param message The message.
 	 * @param type The type.
 	 * @return The selected button.
 	 */
-	public static Button alert(Session session, String title, String message, Type type) {
-		return alert(session, null, title, message, type);
+	public static Button alert(String title, String message, Type type) {
+		return alert(null, title, message, type);
 	}
 
 	/**
 	 * Simple predefined alert by type.
 	 * 
-	 * @param session The working session.
 	 * @param owner The owner window or null for application modal.
 	 * @param title The title.
 	 * @param message The message.
 	 * @param type The type.
 	 * @return The selected button.
 	 */
-	public static Button alert(Session session, Window owner, String title, String message, Type type) {
-		Alert alert = new Alert(session, owner);
+	public static Button alert(Window owner, String title, String message, Type type) {
+		Alert alert = new Alert(owner);
 		alert.setTitle(title);
 		alert.addText(message);
 		alert.setType(type);
@@ -85,28 +82,26 @@ public class Alert {
 	/**
 	 * Simple predefined alert by buttons.
 	 * 
-	 * @param session The working session.
 	 * @param title The title.
 	 * @param message The message.
 	 * @param buttons The list of buttons.
 	 * @return The selected button.
 	 */
-	public static Button alert(Session session, String title, String message, Button... buttons) {
-		return alert(session, null, title, message, buttons);
+	public static Button alert(String title, String message, Button... buttons) {
+		return alert(null, title, message, buttons);
 	}
 
 	/**
 	 * Simple predefined alert by buttons.
 	 * 
-	 * @param session The working session.
 	 * @param owner The owner window or null for application modal.
 	 * @param title The title.
 	 * @param message The message.
 	 * @param buttons The list of buttons.
 	 * @return The selected button.
 	 */
-	public static Button alert(Session session, Window owner, String title, String message, Button... buttons) {
-		Alert alert = new Alert(session, owner);
+	public static Button alert(Window owner, String title, String message, Button... buttons) {
+		Alert alert = new Alert(owner);
 		alert.setTitle(title);
 		alert.addText(message);
 		alert.setButtons(buttons);
@@ -117,126 +112,116 @@ public class Alert {
 	/**
 	 * Confirmation alert.
 	 * 
-	 * @param session The working session.
 	 * @param title The title.
 	 * @param message The message.
 	 * @return The button.
 	 */
-	public static Button confirm(Session session, String title, String message) {
-		return confirm(session, null, title, message);
+	public static Button confirm(String title, String message) {
+		return confirm(null, title, message);
 	}
 
 	/**
 	 * Confirmation alert.
 	 * 
-	 * @param session The working session.
 	 * @param owner The window owner.
 	 * @param title The title.
 	 * @param message The message.
 	 * @return The button.
 	 */
-	public static Button confirm(Session session, Window owner, String title, String message) {
-		return alert(session, owner, title, message, Type.CONFIRMATION);
+	public static Button confirm(Window owner, String title, String message) {
+		return alert(owner, title, message, Type.CONFIRMATION);
 	}
 
 	/**
 	 * Error alert.
 	 * 
-	 * @param session The working session.
 	 * @param title The title.
 	 * @param message The message.
 	 * @return The button.
 	 */
-	public static Button error(Session session, String title, String message) {
-		return error(session, null, title, message);
+	public static Button error(String title, String message) {
+		return error(null, title, message);
 	}
 
 	/**
 	 * Error alert.
 	 * 
-	 * @param session The working session.
 	 * @param owner The window owner.
 	 * @param title The title.
 	 * @param message The message.
 	 * @return The button.
 	 */
-	public static Button error(Session session, Window owner, String title, String message) {
-		return alert(session, owner, title, message, Type.ERROR);
+	public static Button error(Window owner, String title, String message) {
+		return alert(owner, title, message, Type.ERROR);
 	}
 
 	/**
 	 * Information alert.
 	 * 
-	 * @param session The working session.
 	 * @param title The title.
 	 * @param message The message.
 	 * @return The button.
 	 */
-	public static Button info(Session session, String title, String message) {
-		return info(session, null, title, message);
+	public static Button info(String title, String message) {
+		return info(null, title, message);
 	}
 
 	/**
 	 * Information alert.
 	 * 
-	 * @param session The working session.
 	 * @param owner The window owner.
 	 * @param title The title.
 	 * @param message The message.
 	 * @return The button.
 	 */
-	public static Button info(Session session, Window owner, String title, String message) {
-		return alert(session, owner, title, message, Type.INFORMATION);
+	public static Button info(Window owner, String title, String message) {
+		return alert(owner, title, message, Type.INFORMATION);
 	}
 
 	/**
 	 * Plain alert.
 	 * 
-	 * @param session The working session.
 	 * @param title The title.
 	 * @param message The message.
 	 * @return The button.
 	 */
-	public static Button plain(Session session, String title, String message) {
-		return plain(session, null, title, message);
+	public static Button plain(String title, String message) {
+		return plain(null, title, message);
 	}
 
 	/**
 	 * Plain alert.
 	 * 
-	 * @param session The working session.
 	 * @param owner The window owner.
 	 * @param title The title.
 	 * @param message The message.
 	 * @return The button.
 	 */
-	public static Button plain(Session session, Window owner, String title, String message) {
-		return alert(session, owner, title, message, Type.PLAIN);
+	public static Button plain(Window owner, String title, String message) {
+		return alert(owner, title, message, Type.PLAIN);
 	}
 
 	/**
 	 * Warning alert.
 	 * 
-	 * @param session The working session.
 	 * @param title The title.
 	 * @param message The message.
 	 * @return The button.
 	 */
-	public static Button warning(Session session, String title, String message) {
-		return warning(session, null, title, message);
+	public static Button warning(String title, String message) {
+		return warning(null, title, message);
 	}
 
 	/**
 	 * Warning alert.
 	 * 
-	 * @param session The working session.
 	 * @param owner The window owner.
 	 * @param title The title.
 	 * @param message The message.
 	 * @return The button.
 	 */
-	public static Button warning(Session session, Window owner, String title, String message) {
-		return alert(session, owner, title, message, Type.WARNING);
+	public static Button warning(Window owner, String title, String message) {
+		return alert(owner, title, message, Type.WARNING);
 	}
 
 	/** Internal dialog. */
@@ -250,33 +235,21 @@ public class Alert {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param session The working session.
 	 */
-	public Alert(Session session) {
-		this(session, null);
+	public Alert() {
+		this(null);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param session The working session.
 	 * @param owner The window owner.
 	 */
-	public Alert(Session session, Window owner) {
+	public Alert(Window owner) {
 		super();
-		dialog = new Dialog(session, owner);
+		dialog = new Dialog(owner);
 		dialog.setButtonsBottom();
 		textFlow = new TextFlow();
-	}
-
-	/**
-	 * Return the working session.
-	 * 
-	 * @return The session.
-	 */
-	public Session getSession() {
-		return dialog.getSession();
 	}
 
 	/**
@@ -308,22 +281,22 @@ public class Alert {
 		}
 		switch (type) {
 		case PLAIN:
-			dialog.getButtonPane().getButtons().add(Buttons.OK(getSession()));
+			dialog.getButtonPane().getButtons().add(Buttons.OK);
 			break;
 		case INFORMATION:
-			dialog.getButtonPane().getButtons().add(Buttons.OK(getSession()));
+			dialog.getButtonPane().getButtons().add(Buttons.OK);
 			graphics = Icons.get(Icons.APP_32x32_DIALOG_INFORMATION);
 			break;
 		case ERROR:
-			dialog.getButtonPane().getButtons().add(Buttons.OK(getSession()));
+			dialog.getButtonPane().getButtons().add(Buttons.OK);
 			graphics = Icons.get(Icons.APP_32x32_DIALOG_ERROR);
 			break;
 		case WARNING:
-			dialog.getButtonPane().getButtons().add(Buttons.OK(getSession()));
+			dialog.getButtonPane().getButtons().add(Buttons.OK);
 			graphics = Icons.get(Icons.APP_32x32_DIALOG_WARNING);
 			break;
 		case CONFIRMATION:
-			dialog.getButtonPane().getButtons().addAll(Buttons.OK(getSession()), Buttons.CANCEL(getSession()));
+			dialog.getButtonPane().getButtons().addAll(Buttons.OK, Buttons.CANCEL);
 			graphics = Icons.get(Icons.APP_32x32_DIALOG_CONFIRMATION);
 			break;
 		}

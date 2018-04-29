@@ -17,7 +17,6 @@ package com.qtfx.lib.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qtfx.lib.app.Session;
 import com.qtfx.lib.gui.action.ActionClose;
 import com.qtfx.lib.gui.action.ActionList;
 import com.qtfx.lib.gui.action.handlers.ActionEventHandler;
@@ -107,27 +106,20 @@ public class Dialog {
 	/** User property setters. */
 	private List<PropertySetter> propertySetters = new ArrayList<>();
 
-	/** Working session. */
-	private Session session;
-
 	/**
 	 * Constructor, application modal.
-	 * 
-	 * @param session The working session.
 	 */
-	public Dialog(Session session) {
-		this(session, null);
+	public Dialog() {
+		this(null);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param session The working session.
 	 * @param owner The owner window.
 	 */
-	public Dialog(Session session, Window owner) {
+	public Dialog(Window owner) {
 		super();
-		this.session = session;
 
 		// Initialize components and build the scene.
 		stage = new Stage();
@@ -143,15 +135,6 @@ public class Dialog {
 		stage.setScene(scene);
 
 		setButtonsBottom();
-	}
-
-	/**
-	 * Return the working session.
-	 * 
-	 * @return The session.
-	 */
-	public Session getSession() {
-		return session;
 	}
 
 	/**
@@ -480,7 +463,7 @@ public class Dialog {
 		}
 		// No buttons, result is default close button.
 		if (result == null && (buttonPane == null || buttonPane.getButtons().isEmpty())) {
-			result = Buttons.CLOSE(getSession());
+			result = Buttons.CLOSE;
 		}
 
 		return result;

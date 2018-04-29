@@ -17,7 +17,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.FieldList;
 import com.qtfx.lib.db.Record;
@@ -56,7 +55,7 @@ public class DBMetaData {
 		int length,
 		int decimals,
 		boolean primaryKey) {
-		Field field = new Field(Session.US);
+		Field field = new Field();
 		field.setName(name);
 		field.setAlias(name);
 		field.setDescription(description);

@@ -113,7 +113,7 @@ public class ChartHorizontalAxis {
 		pane.setMaxHeight(axisHeight);
 		pane.setPrefHeight(axisHeight);
 	}
-
+	
 	/**
 	 * Return the effective pane.
 	 * 

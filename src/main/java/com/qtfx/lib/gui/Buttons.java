@@ -25,145 +25,105 @@ import javafx.scene.control.Button;
  * @author Miquel Sas
  */
 public class Buttons {
-
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new ACCEPT button, true, false.
-	 */
-	public static Button ACCEPT(Session session) {
-		return _button(session, "ACCEPT", session.getString("buttonAccept"), true, false, true);
+	
+	private static String getString(String key) {
+		return Session.getSession().getString(key);
 	}
 
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new APPLY button, false, false.
-	 */
-	public static Button APPLY(Session session) {
-		return _button(session, "APPLY", session.getString("buttonApply"), false, false, true);
-	}
+	/** Default accept button. */
+	public final static Button ACCEPT = _button("ACCEPT", getString("buttonAccept"), true, false, true);
+	/** Default apply button. */
+	public static final Button APPLY = _button("APPLY", getString("buttonApply"), false, false, true);
+	/** Default cancel button. */
+	public static final Button CANCEL = _button("CANCEL", getString("buttonCancel"), false, true, true);
+	/** Default close button. */
+	public static final Button CLOSE = _button("CLOSE", getString("buttonClose"), false, false, true);
+	/** Default finish button. */
+	public static final Button FINISH = _button("FINISH", getString("buttonFinish"), false, false, true);
+	/** Default ignore button. */
+	public static final Button IGNORE = _button("IGNORE", getString("buttonIgnore"), false, false, true);
+	/** Default next button. */
+	public static final Button NEXT = _button("NEXT", getString("buttonNext"), false, false, false);
+	/** Default no button. */
+	public static final Button NO = _button("NO", getString("buttonNo"), false, true, true);
+	/** Default ok button. */
+	public static final Button OK = _button("OK", getString("buttonOk"), true, false, true);
+	/** Default open button. */
+	public static final Button OPEN = _button("OPEN", getString("buttonOpen"), true, false, true);
+	/** Default previous button. */
+	public static final Button PREVIOUS = _button("PREVIOUS", getString("buttonPrevious"), false, false, false);
+	/** Default retry button. */
+	public static final Button RETRY = _button("RETRY", getString("buttonRetry"), false, false, true);
+	/** Default accept button. */
+	public static final Button SELECT = _button("SELECT", getString("buttonSelect"), true, false, true);
+	/** Default yes button. */
+	public static final Button YES = _button("YES", getString("buttonYes"), true, false, true);
 
 	/**
-	 * Returns a default accept button.
+	 * Check the button.
 	 * 
-	 * @param session The working session.
-	 * @return A new CANCEL button, false, true.
+	 * @param button The button.
+	 * @param id The id.
+	 * @return A boolean.
 	 */
-	public static Button CANCEL(Session session) {
-		return _button(session, "CANCEL", session.getString("buttonCancel"), false, true, true);
+	public static final boolean is(Button button, String id) {
+		return button.getId().equals(id);
 	}
 
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new CLOSE button, false, false.
-	 */
-	public static Button CLOSE(Session session) {
-		return _button(session, "CLOSE", session.getString("buttonClose"), false, false, true);
+	public static final boolean isAccept(Button button) {
+		return is(button, "ACCEPT");
 	}
 
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new FINISH button, false, false.
-	 */
-	public static Button FINISH(Session session) {
-		return _button(session, "FINISH", session.getString("buttonFinish"), false, false, true);
+	public static final boolean isApply(Button button) {
+		return is(button, "APPLY");
 	}
 
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new IGNORE button, false, false.
-	 */
-	public static Button IGNORE(Session session) {
-		return _button(session, "IGNORE", session.getString("buttonIgnore"), false, false, true);
+	public static final boolean isCancel(Button button) {
+		return is(button, "CANCEL");
 	}
 
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new NEXT button, false, false.
-	 */
-	public static Button NEXT(Session session) {
-		return _button(session, "NEXT", session.getString("buttonNext"), false, false, false);
+	public static final boolean isClose(Button button) {
+		return is(button, "CLOSE");
 	}
 
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new NO button, false, true.
-	 */
-	public static Button NO(Session session) {
-		return _button(session, "NO", session.getString("buttonNo"), false, true, true);
+	public static final boolean isFinish(Button button) {
+		return is(button, "FINISH");
 	}
 
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new OK button, true, false.
-	 */
-	public static Button OK(Session session) {
-		return _button(session, "OK", session.getString("buttonOk"), true, false, true);
+	public static final boolean isIgnore(Button button) {
+		return is(button, "IGNORE");
 	}
 
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new OPEN button, false, false.
-	 */
-	public static Button OPEN(Session session) {
-		return _button(session, "OPEN", session.getString("buttonOpen"), true, false, true);
+	public static final boolean isNext(Button button) {
+		return is(button, "NEXT");
 	}
 
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new PREVIOUS button, false, false.
-	 */
-	public static Button PREVIOUS(Session session) {
-		return _button(session, "PREVIOUS", session.getString("buttonPrevious"), false, false, false);
+	public static final boolean isNo(Button button) {
+		return is(button, "NO");
 	}
 
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new RETRY button, false, false.
-	 */
-	public static Button RETRY(Session session) {
-		return _button(session, "RETRY", session.getString("buttonRetry"), false, false, true);
+	public static final boolean isOk(Button button) {
+		return is(button, "OK");
 	}
 
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new SELECT button, false, false.
-	 */
-	public static Button SELECT(Session session) {
-		return _button(session, "SELECT", session.getString("buttonSelect"), true, false, true);
+	public static final boolean isOpen(Button button) {
+		return is(button, "OPEN");
 	}
 
-	/**
-	 * Returns a default accept button.
-	 * 
-	 * @param session The working session.
-	 * @return A new YES button, true, false.
-	 */
-	public static Button YES(Session session) {
-		return _button(session, "YES", session.getString("buttonYes"), true, false, true);
+	public static final boolean isPrevious(Button button) {
+		return is(button, "PREVIOUS");
+	}
+
+	public static final boolean isRetry(Button button) {
+		return is(button, "RETRY");
+	}
+
+	public static final boolean isSelect(Button button) {
+		return is(button, "SELECT");
+	}
+
+	public static final boolean isYes(Button button) {
+		return is(button, "YES");
 	}
 
 	/**
@@ -176,13 +136,17 @@ public class Buttons {
 	 * @param close A boolean to force close the window.
 	 * @return The button.
 	 */
-	public static Button _button(Session session, String id, String text, boolean defaultButton, boolean cancelButton, boolean close) {
+	public static Button _button(
+		String id,
+		String text,
+		boolean defaultButton,
+		boolean cancelButton,
+		boolean close) {
 		Button button = new Button(text);
 		button.setId(id);
 		button.setDefaultButton(defaultButton);
 		button.setCancelButton(cancelButton);
 		FX.setClose(button, close);
-		FX.setSession(button, session);
 		return button;
 	}
 }

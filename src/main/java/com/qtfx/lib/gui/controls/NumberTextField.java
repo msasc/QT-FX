@@ -35,15 +35,6 @@ public class NumberTextField extends FieldControl {
 	 * Constructor.
 	 * 
 	 * @param field The field.
-	 */
-	public NumberTextField(Field field) {
-		this(field, Locale.getDefault());
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param field The field.
 	 * @param locale The locale.
 	 */
 	public NumberTextField(Field field, Locale locale) {

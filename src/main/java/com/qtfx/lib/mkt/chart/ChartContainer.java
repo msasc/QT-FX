@@ -16,6 +16,7 @@ package com.qtfx.lib.mkt.chart;
 
 import java.sql.Timestamp;
 
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.gui.FX;
 import com.qtfx.lib.mkt.chart.plotter.PlotterContext;
 import com.qtfx.lib.mkt.data.Data;
@@ -496,7 +497,7 @@ public class ChartContainer {
 		// Scale to apply to value.
 		int tickScale = plotData.getTickScale();
 		b.append("P: ");
-		b.append(Formats.formattedFromDouble(value, tickScale, chart.getLocale()));
+		b.append(Formats.formattedFromDouble(value, tickScale, Session.getSession().getLocale()));
 		return b.toString();
 	}
 }

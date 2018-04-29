@@ -15,7 +15,6 @@ package com.qtfx.lib.mkt.data.info;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Pack the information that describes an indicator.
@@ -49,11 +48,9 @@ public class IndicatorInfo extends DataInfo {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param locale The working locale.
 	 */
-	public IndicatorInfo(Locale locale) {
-		super(locale);
+	public IndicatorInfo() {
+		super();
 	}
 
 	/**

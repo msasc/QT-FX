@@ -17,7 +17,7 @@ package com.qtfx.plaf.action;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.Persistor;
 import com.qtfx.lib.db.PersistorException;
 import com.qtfx.lib.db.Record;
@@ -71,7 +71,7 @@ public class ActionInstrumentBrowse extends ActionEventHandler {
 					table.setRecordSet(recordSet);
 					
 					Tab tab = new Tab();
-					tab.setText(TextServer.getString("menuInstrumentsAvailable"));
+					tab.setText(Session.getSession().getString("menuInstrumentsAvailable"));
 					tab.setContent(table.getNode());
 					
 					TabPane tabPane = QTFX.getTabPane(getNode());

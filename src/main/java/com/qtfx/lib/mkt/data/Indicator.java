@@ -14,7 +14,6 @@
 package com.qtfx.lib.mkt.data;
 
 import java.util.List;
-import java.util.Locale;
 
 import com.qtfx.lib.mkt.data.info.IndicatorInfo;
 
@@ -60,12 +59,10 @@ public abstract class Indicator {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param locale Working locale
 	 */
-	public Indicator(Locale locale) {
+	public Indicator() {
 		super();
-		indicatorInfo = new IndicatorInfo(locale);
+		indicatorInfo = new IndicatorInfo();
 	}
 
 	/**

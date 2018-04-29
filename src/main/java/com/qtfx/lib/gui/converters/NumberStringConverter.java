@@ -25,15 +25,6 @@ public class NumberStringConverter extends StringConverter<Value> {
 	 * Constructor.
 	 * 
 	 * @param field Field.
-	 */
-	public NumberStringConverter(Field field) {
-		this(field, Locale.getDefault());
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param field Field.
 	 * @param locale Locale.
 	 */
 	public NumberStringConverter(Field field, Locale locale) {

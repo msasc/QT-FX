@@ -14,7 +14,6 @@
 package com.qtfx.lib.mkt.data.indicators;
 
 import java.util.List;
-import java.util.Locale;
 
 import com.qtfx.lib.mkt.data.Data;
 import com.qtfx.lib.mkt.data.DataList;
@@ -30,11 +29,9 @@ public class ExponentialMovingAverage extends PeriodIndicator {
 	
 	/**
 	 * Constructor.
-	 * 
-	 * @param locale The working locale.
 	 */
-	public ExponentialMovingAverage(Locale locale) {
-		super(locale);
+	public ExponentialMovingAverage() {
+		super();
 
 		// Indicator info to be configured.
 		IndicatorInfo info = getIndicatorInfo();

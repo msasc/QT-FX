@@ -14,7 +14,6 @@
 
 package com.qtfx.lib.gui;
 
-import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.FieldProperties;
 
 /**
@@ -46,16 +45,7 @@ public class ColumnsPane {
 		this.masterTable = masterTable;
 
 		// Configure the field properties.
-		fieldProperties = new FieldProperties(masterTable.getSession());
-	}
-
-	/**
-	 * Return the working session.
-	 * 
-	 * @return The session.
-	 */
-	public Session getSession() {
-		return masterTable.getSession();
+		fieldProperties = new FieldProperties();
 	}
 
 	/**

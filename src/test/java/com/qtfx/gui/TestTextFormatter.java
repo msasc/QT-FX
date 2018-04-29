@@ -17,6 +17,7 @@ package com.qtfx.gui;
 import java.math.BigDecimal;
 import java.util.function.UnaryOperator;
 
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Types;
 import com.qtfx.lib.db.Value;
@@ -66,7 +67,7 @@ public class TestTextFormatter extends Application {
 		
 		TextField textNum = new TextField();
 		textNum.setId("id-text");
-		NumberStringConverter cnvNum = new NumberStringConverter(field);
+		NumberStringConverter cnvNum = new NumberStringConverter(field, Session.getSession().getLocale());
 		TextFormatter<Value> fmtNum = new TextFormatter<>(cnvNum);
 		fmtNum.setValue(new Value(new BigDecimal(80000000000l)));
 		textNum.setTextFormatter(fmtNum);

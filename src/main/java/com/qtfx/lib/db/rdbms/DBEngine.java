@@ -21,7 +21,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.Criteria;
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Filter;
@@ -917,7 +916,7 @@ public class DBEngine {
 	public long executeSelectCount(View sourceView, Filter filter) throws SQLException {
 		View view = new View(sourceView); // Save the source view.
 
-		Field field = new Field(Session.US);
+		Field field = new Field();
 		field.setName("COUNTER");
 		field.setType(Types.LONG);
 		field.setFunction("COUNT(*)");

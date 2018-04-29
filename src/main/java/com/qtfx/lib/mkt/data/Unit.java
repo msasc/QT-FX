@@ -13,9 +13,7 @@
  */
 package com.qtfx.lib.mkt.data;
 
-import java.util.Locale;
-
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 
 /**
  * Units used to define periods of aggregate incoming quotes.
@@ -77,21 +75,21 @@ public enum Unit {
 	public String getShortName() {
 		switch (this) {
 		case MILLISECOND:
-			return TextServer.getString("unitMillisecond", Locale.UK);
+			return Session.getSession().getString("unitMillisecond");
 		case SECOND:
-			return TextServer.getString("unitSecond", Locale.UK);
+			return Session.getSession().getString("unitSecond");
 		case MINUTE:
-			return TextServer.getString("unitMinute", Locale.UK);
+			return Session.getSession().getString("unitMinute");
 		case HOUR:
-			return TextServer.getString("unitHour", Locale.UK);
+			return Session.getSession().getString("unitHour");
 		case DAY:
-			return TextServer.getString("unitDay", Locale.UK);
+			return Session.getSession().getString("unitDay");
 		case WEEK:
-			return TextServer.getString("unitWeek", Locale.UK);
+			return Session.getSession().getString("unitWeek");
 		case MONTH:
-			return TextServer.getString("unitMonth", Locale.UK);
+			return Session.getSession().getString("unitMonth");
 		case YEAR:
-			return TextServer.getString("unitYear", Locale.UK);
+			return Session.getSession().getString("unitYear");
 		default:
 			throw new IllegalArgumentException();
 		}

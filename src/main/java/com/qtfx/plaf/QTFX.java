@@ -16,12 +16,11 @@ package com.qtfx.plaf;
 
 import java.io.File;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.Persistor;
 import com.qtfx.lib.db.PersistorDDL;
 import com.qtfx.lib.db.Record;
@@ -75,7 +74,6 @@ public class QTFX extends Application {
 	private static final String SERVER = "server";
 	private static final String CONSOLE = "console";
 	private static final String DATABASE = "database";
-	private static final String LOCALE = "locale";
 
 	/**
 	 * Access to the primary stage.
@@ -138,16 +136,6 @@ public class QTFX extends Application {
 	}
 
 	/**
-	 * Access to the application locale.
-	 * 
-	 * @param node The reference node.
-	 * @return The locale.
-	 */
-	public static Locale getLocale(Node node) {
-		return (Locale) FX.getRootObject(node, LOCALE);
-	}
-
-	/**
 	 * Check if a tab with the text is present.
 	 * 
 	 * @param node The reference node.
@@ -178,9 +166,10 @@ public class QTFX extends Application {
 	/** Logger configuration and text server initialization. */
 	static {
 		System.setProperty("log4j.configurationFile", "resources/LoggerQTPlatform.xml");
-		TextServer.addBaseResource("resources/StringsLibrary.xml");
-		TextServer.addBaseResource("resources/StringsQTPlatform.xml");
+		Session.addBaseResource("resources/StringsLibrary.xml");
+		Session.addBaseResource("resources/StringsQTPlatform.xml");
 	}
+	
 	/** Logger instance. */
 	private static final Logger LOGGER = LogManager.getLogger();
 
@@ -190,8 +179,6 @@ public class QTFX extends Application {
 	 * @param args Startup arguments.
 	 */
 	public static void main(String[] args) {
-		// Default locale.
-		Locale.setDefault(Locale.UK);
 		// Do launch.
 		launch(args);
 	}
@@ -204,7 +191,7 @@ public class QTFX extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
+		
 		// Argument manager.
 		ArgumentManager argMngr = new ArgumentManager();
 		Argument argConnection = new Argument("dataSourceFile", "Database connection file", true, true, false);
@@ -250,7 +237,6 @@ public class QTFX extends Application {
 		FX.setObject(root, STATUS_BAR, statusBar);
 		FX.setObject(root, SERVER, server);
 		FX.setObject(root, CONSOLE, console);
-		FX.setObject(root, LOCALE, Locale.getDefault());
 
 		// Set menu and add console.
 		root.setTop(getMenu());
@@ -301,52 +287,52 @@ public class QTFX extends Application {
 		MenuBar menuBar = new MenuBar();
 
 		// File menu.
-		Menu file = new Menu(TextServer.getString("menuFile", Locale.getDefault()));
-		MenuItem fileExit = new MenuItem(TextServer.getString("menuFileExit", Locale.getDefault()));
+		Menu file = new Menu(Session.getSession().getString("menuFile"));
+		MenuItem fileExit = new MenuItem(Session.getSession().getString("menuFileExit"));
 		fileExit.setOnAction(e -> {
 			new ActionApplication.ExitFromMenu(root).handle(e);
 		});
 		file.getItems().add(fileExit);
 
 		// Instruments menu.
-		Menu instruments = new Menu(TextServer.getString("menuInstruments", Locale.getDefault()));
-		MenuItem instrumentsAvail = new MenuItem(TextServer.getString("menuInstrumentsAvailable", Locale.getDefault()));
+		Menu instruments = new Menu(Session.getSession().getString("menuInstruments"));
+		MenuItem instrumentsAvail = new MenuItem(Session.getSession().getString("menuInstrumentsAvailable"));
 		instrumentsAvail.setOnAction(e -> {
 			new ActionInstrumentBrowse(root).handle(e);
 		});
-		MenuItem instrumentsSync = new MenuItem(TextServer.getString("menuInstrumentsSynchronize", Locale.getDefault()));
+		MenuItem instrumentsSync = new MenuItem(Session.getSession().getString("menuInstrumentsSynchronize"));
 		instrumentsSync.setOnAction(e -> {
 			new ActionInstrumentSynchronize(root).handle(e);
 		});
 		instruments.getItems().add(instrumentsAvail);
 		instruments.getItems().add(instrumentsSync);
 		instruments.setOnShowing(e -> {
-			instrumentsAvail.setDisable(isTab(root, TextServer.getString("menuInstrumentsAvailable")));
+			instrumentsAvail.setDisable(isTab(root, Session.getSession().getString("menuInstrumentsAvailable")));
 		});
 
 		// Tickers menu.
-		Menu tickers = new Menu(TextServer.getString("menuTickers", Locale.getDefault()));
-		MenuItem tickersDef = new MenuItem(TextServer.getString("menuTickersDefine", Locale.getDefault()));
+		Menu tickers = new Menu(Session.getSession().getString("menuTickers"));
+		MenuItem tickersDef = new MenuItem(Session.getSession().getString("menuTickersDefine"));
 		tickersDef.setOnAction(e -> {
 			new ActionInstrumentTickers(root).handle(e);
 		});
-		MenuItem tickersStats = new MenuItem(TextServer.getString("menuTickersStatistics", Locale.getDefault()));
+		MenuItem tickersStats = new MenuItem(Session.getSession().getString("menuTickersStatistics"));
 		tickers.getItems().add(tickersDef);
 		tickers.getItems().add(tickersStats);
 		tickers.setOnShowing(e -> {
-			tickersDef.setDisable(isTab(root, TextServer.getString("menuTickersDefine", Locale.getDefault())));
+			tickersDef.setDisable(isTab(root, Session.getSession().getString("menuTickersDefine")));
 		});
 
 		// Window menu.
-		Menu window = new Menu(TextServer.getString("menuWindow"));
-		MenuItem windowConsole = new MenuItem(TextServer.getString("menuWindowConsole", Locale.getDefault()));
+		Menu window = new Menu(Session.getSession().getString("menuWindow"));
+		MenuItem windowConsole = new MenuItem(Session.getSession().getString("menuWindowConsole"));
 		windowConsole.setOnAction(e -> {
-			if (!isTab(root, TextServer.getString("outputConsole"))) {
+			if (!isTab(root, Session.getSession().getString("outputConsole"))) {
 				addConsole();
 			}
 		});
 		window.setOnShowing(e -> {
-			windowConsole.setDisable(isTab(root, TextServer.getString("outputConsole")));
+			windowConsole.setDisable(isTab(root, Session.getSession().getString("outputConsole")));
 		});
 		window.getItems().add(windowConsole);
 
@@ -363,7 +349,7 @@ public class QTFX extends Application {
 	private void addConsole() {
 		Console console = (Console) FX.getObject(root, CONSOLE);
 		TabPane tabPane = (TabPane) FX.getObject(root, TAB_PANE);
-		Tab consoleTab = new Tab(TextServer.getString("outputConsole", Locale.getDefault()));
+		Tab consoleTab = new Tab(Session.getSession().getString("outputConsole"));
 		consoleTab.setContent(console.getControl());
 		tabPane.getTabs().add(consoleTab);
 	}

@@ -55,15 +55,6 @@ public class LookupRecords {
 	}
 
 	/**
-	 * Return the working session.
-	 * 
-	 * @return The session.
-	 */
-	public Session getSession() {
-		return tableRecordPane.getSession();
-	}
-
-	/**
 	 * Set the window title.
 	 * 
 	 * @param title The title.
@@ -218,17 +209,17 @@ public class LookupRecords {
 		}
 		tableRecordPane.setPadding(new Insets(10, 10, 0, 10));
 
-		Dialog dialog = new Dialog(getSession(), owner);
+		Dialog dialog = new Dialog(owner);
 		if (title != null) {
 			dialog.setTitle(title);
 		} else {
-			dialog.setTitle(getSession().getString("defaultRecordSelection"));
+			dialog.setTitle(Session.getSession().getString("defaultRecordSelection"));
 		}
 		dialog.getButtonPane().setPadding(new Insets(5, 10, 10, 10));
 		dialog.setCenter(tableRecordPane.getNode());
 		dialog.addPropertySetter(tableRecordPane.getPropertySetter());
-		Button select = Buttons.SELECT(getSession());
-		Button cancel = Buttons.CANCEL(getSession());
+		Button select = Buttons.SELECT;
+		Button cancel = Buttons.CANCEL;
 		dialog.getButtonPane().getButtons().add(select);
 		dialog.getButtonPane().getButtons().add(cancel);
 
@@ -250,7 +241,7 @@ public class LookupRecords {
 
 		tableRecordPane.requestFocus();
 		Button result = dialog.show();
-		if (result.equals(select)) {
+		if (Buttons.isSelect(result)) {
 			return tableRecordPane.getSelectedRecords();
 		}
 

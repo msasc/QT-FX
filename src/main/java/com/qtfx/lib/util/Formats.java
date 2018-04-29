@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 
 /**
  * General formatting utilities.
@@ -263,9 +263,9 @@ public class Formats {
 	 */
 	public static String formattedFromBoolean(boolean bool, Locale locale) {
 		if (bool) {
-			return TextServer.getString("tokenYes", locale);
+			return Session.getString("tokenYes", locale);
 		}
-		return TextServer.getString("tokenNo", locale);
+		return Session.getString("tokenNo", locale);
 	}
 
 	/**
@@ -352,7 +352,7 @@ public class Formats {
 	 * @throws ParseException If an error occurs parsing the string.
 	 */
 	public static Boolean formattedToBoolean(String str, Locale locale) {
-		String yes = TextServer.getString("tokenYes", locale);
+		String yes = Session.getString("tokenYes", locale);
 		if (str.toLowerCase().equals(yes.toLowerCase())) {
 			return Boolean.TRUE;
 		}

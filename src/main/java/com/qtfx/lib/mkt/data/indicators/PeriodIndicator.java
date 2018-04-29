@@ -15,8 +15,8 @@ package com.qtfx.lib.mkt.data.indicators;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
+import com.qtfx.lib.db.DefaultFieldValidator;
 import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Types;
 import com.qtfx.lib.db.Value;
@@ -276,11 +276,9 @@ public abstract class PeriodIndicator extends Indicator {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param locale The working locale.
 	 */
-	public PeriodIndicator(Locale locale) {
-		super(locale);
+	public PeriodIndicator() {
+		super();
 	}
 
 	/**
@@ -295,9 +293,10 @@ public abstract class PeriodIndicator extends Indicator {
 		period.setLabel("Period");
 		period.setTitle("Average period");
 		period.setType(Types.INTEGER);
-		period.setValidator(new IntegerValidator("Period", 1, Numbers.MAX_INTEGER));
+		period.addValidator(new DefaultFieldValidator(period));
+		period.addValidator(new IntegerValidator("Period", 1, Numbers.MAX_INTEGER));
 		Value value = new Value(20);
-		ParameterInfo parameter = new ParameterInfo(getIndicatorInfo().getLocale());
+		ParameterInfo parameter = new ParameterInfo();
 		parameter.setField(period);
 		parameter.setValue(value);
 		return parameter;

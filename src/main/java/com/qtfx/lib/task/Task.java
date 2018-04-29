@@ -17,11 +17,10 @@ package com.qtfx.lib.task;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.util.Formats;
 import com.qtfx.lib.util.Numbers;
 
@@ -117,17 +116,17 @@ public abstract class Task extends ForkJoinTask<Void> {
 	/** Progress decimals for the progress message. */
 	private int progressDecimals = 1;
 
-	/** The locale to use to build messages. */
-	private Locale locale;
+	/** The working session. */
+	private Session session;
 	
 	/**
 	 * Constructor passing the locale for messages.
 	 * 
-	 * @param locale The locale for messages.
+	 * @param session The working session.
 	 */
-	public Task(Locale locale) {
+	public Task(Session session) {
 		super();
-		this.locale = locale;
+		this.session = session;
 
 		// Add the listener to register the start time when the state changes to RUNNING.
 		state.addListener((observable, oldValue, newValue) -> {
@@ -291,12 +290,12 @@ public abstract class Task extends ForkJoinTask<Void> {
 	protected abstract void compute() throws Exception;
 
 	/**
-	 * Return the working locale.
+	 * Return the working session.
 	 * 
-	 * @return The working locale.
+	 * @return The working session.
 	 */
-	public Locale getLocale() {
-		return locale;
+	public Session getSession() {
+		return session;
 	}
 
 	/**
@@ -484,7 +483,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 	 * counting the number of steps.
 	 */
 	protected void updateCounting() {
-		String message = TextServer.getString("tokenCounting", locale) + "...";
+		String message = getSession().getString("tokenCounting") + "...";
 		updateMessage(message);
 	}
 
@@ -542,18 +541,18 @@ public abstract class Task extends ForkJoinTask<Void> {
 	protected String getMessageProgress() {
 		StringBuilder b = new StringBuilder();
 		if (isIndeterminate()) {
-			b.append(TextServer.getString("tokenProcessing", locale) + "...");
+			b.append(getSession().getString("tokenProcessing") + "...");
 		} else {
-			b.append(TextServer.getString("tokenProcessed", locale));
+			b.append(getSession().getString("tokenProcessed"));
 			b.append(" ");
 			double percentage = (workDone <= 0 ? 0.0 : ((workDone+1) / totalWork) * 100.0);
 			b.append(Numbers.getBigDecimal(percentage, progressDecimals));
 			b.append("% (");
-			b.append(Formats.formattedFromLong(Double.valueOf(workDone+1).longValue(), locale));
+			b.append(Formats.formattedFromLong(Double.valueOf(workDone+1).longValue(), getSession().getLocale()));
 			b.append(" ");
-			b.append(TextServer.getString("tokenOf", locale));
+			b.append(getSession().getString("tokenOf"));
 			b.append(" ");
-			b.append(Formats.formattedFromLong(Double.valueOf(totalWork).longValue(), locale));
+			b.append(Formats.formattedFromLong(Double.valueOf(totalWork).longValue(), getSession().getLocale()));
 			b.append(")");
 		}
 		return b.toString();
@@ -569,9 +568,9 @@ public abstract class Task extends ForkJoinTask<Void> {
 		double currenTime = System.currentTimeMillis();
 		timeElapsed = currenTime - timeStart;
 		StringBuilder b = new StringBuilder();
-		b.append(TextServer.getString("tokenTime", locale));
+		b.append(getSession().getString("tokenTime"));
 		b.append(" ");
-		b.append(TextServer.getString("tokenElapsed", locale).toLowerCase());
+		b.append(getSession().getString("tokenElapsed").toLowerCase());
 		b.append(" ");
 		b.append(getTimeString(timeElapsed));
 		if (!indeterminate) {
@@ -579,23 +578,23 @@ public abstract class Task extends ForkJoinTask<Void> {
 			timeEstimated = timeElapsed / progress;
 			timeRemaining = timeEstimated - timeElapsed;
 			b.append(", ");
-			b.append(TextServer.getString("tokenEstimated", locale).toLowerCase());
+			b.append(getSession().getString("tokenEstimated").toLowerCase());
 			b.append(" ");
 			b.append(getTimeString(timeEstimated));
 			b.append(", ");
-			b.append(TextServer.getString("tokenRemaining", locale).toLowerCase());
+			b.append(getSession().getString("tokenRemaining").toLowerCase());
 			b.append(" ");
 			b.append(getTimeString(timeRemaining));
 			b.append(", ");
-			b.append(TextServer.getString("tokenTime", locale).toLowerCase());
+			b.append(getSession().getString("tokenTime").toLowerCase());
 			b.append(" ");
-			b.append(TextServer.getString("tokenStarted", locale).toLowerCase());
+			b.append(getSession().getString("tokenStarted").toLowerCase());
 			b.append(" ");
 			b.append(getTimestampString(timeStart));
 			b.append(", ");
-			b.append(TextServer.getString("tokenEnd", locale).toLowerCase());
+			b.append(getSession().getString("tokenEnd").toLowerCase());
 			b.append(" ");
-			b.append(TextServer.getString("tokenTime", locale).toLowerCase());
+			b.append(getSession().getString("tokenTime").toLowerCase());
 			b.append(" ");
 			b.append(getTimestampString(timeStart + timeEstimated));
 		}
@@ -613,24 +612,24 @@ public abstract class Task extends ForkJoinTask<Void> {
 		double seconds = (time / 1000.0);
 		if (seconds < 60) {
 			StringBuilder b = new StringBuilder();
-			b.append(Formats.formattedFromDouble(seconds, decimals, locale));
+			b.append(Formats.formattedFromDouble(seconds, decimals, getSession().getLocale()));
 			b.append(" ");
-			b.append(TextServer.getString("tokenSeconds", locale).toLowerCase());
+			b.append(getSession().getString("tokenSeconds").toLowerCase());
 			return b.toString();
 		}
 		double minutes = (time / (1000.0 * 60.0));
 		if (minutes < 60) {
 			StringBuilder b = new StringBuilder();
-			b.append(Formats.formattedFromDouble(minutes, decimals, locale));
+			b.append(Formats.formattedFromDouble(minutes, decimals, getSession().getLocale()));
 			b.append(" ");
-			b.append(TextServer.getString("tokenMinutes", locale).toLowerCase());
+			b.append(getSession().getString("tokenMinutes").toLowerCase());
 			return b.toString();
 		}
 		double hours = (time / (1000.0 * 60.0 * 60.0));
 		StringBuilder b = new StringBuilder();
-		b.append(Formats.formattedFromDouble(hours, decimals, locale));
+		b.append(Formats.formattedFromDouble(hours, decimals, getSession().getLocale()));
 		b.append(" ");
-		b.append(TextServer.getString("tokenHours", locale).toLowerCase());
+		b.append(getSession().getString("tokenHours").toLowerCase());
 		return b.toString();
 	}
 
@@ -641,7 +640,7 @@ public abstract class Task extends ForkJoinTask<Void> {
 	 * @return The formatted time-stamp.
 	 */
 	private String getTimestampString(double time) {
-		return Formats.formattedFromTimestamp(new Timestamp((long) time), locale);
+		return Formats.formattedFromTimestamp(new Timestamp((long) time), getSession().getLocale());
 	}
 
 	/**

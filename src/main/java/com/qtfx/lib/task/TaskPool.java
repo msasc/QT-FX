@@ -16,10 +16,9 @@ package com.qtfx.lib.task;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 
 /**
  * A task that executes other tasks in a concurrent pool. If one of the tasks of the pool is indeterminate, then all are
@@ -36,7 +35,7 @@ public class TaskPool extends Task {
 		TaskRun task;
 
 		Counter(TaskRun task) {
-			super(task.getLocale());
+			super(task.getSession());
 			this.task = task;
 		}
 
@@ -73,10 +72,10 @@ public class TaskPool extends Task {
 	/**
 	 * Constructor assigning the locale for messages.
 	 * 
-	 * @param locale The locale.
+	 * @param session The working session.
 	 */
-	public TaskPool(Locale locale) {
-		super(locale);
+	public TaskPool(Session session) {
+		super(session);
 		setStateChangeListener();
 	}
 
@@ -208,7 +207,7 @@ public class TaskPool extends Task {
 		}
 
 		// Do process tasks.
-		updateMessage(TextServer.getString("taskParallel", getLocale()));
+		updateMessage(getSession().getString("taskParallel"));
 		pool.invokeTasks(tasks);
 		pool.shutdown();
 	}

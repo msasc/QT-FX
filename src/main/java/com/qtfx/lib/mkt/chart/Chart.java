@@ -16,9 +16,8 @@ package com.qtfx.lib.mkt.chart;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.mkt.data.PlotData;
 import com.qtfx.lib.util.Icons;
 
@@ -201,8 +200,6 @@ public class Chart {
 
 	}
 
-	/** Working locale. */
-	private Locale locale;
 	/** Effective border pane. */
 	private BorderPane pane;
 	/** Top tool bar. */
@@ -217,12 +214,9 @@ public class Chart {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param locale Working locale.
 	 */
-	public Chart(Locale locale) {
+	public Chart() {
 		super();
-		this.locale = locale;
 
 		// Configure the pane.
 		pane = new BorderPane();
@@ -277,19 +271,10 @@ public class Chart {
 		button.setCancelButton(false);
 		button.setGraphic(Icons.get(icon));
 		button.setPadding(new Insets(0, 0, 0, 0));
-		button.setTooltip(new Tooltip(TextServer.getString(tooltip, getLocale())));
+		button.setTooltip(new Tooltip(Session.getSession().getString(tooltip)));
 		button.setStyle("-fx-content-display: graphic-only;");
 		button.addEventHandler(MouseEvent.ANY, new Handler(button, action));
 		return button;
-	}
-
-	/**
-	 * Return the working locale.
-	 * 
-	 * @return The locale.
-	 */
-	public Locale getLocale() {
-		return locale;
 	}
 
 	/**

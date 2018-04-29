@@ -15,7 +15,6 @@ package com.qtfx.lib.mkt.data.indicators;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.commons.math3.analysis.function.Gaussian;
 import org.apache.commons.math3.fitting.GaussianCurveFitter;
@@ -34,11 +33,9 @@ public class GaussianSmoother extends PeriodIndicator {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param locale The working locale.
 	 */
-	public GaussianSmoother(Locale locale) {
-		super(locale);
+	public GaussianSmoother() {
+		super();
 
 		// Indicator info to be configured.
 		com.qtfx.lib.mkt.data.info.IndicatorInfo info = getIndicatorInfo();

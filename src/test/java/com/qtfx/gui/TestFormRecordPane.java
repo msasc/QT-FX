@@ -3,7 +3,7 @@ package com.qtfx.gui;
 import java.util.List;
 import java.util.Locale;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.FieldList;
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.gui.FX;
@@ -25,7 +25,7 @@ public class TestFormRecordPane extends Application {
 
 	public static void main(String[] args) {
 		Locale.setDefault(Locale.UK);
-		TextServer.addBaseResource("resources/StringsLibrary.xml");
+		Session.addBaseResource("resources/StringsLibrary.xml");
 		launch(args);
 	}
 
@@ -49,8 +49,6 @@ public class TestFormRecordPane extends Application {
 		form.layoutFields();
 		form.updateFieldControls();
 		
-		List<Control> controls = FX.getControls(form.getNode());
-
 		BorderPane root = new BorderPane();
 		root.setCenter(form.getNode());
 		Scene scene = new Scene(root);

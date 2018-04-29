@@ -38,15 +38,6 @@ public class BooleanStringConverter extends StringConverter<Value> {
 	 * Constructor.
 	 * 
 	 * @param field The field.
-	 */
-	public BooleanStringConverter(Field field) {
-		this(field, Locale.getDefault());
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param field The field.
 	 * @param locale The locale.
 	 */
 	public BooleanStringConverter(Field field, Locale locale) {

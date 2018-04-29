@@ -14,7 +14,6 @@
 package com.qtfx.lib.mkt.data.indicators;
 
 import java.util.List;
-import java.util.Locale;
 
 import com.qtfx.lib.mkt.data.Data;
 import com.qtfx.lib.mkt.data.DataList;
@@ -35,11 +34,9 @@ public class SimpleMovingAverage extends PeriodIndicator {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param locale The working locale.
 	 */
-	public SimpleMovingAverage(Locale locale) {
-		super(locale);
+	public SimpleMovingAverage() {
+		super();
 
 		// Indicator info to be configured.
 		IndicatorInfo info = getIndicatorInfo();

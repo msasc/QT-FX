@@ -17,7 +17,7 @@ package com.qtfx.lib.mkt.chart;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.util.Icons;
 
 import javafx.geometry.Insets;
@@ -77,8 +77,7 @@ public class ChartInfo {
 		buttonClose.setGraphic(Icons.get(Icons.FLAT_24x24_CLOSE));
 		buttonClose.setPadding(new Insets(0, 0, 0, 0));
 
-		buttonClose.setTooltip(new Tooltip(TextServer.getString("tooltipRemoveChart",
-			container.getChart().getLocale())));
+		buttonClose.setTooltip(new Tooltip(Session.getSession().getString("tooltipRemoveChart")));
 		buttonClose.setStyle("-fx-content-display: graphic-only;");
 		buttonClose.setOnAction(e -> {
 			this.container.getChart().removeContainer(this.container);
@@ -86,7 +85,7 @@ public class ChartInfo {
 
 		hbox.getChildren().add(buttonClose);
 	}
-
+	
 	/**
 	 * Return the pane.
 	 * 

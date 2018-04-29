@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.gui.FX;
 import com.qtfx.lib.mkt.chart.plotter.PlotterContext;
 import com.qtfx.lib.mkt.data.PlotData;
@@ -76,7 +77,7 @@ public class ChartVerticalAxis {
 		canvas.widthProperty().bind(Bindings.selectDouble(canvas.parentProperty(), "width"));
 		canvas.heightProperty().bind(Bindings.selectDouble(canvas.parentProperty(), "height"));
 	}
-
+	
 	/**
 	 * Return the effective pane.
 	 * 
@@ -90,7 +91,7 @@ public class ChartVerticalAxis {
 	 * Sets the maximum, minimum and preferred widths based on the data and the insets.
 	 */
 	public void setMaximumMinimumAndPreferredWidths() {
-		Locale locale = container.getChart().getLocale();
+		Locale locale = Session.getSession().getLocale();
 		PlotData plotData = container.getPlotData();
 		if (!plotData.areMaximumAndMinimumValuesCalculated()) {
 			plotData.calculateFrame();
@@ -204,7 +205,7 @@ public class ChartVerticalAxis {
 		// Set the font and retrieve the font bounds.
 		gc.setFont(textFont);
 		// The string to draw and its coordinates.
-		String strValue = Formats.formattedFromDouble(value, scale, container.getChart().getLocale());
+		String strValue = Formats.formattedFromDouble(value, scale, Session.getSession().getLocale());
 		Bounds bounds = FX.getStringBounds(strValue, textFont);
 		double xStrValue = lineLength + textInsets.getLeft() - 1;
 		double yStrValue = y + bounds.getHeight() / 5.0;

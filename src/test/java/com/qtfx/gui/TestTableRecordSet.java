@@ -14,7 +14,7 @@
 
 package com.qtfx.gui;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.Order;
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.RecordComparator;
@@ -44,7 +44,7 @@ public class TestTableRecordSet extends Application {
 	}
 
 	public static void main(String[] args) {
-		TextServer.addBaseResource("resources/StringsLibrary.xml");
+		Session.addBaseResource("resources/StringsLibrary.xml");
 		launch(args);
 	}
 
@@ -84,7 +84,7 @@ public class TestTableRecordSet extends Application {
 		dialog.getButtonPane().getButtons().add(buttonSelect);
 		dialog.getButtonPane().getButtons().add(buttonClear);
 		dialog.getButtonPane().getButtons().add(buttonSort);
-		dialog.getButtonPane().getButtons().add(Buttons.buttonClose());
+		dialog.getButtonPane().getButtons().add(Buttons.CLOSE);
 		dialog.getButtonPane().setPadding(new Insets(10, 10, 10, 10));
 
 		Order order = new Order();

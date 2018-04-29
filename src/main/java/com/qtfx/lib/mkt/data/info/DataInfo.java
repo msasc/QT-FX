@@ -16,9 +16,9 @@ package com.qtfx.lib.mkt.data.info;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.mkt.data.Data;
 import com.qtfx.lib.mkt.data.Instrument;
 import com.qtfx.lib.mkt.data.Period;
@@ -53,26 +53,11 @@ public class DataInfo {
 	/** Map of output indexes. */
 	private Map<String, Integer> mapIndexes = new HashMap<>();
 
-	/** Working locale. */
-	private Locale locale;
-
 	/**
 	 * Constructor.
-	 * 
-	 * @param locale Working locale.
 	 */
-	public DataInfo(Locale locale) {
+	public DataInfo() {
 		super();
-		this.locale = locale;
-	}
-
-	/**
-	 * Return the working locale.
-	 * 
-	 * @return The locale.
-	 */
-	public Locale getLocale() {
-		return locale;
 	}
 
 	/**
@@ -377,7 +362,7 @@ public class DataInfo {
 					b.append(": ");
 				}
 				b.append(
-					Formats.formattedFromDouble(data.getValue(index), getTickScale(), locale));
+					Formats.formattedFromDouble(data.getValue(index), getTickScale(), Session.getSession().getLocale()));
 			}
 		}
 		return b.toString();

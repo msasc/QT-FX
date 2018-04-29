@@ -16,7 +16,7 @@ package com.qtfx.gui;
 
 import java.util.List;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.gui.LookupRecords;
 import com.qtfx.lib.util.Random;
@@ -39,7 +39,7 @@ public class TestLookupRecords extends Application {
 	}
 
 	public static void main(String[] args) {
-		TextServer.addBaseResource("resources/StringsLibrary.xml");
+		Session.addBaseResource("resources/StringsLibrary.xml");
 		launch(args);
 	}
 

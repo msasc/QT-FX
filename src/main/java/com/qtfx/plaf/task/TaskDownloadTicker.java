@@ -14,9 +14,7 @@
 
 package com.qtfx.plaf.task;
 
-import java.util.Locale;
-
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.Condition;
 import com.qtfx.lib.db.Criteria;
 import com.qtfx.lib.db.Field;
@@ -76,7 +74,7 @@ public class TaskDownloadTicker extends Task {
 		Period period,
 		OfferSide offerSide,
 		Filter filter) {
-		super(Locale.getDefault());
+		super(Session.getSession());
 		this.database = database;
 		this.server = server;
 		this.instrument = instrument;
@@ -85,7 +83,7 @@ public class TaskDownloadTicker extends Task {
 		this.filter = filter;
 
 		StringBuilder title = new StringBuilder();
-		String sdownload = TextServer.getString("buttonDownload");
+		String sdownload = getSession().getString("buttonDownload");
 		title.append(sdownload + " " + instrument.getId() + " " + period.toString());
 		setTitle(title.toString());
 	}

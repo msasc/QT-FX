@@ -13,8 +13,6 @@
  */
 package com.qtfx.lib.mkt.data.info;
 
-import java.util.Locale;
-
 import com.qtfx.lib.mkt.data.Instrument;
 import com.qtfx.lib.mkt.data.Period;
 
@@ -28,11 +26,10 @@ public class VolumeInfo extends PriceInfo {
 	/**
 	 * Constructor assigning instrument and period.
 	 * 
-	 * @param locale The working locale.
 	 * @param instrument The instrument.
 	 * @param period The period.
 	 */
-	public VolumeInfo(Locale locale, Instrument instrument, Period period) {
-		super(locale, instrument, period);
+	public VolumeInfo(Instrument instrument, Period period) {
+		super(instrument, period);
 	}
 }

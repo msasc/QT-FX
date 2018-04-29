@@ -14,7 +14,7 @@
 
 package com.qtfx.gui;
 
-import com.qtfx.lib.app.TextServer;
+import com.qtfx.lib.app.Session;
 import com.qtfx.lib.gui.Alert;
 
 import javafx.application.Application;
@@ -33,7 +33,7 @@ public class TestAlert extends Application {
 		System.setProperty("log4j.configurationFile", "resources/LoggerQTPlatform.xml");
 	}
 	public static void main(String[] args) {
-		TextServer.addBaseResource("resources/StringsLibrary.xml");
+		Session.addBaseResource("resources/StringsLibrary.xml");
 		launch(args);
 	}
 

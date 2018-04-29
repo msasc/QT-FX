@@ -36,15 +36,6 @@ public class ChoiceBoxField extends FieldControl {
 	 * Constructor.
 	 * 
 	 * @param field The field.
-	 */
-	public ChoiceBoxField(Field field) {
-		this(field, Locale.getDefault());
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param field The field.
 	 * @param locale The locale to use to convert yes/no values.
 	 */
 	public ChoiceBoxField(Field field, Locale locale) {

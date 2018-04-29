@@ -14,8 +14,6 @@
 
 package com.qtfx.lib.mkt.data;
 
-import java.util.Locale;
-
 import com.qtfx.lib.db.Value;
 import com.qtfx.lib.mkt.chart.plotter.data.LinePlotter;
 import com.qtfx.lib.mkt.data.indicators.ExponentialMovingAverage;
@@ -47,8 +45,7 @@ public class IndicatorUtils {
 		Color color,
 		int period) {
 
-		Locale locale = dataList.getDataInfo().getLocale();
-		ExponentialMovingAverage ema = new ExponentialMovingAverage(locale);
+		ExponentialMovingAverage ema = new ExponentialMovingAverage();
 		ema.getIndicatorInfo().getParameter(PeriodIndicator.PERIOD_INDEX).setValue(new Value(period));
 		IndicatorSource source = new IndicatorSource(dataList, index);
 		IndicatorDataList avgList =	new IndicatorDataList(ema, Lists.asList(source));
@@ -76,8 +73,7 @@ public class IndicatorUtils {
 		Color color,
 		int period) {
 
-		Locale locale = dataList.getDataInfo().getLocale();
-		SimpleMovingAverage sma = new SimpleMovingAverage(locale);
+		SimpleMovingAverage sma = new SimpleMovingAverage();
 		sma.getIndicatorInfo().getParameter(PeriodIndicator.PERIOD_INDEX).setValue(new Value(period));
 		IndicatorSource source = new IndicatorSource(dataList, index);
 		IndicatorDataList avgList =	new IndicatorDataList(sma, Lists.asList(source));
@@ -105,8 +101,7 @@ public class IndicatorUtils {
 		Color color,
 		int period) {
 
-		Locale locale = dataList.getDataInfo().getLocale();
-		WeightedMovingAverage sma = new WeightedMovingAverage(locale);
+		WeightedMovingAverage sma = new WeightedMovingAverage();
 		sma.getIndicatorInfo().getParameter(PeriodIndicator.PERIOD_INDEX).setValue(new Value(period));
 		IndicatorSource source = new IndicatorSource(dataList, index);
 		IndicatorDataList avgList =	new IndicatorDataList(sma, Lists.asList(source));
@@ -153,10 +148,9 @@ public class IndicatorUtils {
 		int period,
 		int... smoothingPeriods) {
 
-		Locale locale = dataList.getDataInfo().getLocale();
 		int indexPeriod = PeriodIndicator.PERIOD_INDEX;
 
-		SimpleMovingAverage sma = new SimpleMovingAverage(locale);
+		SimpleMovingAverage sma = new SimpleMovingAverage();
 		sma.getIndicatorInfo().getParameter(indexPeriod).setValue(new Value(period));
 		IndicatorSource source = new IndicatorSource(dataList, index);
 		IndicatorDataList lst = new IndicatorDataList(sma, Lists.asList(source));
@@ -170,7 +164,7 @@ public class IndicatorUtils {
 
 		int indexSma = 0;
 		for (int smooth : smoothingPeriods) {
-			SimpleMovingAverage smoothedSma = new SimpleMovingAverage(locale);
+			SimpleMovingAverage smoothedSma = new SimpleMovingAverage();
 			smoothedSma.getIndicatorInfo().getParameter(indexPeriod).setValue(new Value(smooth));
 			source = new IndicatorSource(lst, indexSma);
 			lst = new IndicatorDataList(smoothedSma, Lists.asList(source));
@@ -220,10 +214,9 @@ public class IndicatorUtils {
 		int period,
 		int... smoothingPeriods) {
 
-		Locale locale = dataList.getDataInfo().getLocale();
 		int indexPeriod = PeriodIndicator.PERIOD_INDEX;
 
-		WeightedMovingAverage wma = new WeightedMovingAverage(locale);
+		WeightedMovingAverage wma = new WeightedMovingAverage();
 		wma.getIndicatorInfo().getParameter(indexPeriod).setValue(new Value(period));
 		IndicatorSource source = new IndicatorSource(dataList, index);
 		IndicatorDataList lst = new IndicatorDataList(wma, Lists.asList(source));
@@ -237,7 +230,7 @@ public class IndicatorUtils {
 
 		int indexSma = 0;
 		for (int smooth : smoothingPeriods) {
-			WeightedMovingAverage smoothedWma = new WeightedMovingAverage(locale);
+			WeightedMovingAverage smoothedWma = new WeightedMovingAverage();
 			smoothedWma.getIndicatorInfo().getParameter(indexPeriod).setValue(new Value(smooth));
 			source = new IndicatorSource(lst, indexSma);
 			lst = new IndicatorDataList(smoothedWma, Lists.asList(source));

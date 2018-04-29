@@ -138,15 +138,6 @@ public class TableRecordPane {
 	}
 
 	/**
-	 * Return the session.
-	 * 
-	 * @return The session.
-	 */
-	public Session getSession() {
-		return getMasterRecord().getSession();
-	}
-
-	/**
 	 * Return the master record.
 	 * 
 	 * @return The master record.
@@ -335,29 +326,29 @@ public class TableRecordPane {
 	 */
 	private void setLineOfLines(int line) {
 		StringBuilder b = new StringBuilder();
-		b.append(getSession().getString("tokenLine"));
+		b.append(Session.getSession().getString("tokenLine"));
 		b.append(" ");
 		if (line > 0) {
-			b.append(Formats.getNumberFormat(0, getSession().getLocale()).format(line));
+			b.append(Formats.getNumberFormat(0, Session.getSession().getLocale()).format(line));
 		} else {
 			b.append("#");
 		}
 		b.append(" ");
-		b.append(getSession().getString("tokenOf"));
+		b.append(Session.getSession().getString("tokenOf"));
 		b.append(" ");
 		int lines = -1;
 		if (getTableView().getItems() != null) {
 			lines = getTableView().getItems().size();
 		}
 		if (lines > 0) {
-			b.append(Formats.getNumberFormat(0, getSession().getLocale()).format(lines));
+			b.append(Formats.getNumberFormat(0, Session.getSession().getLocale()).format(lines));
 		} else {
 			b.append("#");
 		}
 		if (line > 0 && lines > 0) {
 			double percent = 100d * Double.valueOf(line).doubleValue() / Double.valueOf(lines).doubleValue();
 			b.append(" (");
-			b.append(Formats.formattedFromDouble(percent, linesPercentScale, getSession().getLocale()));
+			b.append(Formats.formattedFromDouble(percent, linesPercentScale, Session.getSession().getLocale()));
 			b.append(" %)");
 		}
 		statusBar.setLabel(LINE_OF_LINES, b.toString(), "-fx-font-size: 12; -fx-font-style: italic;");
