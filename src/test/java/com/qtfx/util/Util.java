@@ -320,7 +320,7 @@ public class Util {
 		Record record = new Record(fields);
 		record.setValue("CARTICLE", new Value(getRandomCode(record.getField("CARTICLE"), 2)));
 		record.setValue("DARTICLE", new Value(getRandomString(50, 100, Strings.LETTERS)));
-		record.setValue("CBUSINESS", new Value(getRandomCode(record.getField("CBUSINESS"), 4)));
+		record.setValue("CBUSINESS", new Value(getRandomString(4, "ABCDEF")));
 		record.setValue("TCREATED", new Value(getRandomDate()));
 		record.setValue("QSALES", new Value(getRandomDecimal(record.getField("QSALES"))));
 		record.setValue("QPROD", new Value(getRandomDecimal(record.getField("QPROD"))));

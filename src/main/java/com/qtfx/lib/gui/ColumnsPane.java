@@ -223,15 +223,20 @@ public class ColumnsPane {
 		// Selected fields in an order operation.
 		if (operation == Operation.ORDER) {
 			if (order == null) {
+				order = masterTable.getOrder();
+			}
+			if (order == null) {
 				order = masterTable.getMasterRecord().getPrimaryOrder();
 			}
-			for (int i = 0; i < order.size(); i++) {
-				Field field = order.getField(i);
-				boolean asc = order.isAsc(i);
-				String alias = field.getAlias();
-				selectedFields.add(alias);
-				Record properties = possibleFields.get(alias);
-				fieldProperties.setPropertyAscending(properties, asc);
+			if (order != null) {
+				for (int i = 0; i < order.size(); i++) {
+					Field field = order.getField(i);
+					boolean asc = order.isAsc(i);
+					String alias = field.getAlias();
+					selectedFields.add(alias);
+					Record properties = possibleFields.get(alias);
+					fieldProperties.setPropertyAscending(properties, asc);
+				}
 			}
 		}
 

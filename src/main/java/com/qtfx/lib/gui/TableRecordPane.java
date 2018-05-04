@@ -114,6 +114,9 @@ public class TableRecordPane {
 	/** Master record. */
 	private Record masterRecord;
 
+	/** Last order set. */
+	private Order order;
+
 	/**
 	 * Constructor.
 	 * 
@@ -552,7 +555,24 @@ public class TableRecordPane {
 	 * @param order The order.
 	 */
 	public void sort(Order order) {
+		this.order = order;
 		getRecords().sort(new RecordComparator(order));
+	}
+
+	/**
+	 * Sort using the primary order if the order has not been set.
+	 */
+	public void sort() {
+		sort(masterRecord.getPrimaryOrder());
+	}
+
+	/**
+	 * Return the current order if set.
+	 * 
+	 * @return The current order if set.
+	 */
+	public Order getOrder() {
+		return order;
 	}
 
 	/**

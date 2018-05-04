@@ -15,7 +15,6 @@
 package com.qtfx.gui;
 
 import com.qtfx.lib.app.Session;
-import com.qtfx.lib.db.Order;
 import com.qtfx.lib.db.Record;
 import com.qtfx.lib.db.RecordSet;
 import com.qtfx.lib.gui.Buttons;
@@ -92,10 +91,6 @@ public class TestTableRecordSet extends Application {
 		dialog.getButtonPane().getButtons().add(buttonColumns);
 		dialog.getButtonPane().getButtons().add(Buttons.CLOSE);
 		dialog.getButtonPane().setPadding(new Insets(10, 10, 10, 10));
-
-		Order order = new Order();
-		order.add(table.getField("ICHECKED"), false);
-		order.add(table.getField("CARTICLE"), false);
 
 		int scrollIndex = 999;
 		buttonScroll.setOnAction(actionEvent -> {
