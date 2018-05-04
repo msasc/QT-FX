@@ -195,7 +195,7 @@ public class Order {
 			segments.add(new Segment(segment));
 		}
 	}
-	
+
 	/**
 	 * Add an ascending segment with the given field.
 	 *
@@ -276,6 +276,16 @@ public class Order {
 	 */
 	public Field getField(int index) {
 		return get(index).getField();
+	}
+
+	/**
+	 * Check if the segment is ascending.
+	 * 
+	 * @param index The index of the segment.
+	 * @return A boolean.
+	 */
+	public boolean isAsc(int index) {
+		return get(index).isAsc();
 	}
 
 	/**

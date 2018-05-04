@@ -195,9 +195,7 @@ public class LookupRecords {
 	 * @param selectionMode The selection mode.
 	 * @return The list of selected records, can be empty.
 	 */
-	private
-		ObservableList<Record>
-		lookupRecords(Window owner, SelectionMode selectionMode) {
+	private ObservableList<Record> lookupRecords(Window owner, SelectionMode selectionMode) {
 
 		// Set records and selection mode.
 		tableRecordPane.setSelectionMode(selectionMode);
@@ -216,7 +214,7 @@ public class LookupRecords {
 			dialog.setTitle(Session.getSession().getString("defaultRecordSelection"));
 		}
 		dialog.getButtonPane().setPadding(new Insets(5, 10, 10, 10));
-		dialog.setCenter(tableRecordPane.getNode());
+		dialog.setCenter(tableRecordPane.getPane());
 		dialog.addPropertySetter(tableRecordPane.getPropertySetter());
 		Button select = Buttons.SELECT;
 		Button cancel = Buttons.CANCEL;

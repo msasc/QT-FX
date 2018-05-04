@@ -106,6 +106,9 @@ public class Dialog {
 	/** User property setters. */
 	private List<PropertySetter> propertySetters = new ArrayList<>();
 
+	/** Default behavior to close on escape. Set the key handler on all nodes. */
+	private boolean closeOnEscape = true;
+
 	/**
 	 * Constructor, application modal.
 	 */
@@ -138,11 +141,29 @@ public class Dialog {
 	}
 
 	/**
+	 * Check the default close behavior on escape.
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean isCloseOnEscape() {
+		return closeOnEscape;
+	}
+
+	/**
+	 * Set the default close behavior on escape.
+	 * 
+	 * @param closeOnEscape A boolean.
+	 */
+	public void setCloseOnEscape(boolean closeOnEscape) {
+		this.closeOnEscape = closeOnEscape;
+	}
+
+	/**
 	 * Return the parent stage.
 	 * 
 	 * @return The stage.
 	 */
-	protected Stage getStage() {
+	public Stage getStage() {
 		return stage;
 	}
 
@@ -271,7 +292,7 @@ public class Dialog {
 	 */
 	public void setButtonsTop() {
 		buttonPane = new ButtonPane(Orientation.HORIZONTAL);
-		borderPane.setTop(buttonPane.getNode());
+		borderPane.setTop(buttonPane.getPane());
 		buttonPanePos = ButtonPanePos.TOP;
 	}
 
@@ -280,7 +301,7 @@ public class Dialog {
 	 */
 	public void setButtonsBottom() {
 		buttonPane = new ButtonPane(Orientation.HORIZONTAL);
-		borderPane.setBottom(buttonPane.getNode());
+		borderPane.setBottom(buttonPane.getPane());
 		buttonPanePos = ButtonPanePos.BOTTOM;
 	}
 
@@ -289,7 +310,7 @@ public class Dialog {
 	 */
 	public void setButtonsRight() {
 		buttonPane = new ButtonPane(Orientation.VERTICAL);
-		borderPane.setRight(buttonPane.getNode());
+		borderPane.setRight(buttonPane.getPane());
 		buttonPanePos = ButtonPanePos.RIGHT;
 	}
 
@@ -298,7 +319,7 @@ public class Dialog {
 	 */
 	public void setButtonsLeft() {
 		buttonPane = new ButtonPane(Orientation.VERTICAL);
-		borderPane.setLeft(buttonPane.getNode());
+		borderPane.setLeft(buttonPane.getPane());
 		buttonPanePos = ButtonPanePos.LEFT;
 	}
 
@@ -438,11 +459,17 @@ public class Dialog {
 		}
 
 		// Set ESC to close the stage.
-		stage.getScene().setOnKeyPressed(e -> {
-			if (e.getCode() == KeyCode.ESCAPE) {
-				stage.close();
+		if (isCloseOnEscape()) {
+			List<Node> nodes = new ArrayList<>();
+			FX.fillNodesFrom(stage.getScene().getRoot(), nodes);
+			for (Node node : nodes) {
+				node.setOnKeyPressed(e -> {
+					if (e.getCode() == KeyCode.ESCAPE) {
+						stage.close();
+					}
+				});
 			}
-		});
+		}
 
 		// Do show.
 		stage.showAndWait();

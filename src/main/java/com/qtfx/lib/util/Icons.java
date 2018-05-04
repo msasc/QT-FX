@@ -72,6 +72,10 @@ public interface Icons {
 	String FLAT_24x24_INFO = "resources/images/flat/24x24/info.png";
 	String FLAT_24x24_PAUSE = "resources/images/flat/24x24/pause.png";
 	String FLAT_24x24_EXECUTE = "resources/images/flat/24x24/resume.png";
+	String FLAT_24x24_UP = "resources/images/flat/24x24/up.png";
+	String FLAT_24x24_DOWN = "resources/images/flat/24x24/down.png";
+	String FLAT_24x24_LEFT = "resources/images/flat/24x24/left.png";
+	String FLAT_24x24_RIGHT = "resources/images/flat/24x24/right.png";
 	
 	String FLAT_24x24_SCROLL_BACK = "resources/images/flat/24x24/scroll-back.png";
 	String FLAT_24x24_SCROLL_FRONT = "resources/images/flat/24x24/scroll-front.png";

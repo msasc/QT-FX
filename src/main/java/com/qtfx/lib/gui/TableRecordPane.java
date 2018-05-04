@@ -14,6 +14,7 @@
 
 package com.qtfx.lib.gui;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import com.qtfx.lib.db.Field;
 import com.qtfx.lib.db.Order;
 import com.qtfx.lib.db.OrderKey;
 import com.qtfx.lib.db.Record;
+import com.qtfx.lib.db.RecordComparator;
 import com.qtfx.lib.db.RecordSet;
 import com.qtfx.lib.db.Value;
 import com.qtfx.lib.gui.observables.ObservableRecordSet;
@@ -41,6 +43,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 
 /**
@@ -220,6 +223,39 @@ public class TableRecordPane {
 	}
 
 	/**
+	 * Clear all columns.
+	 */
+	public void clearColumns() {
+		getTableView().getColumns().clear();
+	}
+
+	/**
+	 * Remove the column.
+	 * 
+	 * @param alias The alias of the field.
+	 */
+	public void removeColumn(String alias) {
+		int index = getColumnIndex(alias);
+		if (index >= 0) {
+			getTableView().getColumns().remove(index);
+		}
+	}
+
+	/**
+	 * Return a list with all column fields.
+	 * 
+	 * @return The list of fields.
+	 */
+	public List<Field> getColumnFields() {
+		List<Field> fields = new ArrayList<>();
+		for (int i = 0; i < getTableView().getColumns().size(); i++) {
+			Field field = (Field) getTableView().getColumns().get(i).getUserData();
+			fields.add(field);
+		}
+		return fields;
+	}
+
+	/**
 	 * Return the column index of the field.
 	 * 
 	 * @param alias The alias.
@@ -295,6 +331,7 @@ public class TableRecordPane {
 	 * @param records The list of records.
 	 */
 	public void setRecords(ObservableList<Record> records) {
+		getTableView().getItems().clear();
 		getTableView().setItems(records);
 		getRecords().addListener(new RecordsChangeListener());
 		getTableView().getSelectionModel().selectFirst();
@@ -365,11 +402,11 @@ public class TableRecordPane {
 	}
 
 	/**
-	 * Return the node to install in the scene.
+	 * Return the pane to install in the scene.
 	 * 
-	 * @return The node to install in the scene.
+	 * @return The pane to install in the scene.
 	 */
-	public Node getNode() {
+	public Pane getPane() {
 		return borderPane;
 	}
 
@@ -401,12 +438,47 @@ public class TableRecordPane {
 	}
 
 	/**
+	 * Returns the selected record.
+	 * 
+	 * @return The selected record or null.
+	 */
+	public Record getSelectedRecord() {
+		ObservableList<Record> records = getTableView().getSelectionModel().getSelectedItems();
+		if (!records.isEmpty()) {
+			return records.get(0);
+		}
+		return null;
+	}
+
+	/**
 	 * Returns the list of selected records.
 	 * 
 	 * @return The list of selected records.
 	 */
 	public ObservableList<Record> getSelectedRecords() {
 		return getTableView().getSelectionModel().getSelectedItems();
+	}
+
+	/**
+	 * Returns the selected index or -1.
+	 * 
+	 * @return The selected index or -1.
+	 */
+	public int getSelectedIndex() {
+		ObservableList<Integer> indices = getTableView().getSelectionModel().getSelectedIndices();
+		if (!indices.isEmpty()) {
+			return indices.get(0);
+		}
+		return -1;
+	}
+
+	/**
+	 * Returns the list of selected indices.
+	 * 
+	 * @return The list of selected indices.
+	 */
+	public ObservableList<Integer> getSelectedIndices() {
+		return getTableView().getSelectionModel().getSelectedIndices();
 	}
 
 	/**
@@ -472,6 +544,15 @@ public class TableRecordPane {
 	 */
 	public void sort(Comparator<? super Record> c) {
 		getRecords().sort(c);
+	}
+
+	/**
+	 * Sort the underlying table view.
+	 * 
+	 * @param order The order.
+	 */
+	public void sort(Order order) {
+		getRecords().sort(new RecordComparator(order));
 	}
 
 	/**

@@ -32,6 +32,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -119,7 +120,7 @@ public class TaskPane {
 		buttonPane.getButtons().add(getButtonRemove());
 		buttonPane.layoutButtons();
 
-		borderPane.setBottom(buttonPane.getNode());
+		borderPane.setBottom(buttonPane.getPane());
 
 		pool = new JoinPool(concurrency);
 	}
@@ -197,11 +198,11 @@ public class TaskPane {
 	}
 
 	/**
-	 * Return the node to install on the scene.
+	 * Return the pane to install on the scene.
 	 * 
-	 * @return The node.
+	 * @return The pane.
 	 */
-	public Node getNode() {
+	public Pane getPane() {
 		return borderPane;
 	}
 

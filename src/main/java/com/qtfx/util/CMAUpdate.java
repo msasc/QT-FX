@@ -102,7 +102,7 @@ public class CMAUpdate extends Application {
 		
 		// Border pane as root.
 		BorderPane root = new BorderPane();
-		root.setCenter(taskPane.getNode());
+		root.setCenter(taskPane.getPane());
 		
 		// Scene.
 		Scene scene = new Scene(root);

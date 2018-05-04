@@ -217,7 +217,7 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 				tab.setText(
 					Session.getSession().getString(
 						"tabList") + " " + instrument.getDescription() + ", " + period.toString());
-				tab.setContent(tableData.getNode());
+				tab.setContent(tableData.getPane());
 
 				TabPane tabPane = QTFX.getTabPane(getNode());
 				tabPane.getTabs().add(tab);
@@ -297,7 +297,7 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 
 					Tab tab = new Tab();
 					tab.setText(tabText);
-					tab.setContent(taskPane.getNode());
+					tab.setContent(taskPane.getPane());
 					tab.setOnCloseRequest(e -> {
 						if (!taskPane.canClose()) {
 							e.consume();
@@ -403,7 +403,7 @@ public class ActionInstrumentTickers extends ActionEventHandler {
 
 					Tab tab = new Tab();
 					tab.setText(Session.getSession().getString("menuTickersDefine"));
-					tab.setContent(table.getNode());
+					tab.setContent(table.getPane());
 
 					TabPane tabPane = QTFX.getTabPane(getNode());
 					tabPane.getTabs().add(tab);

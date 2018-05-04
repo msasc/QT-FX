@@ -50,7 +50,7 @@ public class TestFormRecordPane extends Application {
 		form.updateFieldControls();
 		
 		BorderPane root = new BorderPane();
-		root.setCenter(form.getNode());
+		root.setCenter(form.getPane());
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();

@@ -474,7 +474,7 @@ public class Field implements Comparable<Object> {
 	 * @return The field group if any.
 	 */
 	public FieldGroup getFieldGroup() {
-		return (fieldGroup != null ? fieldGroup : FieldGroup.emptyFieldGroup);
+		return (fieldGroup != null ? fieldGroup : FieldGroup.EMPTY_FIELD_GROUP);
 	}
 
 	/**

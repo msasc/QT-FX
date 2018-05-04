@@ -35,6 +35,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -91,11 +92,20 @@ public class ButtonPane {
 	}
 
 	/**
-	 * Return the node to install in the scene.
+	 * Decide the alignment.
 	 * 
-	 * @return The node to install in the scene.
+	 * @param pos The Pos.
 	 */
-	public Node getNode() {
+	public void setAlignment(Pos pos) {
+		flowPane.setAlignment(pos);
+	}
+
+	/**
+	 * Return the pane to install in the scene.
+	 * 
+	 * @return The pane to install in the scene.
+	 */
+	public Pane getPane() {
 		return flowPane;
 	}
 

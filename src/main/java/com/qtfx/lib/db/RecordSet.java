@@ -343,8 +343,8 @@ public class RecordSet implements Iterable<Record> {
 	}
 
 	/**
-	 * Check if the record set can be sorted. Default is true, overwrite this method if the recor set implementation can
-	 * not be sorted.
+	 * Check if the record set can be sorted. Default is true, overwrite this method if the record set implementation
+	 * can not be sorted.
 	 * 
 	 * @return A boolean.
 	 */

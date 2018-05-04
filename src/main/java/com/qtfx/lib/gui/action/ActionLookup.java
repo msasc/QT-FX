@@ -227,7 +227,7 @@ public class ActionLookup extends ActionEventHandler {
 		if (pane == null) {
 			throw new IllegalStateException("Target not installed in a FormRecordPane.");
 		}
-		List<Control> controls = FX.getControls(pane.getNode());
+		List<Control> controls = FX.getControls(pane.getPane());
 		if (controls.isEmpty()) {
 			throw new IllegalStateException("No controls found in the FormRecordPane.");
 		}

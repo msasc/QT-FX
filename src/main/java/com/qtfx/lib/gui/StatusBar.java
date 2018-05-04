@@ -21,6 +21,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 
 /**
  * A status bar utility. Extends flow pane with default right horizontal alignment.
@@ -59,7 +60,7 @@ public class StatusBar {
 	 * 
 	 * @return The internal pane.
 	 */
-	public FlowPane getPane() {
+	public Pane getPane() {
 		return flowPane;
 	}
 

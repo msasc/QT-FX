@@ -802,7 +802,7 @@ public class Value implements Comparable<Object> {
 	public Double getDouble() {
 		if (isNumber()) {
 			if (isNull()) {
-				return (double) 0;
+				return Double.valueOf(0);
 			}
 			return ((Number) value).doubleValue();
 		}
@@ -817,7 +817,7 @@ public class Value implements Comparable<Object> {
 	public Integer getInteger() {
 		if (isNumber()) {
 			if (isNull()) {
-				return (int) 0;
+				return Integer.valueOf(0);
 			}
 			return ((Number) value).intValue();
 		}
@@ -832,7 +832,7 @@ public class Value implements Comparable<Object> {
 	public Long getLong() {
 		if (isNumber()) {
 			if (isNull()) {
-				return (long) 0;
+				return Long.valueOf(0);
 			}
 			return ((Number) value).longValue();
 		}

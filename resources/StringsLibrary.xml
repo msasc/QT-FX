@@ -37,9 +37,11 @@
 	
 	<!-- Several widely used tokens. -->
 	
+	<entry key="tokenAsc">Asc</entry>
 	<entry key="tokenCounting">Counting</entry>
 	<entry key="tokenDay">Day</entry>
 	<entry key="tokenDays">Days</entry>
+	<entry key="tokenDesc">Desc</entry>
 	<entry key="tokenElapsed">Elapsed</entry>
 	<entry key="tokenEnd">End</entry>
 	<entry key="tokenEstimated">Estimated</entry>
@@ -129,6 +131,27 @@
 	<entry key="fieldLength">Length</entry>
 	<entry key="fieldDecimals">Decimals</entry>
 	<entry key="fieldAsc">Asc/Desc</entry>
+	
+	<!-- Columns pane. -->
+	
+	<entry key="colPaneButtonLeftTooltip">Move the selected field to unselected</entry>
+	<entry key="colPaneButtonRightTooltip">Move the unselected field to selected</entry>
+	<entry key="colPaneButtonUpTooltip">Move the selected field up</entry>
+	<entry key="colPaneButtonDownTooltip">Move the selected field down</entry>
+	
+	<entry key="colPaneButtonAscText">Asc</entry>
+	<entry key="colPaneButtonAscTooltip">Set the field to be sorted ascending</entry>
+	<entry key="colPaneButtonDescText">Desc</entry>
+	<entry key="colPaneButtonDescTooltip">Set the field to be sorted descending</entry>
+	
+	<entry key="colPaneSelectTableFields">Select table fields</entry>
+	<entry key="colPaneDefineTableOrder">Define table order</entry>
+	
+	<entry key="colPaneAvailableFields">Available fields</entry>
+	<entry key="colPaneSelectedFields">Selected fields</entry>
+	
+	<entry key="colPaneTitleSelection">Select the columns to show in the table</entry>
+	<entry key="colPaneTitleOrder">Select the columns to apply the order</entry>
 	
 	<!-- General security messages. -->
 	

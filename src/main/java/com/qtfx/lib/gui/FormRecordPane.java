@@ -27,7 +27,6 @@ import com.qtfx.lib.gui.action.ActionSearchAndRefreshDB;
 import com.qtfx.lib.util.Numbers;
 
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -37,6 +36,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 
 /**
@@ -178,11 +178,11 @@ public class FormRecordPane {
 	// Layout FX components and additional operations.
 
 	/**
-	 * Return the node to install in the scene.
+	 * Return the pane to install in the scene.
 	 * 
-	 * @return The node to install in the scene.
+	 * @return The pane to install in the scene.
 	 */
-	public Node getNode() {
+	public Pane getPane() {
 		return borderPane;
 	}
 

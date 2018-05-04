@@ -27,7 +27,7 @@ public class FieldGroup implements Comparable<FieldGroup> {
 	/**
 	 * The final empty field group used when no field group has been set.
 	 */
-	public static final FieldGroup emptyFieldGroup = getEmptyFieldGroup();
+	public static final FieldGroup EMPTY_FIELD_GROUP = getEmptyFieldGroup();
 
 	/**
 	 * Returns an empty field group useful to layout fields.

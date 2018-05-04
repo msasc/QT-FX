@@ -27,6 +27,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -37,6 +38,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
+import javafx.stage.Screen;
+import javafx.stage.Window;
 
 /**
  * JavaFX utility functions, including:
@@ -708,4 +711,16 @@ public class FX {
 		return Numbers.round(d, 0);
 	}
 	
+	///////////////////////////////
+	// Screen and window utilities.
+	
+	public static void factorScreenWidth(Window window, double widthFactor) {
+		Rectangle2D r = Screen.getPrimary().getVisualBounds();
+		window.setWidth(r.getWidth() * widthFactor);
+	}
+	
+	public static void factorScreenHeight(Window window, double heightFactor) {
+		Rectangle2D r = Screen.getPrimary().getVisualBounds();
+		window.setHeight(r.getHeight() * heightFactor);
+	}
 }

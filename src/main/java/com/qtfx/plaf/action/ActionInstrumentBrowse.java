@@ -72,7 +72,7 @@ public class ActionInstrumentBrowse extends ActionEventHandler {
 					
 					Tab tab = new Tab();
 					tab.setText(Session.getSession().getString("menuInstrumentsAvailable"));
-					tab.setContent(table.getNode());
+					tab.setContent(table.getPane());
 					
 					TabPane tabPane = QTFX.getTabPane(getNode());
 					tabPane.getTabs().add(tab);

@@ -97,7 +97,7 @@ public abstract class ActionSearchAndRefresh extends ValueAction {
 		if (pane == null) {
 			throw new IllegalStateException("No FormRecordPane");
 		}
-		List<Control> controls = FX.getControls(pane.getNode());
+		List<Control> controls = FX.getControls(pane.getPane());
 
 		// Build the list of key controls.
 		List<FieldControl> keyControls = new ArrayList<>();

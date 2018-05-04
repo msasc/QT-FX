@@ -14,14 +14,34 @@
 
 package com.qtfx.lib.db;
 
+import java.util.Comparator;
+
 import com.qtfx.lib.app.Session;
 
 /**
- * Provides field metadata as fields of the fields properties.
+ * Provides field meta data as fields of the fields properties.
  * 
  * @author Miquel Sas
  */
 public class FieldProperties {
+	
+	/**
+	 * Sorter for fields.
+	 */
+	public static class Sorter implements Comparator<Record> {
+		@Override
+		public int compare(Record o1, Record o2) {
+			int g1 = o1.getValue(GROUP_INDEX).getInteger();
+			int g2 = o2.getValue(GROUP_INDEX).getInteger();
+			int compare = Integer.compare(g1, g2);
+			if (compare == 0) {
+				int i1 = o1.getValue(INDEX).getInteger();
+				int i2 = o2.getValue(INDEX).getInteger();
+				compare = Integer.compare(i1, i2);
+			}
+			return compare;
+		}
+	}
 
 	/** Property alias: INDEX. */
 	public static final String INDEX = "INDEX";
@@ -317,7 +337,11 @@ public class FieldProperties {
 		properties.setValue(TITLE, new Value(field.getTitle()));
 		properties.setValue(TYPE, new Value(field.getType().name()));
 		properties.setValue(LENGTH, new Value(field.getLength()));
-		properties.setValue(DECIMALS, new Value(field.getDecimals()));
+		if (field.getType().isDecimal()) {
+			properties.setValue(DECIMALS, new Value(field.getDecimals()));
+		} else {
+			properties.setNull(DECIMALS);
+		}
 		// Special property
 		String strAscending = getSession().getString(ascending ? "tokenAsc" : "tokenDesc");
 		properties.setValue(ASCENDING, new Value(strAscending));
@@ -449,6 +473,20 @@ public class FieldProperties {
 	}
 
 	/**
+	 * Set the field property.
+	 * 
+	 * @param properties The properties record.
+	 * @return The property value.
+	 */
+	public void setPropertyAscending(Record properties, boolean asc) {
+		if (asc) {
+			properties.setValue(ASCENDING, new Value(getSession().getString("tokenAsc")));
+		} else {
+			properties.setValue(ASCENDING, new Value(getSession().getString("tokenDesc")));
+		}
+	}
+
+	/**
 	 * Returns the source field that gave values to the properties.
 	 * 
 	 * @param properties The properties.
@@ -485,7 +523,7 @@ public class FieldProperties {
 	 */
 	private int getFieldGroupIndex(FieldGroup fieldGroup) {
 		if (fieldGroup == null) {
-			return FieldGroup.emptyFieldGroup.getIndex();
+			return FieldGroup.EMPTY_FIELD_GROUP.getIndex();
 		}
 		return fieldGroup.getIndex();
 	}
