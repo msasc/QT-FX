@@ -492,6 +492,15 @@ public class TableRecordPane {
 	}
 
 	/**
+	 * Select the index.
+	 * 
+	 * @param row The row to select.
+	 */
+	public void selectIndex(int row) {
+		selectIndices(row, row);
+	}
+
+	/**
 	 * Select the list of indices.
 	 * 
 	 * @param row At least one row to select.

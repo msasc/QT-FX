@@ -75,6 +75,42 @@ public class LayerBP extends Layer {
 	}
 
 	/**
+	 * Set the momentum factor <em>alpha</em>.
+	 * 
+	 * @param alpha The momentum factor alpha.
+	 */
+	public void setAlpha(double alpha) {
+		this.alpha = alpha;
+	}
+
+	/**
+	 * Set the learning rate <em>eta</em>.
+	 * 
+	 * @param eta The learning rate eta.
+	 */
+	public void setEta(double eta) {
+		this.eta = eta;
+	}
+
+	/**
+	 * Set the flat spot to avoid near zero derivatives in the back propagation process.
+	 * 
+	 * @param flatSpot The flat spot to avoid near zero derivatives in the back propagation process.
+	 */
+	public void setFlatSpot(double flatSpot) {
+		this.flatSpot = flatSpot;
+	}
+
+	/**
+	 * Set the weight decay factor, which is also a regularization term.
+	 * 
+	 * @param lambda The weight decay factor.
+	 */
+	public void setLambda(double lambda) {
+		this.lambda = lambda;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -96,7 +132,7 @@ public class LayerBP extends Layer {
 				weights[in][out] = Random.nextDouble();
 			}
 		}
-		
+
 		// Backward components: output, input and weight deltas.
 		outputDeltas = new double[outputSize];
 		inputDeltas = new double[inputSize];
@@ -131,7 +167,7 @@ public class LayerBP extends Layer {
 	public double[] backward(double[] errors) {
 		int inputSize = getInputSize();
 		int outputSize = getOutputSize();
-		
+
 		// Output deltas: apply activation derivatives to errors. Include a flat spot to avoid near zero derivatives.
 		double[] derivatives = new double[outputSize];
 		activation.derivatives(triggers, outputs, derivatives);
@@ -149,7 +185,7 @@ public class LayerBP extends Layer {
 			}
 			inputDeltas[in] = inputDelta;
 		}
-		
+
 		// Adjust weights.
 		for (int in = 0; in < inputSize; in++) {
 			// Input -> previous layer output
@@ -160,12 +196,14 @@ public class LayerBP extends Layer {
 				// Previous weight delta.
 				double weightDelta = weightDeltas[in][out];
 				// New weight delta
-				double delta = (1-alpha) * eta * outputDelta * input * (alpha * weightDelta);
+				double delta = (1 - alpha) * eta * outputDelta * input * (alpha * weightDelta);
 				weightDeltas[in][out] = delta;
 				weights[in][out] += delta;
 				weights[in][out] *= (1.0 - eta * lambda);
-			}			
+			}
 		}
+		
+		// Adjust bias.
 
 		return inputDeltas;
 	}

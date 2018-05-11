@@ -12,31 +12,48 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.function.distance;
+package com.qtfx.lib.ml.network;
 
-import com.qtfx.lib.math.Vector;
-import com.qtfx.lib.ml.function.Distance;
+import com.qtfx.lib.app.Session;
+import com.qtfx.lib.ml.data.PatternSource;
+import com.qtfx.lib.task.Task;
 
 /**
- * Weighted Euclidean distance.
+ * Trainer task to train a network that can backward errors to movify internal data, e.g. weights.
  *
  * @author Miquel Sas
  */
-public class DistanceEuclidean implements Distance {
+public class Trainer extends Task {
+	
+	/** The network. */
+	private Network network;
+	/** The pattern source. */
+	private PatternSource patternSource;
+	/** The number of epochs or turns to the full list of patterns. */
+	private int epochs = 100;
 
 	/**
-	 * Constructor without weights.
+	 * @param session
 	 */
-	public DistanceEuclidean() {
-		super();
+	public Trainer(Session session) {
+		super(session);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public double distance(double[] x, double[] y) {
-		return Vector.distanceEuclidean(x, y);
+	protected void compute() throws Exception {
+		// TODO Auto-generated method stub
+
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isIndeterminate() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

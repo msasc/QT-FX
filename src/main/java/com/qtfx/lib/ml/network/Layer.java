@@ -136,7 +136,7 @@ public abstract class Layer {
 	public abstract void save(OutputStream os) throws IOException;
 
 	/**
-	 * Restore all the layer internal data from an oinput stream.
+	 * Restore all the layer internal data from an input stream.
 	 * 
 	 * @param is The input stream.
 	 * @throws IOException

@@ -66,7 +66,7 @@ public class TestTableRecordSet extends Application {
 		table.setSelectionMode(SelectionMode.MULTIPLE);
 		table.setPadding(new Insets(10, 10, 0, 10));
 		
-		RecordSet rs = Util.getRandomRecordSet(50000, Util.getFieldList());
+		RecordSet rs = Util.getRandomRecordSet(10000, Util.getFieldList());
 		rs.sort();
 		table.setRecordSet(rs);
 

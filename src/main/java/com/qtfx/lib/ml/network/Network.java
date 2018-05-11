@@ -87,5 +87,33 @@ public class Network {
 	boolean isHiddenLayer(Layer layer) {
 		return (!isInputLayer(layer) && !isOutputLayer(layer));
 	}
+	
+	/**
+	 * Forward process of the input data (input size) producing the output data.
+	 * 
+	 * @param inputs Input data.
+	 * @return Output data.
+	 */
+	public double[] forward(double[] inputs) {
+		double[] outputs = inputs;
+		for (int i = 0; i < layers.size(); i++) {
+			outputs = layers.get(i).forward(outputs);
+		}
+		return outputs;
+	}
+	
+	/**
+	 * Optional backward learning process of an output error producing an input error or delta.
+	 * 
+	 * @param errors The output error.
+	 * @return The input error.
+	 */
+	public double[] backward(double[] errors) {
+		double[] deltas = errors;
+		for (int i = layers.size()-1; i >= 0; i--) {
+			deltas = layers.get(i).backward(deltas);
+		}
+		return deltas;
+	}
 
 }

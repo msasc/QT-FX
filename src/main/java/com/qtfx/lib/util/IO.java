@@ -12,20 +12,26 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.util.io;
+package com.qtfx.lib.util;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 
 /**
- * IO utilities.
+ * IO utilities to read/write from an input/output stream.
  *
  * @author Miquel Sas
  */
 public class IO {
+	
+	public static BigDecimal readBigDecimal(InputStream is) throws IOException {
+		return new BigDecimal(readString(is));
+	}
 
 	/**
 	 * Read a byte throwing an IOException if an attempt to pas the end of stream has been made.
@@ -65,17 +71,6 @@ public class IO {
 		}
 		return b;
 
-	}
-
-	/**
-	 * Read an integer.
-	 * 
-	 * @param is The input stream.
-	 * @return An integer
-	 * @throws IOException
-	 */
-	public static int readInt(InputStream is) throws IOException {
-		return readBuffer(is, Integer.BYTES).getInt(0);
 	}
 
 	/**
@@ -125,14 +120,70 @@ public class IO {
 	}
 
 	/**
-	 * Write an integer.
+	 * Read an integer.
 	 * 
-	 * @param os The output steam.
-	 * @param value The integer.
+	 * @param is The input stream.
+	 * @return An integer
 	 * @throws IOException
 	 */
-	public static void writeInt(OutputStream os, int value) throws IOException {
-		writeBytes(os, ByteBuffer.allocate(Integer.BYTES).putInt(value).array());
+	public static int readInt(InputStream is) throws IOException {
+		return readBuffer(is, Integer.BYTES).getInt(0);
+	}
+
+	/**
+	 * Read a long.
+	 * 
+	 * @param is The input stream.
+	 * @return An long
+	 * @throws IOException
+	 */
+	public static long readLong(InputStream is) throws IOException {
+		return readBuffer(is, Long.BYTES).getLong(0);
+	}
+
+	/**
+	 * Read a string in UTF-16 character set.
+	 * 
+	 * @param is The input stream.
+	 * @return The string.
+	 * @throws IOException
+	 */
+	public static String readString(InputStream is) throws IOException {
+		int length = readInt(is);
+		byte[] bytes = readBytes(is, length);
+		ByteBuffer bb = ByteBuffer.allocate(bytes.length);
+		bb.put(bytes);
+		bb.rewind();
+		CharBuffer cb = Charset.forName("UTF-16").decode(bb);
+		return cb.toString();
+	}
+	
+	public static void writeBigDecimal(OutputStream os, BigDecimal b) throws IOException {
+		writeString(os, b.toString());
+	}
+
+	/**
+	 * Write a byte to the output stream.
+	 * 
+	 * @param os The output stream.
+	 * @param b The byte.
+	 * @throws IOException
+	 */
+	public static void writeByte(OutputStream os, byte b) throws IOException {
+		os.write(b);
+	}
+
+	/**
+	 * Write the bytes to the output stream.
+	 * 
+	 * @param os The output stream.
+	 * @param bytes The array of bytes.
+	 * @throws IOException
+	 */
+	public static void writeBytes(OutputStream os, byte[] bytes) throws IOException {
+		for (int i = 0; i < bytes.length; i++) {
+			os.write(bytes[i]);
+		}
 	}
 
 	/**
@@ -144,6 +195,20 @@ public class IO {
 	 */
 	public static void writeDouble(OutputStream os, double value) throws IOException {
 		writeBytes(os, ByteBuffer.allocate(Double.BYTES).putDouble(value).array());
+	}
+
+	/**
+	 * Write a one dimensional array of doubles
+	 * 
+	 * @param os The output stream
+	 * @param value The one dimensional array of doubles.
+	 * @throws IOException
+	 */
+	public static void writeDouble1A(OutputStream os, double[] value) throws IOException {
+		writeInt(os, value.length);
+		for (int i = 0; i < value.length; i++) {
+			writeDouble(os, value[i]);
+		}
 	}
 
 	/**
@@ -166,30 +231,25 @@ public class IO {
 	}
 
 	/**
-	 * Read a string in UTF-16 character set.
+	 * Write an integer.
 	 * 
-	 * @param is The input stream.
-	 * @return The string.
+	 * @param os The output steam.
+	 * @param value The integer.
 	 * @throws IOException
 	 */
-	public static String readString(InputStream is) throws IOException {
-		int length = readInt(is);
-		byte[] bytes = readBytes(is, length);
-		return new String(bytes, "UTF-16");
+	public static void writeInt(OutputStream os, int value) throws IOException {
+		writeBytes(os, ByteBuffer.allocate(Integer.BYTES).putInt(value).array());
 	}
 
 	/**
-	 * Write a one dimensional array of doubles
+	 * Write an long.
 	 * 
-	 * @param os The output stream
-	 * @param value The one dimensional array of doubles.
+	 * @param os The output steam.
+	 * @param value The long.
 	 * @throws IOException
 	 */
-	public static void writeDouble1A(OutputStream os, double[] value) throws IOException {
-		writeInt(os, value.length);
-		for (int i = 0; i < value.length; i++) {
-			writeDouble(os, value[i]);
-		}
+	public static void writeLong(OutputStream os, long value) throws IOException {
+		writeBytes(os, ByteBuffer.allocate(Long.BYTES).putLong(value).array());
 	}
 
 	/**
@@ -200,21 +260,11 @@ public class IO {
 	 * @throws IOException
 	 */
 	public static void writeString(OutputStream os, String str) throws IOException {
-		byte[] bytes = Charset.forName("UTF-16").encode(str).array();
-		writeInt(os, bytes.length);
-		writeBytes(os, bytes);
-	}
-
-	/**
-	 * Write the bytes to the output stream.
-	 * 
-	 * @param os The output stream.
-	 * @param bytes The array of bytes.
-	 * @throws IOException
-	 */
-	public static void writeBytes(OutputStream os, byte[] bytes) throws IOException {
-		for (int i = 0; i < bytes.length; i++) {
-			os.write(bytes[i]);
+		ByteBuffer bb = Charset.forName("UTF-16").encode(str);
+		writeInt(os, bb.limit());
+		bb.rewind();
+		for (int i = 0; i < bb.limit(); i++) {
+			os.write(bb.get(i));
 		}
 	}
 }

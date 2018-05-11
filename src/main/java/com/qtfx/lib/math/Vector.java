@@ -159,7 +159,8 @@ public class Vector {
 	 * @return The cosine distance.
 	 */
 	public static double distanceCosine(double[] x, double[] y) {
-		return 1.0 - similarityCosine(x, y);
+		double similarity = similarityCosine(x, y);
+		return 1.0 - similarity;
 	}
 	
 	/**
@@ -167,20 +168,18 @@ public class Vector {
 	 * 
 	 * @param x Vector x.
 	 * @param y Vector y.
-	 * @param weights Weights.
 	 * @return The distance.
 	 */
-	public static double distanceEuclidean(double[] x, double[] y, double[] weights) {
+	public static double distanceEuclidean(double[] x, double[] y) {
 
 		// Check vector lengths
 		Vector.checkLengths(x, y);
-		Vector.checkLengths(x, weights);
 
 		// Calculate weighted distance.
 		double distance = 0.0;
 		for (int i = 0; i < x.length; i++) {
 			double d = x[i] - y[i];
-			distance += weights[i] * d * d;
+			distance += (d * d);
 		}
 		distance = Math.sqrt(distance);
 
@@ -275,7 +274,8 @@ public class Vector {
 		if (a2 == 0 || b2 == 0) {
 			return -1;
 		}
-		return ab / Math.sqrt(a2 * b2);
+		double sqrt = Math.sqrt(a2 * b2);
+		return ab / sqrt;
 	}
 
 	/**

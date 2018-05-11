@@ -429,7 +429,7 @@ public class ColumnsPane {
 				if (index >= records.size()) {
 					index = records.size() - 1;
 				}
-				rightTable.selectIndices(index);
+				rightTable.selectIndex(index);
 			}
 		}
 	}
@@ -451,7 +451,7 @@ public class ColumnsPane {
 				if (index >= records.size()) {
 					index = records.size() - 1;
 				}
-				leftTable.selectIndices(index);
+				leftTable.selectIndex(index);
 			}
 		}
 	}
@@ -473,7 +473,7 @@ public class ColumnsPane {
 				if (index >= records.size()) {
 					index = records.size() - 1;
 				}
-				rightTable.selectIndices(index);
+				rightTable.selectIndex(index);
 			}
 		}
 	}
@@ -498,7 +498,7 @@ public class ColumnsPane {
 				if (index >= records.size()) {
 					index = records.size() - 1;
 				}
-				rightTable.selectIndices(index);
+				rightTable.selectIndex(index);
 			}
 		}
 	}
