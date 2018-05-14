@@ -3,36 +3,38 @@ package com.qtfx;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.math.BigDecimal;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.InflaterInputStream;
 
 import com.qtfx.lib.util.IO;
+import com.qtfx.lib.util.Random;
 
-public class TestIO {
+public class TestIOZip {
 
 	public static void main(String[] args) {
 		try {
 			File file = new File("resources/test-io.dat");
+			File file_zip = new File("resources/test-io.zip");
 			FileOutputStream fo = new FileOutputStream(file);
-			
-			String s_in = "Esto es un poco de texto";
-			IO.writeString(fo, s_in);
-			
-			double[] v_in = new double[] { 1.2, 3.5, 3.333 };
+			OutputStream fo_zip = new DeflaterOutputStream(new FileOutputStream(file_zip));
+
+			int length = 100000;
+			double[] v_in = new double[length];
+			for (int i = 0; i < length; i++) {
+				v_in[i] = Random.nextDouble();
+			}
 			IO.writeDouble1A(fo, v_in);
-			
-			double[][] a_in = new double[][] { {1.2, 3.5, 3.333}, {1.2, 3.5, 3.333} };
-			IO.writeDouble2A(fo, a_in);
-			
-			BigDecimal b_in = new BigDecimal("10000.203");
-			IO.writeBigDecimal(fo, b_in);
+			IO.writeDouble1A(fo_zip, v_in);
 			
 			fo.close();
+			fo_zip.close();
 			
 			FileInputStream fi = new FileInputStream(file);
-			String s_out = IO.readString(fi);
+			InputStream fi_zip = new InflaterInputStream(new FileInputStream(file_zip));
 			double[] v_out = IO.readDouble1A(fi);
-			double[][] a_out = IO.readDouble2A(fi);
-			BigDecimal b_out = IO.readBigDecimal(fi);
+			double[] v_out_zip = IO.readDouble1A(fi_zip);
 			fi.close();
 			
 		} catch (Exception exc) {

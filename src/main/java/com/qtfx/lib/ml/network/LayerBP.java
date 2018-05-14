@@ -20,6 +20,7 @@ import java.io.OutputStream;
 
 import com.qtfx.lib.math.Vector;
 import com.qtfx.lib.ml.function.Activation;
+import com.qtfx.lib.util.IO;
 import com.qtfx.lib.util.Random;
 
 /**
@@ -28,6 +29,9 @@ import com.qtfx.lib.util.Random;
  * @author Miquel Sas
  */
 public class LayerBP extends Layer {
+	
+	/** Data structure version for IO. */
+	private static final byte IO_VERSION = 1; 
 
 	//////////////////////
 	// Forward components.
@@ -213,7 +217,30 @@ public class LayerBP extends Layer {
 	 */
 	@Override
 	public void save(OutputStream os) throws IOException {
-		// TODO Auto-generated method stub
+		
+		// Input and output sizes.
+		IO.writeInt(os, getInputSize());
+		IO.writeInt(os, getOutputSize());
+		
+		// IO version.
+		IO.writeByte(os, IO_VERSION);
+		
+		// Forward components.
+		IO.writeDouble(os, bias);
+		IO.writeDouble1A(os, inputs);
+		IO.writeDouble1A(os, outputs);
+		IO.writeDouble1A(os, triggers);
+		IO.writeDouble2A(os, weights);
+		
+		// Backward components.
+		IO.writeDouble(os, flatSpot);
+		IO.writeDouble1A(os, outputDeltas);
+		IO.writeDouble1A(os, inputDeltas);
+		IO.writeDouble2A(os, weightDeltas);
+		IO.writeDouble(os, biasWeight);
+		IO.writeDouble(os, eta);
+		IO.writeDouble(os, alpha);
+		IO.writeDouble(os, lambda);
 	}
 
 	/**
@@ -221,7 +248,32 @@ public class LayerBP extends Layer {
 	 */
 	@Override
 	public void restore(InputStream is) throws IOException {
-		// TODO Auto-generated method stub
+		
+		// Input and output sizes.
+		setInputSize(IO.readInt(is));
+		setOutputSize(IO.readInt(is));
+		
+		// IO version.
+		byte io_version = IO.readByte(is);
+		
+		// Version 1
+		if (io_version == 1) {
+			// Forward components.
+			bias = IO.readDouble(is);
+			inputs = IO.readDouble1A(is);
+			outputs = IO.readDouble1A(is);
+			triggers = IO.readDouble1A(is);
+			weights = IO.readDouble2A(is);
+			
+			// Backward components.
+			flatSpot = IO.readDouble(is);
+			outputDeltas = IO.readDouble1A(is);
+			inputDeltas = IO.readDouble1A(is);
+			weightDeltas = IO.readDouble2A(is);
+			biasWeight = IO.readDouble(is);
+			eta = IO.readDouble(is);
+			alpha = IO.readDouble(is);
+			lambda = IO.readDouble(is);
+		}
 	}
-
 }

@@ -38,8 +38,17 @@ public abstract class Layer {
 	 * 
 	 * @param inputSize The input size.
 	 */
-	void setInputSize(int inputSize) {
+	protected void setInputSize(int inputSize) {
 		this.inputSize = inputSize;
+	}
+
+	/**
+	 * Set the output size, mainly used in the restore method.
+	 * 
+	 * @param outputSize The output size.
+	 */
+	protected void setOutputSize(int outputSize) {
+		this.outputSize = outputSize;
 	}
 
 	/**

@@ -28,7 +28,14 @@ import java.nio.charset.Charset;
  * @author Miquel Sas
  */
 public class IO {
-	
+
+	/**
+	 * Read a big decimal.
+	 * 
+	 * @param is The input stream.
+	 * @return The big decimal.
+	 * @throws IOException
+	 */
 	public static BigDecimal readBigDecimal(InputStream is) throws IOException {
 		return new BigDecimal(readString(is));
 	}
@@ -37,7 +44,7 @@ public class IO {
 	 * Read a byte throwing an IOException if an attempt to pas the end of stream has been made.
 	 * 
 	 * @param is The input stream.
-	 * @return The output stream.
+	 * @return The byte read.
 	 * @throws IOException
 	 */
 	public static byte readByte(InputStream is) throws IOException {
@@ -48,6 +55,14 @@ public class IO {
 		throw new IOException("Past end of stream");
 	}
 
+	/**
+	 * Read an array of bytes.
+	 * 
+	 * @param is The input stream.
+	 * @param length The length or number of bytes to read.
+	 * @return The array of bytes.
+	 * @throws IOException
+	 */
 	public static byte[] readBytes(InputStream is, int length) throws IOException {
 		byte[] bytes = new byte[length];
 		for (int i = 0; i < length; i++) {
@@ -142,6 +157,17 @@ public class IO {
 	}
 
 	/**
+	 * Read a short.
+	 * 
+	 * @param is The input stream.
+	 * @return A short
+	 * @throws IOException
+	 */
+	public static short readShort(InputStream is) throws IOException {
+		return readBuffer(is, Short.BYTES).getShort(0);
+	}
+
+	/**
 	 * Read a string in UTF-16 character set.
 	 * 
 	 * @param is The input stream.
@@ -157,7 +183,14 @@ public class IO {
 		CharBuffer cb = Charset.forName("UTF-16").decode(bb);
 		return cb.toString();
 	}
-	
+
+	/**
+	 * Write a big decimal.
+	 * 
+	 * @param os The output stream.
+	 * @param b The bid decimal.
+	 * @throws IOException
+	 */
 	public static void writeBigDecimal(OutputStream os, BigDecimal b) throws IOException {
 		writeString(os, b.toString());
 	}
@@ -250,6 +283,17 @@ public class IO {
 	 */
 	public static void writeLong(OutputStream os, long value) throws IOException {
 		writeBytes(os, ByteBuffer.allocate(Long.BYTES).putLong(value).array());
+	}
+
+	/**
+	 * Write a short.
+	 * 
+	 * @param os The output steam.
+	 * @param value The short.
+	 * @throws IOException
+	 */
+	public static void writeShort(OutputStream os, short value) throws IOException {
+		writeBytes(os, ByteBuffer.allocate(Short.BYTES).putShort(value).array());
 	}
 
 	/**
