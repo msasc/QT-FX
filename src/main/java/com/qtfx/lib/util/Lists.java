@@ -279,7 +279,7 @@ public class Lists {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Check in the list.
 	 * 
@@ -372,6 +372,22 @@ public class Lists {
 	 */
 	public static <T> T removeLast(List<T> list) {
 		return list.remove(list.size() - 1);
+	}
+
+	/**
+	 * Shuffle the list.
+	 * 
+	 * @param list The list to shuffle.
+	 */
+	public static <T> void shuffle(List<T> list) {
+		for (int i = 0; i < list.size(); i++) {
+			int indexFrom = Random.nextInt(list.size());
+			T valueFrom = list.get(indexFrom);
+			int indexTo = Random.nextInt(list.size());
+			T valueTo = list.get(indexTo);
+			list.set(indexTo, valueFrom);
+			list.set(indexFrom, valueTo);
+		}
 	}
 
 	/**

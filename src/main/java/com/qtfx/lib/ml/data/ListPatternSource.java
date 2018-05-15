@@ -16,6 +16,8 @@ package com.qtfx.lib.ml.data;
 
 import java.util.List;
 
+import com.qtfx.lib.util.Lists;
+
 /**
  * A list pattern source.
  *
@@ -50,6 +52,14 @@ public class ListPatternSource implements PatternSource {
 	@Override
 	public int size() {
 		return patterns.size();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void shuffle() {
+		Lists.shuffle(patterns);
 	}
 
 	/**

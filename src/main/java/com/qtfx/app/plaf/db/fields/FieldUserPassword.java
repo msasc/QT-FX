@@ -12,39 +12,25 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.data;
+package com.qtfx.app.plaf.db.fields;
+
+import com.qtfx.app.plaf.db.Domains;
+import com.qtfx.lib.db.Field;
 
 /**
- * A source of patterns for learning or performance check.
+ * User password field.
  *
  * @author Miquel Sas
  */
-public interface PatternSource {
+public class FieldUserPassword extends Field {
 
 	/**
-	 * Returns the pattern at the given index.
+	 * Constructor.
 	 * 
-	 * @param index The index.
-	 * @return The pattern.
+	 * @param name Field name.
 	 */
-	Pattern get(int index);
-
-	/**
-	 * Returns the size or number of patterns in the source.
-	 * 
-	 * @return The size.
-	 */
-	int size();
-	
-	/**
-	 * Shuffle the list.
-	 */
-	void shuffle();
-
-	/**
-	 * Check if the source is empty.
-	 * 
-	 * @return A boolean.
-	 */
-	boolean isEmpty();
+	public FieldUserPassword(String name) {
+		super(Domains.getString(name, 40, "Password", "Password"));
+		setPassword(true);
+	}
 }

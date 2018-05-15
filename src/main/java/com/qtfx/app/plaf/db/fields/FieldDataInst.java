@@ -12,39 +12,29 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.data;
+package com.qtfx.app.plaf.db.fields;
+
+import com.qtfx.app.plaf.db.Domains;
+import com.qtfx.lib.db.Field;
+import com.qtfx.lib.mkt.data.Instrument;
 
 /**
- * A source of patterns for learning or performance check.
+ * Data field.
  *
  * @author Miquel Sas
  */
-public interface PatternSource {
+public class FieldDataInst extends Field {
 
 	/**
-	 * Returns the pattern at the given index.
+	 * Constructor.
 	 * 
-	 * @param index The index.
-	 * @return The pattern.
+	 * @param instrument Instrument.
+	 * @param name Name.
+	 * @param header Header.
+	 * @param label Label.
 	 */
-	Pattern get(int index);
-
-	/**
-	 * Returns the size or number of patterns in the source.
-	 * 
-	 * @return The size.
-	 */
-	int size();
-	
-	/**
-	 * Shuffle the list.
-	 */
-	void shuffle();
-
-	/**
-	 * Check if the source is empty.
-	 * 
-	 * @return A boolean.
-	 */
-	boolean isEmpty();
+	public FieldDataInst(Instrument instrument, String name, String header, String label) {
+		super(Domains.getDouble(name, header, label));
+		setDisplayDecimals(instrument.getPipScale());
+	}
 }

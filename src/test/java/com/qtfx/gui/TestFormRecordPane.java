@@ -1,18 +1,15 @@
 package com.qtfx.gui;
 
-import java.util.List;
 import java.util.Locale;
 
 import com.qtfx.lib.app.Session;
 import com.qtfx.lib.db.FieldList;
 import com.qtfx.lib.db.Record;
-import com.qtfx.lib.gui.FX;
 import com.qtfx.lib.gui.FormRecordPane;
 import com.qtfx.util.Util;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Control;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
