@@ -9,21 +9,15 @@ public class TestShuffle {
 
 	public static void main(String[] args) {
 		List<String> list = new ArrayList<>();
-		list.add("A");
-		list.add("B");
-		list.add("C");
-		list.add("D");
-		list.add("E");
-		list.add("F");
-		list.add("G");
-		list.add("H");
-		list.add("I");
-		list.add("J");
+		for (int i = 1; i <= 1000; i++) {
+			list.add(Integer.toString(i));
+		}
 
 		System.out.println(list);
 		for (int i = 0; i < 9; i++) {
-			Lists.shuffle(list);
-			System.out.println(list);
+			List<String> shuffled = new ArrayList<>(list);
+			Lists.shuffle(shuffled,2000);
+			System.out.println(shuffled);
 		}
 	}
 

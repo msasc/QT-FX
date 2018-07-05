@@ -12,10 +12,14 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.qtfx.lib.ml.data.mnist;
+package com.qtfx.app.mnist;
 
 import java.io.File;
 import java.util.List;
+
+import com.qtfx.lib.ml.data.mnist.NumberImage;
+import com.qtfx.lib.ml.data.mnist.NumberImageReader;
+import com.qtfx.lib.ml.data.mnist.NumberImageUtils;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -74,8 +78,8 @@ public class NumberImageViewer extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 
-		File fileImg = new File("resources/mnist/train-images.idx3-ubyte");
-		File fileLbl = new File("resources/mnist/train-labels.idx1-ubyte");
+		File fileImg = new File(NumberImageUtils.TRAIN_IMAGES);
+		File fileLbl = new File(NumberImageUtils.TRAIN_LABELS);
 		NumberImageReader reader = new NumberImageReader(fileLbl, fileImg);
 		images = reader.read();
 

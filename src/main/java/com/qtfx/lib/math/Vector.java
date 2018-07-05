@@ -85,6 +85,18 @@ public class Vector {
 	}
 
 	/**
+	 * Return a copy of the source vector.
+	 * 
+	 * @param src The source vector.
+	 * @return The copy.
+	 */
+	public static double[] copy(double[] src) {
+		double[] dst = new double[src.length];
+		copy(src, dst);
+		return dst;
+	}
+
+	/**
 	 * Copy the source array into the destination array. Both must have the same length.
 	 * 
 	 * @param src The source array.
@@ -162,7 +174,7 @@ public class Vector {
 		double similarity = similarityCosine(x, y);
 		return 1.0 - similarity;
 	}
-	
+
 	/**
 	 * Weighted Euclidean distance.
 	 * 

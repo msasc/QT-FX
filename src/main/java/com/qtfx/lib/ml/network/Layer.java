@@ -24,6 +24,17 @@ public abstract class Layer {
 	private int outputSize;
 
 	/**
+	 * A boolean that indicates that this layer admits processing deltas/gradients in batches and then performing a
+	 * final update of the weights and internal parameters.
+	 */
+
+	/**
+	 * Protected constructor.
+	 */
+	protected Layer() {
+	}
+
+	/**
 	 * Constructor for a layer, assigning the output sizes.
 	 * 
 	 * @param outputSize Output size.
@@ -56,7 +67,7 @@ public abstract class Layer {
 	 * 
 	 * @param network The network.
 	 */
-	void setNetwork(Network network) {
+	protected void setNetwork(Network network) {
 		this.network = network;
 	}
 
@@ -76,6 +87,15 @@ public abstract class Layer {
 	 */
 	public int getOutputSize() {
 		return outputSize;
+	}
+
+	/**
+	 * Return the network.
+	 * 
+	 * @return The network.
+	 */
+	public Network getNetwork() {
+		return network;
 	}
 
 	/**
@@ -151,4 +171,12 @@ public abstract class Layer {
 	 * @throws IOException
 	 */
 	public abstract void restore(InputStream is) throws IOException;
+
+	/**
+	 * Clone this layer and return an exact copy.
+	 * 
+	 * @return A copy of this layer.
+	 */
+	@Override
+	public abstract Layer clone();
 }

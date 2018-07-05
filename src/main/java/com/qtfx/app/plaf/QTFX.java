@@ -24,6 +24,7 @@ import com.qtfx.app.plaf.action.ActionApplication;
 import com.qtfx.app.plaf.action.ActionInstrumentBrowse;
 import com.qtfx.app.plaf.action.ActionInstrumentSynchronize;
 import com.qtfx.app.plaf.action.ActionInstrumentTickers;
+import com.qtfx.app.plaf.action.ActionTrainNetwork;
 import com.qtfx.app.plaf.db.Database;
 import com.qtfx.app.plaf.db.Fields;
 import com.qtfx.lib.app.Session;
@@ -44,6 +45,8 @@ import com.qtfx.lib.gui.launch.ArgumentManager;
 import com.qtfx.lib.mkt.data.Period;
 import com.qtfx.lib.mkt.server.Server;
 import com.qtfx.lib.mkt.servers.dukascopy.DkServer;
+import com.qtfx.lib.ml.data.mnist.NumberImage;
+import com.qtfx.lib.ml.network.Trainer;
 
 import javafx.application.Application;
 import javafx.scene.Node;
@@ -322,7 +325,16 @@ public class QTFX extends Application {
 		tickers.setOnShowing(e -> {
 			tickersDef.setDisable(isTab(root, Session.getSession().getString("menuTickersDefine")));
 		});
-
+		
+		// Training menu.
+		Menu training = new Menu(Session.getSession().getString("menuTraining"));
+		MenuItem training_mnist_bp = new MenuItem(Session.getSession().getString("menuTraining_mnist_bp"));
+		training_mnist_bp.setOnAction(e -> {
+			ActionTrainNetwork actionTrain = new ActionTrainNetwork(root);
+			actionTrain.handle(e);
+		});
+		training.getItems().add(training_mnist_bp);
+		
 		// Window menu.
 		Menu window = new Menu(Session.getSession().getString("menuWindow"));
 		MenuItem windowConsole = new MenuItem(Session.getSession().getString("menuWindowConsole"));
@@ -339,6 +351,7 @@ public class QTFX extends Application {
 		menuBar.getMenus().add(file);
 		menuBar.getMenus().add(instruments);
 		menuBar.getMenus().add(tickers);
+		menuBar.getMenus().add(training);
 		menuBar.getMenus().add(window);
 		return menuBar;
 	}
@@ -447,5 +460,21 @@ public class QTFX extends Application {
 				persistor.insert(record);
 			}
 		}
+	}
+	
+	/**
+	 * Return a trainer for the MNIST images.
+	 * @return The trainer.
+	 */
+	private Trainer getTrainerMNIST() {
+		Trainer trainer = new Trainer(Session.getSession());
+		
+		int inputLayerSize = NumberImage.ROWS * NumberImage.COLUMNS;
+		int hiddenLayerSize = 100;
+		int outputLayerSize = 10;
+		
+		
+		trainer.setEpochs(100);
+		return trainer;
 	}
 }

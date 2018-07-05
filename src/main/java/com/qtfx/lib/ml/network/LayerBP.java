@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.qtfx.lib.math.Matrix;
 import com.qtfx.lib.math.Vector;
 import com.qtfx.lib.ml.function.Activation;
 import com.qtfx.lib.util.IO;
@@ -68,6 +69,12 @@ public class LayerBP extends Layer {
 	private double alpha = 0.0;
 	/** Weight decay factor, which is also a regularization term. */
 	private double lambda = 0.0;
+	
+	/**
+	 * Private constructor, clone usage.
+	 */
+	private LayerBP() {
+	}
 
 	/**
 	 * Constructor.
@@ -275,5 +282,35 @@ public class LayerBP extends Layer {
 			alpha = IO.readDouble(is);
 			lambda = IO.readDouble(is);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Layer clone() {
+		LayerBP layer = new LayerBP();
+		layer.setInputSize(getInputSize());
+		layer.setOutputSize(getOutputSize());
+		layer.setNetwork(getNetwork());
+		
+		// Forward components.
+		layer.bias = this.bias;
+		layer.inputs = Vector.copy(this.inputs);
+		layer.outputs = Vector.copy(this.outputs);
+		layer.triggers = Vector.copy(this.triggers);
+		layer.weights = Matrix.copy(this.weights);
+		
+		// Backward components.
+		layer.flatSpot = this.flatSpot;
+		layer.outputDeltas = Vector.copy(this.outputDeltas);
+		layer.inputDeltas = Vector.copy(this.inputDeltas);
+		layer.weightDeltas = Matrix.copy(this.weightDeltas);
+		layer.biasWeight = this.biasWeight;
+		layer.eta = this.eta;
+		layer.alpha = this.alpha;
+		layer.lambda = this.lambda;
+		
+		return layer;
 	}
 }

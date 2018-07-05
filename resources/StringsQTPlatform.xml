@@ -11,6 +11,8 @@
 	<entry key="menuTickers">Tickers</entry>
 	<entry key="menuTickersDefine">Define &#38; download</entry>
 	<entry key="menuTickersStatistics">Statistics</entry>
+	<entry key="menuTraining">Training</entry>
+	<entry key="menuTraining_mnist_bp">Train MNIST digits with BP</entry>
 	<entry key="menuWindow">Window</entry>
 	<entry key="menuWindowConsole">Console</entry>
 	
@@ -26,5 +28,6 @@
 	<entry key="tabList">List</entry>
 	<entry key="tabDownload">Download</entry>
 	<entry key="tabChart">Chart</entry>
+	<entry key="tabTraining">Training</entry>
 	
 </properties>

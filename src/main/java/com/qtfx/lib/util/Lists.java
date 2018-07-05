@@ -380,7 +380,17 @@ public class Lists {
 	 * @param list The list to shuffle.
 	 */
 	public static <T> void shuffle(List<T> list) {
-		for (int i = 0; i < list.size(); i++) {
+		shuffle(list, list.size() / 2);
+	}
+
+	/**
+	 * Shuffle the list.
+	 * 
+	 * @param list The list to shuffle.
+	 * @param flips The number of flips to perform.
+	 */
+	public static <T> void shuffle(List<T> list, int flips) {
+		for (int i = 0; i < flips; i++) {
 			int indexFrom = Random.nextInt(list.size());
 			T valueFrom = list.get(indexFrom);
 			int indexTo = Random.nextInt(list.size());

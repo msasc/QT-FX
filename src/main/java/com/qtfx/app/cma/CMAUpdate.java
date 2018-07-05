@@ -673,9 +673,9 @@ public class CMAUpdate extends Application {
 			// The list of destination drives.
 			List<String> drives = new ArrayList<>();
 			if (argMngr.getValue("environment").equals("production")) {
-				drives.addAll(Lists.asList("L", "M", "N", "O", "P", "Q", "R", "S", "T"));
+				drives.addAll(Lists.asList("K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"));
 			} else if (argMngr.getValue("environment").equals("quality")) {
-				drives.addAll(Lists.asList("T"));
+				drives.addAll(Lists.asList("J"));
 			}
 
 			// Central.

@@ -33,6 +33,12 @@ public class Network {
 	private List<Layer> layers = new ArrayList<>();
 	/** The input size of the network. */
 	private int inputSize;
+	
+	/**
+	 * Private constructor.
+	 */
+	private Network() {
+	}
 
 	/**
 	 * Default constructor.
@@ -153,5 +159,20 @@ public class Network {
 		for (Layer layer : layers) {
 			layer.restore(is);
 		}
+	}
+
+	/**
+	 * Clone the network and return an exact copy.
+	 * 
+	 * @return A copy of this network.
+	 */
+	@Override
+	public Network clone() {
+		Network network = new Network();
+		network.inputSize = this.inputSize;
+		for (Layer layer : layers) {
+			network.layers.add(layer.clone());
+		}
+		return network;
 	}
 }

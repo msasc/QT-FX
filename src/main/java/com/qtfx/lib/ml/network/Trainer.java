@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import com.qtfx.lib.app.Session;
 import com.qtfx.lib.math.Vector;
@@ -27,6 +28,7 @@ import com.qtfx.lib.ml.data.Pattern;
 import com.qtfx.lib.ml.data.PatternSource;
 import com.qtfx.lib.ml.function.IterationError;
 import com.qtfx.lib.task.Task;
+import com.qtfx.lib.util.Numbers;
 
 /**
  * Trainer task to train a network that can backward errors to movify internal data, e.g. weights.
@@ -37,13 +39,20 @@ public class Trainer extends Task {
 
 	/** Additional label to show the current error. */
 	private static final String LABEL_ERROR = "Error";
-	/** Additional label to inform that the network is being saved. */
-	private static final String LABEL_SAVING = "Saving";
+	/** Additional label to show the performance. */
+	private static final String LABEL_PERFORMANCE = "Performance";
+	/**
+	 * Additional label to inform that the network is doing an additional process like saving or calculating
+	 * performance.
+	 */
+	private static final String LABEL_PROCESSING = "Processing";
 
 	/** The network. */
 	private Network network;
-	/** The pattern source. */
-	private PatternSource patternSource;
+	/** The training pattern source. */
+	private PatternSource patternSourceTraining;
+	/** The test pattern source. */
+	private PatternSource patternSourceTest;
 	/** The number of epochs or turns to the full list of patterns. */
 	private int epochs = 100;
 	/** The file to save the network when the error improves. */
@@ -57,7 +66,7 @@ public class Trainer extends Task {
 	public Trainer(Session session) {
 		super(session);
 		addMessage(LABEL_ERROR);
-		addMessage(LABEL_SAVING);
+		addMessage(LABEL_PROCESSING);
 	}
 
 	/**
@@ -70,12 +79,22 @@ public class Trainer extends Task {
 	}
 
 	/**
-	 * Set the pattern source.
+	 * Set the training pattern source.
 	 * 
-	 * @param patternSource The pattern source.
+	 * @param patternSource The training pattern source.
 	 */
-	public void setPatternSource(PatternSource patternSource) {
-		this.patternSource = patternSource;
+	public void setPatternSourceTraining(PatternSource patternSource) {
+		this.patternSourceTraining = patternSource;
+	}
+
+	/**
+	 * Set the test pattern source.
+	 * 
+	 * @param patternSource The test pattern source.
+	 */
+	public void setPatternSourceTest(PatternSource patternSource) {
+		this.patternSourceTest = patternSource;
+		addMessage(LABEL_PERFORMANCE);
 	}
 
 	/**
@@ -134,6 +153,26 @@ public class Trainer extends Task {
 			fi.close();
 		}
 	}
+	
+	/**
+	 * Calculate the performance.
+	 * @return The performance.
+	 */
+	private BigDecimal calculatePerformance() {
+		double matches = 0;
+		double size = patternSourceTest.size();
+		for (int i = 0; i < size; i++) {
+			Pattern pattern = patternSourceTest.get(i);
+			double[] patternInputs = pattern.getInputs();
+			double[] patternOutputs = pattern.getOutputs();
+			double[] networkOutputs = network.forward(patternInputs);
+			if (Vector.areEqual(patternOutputs, networkOutputs, 0)) {
+				matches += 1;
+			}
+		}
+		double performance = 100.0 * matches / size;
+		return Numbers.getBigDecimal(performance, 2);
+	}
 
 	/**
 	 * Check the correct status.
@@ -144,7 +183,7 @@ public class Trainer extends Task {
 		if (network == null) {
 			throw new IllegalStateException("The network must be set");
 		}
-		if (patternSource == null) {
+		if (patternSourceTraining == null) {
 			throw new IllegalStateException("The pattern source mmust be set");
 		}
 		if (epochs < 1) {
@@ -157,17 +196,17 @@ public class Trainer extends Task {
 	 */
 	@Override
 	protected void compute() throws Exception {
-		
+
 		// Check status.
 		checkStatus();
 
 		// Restore the network if applicable.
-		updateMessage(LABEL_SAVING, "Restoring the network...");
+		updateMessage(LABEL_PROCESSING, "Restoring the network...");
 		restore();
-		updateMessage(LABEL_SAVING, "");
+		updateMessage(LABEL_PROCESSING, "");
 
 		// Calculate and register total work.
-		double totalWork = patternSource.size() * epochs;
+		double totalWork = patternSourceTraining.size() * epochs;
 		double workDone = 0;
 		setTotalWork(totalWork);
 
@@ -180,7 +219,7 @@ public class Trainer extends Task {
 			errorFunction.reset();
 
 			// Iterate each pattern.
-			for (int i = 0; i < patternSource.size(); i++) {
+			for (int i = 0; i < patternSourceTraining.size(); i++) {
 
 				// Work done and notify work.
 				workDone += 1;
@@ -190,7 +229,7 @@ public class Trainer extends Task {
 				update(work.toString(), workDone, totalWork);
 
 				// Process the pattern.
-				Pattern pattern = patternSource.get(i);
+				Pattern pattern = patternSourceTraining.get(i);
 				double[] patternOutputs = pattern.getOutputs();
 				double[] networkOutputs = network.forward(pattern.getInputs());
 
@@ -205,9 +244,9 @@ public class Trainer extends Task {
 				}
 				if (error < bestError) {
 					bestError = error;
-					updateMessage(LABEL_SAVING, "Saving the network...");
+					updateMessage(LABEL_PROCESSING, "Saving the network...");
 					save();
-					updateMessage(LABEL_SAVING, "");
+					updateMessage(LABEL_PROCESSING, "");
 				}
 
 				// Errors or deltas and backward. Discard the return vector.
@@ -215,6 +254,13 @@ public class Trainer extends Task {
 				network.backward(networkErrors);
 			}
 
+			// If there is a test pattern source, do get the performance.
+			if (patternSourceTest != null) {
+				updateMessage(LABEL_PROCESSING, "Calculating performance...");
+				BigDecimal performance = calculatePerformance();
+				updateMessage(LABEL_PROCESSING, "");
+				updateMessage(LABEL_PERFORMANCE, "Performance " + performance);
+			}
 		}
 	}
 

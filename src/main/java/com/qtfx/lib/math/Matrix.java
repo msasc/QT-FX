@@ -51,6 +51,36 @@ public class Matrix {
 	}
 
 	/**
+	 * Return a copy of the source matrix.
+	 * 
+	 * @param src The source matrix.
+	 * @return The copy.
+	 */
+	public static double[][] copy(double[][] src) {
+		int rows = rows(src);
+		int cols = columns(src);
+		double[][] dst = new double[rows][cols];
+		copy(src, dst);
+		return dst;
+	}
+
+	/**
+	 * Copy the source matrix to the destination. Rows and columns must be the same.
+	 * 
+	 * @param src The source matrix.
+	 * @param dst The destination matrix.
+	 */
+	public static void copy(double[][] src, double[][] dst) {
+		int rows = rows(src);
+		int cols = columns(src);
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				dst[row][col] = src[row][col];
+			}
+		}
+	}
+
+	/**
 	 * Cumulate the source array into the destination. Both must have the same dimensions.
 	 * 
 	 * @param src The source.
