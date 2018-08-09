@@ -30,9 +30,9 @@ import com.qtfx.lib.util.Random;
  * @author Miquel Sas
  */
 public class LayerBP extends Layer {
-	
+
 	/** Data structure version for IO. */
-	private static final byte IO_VERSION = 1; 
+	private static final byte IO_VERSION = 1;
 
 	//////////////////////
 	// Forward components.
@@ -69,7 +69,7 @@ public class LayerBP extends Layer {
 	private double alpha = 0.0;
 	/** Weight decay factor, which is also a regularization term. */
 	private double lambda = 0.0;
-	
+
 	/**
 	 * Private constructor, clone usage.
 	 */
@@ -119,6 +119,15 @@ public class LayerBP extends Layer {
 	 */
 	public void setLambda(double lambda) {
 		this.lambda = lambda;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Data getData() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
@@ -179,7 +188,8 @@ public class LayerBP extends Layer {
 		int inputSize = getInputSize();
 		int outputSize = getOutputSize();
 
-		// Output deltas: apply activation derivatives to errors. Include a flat spot to avoid near zero derivatives.
+		// Output deltas: apply activation derivatives to errors.
+		// Include a flat spot to avoid near zero derivatives.
 		double[] derivatives = new double[outputSize];
 		activation.derivatives(triggers, outputs, derivatives);
 		for (int out = 0; out < outputSize; out++) {
@@ -206,14 +216,14 @@ public class LayerBP extends Layer {
 				double outputDelta = outputDeltas[out];
 				// Previous weight delta.
 				double weightDelta = weightDeltas[in][out];
-				// New weight delta
-				double delta = (1 - alpha) * eta * outputDelta * input * (alpha * weightDelta);
+				// New weight delta.
+				double delta = (1 - alpha) * eta * outputDelta * input + (alpha * weightDelta);
 				weightDeltas[in][out] = delta;
 				weights[in][out] += delta;
 				weights[in][out] *= (1.0 - eta * lambda);
 			}
 		}
-		
+
 		// Adjust bias.
 
 		return inputDeltas;
@@ -224,21 +234,21 @@ public class LayerBP extends Layer {
 	 */
 	@Override
 	public void save(OutputStream os) throws IOException {
-		
+
 		// Input and output sizes.
 		IO.writeInt(os, getInputSize());
 		IO.writeInt(os, getOutputSize());
-		
+
 		// IO version.
 		IO.writeByte(os, IO_VERSION);
-		
+
 		// Forward components.
 		IO.writeDouble(os, bias);
 		IO.writeDouble1A(os, inputs);
 		IO.writeDouble1A(os, outputs);
 		IO.writeDouble1A(os, triggers);
 		IO.writeDouble2A(os, weights);
-		
+
 		// Backward components.
 		IO.writeDouble(os, flatSpot);
 		IO.writeDouble1A(os, outputDeltas);
@@ -255,14 +265,14 @@ public class LayerBP extends Layer {
 	 */
 	@Override
 	public void restore(InputStream is) throws IOException {
-		
+
 		// Input and output sizes.
 		setInputSize(IO.readInt(is));
 		setOutputSize(IO.readInt(is));
-		
+
 		// IO version.
 		byte io_version = IO.readByte(is);
-		
+
 		// Version 1
 		if (io_version == 1) {
 			// Forward components.
@@ -271,7 +281,7 @@ public class LayerBP extends Layer {
 			outputs = IO.readDouble1A(is);
 			triggers = IO.readDouble1A(is);
 			weights = IO.readDouble2A(is);
-			
+
 			// Backward components.
 			flatSpot = IO.readDouble(is);
 			outputDeltas = IO.readDouble1A(is);
@@ -293,14 +303,14 @@ public class LayerBP extends Layer {
 		layer.setInputSize(getInputSize());
 		layer.setOutputSize(getOutputSize());
 		layer.setNetwork(getNetwork());
-		
+
 		// Forward components.
 		layer.bias = this.bias;
 		layer.inputs = Vector.copy(this.inputs);
 		layer.outputs = Vector.copy(this.outputs);
 		layer.triggers = Vector.copy(this.triggers);
 		layer.weights = Matrix.copy(this.weights);
-		
+
 		// Backward components.
 		layer.flatSpot = this.flatSpot;
 		layer.outputDeltas = Vector.copy(this.outputDeltas);
@@ -310,7 +320,7 @@ public class LayerBP extends Layer {
 		layer.eta = this.eta;
 		layer.alpha = this.alpha;
 		layer.lambda = this.lambda;
-		
+
 		return layer;
 	}
 }

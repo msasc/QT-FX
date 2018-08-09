@@ -64,8 +64,8 @@ public class TaskPane {
 		Button info;
 		Button close;
 
-		Bttn(Button executa, Button cancel, Button info, Button close) {
-			this.execute = executa;
+		Bttn(Button execute, Button cancel, Button info, Button close) {
+			this.execute = execute;
 			this.cancel = cancel;
 			this.info = info;
 			this.close = close;

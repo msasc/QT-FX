@@ -30,7 +30,7 @@ public class JoinPool extends ForkJoinPool {
 	class Runner extends Task {
 		Collection<? extends Task> tasks;
 
-		public Runner(Collection<? extends Task> tasks) {
+		Runner(Collection<? extends Task> tasks) {
 			super(null);
 			this.tasks = tasks;
 		}

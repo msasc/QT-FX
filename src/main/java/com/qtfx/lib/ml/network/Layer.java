@@ -3,6 +3,7 @@ package com.qtfx.lib.ml.network;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 
 /**
  * A layer of a network.
@@ -15,6 +16,57 @@ import java.io.OutputStream;
  * @author Miquel Sas
  */
 public abstract class Layer {
+
+	/**
+	 * A convenient class to pack internal layer data. The data necessary data for layers is made of doubles, double
+	 * vectors and double matrices. Since values are accessed by key, it is recommended for efficiency to first retrieve
+	 * the values and then use them, instead of retrieving and using them in each loop.
+	 *
+	 * @author Miquel Sas
+	 */
+	public static class Data {
+		/** Map of double values. */
+		private HashMap<Object, Double> mapValues = new HashMap<>();
+		/** Map of vectors. */
+		private HashMap<Object, double[]> mapVectors = new HashMap<>();
+		/** Map of matrices. */
+		private HashMap<Object, double[][]> mapMatrices = new HashMap<>();
+
+		/**
+		 * Default constructor.
+		 */
+		public Data() {
+			super();
+		}
+
+		public double getValue(Object key) {
+			Double value = mapValues.get(key);
+			if (value != null) {
+				return value;
+			}
+			return 0.0;
+		}
+
+		public double[] getVector(Object key) {
+			return mapVectors.get(key);
+		}
+
+		public double[][] getMatrix(Object key) {
+			return mapMatrices.get(key);
+		}
+
+		public void setValue(Object key, double value) {
+			mapValues.put(key, value);
+		}
+
+		public void setVector(Object key, double[] vector) {
+			mapVectors.put(key, vector);
+		}
+
+		public void setMatrix(Object key, double[][] matrix) {
+			mapMatrices.put(key, matrix);
+		}
+	}
 
 	/** Parent network. */
 	private Network network;
@@ -125,6 +177,16 @@ public abstract class Layer {
 	public boolean isHiddenLayer(Layer layer) {
 		return network.isHiddenLayer(this);
 	}
+
+	///////////////////////
+	// Internal data access
+
+	/**
+	 * Return the internal data of the layer.
+	 * 
+	 * @return The internal data.
+	 */
+	public abstract Data getData();
 
 	/**
 	 * Create and initialize this layer internal data.

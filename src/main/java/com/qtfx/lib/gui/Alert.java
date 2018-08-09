@@ -37,16 +37,16 @@ public class Alert {
 	 * Enumerate alert types.
 	 */
 	public static enum Type {
-		/** No icon with default OK option. */
-		PLAIN,
-		/** Information icon with default OK option. */
-		INFORMATION,
-		/** Warning icon with default OK option. */
-		WARNING,
-		/** Error icon with default OK option. */
-		ERROR,
-		/** Confirmation icon with default OK and CANCEL options. */
-		CONFIRMATION
+	/** No icon with default OK option. */
+	PLAIN,
+	/** Information icon with default OK option. */
+	INFORMATION,
+	/** Warning icon with default OK option. */
+	WARNING,
+	/** Error icon with default OK option. */
+	ERROR,
+	/** Confirmation icon with default OK and CANCEL options. */
+	CONFIRMATION
 	}
 
 	/**

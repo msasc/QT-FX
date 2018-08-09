@@ -19,9 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.qtfx.lib.app.Session;
 import com.qtfx.lib.gui.Alert;
 import com.qtfx.lib.gui.TaskPane;
@@ -50,8 +47,6 @@ public class CMAUpdate extends Application {
 		Session.addBaseResource("resources/StringsLibrary.xml");
 		Session.addBaseResource("resources/StringsQTPlatform.xml");
 	}
-	/** Logger instance. */
-	private static final Logger LOGGER = LogManager.getLogger();
 
 	/**
 	 * @param args

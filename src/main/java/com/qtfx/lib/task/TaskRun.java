@@ -178,11 +178,19 @@ public abstract class TaskRun extends Task {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isIndeterminate() {
+		return indeterminate;
+	}
+
+	/**
 	 * Set the indeterminate flag.
 	 * 
 	 * @param indeterminate A boolean.
 	 */
-	void setIndeterminate(boolean indeterminate) {
+	protected void setIndeterminate(boolean indeterminate) {
 		this.indeterminate = indeterminate;
 	}
 }
