@@ -29,10 +29,6 @@ public class TestIO {
 			fo.close();
 			
 			FileInputStream fi = new FileInputStream(file);
-			String s_out = IO.readString(fi);
-			double[] v_out = IO.readDouble1A(fi);
-			double[][] a_out = IO.readDouble2A(fi);
-			BigDecimal b_out = IO.readBigDecimal(fi);
 			fi.close();
 			
 		} catch (Exception exc) {
